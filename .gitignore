@@ -1,0 +1,11 @@
+# Eclipse
+# http://www.eclipse.org/
+.project
+
+# Eclipse Specfile Editor
+# http://www.eclipse.org/linuxtools/projectPages/specfile/
+BUILD
+RPMS
+SOURCES
+SPECS
+SRPMS
