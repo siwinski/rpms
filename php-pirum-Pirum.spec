@@ -77,5 +77,5 @@ fi
 
 
 %changelog
-* Sun May 30 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.4-1
+* Sun Jun 10 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.4-1
 - Initial package
