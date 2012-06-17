@@ -5,7 +5,7 @@
 Name:             php-pirum-Pirum
 Version:          1.1.4
 Release:          1%{?dist}
-Summary:          Pirum is a simple PEAR channel server manager
+Summary:          A simple PEAR channel server manager
 
 Group:            Development/Libraries
 License:          MIT
@@ -33,7 +33,16 @@ Requires:         php-zlib
 Provides:         php-pear(%{pear_channel}/%{pear_name}) = %{version}
 
 %description
-%{summary}.
+Pirum is a simple and nice looking PEAR channel server manager that lets you
+setup PEAR channel servers in a matter of minutes. Pirum is best suited when
+you want to create small PEAR channels for a few packages written by a few
+developers.
+
+Pirum consists of just one file: a command line tool written in PHP. There are
+no external dependencies, no need for a database, and nothing needs to be
+installed or configured.
+
+As of Pirum 1.1, a composer repository is generated as well.
 
 
 %prep
@@ -43,7 +52,7 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 
 %build
-# Empty build section, most likely nothing required.
+# Empty build section, nothing to build
 
 
 %install
@@ -77,5 +86,5 @@ fi
 
 
 %changelog
-* Sun Jun 10 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.4-1
+* Sun Jun 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.4-1
 - Initial package
