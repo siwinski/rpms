@@ -22,3 +22,6 @@
 [submodule "fedora/php-symfony2-EventDispatcher"]
 	path = fedora/php-symfony2-EventDispatcher
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-EventDispatcher.git
+[submodule "fedora/php-symfony2-Finder"]
+	path = fedora/php-symfony2-Finder
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Finder.git
