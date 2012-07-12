@@ -64,3 +64,6 @@
 [submodule "fedora/php-channel-twig"]
 	path = fedora/php-channel-twig
 	url = ssh://pkgs.fedoraproject.org/php-channel-twig.git
+[submodule "fedora/php-twig-Twig"]
+	path = fedora/php-twig-Twig
+	url = ssh://pkgs.fedoraproject.org/php-twig-Twig.git
