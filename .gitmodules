@@ -58,3 +58,6 @@
 [submodule "fedora/php-symfony2-Validator"]
 	path = fedora/php-symfony2-Validator
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Validator.git
+[submodule "fedora/php-symfony2-Yaml"]
+	path = fedora/php-symfony2-Yaml
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Yaml.git
