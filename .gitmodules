@@ -61,3 +61,6 @@
 [submodule "fedora/php-symfony2-Yaml"]
 	path = fedora/php-symfony2-Yaml
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Yaml.git
+[submodule "fedora/php-channel-twig"]
+	path = fedora/php-channel-twig
+	url = ssh://pkgs.fedoraproject.org/php-channel-twig.git
