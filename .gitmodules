@@ -31,3 +31,6 @@
 [submodule "fedora/php-symfony2-HttpFoundation"]
 	path = fedora/php-symfony2-HttpFoundation
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-HttpFoundation.git
+[submodule "fedora/php-symfony2-HttpKernel"]
+	path = fedora/php-symfony2-HttpKernel
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-HttpKernel.git
