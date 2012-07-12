@@ -4,3 +4,6 @@
 [submodule "fedora/php-symfony2-ClassLoader"]
 	path = fedora/php-symfony2-ClassLoader
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-ClassLoader.git
+[submodule "fedora/php-symfony2-Config"]
+	path = fedora/php-symfony2-Config
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Config.git
