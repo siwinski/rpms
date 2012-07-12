@@ -7,3 +7,6 @@
 [submodule "fedora/php-symfony2-Config"]
 	path = fedora/php-symfony2-Config
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Config.git
+[submodule "fedora/php-symfony2-Console"]
+	path = fedora/php-symfony2-Console
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Console.git
