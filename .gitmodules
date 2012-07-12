@@ -43,3 +43,6 @@
 [submodule "fedora/php-symfony2-Routing"]
 	path = fedora/php-symfony2-Routing
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Routing.git
+[submodule "fedora/php-symfony2-Security"]
+	path = fedora/php-symfony2-Security
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Security.git
