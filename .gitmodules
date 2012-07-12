@@ -1,0 +1,3 @@
+[submodule "fedora/php-channel-symfony2"]
+	path = fedora/php-channel-symfony2
+	url = ssh://pkgs.fedoraproject.org/php-channel-symfony2.git
