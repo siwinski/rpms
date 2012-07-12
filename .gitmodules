@@ -34,3 +34,6 @@
 [submodule "fedora/php-symfony2-HttpKernel"]
 	path = fedora/php-symfony2-HttpKernel
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-HttpKernel.git
+[submodule "fedora/php-symfony2-Locale"]
+	path = fedora/php-symfony2-Locale
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Locale.git
