@@ -37,3 +37,6 @@
 [submodule "fedora/php-symfony2-Locale"]
 	path = fedora/php-symfony2-Locale
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Locale.git
+[submodule "fedora/php-symfony2-Process"]
+	path = fedora/php-symfony2-Process
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Process.git
