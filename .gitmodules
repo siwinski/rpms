@@ -55,3 +55,6 @@
 [submodule "fedora/php-symfony2-Translation"]
 	path = fedora/php-symfony2-Translation
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Translation.git
+[submodule "fedora/php-symfony2-Validator"]
+	path = fedora/php-symfony2-Validator
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Validator.git
