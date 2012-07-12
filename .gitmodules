@@ -46,3 +46,6 @@
 [submodule "fedora/php-symfony2-Security"]
 	path = fedora/php-symfony2-Security
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Security.git
+[submodule "fedora/php-symfony2-Serializer"]
+	path = fedora/php-symfony2-Serializer
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Serializer.git
