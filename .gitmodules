@@ -52,3 +52,6 @@
 [submodule "fedora/php-symfony2-Templating"]
 	path = fedora/php-symfony2-Templating
 	url = ssh://pkgs.fedoraproject.org/php-symfony2-Templating.git
+[submodule "fedora/php-symfony2-Translation"]
+	path = fedora/php-symfony2-Translation
+	url = ssh://pkgs.fedoraproject.org/php-symfony2-Translation.git
