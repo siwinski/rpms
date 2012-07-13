@@ -1,6 +1,3 @@
-# TODO:
-# * php-lessphp.noarch: W: no-manual-page-for-binary plessc
-
 %global libname lessphp
 %global php_min_version 5.1.0
 
@@ -16,6 +13,7 @@ Source0:       http://leafo.net/lessphp/src/%{libname}-%{version}.tar.gz
 
 BuildArch:     noarch
 BuildRequires: php-cli >= %{php_min_version}
+BuildRequires: help2man
 
 Requires:      php-common >= %{php_min_version}
 # phpci requires
@@ -66,7 +64,9 @@ sed -i '1i\
 
 
 %build
-# Empty build section, nothing to build
+# Create man page for bin
+help2man --version-string=%{version} --no-info \
+    %{libname}-bin/plessc | gzip > plessc.1.gz
 
 
 %check
@@ -79,15 +79,19 @@ mkdir -p -m 755 $RPM_BUILD_ROOT%{_datadir}/php/%{libname}
 cp -rp %{libname}/* $RPM_BUILD_ROOT%{_datadir}/php/%{libname}/
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp -rp %{libname}-bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -rp %{libname}-bin/* $RPM_BUILD_ROOT%{_bindir}/
+
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p plessc.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %files
 %doc %{libname}-docs/*
+%doc %{_mandir}/man1/plessc.1.gz
 %{_datadir}/php/%{libname}
 %{_bindir}/plessc
 
 
 %changelog
-* Sat Jul 7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.5-1
+* Thu Jul 12 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.5-1
 - Initial package
