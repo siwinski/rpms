@@ -51,13 +51,14 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 # Fix package.xml for LICENSE file to have role="doc" instead of role="data"
 # *** NOTE: This needs to be fixed upstream
+# ^^^ http://www.doctrine-project.org/jira/browse/DCOM-102
 sed -i \
     's#\(.*\)name="LICENSE" *role="data"\(.*\)#\1 name="LICENSE" role="doc"\2#' \
     %{pear_name}-%{version}/%{name}.xml
 
 
 %build
-# Empty build section, nothing required.
+# Empty build section, nothing required
 
 
 %install
