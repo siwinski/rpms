@@ -45,6 +45,7 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 # Fix package.xml for README and LICENSE files to have role="doc" instead of
 # role="data"
 # *** NOTE: This needs to be fixed upstream
+# ^^^ http://www.doctrine-project.org/jira/browse/DBAL-300
 sed -i \
     -e 's#\(.*\)name="Doctrine/DBAL/README.markdown" *role="data"\(.*\)#\1 name="Doctrine/DBAL/README.markdown" role="doc"\2#' \
     -e 's#\(.*\)name="LICENSE" *role="data"\(.*\)#\1 name="LICENSE" role="doc"\2#' \
@@ -52,7 +53,7 @@ sed -i \
 
 
 %build
-# Empty build section, nothing required.
+# Empty build section, nothing required
 
 
 %install
