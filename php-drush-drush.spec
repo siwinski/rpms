@@ -23,6 +23,8 @@ URL:              http://www.drush.org
 Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
 
 Provides:         php-pear(%{pear_channel}/%{pear_name}) = %{version}
+Provides:         drupal6-drush = %{version}-%{release}
+Obsoletes:        drupal6-drush < 5.7.0-1
 
 BuildArch:        noarch
 BuildRequires:    php-pear(PEAR)
