@@ -2,7 +2,7 @@
 %global pear_channel pear.drush.org
 
 Name:             php-channel-drush
-Version:          1.0
+Version:          1.3
 Release:          1%{?dist}
 Summary:          Adds %{pear_channel} channel to PEAR
 
@@ -57,5 +57,5 @@ fi
 
 
 %changelog
-* Sun Jun 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
-- Initial package
+* Mon Sep 3 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3-1
+- Initial package (version matches channel REST version)
