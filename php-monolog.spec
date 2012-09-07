@@ -1,12 +1,12 @@
 %global libname monolog
 
 Name:      php-%{libname}
-Version:   1.1.0
+Version:   1.2.1
 Release:   1%{?dist}
 Summary:   Logging for PHP 5.3
 
 Group:     Development/Libraries
-License:   Public Domain
+License:   MIT
 URL:       https://github.com/Seldaek/%{libname}/
 # To create source tarball:
 # 1) Clone git repo and checkout version tag:
@@ -19,10 +19,12 @@ BuildArch: noarch
 
 Requires:  php-common >= 5.3.0
 # phpci requires
+Requires:  php-curl
 Requires:  php-date
 Requires:  php-json
 Requires:  php-libxml
 Requires:  php-pcre
+Requires:  php-sockets
 Requires:  php-spl
 # phpci dist specific requires
 %{?fedora:Requires: php-filter}
@@ -35,7 +37,7 @@ Requires:  php-spl
 %setup -q -c
 
 # Move docs
-mkdir -p %{libname}-docs
+mkdir %{libname}-docs
 mv -f \
     %{libname}/*.mdown \
     %{libname}/LICENSE \
@@ -67,5 +69,10 @@ cp -pr %{libname}/* $RPM_BUILD_ROOT%{_datadir}/php/%{libname}/
 
 
 %changelog
+* Fri Sep 7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.1-1
+- Updated to upstream version 1.2.1
+- Fixed license
+- Added additional requires
+
 * Sun Jul 22 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package
