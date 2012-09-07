@@ -154,7 +154,7 @@ fi
 
 
 %changelog
-* Mon Sep 3 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.7.0-1
+* Mon Sep 3 2012 Shawn Iwinski <siwinski@fedoraproject.org> 5.7.0-1
 - Updated to upstream version 5.7.0
 - Added php-pear(Console_Table) require
 - Added additional requires based on phpci results
@@ -162,5 +162,5 @@ fi
 - Fixed some file permissions that PEAR installer does not honor
 - Fixed no-documentation rpmlint warning for %%{_bindir}/drush
 
-* Sun Jun 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.4.0-1
+* Sun Jun 17 2012 Shawn Iwinski <siwinski@fedoraproject.org> 5.4.0-1
 - Initial package
