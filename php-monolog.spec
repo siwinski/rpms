@@ -69,10 +69,10 @@ cp -pr %{libname}/* $RPM_BUILD_ROOT%{_datadir}/php/%{libname}/
 
 
 %changelog
-* Fri Sep 7 2012 Shawn Iwinski <siwinski@fedoraproject.org> 1.2.1-1
+* Fri Sep 7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.1-1
 - Updated to upstream version 1.2.1
 - Fixed license
 - Added additional requires
 
-* Sun Jul 22 2012 Shawn Iwinski <siwinski@fedoraproject.org> 1.1.0-1
+* Sun Jul 22 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package

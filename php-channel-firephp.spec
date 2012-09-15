@@ -57,5 +57,5 @@ fi
 
 
 %changelog
-* Thu Sep 6 2012 Shawn Iwinski <siwinski@fedoraproject.org> 1.1-1
+* Thu Sep 6 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package (version matches channel REST version)

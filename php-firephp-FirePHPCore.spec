@@ -81,5 +81,5 @@ fi
 
 
 %changelog
-* Thu Sep 6 2012 Shawn Iwinski <siwinski@fedoraproject.org> 0.3.2-1
+* Thu Sep 6 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.2-1
 - Initial package
