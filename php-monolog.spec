@@ -32,6 +32,14 @@ Requires:  php-spl
 %description
 %{summary}.
 
+Optional packages:
+* php-pecl-amqp
+      Allow sending log messages to an AMQP server (1.0+ required)
+* php-pecl-mongo
+      Allow sending log messages to a MongoDB server
+* https://github.com/mlehner/gelf-php
+      Allow sending log messages to a GrayLog2 server
+
 
 %prep
 %setup -q -c
@@ -72,6 +80,7 @@ cp -pr %{libname}/* $RPM_BUILD_ROOT%{_datadir}/php/%{libname}/
 * Fri Sep 7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.1-1
 - Updated to upstream version 1.2.1
 - Fixed license
+- Added optional packages to description
 - Added additional requires
 
 * Sun Jul 22 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
