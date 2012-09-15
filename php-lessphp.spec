@@ -1,8 +1,7 @@
 %global libname lessphp
-%global php_min_version 5.1.0
 
 Name:          php-%{libname}
-Version:       0.3.5
+Version:       0.3.6
 Release:       1%{?dist}
 Summary:       A compiler for LESS written in PHP
 
@@ -12,11 +11,12 @@ URL:           http://leafo.net/lessphp/
 Source0:       http://leafo.net/lessphp/src/%{libname}-%{version}.tar.gz
 
 BuildArch:     noarch
-BuildRequires: php-cli >= %{php_min_version}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: help2man
 
-Requires:      php-common >= %{php_min_version}
+Requires:      php-common
 # phpci requires
+Requires:      php-ctype
 Requires:      php-date
 Requires:      php-pcre
 
@@ -33,6 +33,9 @@ suitable as a drop in replacement for PHP projects.
 %prep
 %setup -q -c
 
+# Remove unnecessary files
+rm -f %{libname}/Makefile
+
 # Move docs
 mkdir -p %{libname}-docs/tests
 mv -f \
@@ -45,16 +48,12 @@ mv -f %{libname}/tests/README.md %{libname}-docs/tests/
 
 # Update path in bin file
 sed -i \
-    's#^ *$path *=.*#$path = "%{_datadir}/php/%{libname}/";#' \
+    's#^\s*$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
     %{libname}/plessc
 
 # Move bin
 mkdir %{libname}-bin
 mv -f %{libname}/plessc %{libname}-bin/
-
-# Add execute bit to test script
-# NOTE: To be fixed upstream
-chmod a+x %{libname}/tests/test.php
 
 # Add shebang to bootstrap script
 # NOTE: To be fixed upstream
@@ -65,13 +64,14 @@ sed -i '1i\
 
 %build
 # Create man page for bin
-help2man --version-string=%{version} --no-info \
+#help2man --version-string=%{version} --no-info \
+help2man --version-option='-v' --no-info \
     %{libname}-bin/plessc | gzip > plessc.1.gz
 
 
 %check
-cd %{libname}/tests
-%{_bindir}/php test.php
+cd %{libname}
+%{_bindir}/phpunit tests
 
 
 %install
@@ -93,5 +93,8 @@ cp -p plessc.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %changelog
+* Mon Aug 13 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.6-1
+- Updated to upstream version 0.3.6
+
 * Thu Jul 12 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.5-1
 - Initial package
