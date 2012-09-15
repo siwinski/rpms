@@ -37,6 +37,8 @@ Optional packages:
       Allow sending log messages to an AMQP server (1.0+ required)
 * php-pecl-mongo
       Allow sending log messages to a MongoDB server
+* php-swift-Swift
+      Sends emails using a Swift_Mailer instance
 * https://github.com/mlehner/gelf-php
       Allow sending log messages to a GrayLog2 server
 
