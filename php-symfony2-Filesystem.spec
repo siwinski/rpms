@@ -2,7 +2,7 @@
 
 %global pear_channel pear.symfony.com
 %global pear_name    %(echo %{name} | sed -e 's/^php-symfony2-//' -e 's/-/_/g')
-%global php_min_ver  5.3.2
+%global php_min_ver  5.3.3
 
 Name:             php-symfony2-Filesystem
 Version:          2.1.2
@@ -22,7 +22,7 @@ BuildRequires:    php-channel(%{pear_channel})
 # Test requires
 BuildRequires:    php-common >= %{php_min_ver}
 BuildRequires:    php-pear(pear.phpunit.de/PHPUnit)
-# Test requires: phpci requires
+# Test requires: phpci
 BuildRequires:    php-ctype
 BuildRequires:    php-date
 BuildRequires:    php-posix
@@ -50,7 +50,6 @@ The Filesystem component provides basic utilities for the filesystem.
 
 # Patches
 cd %{pear_name}-%{version}
-# TODO: Update the md5sum in package.xml to match this patch
 %patch0 -p0
 cd ..
 
