@@ -6,7 +6,7 @@
 
 Name:             php-symfony2-OptionsResolver
 Version:          2.1.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Symfony2 %{pear_name} Component
 
 Group:            Development/Libraries
