@@ -190,9 +190,9 @@
                 <td>EventDispatcher</td>
                 <td>Y</td>
                 <td>Y</td>
-                <td>DependencyInjection</td>
-                <td><span style="color:red">HttpKernel</span></td>
                 <td></td>
+                <td>DependencyInjection, HttpKernel</td>
+                <td>DependencyInjection</td>
             </tr>
             <tr style="border-top-width:3px">
                 <td>4</td>
@@ -200,8 +200,8 @@
                 <td>Y</td>
                 <td>Y</td>
                 <td>EventDispatcher, Locale, OptionsResolver</td>
-                <td>DependencyInjection, HttpFoundation, Templating, Validator</td>
-                <td></td>
+                <td>HttpFoundation, Validator</td>
+                <td>HttpFoundation, Validator</td>
             </tr>
             <tr style="border-top-width:3px">
                 <td>5</td>
@@ -209,8 +209,8 @@
                 <td>Y</td>
                 <td>Y</td>
                 <td>EventDispatcher, HttpFoundation</td>
+                <td>BrowserKit, ClassLoader, Config, Console, DependencyInjection, Finder</td>
                 <td>BrowserKit, ClassLoader, Config, Console, DependencyInjection, Finder, Process, Routing</td>
-                <td></td>
             </tr>
             <tr style="border-top-width:3px">
                 <td>6</td>
@@ -218,8 +218,8 @@
                 <td></td>
                 <td>Y</td>
                 <td>EventDispatcher, HttpFoundation, HttpKernel</td>
-                <td>ClassLoader, Finder, Form, Routing, Validator</td>
-                <td></td>
+                <td>ClassLoader, Finder, Form, Routing, Validator<br /><span style="color:orange">DoctrineDBAL</span></td>
+                <td>Form, Routing, Validator<br /><span style="color:orange">DoctrineCommon</span>, <span style="color:orange">DoctrineDBAL</span></td>
             </tr>
         </tbody>
     </table>
