@@ -1,7 +1,7 @@
 %global libname lessphp
 
 Name:          php-%{libname}
-Version:       0.3.6
+Version:       0.3.8
 Release:       1%{?dist}
 Summary:       A compiler for LESS written in PHP
 
@@ -55,18 +55,11 @@ sed -i \
 mkdir %{libname}-bin
 mv -f %{libname}/plessc %{libname}-bin/
 
-# Add shebang to bootstrap script
-# NOTE: To be fixed upstream
-sed -i '1i\
-#!/bin/bash\
-' %{libname}/tests/bootstrap.sh
-
 
 %build
 # Create man page for bin
-#help2man --version-string=%{version} --no-info \
 help2man --version-option='-v' --no-info \
-    %{libname}-bin/plessc | gzip > plessc.1.gz
+    %{libname}-bin/plessc > plessc.1
 
 
 %check
@@ -82,7 +75,7 @@ mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp -rp %{libname}-bin/* $RPM_BUILD_ROOT%{_bindir}/
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-cp -p plessc.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/
+cp -p plessc.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %files
@@ -93,6 +86,11 @@ cp -p plessc.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %changelog
+* Wed Oct 31 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-1
+- Updated to upstream version 0.3.8
+- Removed adding of shebang to bootstrap script (fixed upstream)
+- Removed manual gzip of man file
+
 * Mon Aug 13 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.6-1
 - Updated to upstream version 0.3.6
 
