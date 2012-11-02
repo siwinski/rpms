@@ -1,9 +1,11 @@
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
+%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
+
 %global pear_channel pear.doctrine-project.org
-%global pear_name %(echo %{name} | sed -e 's/^php-doctrine-//' -e 's/-/_/g')
+%global pear_name    %(echo %{name} | sed -e 's/^php-doctrine-//' -e 's/-/_/g')
 
 Name:             php-doctrine-DoctrineCommon
-Version:          2.2.2
+Version:          2.3.0
 Release:          1%{?dist}
 Summary:          Doctrine Common PHP Extensions
 
@@ -46,15 +48,15 @@ Optional dependencies:
 
 %prep
 %setup -q -c
-# package.xml is version 2.0
-mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 # Fix package.xml for LICENSE file to have role="doc" instead of role="data"
 # *** NOTE: This needs to be fixed upstream
-# ^^^ http://www.doctrine-project.org/jira/browse/DCOM-102
-sed -i \
-    's#\(.*\)name="LICENSE" *role="data"\(.*\)#\1 name="LICENSE" role="doc"\2#' \
-    %{pear_name}-%{version}/%{name}.xml
+# *** http://www.doctrine-project.org/jira/browse/DCOM-102
+sed '/LICENSE/s/role="data"/role="doc"/' \
+    -i package.xml
+
+# package.xml is version 2.0
+mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 
 %build
@@ -63,14 +65,14 @@ sed -i \
 
 %install
 cd %{pear_name}-%{version}
-%{__pear} install --nodeps --packagingroot $RPM_BUILD_ROOT %{name}.xml
+%{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
 
 # Clean up unnecessary files
-rm -rf $RPM_BUILD_ROOT%{pear_phpdir}/.??*
+rm -rf %{buildroot}%{pear_metadir}/.??*
 
 # Install XML package description
-mkdir -p $RPM_BUILD_ROOT%{pear_xmldir}
-install -pm 644 %{name}.xml $RPM_BUILD_ROOT%{pear_xmldir}
+mkdir -p %{buildroot}%{pear_xmldir}
+install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
 %post
@@ -89,9 +91,14 @@ fi
 %doc %{pear_docdir}/%{pear_name}
 %{pear_xmldir}/%{name}.xml
 %dir %{pear_phpdir}/Doctrine
-%{pear_phpdir}/Doctrine/Common
+     %{pear_phpdir}/Doctrine/Common
 
 
 %changelog
+* Fri Nov 2 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.0-1
+- Updated to upstream version 2.3.0
+- Added "%%global pear_metadir" and usage in %%install
+- Changed RPM_BUILD_ROOT to %%{buildroot}
+
 * Wed Jul 4 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.2-1
 - Initial package
