@@ -62,7 +62,7 @@ mv -f %{libname}/plessc %{libname}-bin/
 
 
 %build
-# # Empty build section, nothing required
+# Empty build section, nothing required
 
 
 %check
