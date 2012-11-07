@@ -46,10 +46,15 @@ mv -f \
     %{libname}-docs/
 mv -f %{libname}/tests/README.md %{libname}-docs/tests/
 
+# Create man page for bin
+# Required here instead of %%build b/c path to include file is changed
+# and bin file moved
+help2man --version-option='-v' --no-info \
+    %{libname}/plessc > plessc.1
+
 # Update path in bin file
-sed -i \
-    's#^\s*$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
-    %{libname}/plessc
+sed 's#^\s*$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
+    -i %{libname}/plessc
 
 # Move bin
 mkdir %{libname}-bin
@@ -57,9 +62,7 @@ mv -f %{libname}/plessc %{libname}-bin/
 
 
 %build
-# Create man page for bin
-help2man --version-option='-v' --no-info \
-    %{libname}-bin/plessc > plessc.1
+# # Empty build section, nothing required
 
 
 %check
@@ -86,10 +89,10 @@ cp -p plessc.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %changelog
-* Wed Oct 31 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-1
+* Wed Nov  7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-1
 - Updated to upstream version 0.3.8
 - Removed adding of shebang to bootstrap script (fixed upstream)
-- Removed manual gzip of man file
+- Fixed man file creation and removed manual gzip
 
 * Mon Aug 13 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.6-1
 - Updated to upstream version 0.3.6
