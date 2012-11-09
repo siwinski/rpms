@@ -5,9 +5,6 @@
 # * PEAR extra files (http://drupal.org/node/1772518)
 # * drush.bat (http://drupal.org/node/1704986)
 
-# NOTE: Update upstream issue http://drupal.org/node/508086 when this RPM
-# is complete
-
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
 %{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
 
