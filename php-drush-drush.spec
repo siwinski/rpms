@@ -9,8 +9,14 @@
 # is complete
 
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
+%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
+
 %global pear_channel pear.drush.org
-%global pear_name %(echo %{name} | sed -e 's/^php-drush-//' -e 's/-/_/g')
+%global pear_name    %(echo %{name} | sed -e 's/^php-drush-//' -e 's/-/_/g')
+
+# Tests are only run with rpmbuild --with tests
+# Lot of failures, need investigation
+%global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:             php-drush-drush
 Version:          5.7.0
@@ -29,13 +35,14 @@ Obsoletes:        drupal6-drush < 5.7.0-1
 BuildArch:        noarch
 BuildRequires:    php-pear(PEAR)
 BuildRequires:    php-channel(%{pear_channel})
-BuildRequires:    help2man
+%if %{with_tests}
+BuildRequires:    php-pear(pear.phpunit.de/PHPUnit) >= 3.5
+%endif
 
 Requires:         php-cli >= 5.2
 Requires:         php-channel(%{pear_channel})
 Requires:         php-pear(PEAR)
 Requires:         php-pear(Console_Table)
-Requires:         php-pear(pear.phpunit.de/PHPUnit) >= 3.5
 Requires:         git >= 1.7
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
@@ -73,19 +80,14 @@ Works with Drupal 6, Drupal 7, and usually Drupal 8.
 %prep
 %setup -q -c
 
-# Remove .travis.yml and .gitignore files from package.xml
-# *** Upstream issue: http://drupal.org/node/1772518
-sed -i -e '/.travis.yml/d' -e '/.gitignore/d' package.xml
-
 # Update package.xml for files identified with role="php"
 # instead of role="test":
 # - tests/
 # NOTE: Ran before role="doc" update because role="doc" update will
 #       overwrite some of these test roles (specifically tests/*.txt)
 # *** Upstream issue: http://drupal.org/node/1643676
-sed -i \
-    -e 's#name="\(tests/[^"]*\)" *role="php"#name="\1" role="test"#' \
-    package.xml
+sed '/name="tests\//s/role="php"/role="test"/' \
+    -i package.xml
 
 # Update package.xml for files identified with role="php"
 # instead of role="doc":
@@ -93,43 +95,49 @@ sed -i \
 # - docs/
 # - examples/
 # *** Upstream issue: http://drupal.org/node/1643660
-sed -i \
-    -e 's#name="\([^"]*\.txt\)" *role="[^"]*"#name="\1" role="doc"#' \
-    -e 's#name="\(docs/[^"]*\)" *role="php"#name="\1" role="doc"#' \
-    -e 's#name="\(examples/[^"]*\)" *role="php"#name="\1" role="doc"#' \
-    package.xml
+sed -e '/name="[^"]*\.txt"/s/role="php"/role="doc"/' \
+    -e '/name="docs\//s/role="php"/role="doc"/' \
+    -e '/name="examples\//s/role="php"/role="doc"/' \
+    -i package.xml
+
+# Remove .travis.yml and .gitignore files from package.xml
+# *** Upstream issue: http://drupal.org/node/1772518
+sed -e '/.travis.yml/d' \
+    -e '/.gitignore/d' \
+    -i package.xml
 
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 
 %build
-# Empty build section
+# Empty build section, nothing required
 
 
 %install
 cd %{pear_name}-%{version}
-%{__pear} install --nodeps --packagingroot $RPM_BUILD_ROOT %{name}.xml
+%{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
 
 # Clean up unnecessary files
-rm -rf $RPM_BUILD_ROOT%{pear_phpdir}/.??*
+rm -rf %{buildroot}%{pear_metadir}/.??*
 
-# Fix some file permissions that PEAR installer does not honor
-chmod a+x $RPM_BUILD_ROOT%{pear_phpdir}/%{pear_name}/drush.php
-chmod a+x $RPM_BUILD_ROOT%{pear_phpdir}/%{pear_name}/drush.complete.sh
-chmod a+x $RPM_BUILD_ROOT%{pear_testdir}/%{pear_name}/tests/runner.php
-
-# Man page for bin file
-# NOTE: This should be done in the %%build section, but the bin file is
-#       not fully created until PEAR install in this section
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-help2man --no-info \
-    $RPM_BUILD_ROOT%{_bindir}/drush | gzip > \
-    $RPM_BUILD_ROOT%{_mandir}/man1/%{pear_name}.1.gz
+# Fix some file permissions
+chmod a+x %{buildroot}%{pear_phpdir}/%{pear_name}/drush.php
+chmod a+x %{buildroot}%{pear_phpdir}/%{pear_name}/drush.complete.sh
+chmod a+x %{buildroot}%{pear_testdir}/%{pear_name}/tests/runner.php
 
 # Install XML package description
-mkdir -p $RPM_BUILD_ROOT%{pear_xmldir}
-install -pm 644 %{name}.xml $RPM_BUILD_ROOT%{pear_xmldir}
+mkdir -p %{buildroot}%{pear_xmldir}
+install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
+
+
+%check
+%if %{with_tests}
+    cd %{pear_name}-%{version}/tests
+    %{_bindir}/phpunit .
+%else
+: Tests skipped, missing '--with tests' option
+%endif
 
 
 %post
@@ -146,7 +154,6 @@ fi
 
 %files
 %doc %{pear_docdir}/%{pear_name}
-%doc %{_mandir}/man1/%{pear_name}.1.gz
 %{pear_xmldir}/%{name}.xml
 %{pear_phpdir}/%{pear_name}
 %{pear_testdir}/%{pear_name}
@@ -154,13 +161,5 @@ fi
 
 
 %changelog
-* Mon Sep 3 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.7.0-1
-- Updated to upstream version 5.7.0
-- Added php-pear(Console_Table) require
-- Added additional requires based on phpci results
-- Several updates to PEAR package.xml file in %%prep
-- Fixed some file permissions that PEAR installer does not honor
-- Fixed no-documentation rpmlint warning for %%{_bindir}/drush
-
-* Sun Jun 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.4.0-1
+* Thu Nov  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.7.0-1
 - Initial package
