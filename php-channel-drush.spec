@@ -1,4 +1,5 @@
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
+
 %global pear_channel pear.drush.org
 
 Name:             php-channel-drush
@@ -30,7 +31,7 @@ from this channel to be installed.
 
 
 %build
-# Empty build section, nothing to build
+# Empty build section, nothing required
 
 
 %install
@@ -57,5 +58,5 @@ fi
 
 
 %changelog
-* Mon Sep 3 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3-1
+* Thu Nov  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3-1
 - Initial package (version matches channel REST version)
