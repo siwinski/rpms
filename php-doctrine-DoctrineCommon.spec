@@ -18,7 +18,7 @@ BuildArch:        noarch
 BuildRequires:    php-pear(PEAR)
 BuildRequires:    php-channel(%{pear_channel})
 
-Requires:         php-common >= 5.3.0
+Requires:         php-common >= 5.3.2
 Requires:         php-pear(PEAR)
 Requires:         php-channel(%{pear_channel})
 Requires(post):   %{__pear}
