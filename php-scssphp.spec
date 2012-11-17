@@ -51,8 +51,8 @@ the SCSS syntax.
 sed 's#scss.inc.php#%{_datadir}/php/%{libname}/scss.inc.php#' -i pscss
 
 # Update tests' require
-find tests -type f -print0 | xargs -0 sed -i \
-    's#__DIR__ . "/../scss.inc.php"#"%{_datadir}/php/%{libname}/scss.inc.php"#'
+sed 's#__DIR__ . "/../scss.inc.php"#"%{_datadir}/php/%{libname}/scss.inc.php"#' \
+    -i tests/*.php
 
 
 %build
@@ -76,8 +76,7 @@ cp -p pscss %{buildroot}%{_bindir}
 
 %check
 # Update tests' require to use buildroot
-find tests -type f -print0 | xargs -0 sed -i \
-    's#%{_datadir}#%{buildroot}%{_datadir}#'
+sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
 
 %{_bindir}/phpunit tests
 
