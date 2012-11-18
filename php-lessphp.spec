@@ -2,7 +2,7 @@
 
 Name:          php-%{libname}
 Version:       0.3.8
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       A compiler for LESS written in PHP
 
 Group:         Development/Libraries
@@ -40,7 +40,7 @@ suitable as a drop in replacement for PHP projects.
 
 # Create man page for bin
 # Required here b/c path to include file is changed in next command
-help2man --version-option='-v' --no-info plessc > plessc.1
+help2man --version-option='-v' --no-info ./plessc > plessc.1
 
 # Update path in bin file
 sed 's#$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
@@ -80,11 +80,16 @@ sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
 %doc LICENSE README.md docs composer.json
 %doc %{_mandir}/man1/plessc.1*
 %{_datadir}/php/%{libname}
-%{_datadir}/tests/%{name}
 %{_bindir}/plessc
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}
 
 
 %changelog
+* Sat Nov 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-3
+- Fixed man page creation
+- Added tests directory ownership
+
 * Sat Nov 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-2
 - Added phpci requires to build requires
 - Simplified %%prep and updated %%install and %%check
