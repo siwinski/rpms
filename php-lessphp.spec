@@ -86,7 +86,7 @@ sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
 
 
 %changelog
-* Sat Nov 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-3
+* Sun Nov 18 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-3
 - Fixed man page creation
 - Added tests directory ownership
 
