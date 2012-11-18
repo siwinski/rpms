@@ -2,17 +2,22 @@
 
 Name:          php-%{libname}
 Version:       0.3.8
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A compiler for LESS written in PHP
 
 Group:         Development/Libraries
 License:       MIT or GPLv3
-URL:           http://leafo.net/lessphp/
-Source0:       http://leafo.net/lessphp/src/%{libname}-%{version}.tar.gz
+URL:           http://leafo.net/lessphp
+Source0:       %{url}/src/%{libname}-%{version}.tar.gz
 
 BuildArch:     noarch
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: help2man
+# Test requires
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test requires: phpci
+BuildRequires: php-ctype
+BuildRequires: php-date
+BuildRequires: php-pcre
 
 Requires:      php-common
 # phpci requires
@@ -31,64 +36,60 @@ suitable as a drop in replacement for PHP projects.
 
 
 %prep
-%setup -q -c
-
-# Remove unnecessary files
-rm -f %{libname}/Makefile
-
-# Move docs
-mkdir -p %{libname}-docs/tests
-mv -f \
-    %{libname}/LICENSE \
-    %{libname}/README.md \
-    %{libname}/composer.json \
-    %{libname}/docs \
-    %{libname}-docs/
-mv -f %{libname}/tests/README.md %{libname}-docs/tests/
+%setup -q -n %{libname}
 
 # Create man page for bin
-# Required here instead of %%build b/c path to include file is changed
-# and bin file moved
-help2man --version-option='-v' --no-info \
-    %{libname}/plessc > plessc.1
+# Required here b/c path to include file is changed in next command
+help2man --version-option='-v' --no-info plessc > plessc.1
 
 # Update path in bin file
-sed 's#^\s*$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
-    -i %{libname}/plessc
+sed 's#$path\s*=.*#$path = "%{_datadir}/php/%{libname}/";#' \
+    -i plessc
 
-# Move bin
-mkdir %{libname}-bin
-mv -f %{libname}/plessc %{libname}-bin/
+# Update tests' require
+sed -e 's#.*require.*lessc.inc.php.*#require_once "%{_datadir}/php/%{libname}/lessc.inc.php";#' \
+    -i tests/*.php
 
 
 %build
 # Empty build section, nothing required
 
 
+%install
+mkdir -p -m 755 %{buildroot}%{_datadir}/php/%{libname}
+cp -p lessc.inc.php %{buildroot}%{_datadir}/php/%{libname}/
+
+mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
+cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
+
+mkdir -p %{buildroot}%{_bindir}
+cp -p plessc %{buildroot}%{_bindir}/
+
+mkdir -p %{buildroot}%{_mandir}/man1
+cp -p plessc.1 %{buildroot}%{_mandir}/man1/
+
+
 %check
-cd %{libname}
+# Update tests' require to use buildroot
+sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
+
 %{_bindir}/phpunit tests
 
 
-%install
-mkdir -p -m 755 $RPM_BUILD_ROOT%{_datadir}/php/%{libname}
-cp -rp %{libname}/* $RPM_BUILD_ROOT%{_datadir}/php/%{libname}/
-
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp -rp %{libname}-bin/* $RPM_BUILD_ROOT%{_bindir}/
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-cp -p plessc.1 $RPM_BUILD_ROOT%{_mandir}/man1/
-
-
 %files
-%doc %{libname}-docs/*
-%doc %{_mandir}/man1/plessc.1.gz
+%doc LICENSE README.md docs composer.json
+%doc %{_mandir}/man1/plessc.1*
 %{_datadir}/php/%{libname}
+%{_datadir}/tests/%{name}
 %{_bindir}/plessc
 
 
 %changelog
+* Sat Nov 17 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-2
+- Added phpci requires to build requires
+- Simplified %%prep and updated %%install and %%check
+- Moved tests to %%{_datadir}/tests/%%{name}
+
 * Wed Nov  7 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.8-1
 - Updated to upstream version 0.3.8
 - Removed adding of shebang to bootstrap script (fixed upstream)
