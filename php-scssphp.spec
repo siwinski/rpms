@@ -43,9 +43,8 @@ the SCSS syntax.
 
 # AWAITING https://github.com/leafo/scssphp/pull/23
 # Create man page for bin
-# Required here instead of %%build b/c path to include file is changed
-# and files moved
-#help2man --no-info pscss > pscss.1
+# Required here b/c path to include file is changed in next command
+#help2man --no-info ./pscss > pscss.1
 
 # Update bin require
 sed 's#scss.inc.php#%{_datadir}/php/%{libname}/scss.inc.php#' -i pscss
@@ -84,8 +83,9 @@ sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
 %files
 %doc *.md composer.json
 %{_datadir}/php/%{libname}
-%{_datadir}/tests/%{name}
 %{_bindir}/pscss
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}
 
 
 %changelog
