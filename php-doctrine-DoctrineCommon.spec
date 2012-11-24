@@ -10,7 +10,9 @@ Release:          1%{?dist}
 Summary:          Doctrine Common PHP Extensions
 
 Group:            Development/Libraries
-License:          LGPLv2
+# License clarification from upstream since both LGPL and MIT are found:
+# https://groups.google.com/d/topic/doctrine-dev/BNd84oKdOP0/discussion
+License:          MIT
 URL:              http://www.doctrine-project.org/projects/common.html
 Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
 
@@ -50,7 +52,6 @@ Optional dependencies:
 %setup -q -c
 
 # Fix package.xml for LICENSE file to have role="doc" instead of role="data"
-# *** NOTE: This needs to be fixed upstream
 # *** http://www.doctrine-project.org/jira/browse/DCOM-102
 sed '/LICENSE/s/role="data"/role="doc"/' \
     -i package.xml
@@ -95,8 +96,9 @@ fi
 
 
 %changelog
-* Fri Nov 2 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.0-1
+* Sat Nov 24 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.0-1
 - Updated to upstream version 2.3.0
+- Updated license from LGPLv2 to MIT
 - Added "%%global pear_metadir" and usage in %%install
 - Changed RPM_BUILD_ROOT to %%{buildroot}
 
