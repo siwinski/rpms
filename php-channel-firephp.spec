@@ -18,7 +18,7 @@ Requires:         php-pear(PEAR)
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 
-Provides:         php-channel(%{pear_channel}) = %{version}
+Provides:         php-channel(%{pear_channel})
 
 %description
 This package adds the %{pear_channel} channel which allows PEAR packages
