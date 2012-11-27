@@ -16,7 +16,7 @@
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:             php-drush-drush
-Version:          5.7.0
+Version:          5.8.0
 Release:          1%{?dist}
 Summary:          Command line shell and Unix scripting interface for Drupal
 
@@ -158,5 +158,8 @@ fi
 
 
 %changelog
+* Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-1
+- Updated to upstream version 5.8.0
+
 * Thu Nov  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.7.0-1
 - Initial package
