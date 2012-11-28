@@ -12,9 +12,10 @@ Source0:       %{url}/src/%{libname}-%{version}.tar.gz
 
 BuildArch:     noarch
 BuildRequires: help2man
-# Test requires
+# Test build requires
 BuildRequires: php-common
-# Test requires: phpci
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test build requires: phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-pcre
@@ -89,5 +90,5 @@ sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
 
 
 %changelog
-* Sun Nov 18 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-1
+* Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-1
 - Initial package
