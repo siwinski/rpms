@@ -75,10 +75,7 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 
 %build
-# Man page
-cd %{pear_name}-%{version}
-chmod +x bin/doctrine-dbal
-help2man --no-info ./bin/doctrine-dbal > doctrine-dbal.1
+# Empty build section, nothing required
 
 
 %install
