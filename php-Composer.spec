@@ -8,7 +8,7 @@ Release:       0.1.%{prerelease}%{?dist}
 Summary:       Dependency Manager for PHP
 
 Group:         Development/Libraries
-License:       MIT or GPLv3
+License:       MIT
 URL:           http://getcomposer.org/
 Source0:       https://github.com/composer/composer/archive/%{version}-%{prerelease}.tar.gz
 #Source1:       http://getcomposer.org/download/1.0.0-alpha6/composer.phar
