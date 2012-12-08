@@ -10,6 +10,7 @@ Release:          1%{?dist}
 Summary:          PHP HTTP client library and framework for building RESTful web service clients
 
 Group:            Development/Libraries
+# License file request: https://github.com/guzzle/guzzle/issues/192
 License:          MIT
 URL:              http://guzzlephp.org
 Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
@@ -21,6 +22,7 @@ BuildRequires:    php-channel(%{pear_channel})
 Requires:         php-common >= 5.3.2
 Requires:         php-pear(PEAR)
 Requires:         php-channel(%{pear_channel})
+Requires:         php-pear(pear.symfony.com/EventDispatcher) >= 2.1.0
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 # phpci requires
@@ -55,9 +57,19 @@ batching for sending a large number of requests as efficiently as possible.
 * Use all of the code or only specific components
 * Plugins for caching, logging, OAuth, mocks, and more
 
+Optional dependencies:
+* Zend Framework
+* Doctrine
+* Monolog
+
 
 %prep
 %setup -q -c
+
+# Change role of README file from "data" to "doc"
+# https://github.com/guzzle/guzzle/issues/193
+sed '/README/s/role="data"/role="doc"/' -i package.xml
+
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
 
@@ -68,14 +80,14 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 %install
 cd %{pear_name}-%{version}
-%{__pear} install --nodeps --packagingroot $RPM_BUILD_ROOT %{name}.xml
+%{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
 
 # Clean up unnecessary files
 rm -rf %{buildroot}%{pear_metadir}/.??*
 
 # Install XML package description
-mkdir -p $RPM_BUILD_ROOT%{pear_xmldir}
-install -pm 644 %{name}.xml $RPM_BUILD_ROOT%{pear_xmldir}
+mkdir -p %{buildroot}%{pear_xmldir}
+install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
 %post
@@ -91,11 +103,12 @@ fi
 
 
 %files
+%doc %{pear_docdir}/%{pear_name}
 %{pear_xmldir}/%{name}.xml
 %{pear_datadir}/%{pear_name}
 %{pear_phpdir}/%{pear_name}
 
 
 %changelog
-* Thu Dec  6 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0.5-1
+* Sat Dec  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0.5-1
 - Initial package
