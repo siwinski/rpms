@@ -55,7 +55,8 @@ cp -rp src/%{lib_name} %{buildroot}%{_datadir}/php/
 
 
 %check
-phpunit --bootstrap=autoload.php -d include_path="src/:tests/:.:/usr/share/pear/" .
+phpunit --bootstrap=autoload.php \
+    -d include_path="src:tests:.:/usr/share/pear" .
 
 
 %files
@@ -64,7 +65,7 @@ phpunit --bootstrap=autoload.php -d include_path="src/:tests/:.:/usr/share/pear/
 
 
 %changelog
-* Wed Dec  5 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.2-1
+* Sat Dec  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.2-1
 - Updated to upstream version 1.2.2
 - Added php-ctype require
 - Added PSR-0 autoloader for tests
