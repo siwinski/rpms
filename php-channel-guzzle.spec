@@ -35,8 +35,8 @@ from this channel to be installed.
 
 
 %install
-mkdir -p $RPM_BUILD_ROOT%{pear_xmldir}
-install -pm 644 %{SOURCE0} $RPM_BUILD_ROOT%{pear_xmldir}/%{name}.xml
+mkdir -p %{buildroot}%{pear_xmldir}
+install -pm 644 %{SOURCE0} %{buildroot}%{pear_xmldir}/%{name}.xml
 
 
 %post
@@ -58,5 +58,5 @@ fi
 
 
 %changelog
-* Thu Dec  6 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3-1
+* Sat Dec  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3-1
 - Initial package (version matches channel REST version)
