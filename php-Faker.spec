@@ -1,9 +1,10 @@
-%global libname Faker
+%global libname     Faker
+%global php_min_ver 5.3.3
 
 Name:          php-%{libname}
 Version:       1.1.0
 Release:       1%{?dist}
-Summary:       Faker is a PHP library that generates fake data for you
+Summary:       A PHP library that generates fake data
 
 Group:         Development/Libraries
 License:       MIT
@@ -11,8 +12,17 @@ URL:           https://github.com/fzaninotto/%{libname}
 Source0:       %{url}/archive/v%{version}.tar.gz
 
 BuildArch:     noarch
+# Test build requires
+BuildRequires: php-common >= %{php_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test build requires: phpci
+Requires:      php-date
+Requires:      php-hash
+Requires:      php-pcre
+Requires:      php-reflection
+Requires:      php-spl
 
-Requires:      php-common >= 5.3.3
+Requires:      php-common >= %{php_min_ver}
 # phpci requires
 Requires:      php-date
 Requires:      php-hash
@@ -38,19 +48,6 @@ Faker is heavily inspired by Perl's Data::Faker
 # https://github.com/fzaninotto/Faker/pull/84
 find . -name '*.php' -executable | xargs chmod a-x
 
-# Update and move autoload
-sed "s#__DIR__ \. DIRECTORY_SEPARATOR#'%{_datadir}/php/'#" \
-    -i src/autoload.php
-mv src/autoload.php src/%{libname}/
-
-# Update and move tests' PHPUnit config
-sed -e 's#test/##' -e 's#src/#%{_datadir}/php/%{libname}/#' -i phpunit.xml.dist
-mv phpunit.xml.dist test/
-
-# Update tests' require
-sed "s#.*require.*autoload.php.*#require_once '%{libname}/autoload.php';#" \
-    -i test/*.php
-
 
 %build
 # Empty build section, nothing to build
@@ -60,17 +57,16 @@ sed "s#.*require.*autoload.php.*#require_once '%{libname}/autoload.php';#" \
 mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp src/%{libname} %{buildroot}%{_datadir}/php/
 
-mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
-cp -pr test/* %{buildroot}%{_datadir}/tests/%{name}/
+
+%check
+%{_bindir}/phpunit -d date.timezone="UTC" .
 
 
 %files
 %doc LICENSE CHANGELOG readme.md composer.json
 %{_datadir}/php/%{libname}
-%dir %{_datadir}/tests
-     %{_datadir}/tests/%{name}
 
 
 %changelog
-* Sun Dec  2 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
+* Sun Dec  9 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package
