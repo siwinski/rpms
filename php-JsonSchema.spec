@@ -72,13 +72,14 @@ cp -rp src/%{lib_name} %{buildroot}%{_datadir}/php/
 
 
 %files
-%doc LICENSE README.md docs composer.json
+%doc LICENSE README.md composer.json
 %{_datadir}/php/%{lib_name}
 
 
 %changelog
 * Sun Dec  9 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.2-2
 - Fixed failing Mock/Koji builds
+- Removed "docs" directory from %%doc
 
 * Sat Dec  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.2-1
 - Updated to upstream version 1.2.2
