@@ -1,4 +1,5 @@
-%global libname jsonlint
+%global libname     jsonlint
+%global php_min_ver 5.3.0
 
 Name:          php-%{libname}
 Version:       1.0.1
@@ -7,21 +8,39 @@ Summary:       JSON Lint for PHP
 
 Group:         Development/Libraries
 License:       MIT
-URL:           https://github.com/Seldaek
-Source0:       %{url}/%{libname}/archive/%{version}.tar.gz
+URL:           https://github.com/Seldaek/%{libname}
+Source0:       %{url}/archive/%{version}.tar.gz
 
 BuildArch:     noarch
+# Test build requires
+BuildRequires: php-common >= %{php_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test build requires: phpci
+BuildRequires: php-pcre
 
-Requires:      php-common >= 5.3.0
+Requires:      php-common >= %{php_min_ver}
 # phpci requires
 Requires:      php-pcre
 
 %description
 %{summary}.
 
+This library is a port of the JavaScript jsonlint
+(https://github.com/zaach/jsonlint) library.
+
 
 %prep
 %setup -q -n %{libname}-%{version}
+
+# Create PSR-0 autoloader for tests
+( cat <<'AUTOLOAD'
+<?php
+spl_autoload_register(function ($class) {
+    $src = str_replace('\\', '/', $class).'.php';
+    require_once $src;
+});
+AUTOLOAD
+) > autoload.php
 
 
 %build
@@ -33,6 +52,11 @@ mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp src/* %{buildroot}%{_datadir}/php/
 
 
+%check
+%{_bindir}/phpunit --bootstrap=autoload.php \
+    -d include_path="src:tests:.:/usr/share/pear" .
+
+
 %files
 %doc LICENSE README.mdown composer.json
 %dir %{_datadir}/php/Seld
@@ -40,5 +64,5 @@ cp -rp src/* %{buildroot}%{_datadir}/php/
 
 
 %changelog
-* Thu Nov 29 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.1-1
+* Mon Dec 10 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.1-1
 - Initial package
