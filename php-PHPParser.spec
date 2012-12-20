@@ -44,11 +44,17 @@ Requires:         php-xmlwriter
 Requires:         php-libxml
 %endif
 
-Provides:         php-pear(%{pear_channel}/%{pear_name}) = %{version}
-
 %description
-A PHP 5.4 (and older) parser written in PHP to simplify static analysis and
-code manipulation.
+A PHP parser written in PHP to simplify static analysis and code manipulation.
+
+
+%package test
+Summary:  Test suite for %{name}
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
+
+%description test
+%{summary}.
 
 
 %prep
@@ -65,6 +71,9 @@ sed -e 's:./lib/bootstrap.php:%{_datadir}/php/%{lib_name}/bootstrap.php:' \
     -e 's:./test/:./:' \
     -i phpunit.xml.dist
 mv phpunit.xml.dist test/
+
+# Remove executable bit from composer.json
+chmod a-x composer.json
 
 
 %build
@@ -90,9 +99,11 @@ ls
 
 %files
 %doc LICENSE *.md doc grammar composer.json
+%{_datadir}/php/%{lib_name}
+
+%files test
 %dir %{_datadir}/test
      %{_datadir}/test/%{name}
-%{_datadir}/php/%{lib_name}
 
 
 %changelog
