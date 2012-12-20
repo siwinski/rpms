@@ -90,7 +90,7 @@ cp -rp test/* %{buildroot}%{_datadir}/test/%{name}/
 
 %check
 %{_bindir}/phpunit \
-    --bootstrap= lib/%{lib_name}/bootstrap.php \
+    --bootstrap=lib/%{lib_name}/bootstrap.php \
     -c test/phpunit.xml.dist \
     -d include_path="./lib:./test:.:/usr/share/pear"
 
