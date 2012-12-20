@@ -89,8 +89,6 @@ cp -rp test/* %{buildroot}%{_datadir}/test/%{name}/
 
 
 %check
-pwd
-ls
 %{_bindir}/phpunit \
     --bootstrap= lib/%{lib_name}/bootstrap.php \
     -c test/phpunit.xml.dist \
