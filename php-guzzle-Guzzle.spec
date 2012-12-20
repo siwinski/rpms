@@ -5,7 +5,7 @@
 %global pear_name    %(echo %{name} | sed -e 's/^php-guzzle-//' -e 's/-/_/g')
 
 Name:             php-guzzle-Guzzle
-Version:          3.0.5
+Version:          3.0.6
 Release:          1%{?dist}
 Summary:          PHP HTTP client library and framework for building RESTful web service clients
 
@@ -110,5 +110,8 @@ fi
 
 
 %changelog
+* Sun Dec 16 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0.6-1
+- Updated to upstream version 3.0.6
+
 * Sat Dec  8 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0.5-1
 - Initial package
