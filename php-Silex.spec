@@ -30,15 +30,14 @@ Summary:       The PHP micro-framework based on the Symfony2 Components
 Group:         Development/Libraries
 License:       MIT
 URL:           http://silex.sensiolabs.org
-# NOTE: No tagged version release
 Source0:       https://github.com/fabpot/%{libname}/archive/%{git_hash}.tar.gz
 
 BuildArch:     noarch
 # Test requires
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: php-Monolog >= %{monolog_min_ver}
 #BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: php-pear(pear.swiftmailer.org/Swift) >= %{swift_min_ver}
 BuildRequires: php-pear(pear.symfony.com/BrowserKit) >= %{symfony_min_ver}
 BuildRequires: php-pear(pear.symfony.com/Config) >= %{symfony_min_ver}
@@ -86,8 +85,8 @@ Requires:      php-session
 Requires:      php-tokenizer
 
 # Conflicts used for max require versions
-#Conflicts:     php-Monolog <  %{monolog_max_ver}
-#Conflicts:     php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_max_ver}
+#Conflicts:     php-Monolog < %{monolog_max_ver}
+#Conflicts:     php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_max_ver}
 Conflicts:     php-pear(pear.swiftmailer.org/Swift) >= %{swift_max_ver}
 Conflicts:     php-pear(pear.symfony.com/BrowserKit) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Config) >= %{symfony_max_ver}
@@ -97,10 +96,10 @@ Conflicts:     php-pear(pear.symfony.com/DomCrawler) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/EventDispatcher) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Finder) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Form) >= %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/HttpFoundation) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/HttpFoundation) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/HttpKernel) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Locale) >= %{symfony_max_ver}
-#Conflicts:     php-pear(pear.symfony.com/MonologBridge) >=  %{symfony_max_ver}
+#Conflicts:     php-pear(pear.symfony.com/MonologBridge) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Process) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Routing) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Security) >= %{symfony_max_ver}
@@ -113,7 +112,7 @@ Conflicts:     php-Pimple >= %{pimple_max_ver}
 
 
 %description
-Silex is a PHP micro-framework for PHP. It is built on the shoulders of Symfony2
+Silex is a micro-framework for PHP. It is built on the shoulders of Symfony2
 and Pimple and also inspired by Sinatra (http://www.sinatrarb.com/).
 
 A micro-framework provides the guts for building simple single-file apps. Silex
