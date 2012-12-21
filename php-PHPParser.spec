@@ -16,18 +16,18 @@ Source0:          %{url}/archive/v%{version}.tar.gz
 
 BuildArch:        noarch
 # Test build requires
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+BuildRequires:    php-pear(pear.phpunit.de/PHPUnit)
 # Test build requires: phpci
-BuildRequires: php-ctype
-BuildRequires: php-pcre
-BuildRequires: php-spl
-BuildRequires: php-tokenizer
+BuildRequires:    php-ctype
+BuildRequires:    php-pcre
+BuildRequires:    php-spl
+BuildRequires:    php-tokenizer
 %if 0%{?fedora}
-BuildRequires: php-filter
-BuildRequires: php-xmlreader
-BuildRequires: php-xmlwriter
+BuildRequires:    php-filter
+BuildRequires:    php-xmlreader
+BuildRequires:    php-xmlwriter
 %else
-BuildRequires: php-libxml
+BuildRequires:    php-libxml
 %endif
 
 Requires:         php(language)
@@ -61,7 +61,7 @@ Requires: %{name} = %{version}-%{release}
 %setup -q -n %{github_name}-%{version}
 
 # Update and move bootstrap
-sed "s:dirname(__FILE__) . '/PHPParser:'%{lib_name}:" \
+sed "/require/s:/PHPParser::" \
     -i lib/bootstrap.php
 mv lib/bootstrap.php lib/%{lib_name}/
 
@@ -73,6 +73,7 @@ sed -e 's:./lib/bootstrap.php:%{_datadir}/php/%{lib_name}/bootstrap.php:' \
 mv phpunit.xml.dist test/
 
 # Remove executable bit from composer.json
+# https://github.com/nikic/PHP-Parser/pull/46
 chmod a-x composer.json
 
 
@@ -84,8 +85,8 @@ chmod a-x composer.json
 mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp lib/%{lib_name} %{buildroot}%{_datadir}/php/
 
-mkdir -p -m 755 %{buildroot}%{_datadir}/test/%{name}
-cp -rp test/* %{buildroot}%{_datadir}/test/%{name}/
+mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
+cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %check
@@ -100,10 +101,10 @@ cp -rp test/* %{buildroot}%{_datadir}/test/%{name}/
 %{_datadir}/php/%{lib_name}
 
 %files test
-%dir %{_datadir}/test
-     %{_datadir}/test/%{name}
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}
 
 
 %changelog
-* Wed Dec 19 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.9.3-1
+* Thu Dec 20 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.9.3-1
 - Initial package
