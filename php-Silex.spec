@@ -36,53 +36,31 @@ Source0:       https://github.com/fabpot/%{libname}/archive/%{git_hash}.tar.gz
 BuildArch:     noarch
 # Test requires
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires:      php-common >= %{php_min_ver}
-#BuildRequires:      php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_min_ver}
-#BuildRequires:      php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_max_ver}
+BuildRequires: php-common >= %{php_min_ver}
+BuildRequires: php-Monolog >= %{monolog_min_ver}
+#BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_min_ver}
 BuildRequires: php-pear(pear.swiftmailer.org/Swift) >= %{swift_min_ver}
-BuildRequires: php-pear(pear.swiftmailer.org/Swift) <  %{swift_max_ver}
 BuildRequires: php-pear(pear.symfony.com/BrowserKit) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/BrowserKit) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Config) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Config) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/CssSelector) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/CssSelector) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/DomCrawler) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/DomCrawler) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/EventDispatcher) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/EventDispatcher) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Finder) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Finder) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Form) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Form) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/HttpFoundation) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/HttpFoundation) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/HttpKernel) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/HttpKernel) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Locale) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Locale) <  %{symfony_max_ver}
 #BuildRequires: php-pear(pear.symfony.com/MonologBridge) >= %{symfony_min_ver}
-#BuildRequires: php-pear(pear.symfony.com/MonologBridge) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Process) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Process) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Routing) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Routing) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Security) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Security) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Serializer) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Serializer) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Translation) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Translation) <  %{symfony_max_ver}
 #BuildRequires: php-pear(pear.symfony.com/TwigBridge) >= %{symfony_min_ver}
-#BuildRequires: php-pear(pear.symfony.com/TwigBridge) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.symfony.com/Validator) >= %{symfony_min_ver}
 BuildRequires: php-pear(pear.symfony.com/Validator) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.twig-project.org/Twig) >= %{twig_min_ver}
-BuildRequires: php-pear(pear.twig-project.org/Twig) <  %{twig_max_ver}
-BuildRequires: php-Monolog >= %{monolog_min_ver}
-#BuildRequires: php-Monolog <  %{monolog_max_ver}
 BuildRequires: php-Pimple >= %{pimple_min_ver}
-BuildRequires: php-Pimple <  %{pimple_max_ver}
 # Test requires: phpci
 BuildRequires: php-date
 BuildRequires: php-pcre
@@ -93,21 +71,13 @@ BuildRequires: php-tokenizer
 
 Requires:      php-common >= %{php_min_ver}
 Requires:      php-pear(pear.symfony.com/BrowserKit) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/BrowserKit) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/CssSelector) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/CssSelector) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/DomCrawler) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/DomCrawler) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/EventDispatcher) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/EventDispatcher) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/HttpFoundation) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/HttpFoundation) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/HttpKernel) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/HttpKernel) <  %{symfony_max_ver}
 Requires:      php-pear(pear.symfony.com/Routing) >= %{symfony_min_ver}
-Requires:      php-pear(pear.symfony.com/Routing) <  %{symfony_max_ver}
 Requires:      php-Pimple >= %{pimple_min_ver}
-Requires:      php-Pimple <  %{pimple_max_ver}
 # phpci requires
 Requires:      php-date
 Requires:      php-pcre
@@ -116,9 +86,35 @@ Requires:      php-reflection
 Requires:      php-session
 Requires:      php-tokenizer
 
+# Conflicts used for max require versions
+#Conflicts:     php-Monolog <  %{monolog_max_ver}
+#Conflicts:     php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_max_ver}
+Conflicts:     php-pear(pear.swiftmailer.org/Swift) >=  %{swift_max_ver}
+Conflicts:     php-pear(pear.symfony.com/BrowserKit) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Config) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/CssSelector) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/DomCrawler) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/DomCrawler) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/EventDispatcher) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Finder) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Form) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/HttpFoundation) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/HttpKernel) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Locale) >=  %{symfony_max_ver}
+#Conflicts:     php-pear(pear.symfony.com/MonologBridge) <  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Process) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Routing) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Security) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Serializer) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Translation) >=  %{symfony_max_ver}
+#Conflicts:     php-pear(pear.symfony.com/TwigBridge) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.twig-project.org/Twig) >=  %{twig_max_ver}
+Conflicts:     php-Pimple >=  %{pimple_max_ver}
+
+
 %description
-Silex is a PHP micro-framework for PHP 5.3. It is built on the shoulders of
-Symfony2 and Pimple and also inspired by Sinatra (http://www.sinatrarb.com/).
+Silex is a PHP micro-framework for PHP. It is built on the shoulders of Symfony2
+and Pimple and also inspired by Sinatra (http://www.sinatrarb.com/).
 
 A micro-framework provides the guts for building simple single-file apps. Silex
 aims to be:
@@ -160,5 +156,5 @@ cp -pr tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Fri Nov 30 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.1.20121130git5cfa54fce1
+* Thu Dec 20 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.1.20121130git5cfa54fce1
 - Initial package
