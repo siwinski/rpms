@@ -35,8 +35,8 @@ Source0:       https://github.com/fabpot/%{libname}/archive/%{git_hash}.tar.gz
 
 BuildArch:     noarch
 # Test requires
+BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-Monolog >= %{monolog_min_ver}
 #BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_min_ver}
 BuildRequires: php-pear(pear.swiftmailer.org/Swift) >= %{swift_min_ver}
@@ -68,7 +68,7 @@ BuildRequires: php-reflection
 BuildRequires: php-session
 BuildRequires: php-tokenizer
 
-Requires:      php-common >= %{php_min_ver}
+Requires:      php(language) >= %{php_min_ver}
 Requires:      php-pear(pear.symfony.com/BrowserKit) >= %{symfony_min_ver}
 Requires:      php-pear(pear.symfony.com/CssSelector) >= %{symfony_min_ver}
 Requires:      php-pear(pear.symfony.com/DomCrawler) >= %{symfony_min_ver}
@@ -88,28 +88,28 @@ Requires:      php-tokenizer
 # Conflicts used for max require versions
 #Conflicts:     php-Monolog <  %{monolog_max_ver}
 #Conflicts:     php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_max_ver}
-Conflicts:     php-pear(pear.swiftmailer.org/Swift) >=  %{swift_max_ver}
-Conflicts:     php-pear(pear.symfony.com/BrowserKit) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Config) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/CssSelector) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/DomCrawler) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/DomCrawler) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/EventDispatcher) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Finder) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Form) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.swiftmailer.org/Swift) >= %{swift_max_ver}
+Conflicts:     php-pear(pear.symfony.com/BrowserKit) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Config) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/CssSelector) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/DomCrawler) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/DomCrawler) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/EventDispatcher) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Finder) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Form) >= %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/HttpFoundation) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/HttpKernel) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Locale) >=  %{symfony_max_ver}
-#Conflicts:     php-pear(pear.symfony.com/MonologBridge) <  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Process) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Routing) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Security) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Serializer) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Translation) >=  %{symfony_max_ver}
-#Conflicts:     php-pear(pear.symfony.com/TwigBridge) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.symfony.com/Validator) >=  %{symfony_max_ver}
-Conflicts:     php-pear(pear.twig-project.org/Twig) >=  %{twig_max_ver}
-Conflicts:     php-Pimple >=  %{pimple_max_ver}
+Conflicts:     php-pear(pear.symfony.com/HttpKernel) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Locale) >= %{symfony_max_ver}
+#Conflicts:     php-pear(pear.symfony.com/MonologBridge) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Process) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Routing) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Security) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Serializer) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Translation) >= %{symfony_max_ver}
+#Conflicts:     php-pear(pear.symfony.com/TwigBridge) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Validator) >= %{symfony_max_ver}
+Conflicts:     php-pear(pear.twig-project.org/Twig) >= %{twig_max_ver}
+Conflicts:     php-Pimple >= %{pimple_max_ver}
 
 
 %description
