@@ -58,7 +58,6 @@ BuildRequires: php-pear(pear.symfony.com/Serializer) >= %{symfony_min_ver}
 BuildRequires: php-pear(pear.symfony.com/Translation) >= %{symfony_min_ver}
 #BuildRequires: php-pear(pear.symfony.com/TwigBridge) >= %{symfony_min_ver}
 BuildRequires: php-pear(pear.symfony.com/Validator) >= %{symfony_min_ver}
-BuildRequires: php-pear(pear.symfony.com/Validator) <  %{symfony_max_ver}
 BuildRequires: php-pear(pear.twig-project.org/Twig) >= %{twig_min_ver}
 BuildRequires: php-Pimple >= %{pimple_min_ver}
 # Test requires: phpci
@@ -108,6 +107,7 @@ Conflicts:     php-pear(pear.symfony.com/Security) >=  %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Serializer) >=  %{symfony_max_ver}
 Conflicts:     php-pear(pear.symfony.com/Translation) >=  %{symfony_max_ver}
 #Conflicts:     php-pear(pear.symfony.com/TwigBridge) >=  %{symfony_max_ver}
+Conflicts:     php-pear(pear.symfony.com/Validator) >=  %{symfony_max_ver}
 Conflicts:     php-pear(pear.twig-project.org/Twig) >=  %{twig_max_ver}
 Conflicts:     php-Pimple >=  %{pimple_max_ver}
 
@@ -124,6 +124,15 @@ service-container that makes it even easier to tie in third party libraries.
 * Testable: Silex uses Symfony2's HttpKernel which abstracts request and
 response. This makes it very easy to test apps and the framework itself. It
 also respects the HTTP specification and encourages its proper use.
+
+
+%package test
+Summary:  Test suite for %{name}
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
+
+%description test
+%{summary}.
 
 
 %prep
@@ -151,6 +160,9 @@ cp -pr tests/* %{buildroot}%{_datadir}/tests/%{name}/
 %files
 %doc LICENSE README.md composer.json doc
 %{_datadir}/php/%{libname}
+
+
+%files test
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}
 
