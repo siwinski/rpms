@@ -2,7 +2,7 @@
 %global php_min_ver 5.3.0
 
 Name:          php-%{libname}
-Version:       1.0.1
+Version:       1.1.0
 Release:       1%{?dist}
 Summary:       JSON Lint for PHP
 
@@ -64,5 +64,5 @@ cp -rp src/* %{buildroot}%{_datadir}/php/
 
 
 %changelog
-* Mon Dec 10 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.1-1
+* Sun Dec 30 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package
