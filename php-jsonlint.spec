@@ -48,8 +48,8 @@ AUTOLOAD
 
 
 %install
-mkdir -p -m 755 %{buildroot}%{_datadir}/php
-cp -rp src/* %{buildroot}%{_datadir}/php/
+mkdir -p -m 755 %{buildroot}%{_datadir}/php/Seld
+cp -rp src/Seld/JsonLint %{buildroot}%{_datadir}/php/Seld/
 
 
 %check
@@ -64,5 +64,5 @@ cp -rp src/* %{buildroot}%{_datadir}/php/
 
 
 %changelog
-* Sun Dec 30 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
+* Mon Jan  7 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package
