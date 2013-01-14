@@ -106,7 +106,7 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %files
-%doc LICENSE README.md composer.json doc
+%doc LICENSE README.md composer.json
 %{_datadir}/php/%{lib_name}
 
 %files tests
