@@ -87,7 +87,7 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 %check
 %{_bindir}/phpunit \
-    -d include_path="./src:./tests:.:/usr/share/pear" \
+    -d include_path="./src:./tests:.:%{pear_phpdir}" \
     -c tests/phpunit.xml.dist
 
 
