@@ -11,7 +11,7 @@ Summary:       A library for easily creating recursive-descent parsers
 
 Group:         Development/Libraries
 License:       ASL 2.0
-URL:           http://jmsyst.com/libs/parser-lib
+URL:           http://jmsyst.com/libs/%{github_name}
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
