@@ -1,19 +1,20 @@
-%global github_owner  schmittjoh
-%global github_name   php-option
-%global github_commit b9c60ebf8242cf409d8734b6a757ba0ce1691493
+%global github_owner   schmittjoh
+%global github_name    php-option
+%global github_version 1.0.0
+%global github_commit  b9c60ebf8242cf409d8734b6a757ba0ce1691493
 
-%global lib_name      PhpOption
-%global php_min_ver   5.3.0
+%global lib_name       PhpOption
+%global php_min_ver    5.3.0
 
 Name:          php-%{lib_name}
-Version:       1.0.0
+Version:       %{github_version}
 Release:       1%{?dist}
-Summary:       Option Type for PHP
+Summary:       Option type for PHP
 
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           https://github.com/%{github_owner}/%{github_name}
-Source0:       %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
@@ -101,5 +102,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
