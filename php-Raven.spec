@@ -1,15 +1,18 @@
-%global github_owner  getsentry
-%global github_name   raven-php
-%global github_commit 7c13662b139dca970b551387d1f713d809b6d92e
+%global github_owner   getsentry
+%global github_name    raven-php
+%global github_version 0.3.1
+%global github_commit  60e91aca7f96f2ffd15db15ff779b32d42deecad
+%global github_date    20130117
 
-%global lib_name      Raven
-# composer.json lists minimum version as 5.2.4, but constants E_DEPRECATED and
-# E_USER_DEPRECATED in "lib/Raven/Client.php" make the minimum 5.3.0
-%global php_min_ver   5.3.0
+%global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7}) 
+
+%global lib_name       Raven
+
+%global php_min_ver    5.2.4
 
 Name:          php-Raven
-Version:       0.3.1
-Release:       1%{?dist}
+Version:       %{github_version}
+Release:       1.%{github_release}%{?dist}
 Summary:       A PHP client for Sentry
 
 Group:         Development/Libraries
@@ -20,8 +23,19 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_commi
 BuildArch:     noarch
 # Test build requires
 BuildRequires: php-common >= %{php_min_ver}
-# composer.json lists PHPUnit version 3.7, but tests pass with 3.6
+# composer.json lists PHPUnit version 3.7, but tests pass with 3.6+
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test build requires: phpci
+Requires:      php-curl
+Requires:      php-date
+Requires:      php-hash
+Requires:      php-mbstring
+Requires:      php-pcre
+Requires:      php-reflection
+Requires:      php-session
+Requires:      php-sockets
+Requires:      php-spl
+Requires:      php-zlib
 
 Requires:      php-common >= %{php_min_ver}
 # phpci requires
@@ -52,19 +66,16 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
+# Update autoloader require in bin and test bootstrap
+sed "/require.*Autoloader/s:.*:require_once 'Raven/Autoloader.php';:" \
+    -i bin/raven \
+    -i test/bootstrap.php
+
 # Update and move PHPUnit config
 sed -e 's:test/::' \
     -e 's:./lib:%{_datadir}/php:' \
     -i phpunit.xml.dist
 mv phpunit.xml.dist test/
-
-# Update autoloader require in test bootstrap
-sed "/require.*Autoloader/s:.*:require_once 'Raven/Autoloader.php';:" \
-    -i test/bootstrap.php
-
-# Remove executable bit
-# TODO: GitHub pull request
-chmod a-x lib/%{lib_name}/Stacktrace.php
 
 
 %build
@@ -74,6 +85,9 @@ chmod a-x lib/%{lib_name}/Stacktrace.php
 %install
 mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp lib/%{lib_name} %{buildroot}%{_datadir}/php/
+
+mkdir -p -m 755 %{buildroot}%{_bindir}
+install bin/raven %{buildroot}%{_bindir}/
 
 mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
 cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
@@ -88,6 +102,7 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 %files
 %doc LICENSE AUTHORS README.rst composer.json
 %{_datadir}/php/%{lib_name}
+%{_bindir}/raven
 
 %files test
 %dir %{_datadir}/tests
@@ -95,5 +110,5 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Fri Jan 11 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.1-1
+* Thu Jan 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.1-1.20130117git60e91ac
 - Initial package
