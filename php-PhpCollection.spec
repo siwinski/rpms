@@ -1,33 +1,37 @@
-%global github_owner  schmittjoh
-%global github_name   php-collection
-%global github_commit 360a888f246773e660fce0d175cf62e41f50dd22
+%global github_owner      schmittjoh
+%global github_name       php-collection
+%global github_version    0.1.0
+%global github_commit     360a888f246773e660fce0d175cf62e41f50dd22
 
-%global lib_name      PhpCollection
-%global php_min_ver   5.3.0
+%global lib_name          PhpCollection
+
+%global php_min_ver       5.3.0
+%global phpoption_min_ver 1.0
 
 Name:          php-%{lib_name}
-Version:       0.1.0
+Version:       %{github_version}
 Release:       1%{?dist}
-Summary:       General Purpose Collection Library for PHP
+Summary:       General purpose collection library for PHP
 
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           http://jmsyst.com/libs/%{github_name}
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
 BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires: php-PhpOption
+BuildRequires: php-PhpOption >= %{phpoption_min_ver}
 # Test build requires:phpci
 BuildRequires: php-spl
 
 Requires:      php-common >= %{php_min_ver}
-Requires:      php-PhpOption >= 1.0
-Conflicts:     php-PhpOption >= 2.0
+Requires:      php-PhpOption >= %{phpoption_min_ver}
 # phpci requires
 Requires:      php-spl
+
+Conflicts:     php-PhpOption >= 2.0
 
 %description
 This library adds basic collections for PHP.
@@ -115,5 +119,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.0-1
+* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.0-1
 - Initial package
