@@ -1,19 +1,20 @@
-%global github_owner  schmittjoh
-%global github_name   metadata
-%global github_commit 84088bc4f6e2387ec8b549bffc1e037107572f5a
+%global github_owner   schmittjoh
+%global github_name    metadata
+%global github_version 1.1.1
+%global github_commit  84088bc4f6e2387ec8b549bffc1e037107572f5a
 
-%global lib_name      Metadata
-%global php_min_ver   5.3.0
+%global lib_name       Metadata
+%global php_min_ver    5.3.0
 
 Name:          php-%{lib_name}
-Version:       1.1.1
+Version:       %{github_version}
 Release:       1%{?dist}
 Summary:       Class/method/property metadata management in PHP
 
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           https://github.com/%{github_owner}/%{github_name}
-Source0:       %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
@@ -24,7 +25,6 @@ BuildRequires: php-date
 BuildRequires: php-spl
 
 Requires:      php-common >= %{php_min_ver}
-# Metadata/Driver/LazyLoadingDriver.php
 Requires:      php-pear(pear.symfony.com/DependencyInjection)
 # phpci requires
 Requires:      php-date
@@ -95,5 +95,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.1-1
+* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.1-1
 - Initial package
