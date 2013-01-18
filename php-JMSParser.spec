@@ -1,14 +1,13 @@
 %global github_owner  schmittjoh
-%global github_name   php-collection
-%global github_commit 360a888f246773e660fce0d175cf62e41f50dd22
+%global github_name   parser-lib
+%global github_commit c509473bc1b4866415627af0e1c6cc8ac97fa51d
 
-%global lib_name      PhpCollection
 %global php_min_ver   5.3.0
 
-Name:          php-%{lib_name}
-Version:       0.1.0
+Name:          php-JMSParser
+Version:       1.0.0
 Release:       1%{?dist}
-Summary:       General Purpose Collection Library for PHP
+Summary:       A library for easily creating recursive-descent parsers
 
 Group:         Development/Libraries
 License:       ASL 2.0
@@ -19,44 +18,20 @@ BuildArch:     noarch
 # Test build requires
 BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires: php-PhpOption
-# Test build requires:phpci
-BuildRequires: php-spl
+# Test build requires: phpci
+BuildRequires: php-json
+BuildRequires: php-pcre
+BuildRequires: php-tokenizer
 
 Requires:      php-common >= %{php_min_ver}
-Requires:      php-PhpOption >= 1.0
+Requires:      php-PhpOption >= 0.9
 Conflicts:     php-PhpOption >= 2.0
 # phpci requires
-Requires:      php-spl
+Requires:      php-json
+Requires:      php-pcre
 
 %description
-This library adds basic collections for PHP.
-
-Collections can be seen as more specialized arrays for which certain contracts
-are guaranteed.
-
-Supported Collections:
-* Sequences
-** Keys: numerical, consequentially increasing, no gaps
-** Values: anything, duplicates allowed
-** Classes: Sequence, SortedSequence
-* Maps
-** Keys: strings or objects, duplicate keys not allowed
-** Values: anything, duplicates allowed
-** Classes: Map, ObjectMap (not yet implemented)
-* Sets (not yet implemented)
-** Keys: not meaningful
-** Values: anything, each value must be unique (===)
-** Classes: Set
-
-General Characteristics:
-* Collections are mutable (new elements may be added, existing elements may be
-  modified or removed). Specialized immutable versions may be added in the
-  future though.
-* Equality comparison between elements are always performed using the shallow
-  comparison operator (===).
-* Sorting algorithms are unstable, that means the order for equal elements is
-  undefined (the default, and only PHP behavior).
+%{summary}.
 
 
 %package tests
@@ -92,8 +67,8 @@ AUTOLOAD
 
 
 %install
-mkdir -p -m 755 %{buildroot}%{_datadir}/php
-cp -rp src/%{lib_name} %{buildroot}%{_datadir}/php/
+mkdir -p -m 755 %{buildroot}%{_datadir}/php/JMS
+cp -rp src/JMS/Parser %{buildroot}%{_datadir}/php/JMS/
 
 mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
 cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
@@ -107,7 +82,8 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 %files
 %doc LICENSE README.md composer.json
-%{_datadir}/php/%{lib_name}
+%dir %{_datadir}/php/JMS
+     %{_datadir}/php/JMS/Parser
 
 %files tests
 %dir %{_datadir}/tests
@@ -115,5 +91,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.0-1
+* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
