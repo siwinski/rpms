@@ -8,6 +8,7 @@
 
 %global lib_name       Raven
 
+# phpci finds PHP min version 5.3.0, but those items are conditional in code
 %global php_min_ver    5.2.4
 
 Name:          php-Raven
@@ -54,12 +55,12 @@ Requires:      php-zlib
 %{summary} (http://getsentry.com).
 
 
-%package test
+%package tests
 Summary:  Test suite for %{name}
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 
-%description test
+%description tests
 %{summary}.
 
 
@@ -104,11 +105,11 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 %{_datadir}/php/%{lib_name}
 %{_bindir}/raven
 
-%files test
+%files tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}
 
 
 %changelog
-* Thu Jan 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.1-1.20130117git60e91ac
+* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.1-1.20130117git60e91ac
 - Initial package
