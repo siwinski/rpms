@@ -1,18 +1,19 @@
-%global github_owner  schmittjoh
-%global github_name   parser-lib
-%global github_commit c509473bc1b4866415627af0e1c6cc8ac97fa51d
+%global github_owner   schmittjoh
+%global github_name    parser-lib
+%global github_version 1.0.0
+%global github_commit  c509473bc1b4866415627af0e1c6cc8ac97fa51d
 
-%global php_min_ver   5.3.0
+%global php_min_ver    5.3.0
 
 Name:          php-JMSParser
-Version:       1.0.0
+Version:       %{github_version}
 Release:       1%{?dist}
-Summary:       A library for easily creating recursive-descent parsers
+Summary:       Library for writing recursive-descent parsers
 
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           http://jmsyst.com/libs/%{github_name}
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
@@ -25,10 +26,11 @@ BuildRequires: php-tokenizer
 
 Requires:      php-common >= %{php_min_ver}
 Requires:      php-PhpOption >= 0.9
-Conflicts:     php-PhpOption >= 2.0
 # phpci requires
 Requires:      php-json
 Requires:      php-pcre
+
+Conflicts:     php-PhpOption >= 2.0
 
 %description
 %{summary}.
@@ -91,5 +93,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Mon Jan 14 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
