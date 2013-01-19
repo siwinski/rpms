@@ -11,7 +11,7 @@
 # phpci finds PHP min version 5.3.0, but those items are conditional in code
 %global php_min_ver    5.2.4
 
-Name:          php-Raven
+Name:          php-%{lib_name}
 Version:       %{github_version}
 Release:       1.%{github_release}%{?dist}
 Summary:       A PHP client for Sentry
