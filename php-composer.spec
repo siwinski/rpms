@@ -68,7 +68,7 @@ Requires:      php-xsl
 Requires:      php-zip
 Requires:      php-zlib
 
-Conflicts:     php-JsonSchema >= 1.2.0
+#Conflicts:     php-JsonSchema >= 1.2.0
 Conflicts:     php-jsonlint >= 2.0
 Conflicts:     php-pear(pear.symfony.com/Console) >= 3.0.0
 Conflicts:     php-pear(pear.symfony.com/Finder) >= 3.0.0
@@ -96,8 +96,13 @@ Requires: %{name} = %{version}-%{release}
 
 mv src/bootstrap.php src/Composer/
 
+#
+sed -e 's:/usr/bin/env php:%{__php}:' \
+    -e "/require.*bootstrap/s:.*:require 'Composer/bootstrap.php';:" \
+    -i bin/composer
+
 # Update and move PHPUnit config
-sed -e 's:(\./)?tests/:./:' \
+sed -e 's:\(\./\)\?tests/:./:' \
     -e 's:./src:%{_datadir}/php:' \
     -i phpunit.xml.dist
 mv phpunit.xml.dist tests/
@@ -106,6 +111,10 @@ mv phpunit.xml.dist tests/
 sed -e 's:tests/::' \
     -e 's:../src:%{_datadir}/php:' \
     -i tests/complete.phpunit.xml
+
+#
+sed "/require.*bootstrap/s:require.*:require 'Composer/bootstrap.php';:" \
+    -i tests/bootstrap.php
 
 
 %build
