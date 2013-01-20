@@ -58,14 +58,22 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
-# Update and move PHPUnit config
-sed 's:tests/::' -i phpunit.xml.dist
+# PHPUnit config
+sed 's:\(\./\)\?tests/:./:' -i phpunit.xml.dist
 mv phpunit.xml.dist tests/
 
-# Overwrite tests/bootstrap.php (which uses Composer autoloader) with simple
-# spl autoloader
+# Rewrite tests' bootstrap (which uses Composer autoloader) with simple
+# SPL autoloader
+mv tests/bootstrap.php tests/bootstrap.php.dist
 ( cat <<'AUTOLOAD'
 <?php
+
+/**
+ * This file has been rewritten by RPM packaging to use an SPL autoloader that
+ * relies on PHP's include path.  The originally distrubuted file (which can be
+ * found at bootstrap.php.dist) relies on Composer's autoloader.
+ */
+
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', $class).'.php';
     @include_once $src;
@@ -102,5 +110,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Sat Jan 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
