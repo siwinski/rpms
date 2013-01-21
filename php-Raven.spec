@@ -27,16 +27,16 @@ BuildRequires: php-common >= %{php_min_ver}
 # composer.json lists PHPUnit version 3.7, but tests pass with 3.6+
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 # Test build requires: phpci
-Requires:      php-curl
-Requires:      php-date
-Requires:      php-hash
-Requires:      php-mbstring
-Requires:      php-pcre
-Requires:      php-reflection
-Requires:      php-session
-Requires:      php-sockets
-Requires:      php-spl
-Requires:      php-zlib
+BuildRequires: php-curl
+BuildRequires: php-date
+BuildRequires: php-hash
+BuildRequires: php-mbstring
+BuildRequires: php-pcre
+BuildRequires: php-reflection
+BuildRequires: php-session
+BuildRequires: php-sockets
+BuildRequires: php-spl
+BuildRequires: php-zlib
 
 Requires:      php-common >= %{php_min_ver}
 # phpci requires
