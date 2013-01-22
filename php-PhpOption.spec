@@ -1,7 +1,7 @@
 %global github_owner   schmittjoh
 %global github_name    php-option
-%global github_version 1.0.0
-%global github_commit  b9c60ebf8242cf409d8734b6a757ba0ce1691493
+%global github_version 1.1.0
+%global github_commit  617bd84bf0d918da79b06ac6765b5390b83b1321
 
 %global lib_name       PhpOption
 %global php_min_ver    5.3.0
@@ -20,9 +20,12 @@ BuildArch:     noarch
 # Test build requires
 BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+# Test build requires: phpci
+BuildRequires: php-spl
 
 Requires:      php-common >= %{php_min_ver}
-# No phpci requires
+# phpci requires
+Requires:      php-spl
 
 %description
 This package adds an Option type for PHP.
@@ -33,8 +36,8 @@ depending on arguments, or other runtime factors.
 
 Often times, you forget to handle the case where no value is returned. Not
 intentionally of course, but maybe you did not account for all possible states
-of the sytem; or maybe you indeed covered all cases, then time goes on, code is
-refactored, some of these your checks might become invalid, or incomplete.
+of the system; or maybe you indeed covered all cases, then time goes on, code
+is refactored, some of these your checks might become invalid, or incomplete.
 Suddenly, without noticing, the no value case is not handled anymore. As a
 result, you might sometimes get fatal PHP errors telling you that you called a
 method on a non-object; users might see blank pages, or worse.
@@ -63,19 +66,12 @@ sed 's:\(\./\)\?tests/:./:' -i phpunit.xml.dist
 mv phpunit.xml.dist tests/
 
 # Rewrite tests' bootstrap (which uses Composer autoloader) with simple
-# SPL autoloader
+# autoloader that uses include path
 mv tests/bootstrap.php tests/bootstrap.php.dist
 ( cat <<'AUTOLOAD'
 <?php
-
-/**
- * This file has been rewritten by RPM packaging to use an SPL autoloader that
- * relies on PHP's include path.  The originally distrubuted file (which can be
- * found at bootstrap.php.dist) relies on Composer's autoloader.
- */
-
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
+    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
 AUTOLOAD
@@ -110,5 +106,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Sat Jan 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Tue Jan 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-1
 - Initial package
