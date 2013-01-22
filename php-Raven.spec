@@ -14,7 +14,7 @@ Release:       1%{?dist}
 Summary:       A PHP client for Sentry
 
 Group:         Development/Libraries
-License:       ASL 2.0
+License:       BSD
 URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
 
