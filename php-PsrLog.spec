@@ -5,18 +5,19 @@
 
 Name:      php-PsrLog
 Version:   %{github_version}
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Common interface for logging libraries
 
 Group:     Development/Libraries
 License:   MIT
-URL:       https://github.com/%{github_owner}/%{github_name}
-Source0:   %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+URL:       http://www.php-fig.org
+Source0:   https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch: noarch
 
 Requires:  php-common >= 5.3.0
 # phpci requires
+Requires:  php-date
 Requires:  php-spl
 
 %description
@@ -47,5 +48,9 @@ cp -rp Psr/Log %{buildroot}%{_datadir}/php/Psr/
 
 
 %changelog
-* Tue Jan 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Tue Jan 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-2
+- Updated URL
+- Added php-date require
+
+* Thu Jan 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
