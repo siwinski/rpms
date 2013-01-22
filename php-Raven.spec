@@ -1,10 +1,7 @@
 %global github_owner   getsentry
 %global github_name    raven-php
-%global github_version 0.3.1
-%global github_commit  60e91aca7f96f2ffd15db15ff779b32d42deecad
-%global github_date    20130117
-
-%global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7}) 
+%global github_version 0.4.0
+%global github_commit  80ff1fec353834de5d6bf57ca6834eddde14aba9
 
 %global lib_name       Raven
 
@@ -13,7 +10,7 @@
 
 Name:          php-%{lib_name}
 Version:       %{github_version}
-Release:       1.%{github_release}%{?dist}
+Release:       1%{?dist}
 Summary:       A PHP client for Sentry
 
 Group:         Development/Libraries
@@ -73,7 +70,7 @@ sed "/require.*Autoloader/s:.*:require_once 'Raven/Autoloader.php';:" \
     -i test/bootstrap.php
 
 # Update and move PHPUnit config
-sed -e 's:test/::' \
+sed -e 's:\(\./\)\?test/:./:' \
     -e 's:./lib:%{_datadir}/php:' \
     -i phpunit.xml.dist
 mv phpunit.xml.dist test/
@@ -111,5 +108,10 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
+* Mon Jan 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.4.0-1
+- Updated to upstream version 0.4.0
+- Fixed license
+- Fixed build requires
+
 * Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.3.1-1.20130117git60e91ac
 - Initial package
