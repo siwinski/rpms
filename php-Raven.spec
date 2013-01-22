@@ -4,13 +4,11 @@
 %global github_commit  80ff1fec353834de5d6bf57ca6834eddde14aba9
 
 %global lib_name       Raven
-
-# phpci finds PHP min version 5.3.0, but those items are conditional in code
 %global php_min_ver    5.2.4
 
 Name:          php-%{lib_name}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A PHP client for Sentry
 
 Group:         Development/Libraries
@@ -85,7 +83,7 @@ mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp lib/%{lib_name} %{buildroot}%{_datadir}/php/
 
 mkdir -p -m 755 %{buildroot}%{_bindir}
-install bin/raven %{buildroot}%{_bindir}/
+install -pm 755 bin/raven %{buildroot}%{_bindir}/
 
 mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
 cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
@@ -108,6 +106,9 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
+* Tue Jan 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.4.0-2
+- Updated bin install from "install" to "install -pm 755"
+
 * Mon Jan 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.4.0-1
 - Updated to upstream version 0.4.0
 - Fixed license
