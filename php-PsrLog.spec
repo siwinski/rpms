@@ -1,18 +1,17 @@
-%global github_owner       php-fig
-%global github_name        log
-%global github_tag_version 1.0.0
-%global github_commit      fe0936ee26643249e916849d48e3a51d5f5e278b
-%global github_shortcommit %(c=%{github_commit}; echo ${c:0:7})
+%global github_owner   php-fig
+%global github_name    log
+%global github_version 1.0.0
+%global github_commit  fe0936ee26643249e916849d48e3a51d5f5e278b
 
 Name:      php-PsrLog
-Version:   %{github_tag_version}
+Version:   %{github_version}
 Release:   1%{?dist}
 Summary:   Common interface for logging libraries
 
 Group:     Development/Libraries
 License:   MIT
 URL:       https://github.com/%{github_owner}/%{github_name}
-Source0:   %{url}/archive/%{github_commit}/%{name}-%{github_tag_version}-%{github_commit}.tar.gz
+Source0:   %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch: noarch
 
@@ -48,5 +47,5 @@ cp -rp Psr/Log %{buildroot}%{_datadir}/php/Psr/
 
 
 %changelog
-* Thu Jan 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Tue Jan 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
