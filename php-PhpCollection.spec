@@ -6,7 +6,7 @@
 %global lib_name          PhpCollection
 
 %global php_min_ver       5.3.0
-%global phpoption_min_ver 1.0
+%global phpoption_min_ver 0.9
 
 Name:          php-%{lib_name}
 Version:       %{github_version}
@@ -75,16 +75,17 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
-# Update and move PHPUnit config
-sed 's:tests/::' -i phpunit.xml.dist
+# PHPUnit config
+sed 's:\(\./\)\?tests/:./:' -i phpunit.xml.dist
 mv phpunit.xml.dist tests/
 
-# Overwrite tests/bootstrap.php (which uses Composer autoloader) with simple
-# spl autoloader
+# Rewrite tests' bootstrap (which uses Composer autoloader) with simple
+# autoloader that uses include path
+mv tests/bootstrap.php tests/bootstrap.php.dist
 ( cat <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
+    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
 AUTOLOAD
@@ -119,5 +120,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.0-1
+* Wed Jan 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.0-1
 - Initial package
