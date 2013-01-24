@@ -22,13 +22,16 @@ BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 # Test build requires: phpci
 BuildRequires: php-json
 BuildRequires: php-pcre
-BuildRequires: php-tokenizer
+BuildRequires: php-reflection
+BuildRequires: php-spl
 
 Requires:      php-common >= %{php_min_ver}
 Requires:      php-PhpOption >= 0.9
 # phpci requires
 Requires:      php-json
 Requires:      php-pcre
+Requires:      php-reflection
+Requires:      php-spl
 
 Conflicts:     php-PhpOption >= 2.0
 
@@ -48,16 +51,17 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
-# Update and move PHPUnit config
-sed 's:tests/::' -i phpunit.xml.dist
+# PHPUnit config
+sed 's:\(\./\)\?tests/:./:' -i phpunit.xml.dist
 mv phpunit.xml.dist tests/
 
-# Overwrite tests/bootstrap.php (which uses Composer autoloader) with simple
-# spl autoloader
+# Rewrite tests' bootstrap (which uses Composer autoloader) with simple
+# autoloader that uses include path
+mv tests/bootstrap.php tests/bootstrap.php.dist
 ( cat <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
+    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
 AUTOLOAD
@@ -93,5 +97,5 @@ cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
-* Fri Jan 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
+* Thu Jan 24 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
