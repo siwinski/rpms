@@ -2,15 +2,14 @@
 %{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
 
 %global pear_channel guzzlephp.org/pear
-%global pear_name    %(echo %{name} | sed -e 's/^php-guzzle-//' -e 's/-/_/g')
+%global pear_name    Guzzle
 
-Name:             php-guzzle-Guzzle
-Version:          3.0.6
+Name:             php-guzzle-%{pear_name}
+Version:          3.1.1
 Release:          1%{?dist}
 Summary:          PHP HTTP client library and framework for building RESTful web service clients
 
 Group:            Development/Libraries
-# License file request: https://github.com/guzzle/guzzle/issues/192
 License:          MIT
 URL:              http://guzzlephp.org
 Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
@@ -66,9 +65,10 @@ Optional dependencies:
 %prep
 %setup -q -c
 
-# Change role of README file from "data" to "doc"
-# https://github.com/guzzle/guzzle/issues/193
-sed '/README/s/role="data"/role="doc"/' -i package.xml
+# Need to help upstream figure out why these files are showing up in package.xml
+# as role="data" instead of role="doc"
+# https://github.com/guzzle/guzzle/blob/v3.1.1/phing/tasks/GuzzlePearPharPackageTask.php#L146
+sed '/\.md"/s/role="data"/role="doc"/' -i package.xml
 
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
@@ -88,6 +88,10 @@ rm -rf %{buildroot}%{pear_metadir}/.??*
 # Install XML package description
 mkdir -p %{buildroot}%{pear_xmldir}
 install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
+
+
+%check
+# No tests in upstream package
 
 
 %post
@@ -110,6 +114,9 @@ fi
 
 
 %changelog
+* Sat Jan 26 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.1.1-1
+- Updated to upstream version 3.1.1
+
 * Sun Dec 16 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0.6-1
 - Updated to upstream version 3.0.6
 
