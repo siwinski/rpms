@@ -100,10 +100,10 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 %check
 %if %{with_tests}
     pwd
-	%{_bindir}/phpunit \
-		-d include_path="./lib:./test:.:/usr/share/pear" \
-		--bootstrap=./test/bootstrap.php \
-		test
+    %{_bindir}/phpunit \
+        -d include_path="./lib:./test:.:/usr/share/pear" \
+        --bootstrap=./test/bootstrap.php \
+        test
 %else
 : Tests skipped, missing '--with tests' option
 %endif
