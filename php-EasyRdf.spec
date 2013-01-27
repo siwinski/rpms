@@ -84,6 +84,12 @@ spl_autoload_register(function ($class) {
 AUTOLOAD
 ) > test/bootstrap.php
 
+# Update test file
+chmod +x test/cli_example_wrapper.php
+sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
+    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
+    -i test/cli_example_wrapper.php
+
 
 %build
 # Empty build section, nothing to build
