@@ -58,15 +58,25 @@ EasyRdf_Sparql_Result object and CONSTRUCT and DESCRIBE queries will
 return an EasyRdf_Graph object.
 
 
-%package tests
+%package doc
+Summary: Documentation for %{name}
+Group:   Documentation
+
+%description doc
+%{summary}.
+
+
+%package test
 Summary:  Test suite for %{name}
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
+# Yes, test requires doc (for examples)
+Requires: %{name}-doc = %{version}-%{release}
 Requires: php-pear(pear.phpunit.de/PHPUnit)
 Requires: graphviz-gd
 Requires: raptor
 
-%description tests
+%description test
 %{summary}.
 
 
@@ -76,7 +86,7 @@ Requires: raptor
 # Update test file
 chmod +x test/cli_example_wrapper.php
 sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
-    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
+    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-doc-%{version}|' \
     -i test/cli_example_wrapper.php
 
 #
@@ -114,11 +124,14 @@ make test-lib
 
 
 %files
-%doc *.md composer.json docs examples
+%doc *.md composer.json
 %{_datadir}/php/EasyRdf.php
 %{_datadir}/php/EasyRdf
 
-%files tests
+%files doc
+%doc LICENSE.md docs examples
+
+%files test
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}
 
@@ -128,6 +141,7 @@ make test-lib
 - Tests run by default (i.e. without "--with tests")
 - Fixes for tests
 - Removed Mac files
+- Separated docs into sub-package
 
 * Sun Jan 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.7.2-1
 - Initial package
