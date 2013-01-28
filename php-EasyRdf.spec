@@ -8,7 +8,7 @@
 
 Name:          php-EasyRdf
 Version:       0.7.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A PHP library designed to make it easy to consume and produce RDF
 
 Group:         Development/Libraries
@@ -74,21 +74,24 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q -n easyrdf-%{version}
 
-# Create autoloader for tests
-( cat <<'AUTOLOAD'
-<?php
-spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
-    @include_once $src;
-});
-AUTOLOAD
-) > test/bootstrap.php
+# Remove Mac files
+find . | grep -e '/\._' | xargs rm -f
+
+# Add "EasyRdf/Isomorphic.php" require
+( cat <<'REQUIRE'
+
+/**
+ * @see EasyRdf_Isomorphic
+ */
+require_once "EasyRdf/Isomorphic.php";
+REQUIRE
+) >> lib/EasyRdf.php
 
 # Update test file
-chmod +x test/cli_example_wrapper.php
-sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
-    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
-    -i test/cli_example_wrapper.php
+#chmod +x test/cli_example_wrapper.php
+#sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
+#    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
+#    -i test/cli_example_wrapper.php
 
 
 %build
@@ -105,11 +108,9 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 %check
 %if %{with_tests}
-    pwd
-    %{_bindir}/phpunit \
-        -d include_path="./lib:./test:.:/usr/share/pear" \
-        --bootstrap=./test/bootstrap.php \
-        test
+%{_bindir}/phpunit \
+    --bootstrap=./lib/EasyRdf.php \
+    test
 %else
 : Tests skipped, missing '--with tests' option
 %endif
@@ -126,5 +127,11 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %changelog
+* Mon Jan 28 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.7.2-2
+- Removed Mac files
+- Added EasyRdf_Isomorphic require in lib/EasyRdf.php
+- Removed test file updates
+- Updated tests' phpunit run
+
 * Sun Jan 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.7.2-1
 - Initial package
