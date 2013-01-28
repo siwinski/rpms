@@ -1,10 +1,8 @@
-# Tests are only run with rpmbuild --with tests
-# "PHP Fatal error: Call to undefined function phpunit_mockobject_autoload()"
-%global with_tests %{?_with_tests:1}%{!?_with_tests:0}
-
 # phpci false positive for 5.3.3 because usage of JSON_ERROR_* constants in
 # lib/EasyRdf/Parser/Json.php are conditional
 %global php_min_ver 5.2.8
+
+%global phpunit_min_ver 3.7
 
 Name:          php-EasyRdf
 Version:       0.7.2
@@ -17,9 +15,10 @@ URL:           http://www.easyrdf.org
 Source0:       %{url}/downloads/easyrdf-%{version}.tar.gz
 
 BuildArch:     noarch
-%if %{with_tests}
 BuildRequires: php-common >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit) > %{phpunit_min_ver}
+BuildRequires: graphviz-gd
+BuildRequires: raptor2
 # phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
@@ -29,7 +28,6 @@ BuildRequires: php-pcre
 BuildRequires: php-redland
 BuildRequires: php-spl
 BuildRequires: php-xml
-%endif
 
 Requires:      php-common >= %{php_min_ver}
 # phpci requires
@@ -66,6 +64,9 @@ return an EasyRdf_Graph object.
 Summary:  Test suite for %{name}
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
+Requires: php-pear(pear.phpunit.de/PHPUnit) > %{phpunit_min_ver}
+Requires: graphviz-gd
+Requires: raptor2
 
 %description tests
 %{summary}.
@@ -73,6 +74,16 @@ Requires: %{name} = %{version}-%{release}
 
 %prep
 %setup -q -n easyrdf-%{version}
+
+# Update test file
+chmod +x test/cli_example_wrapper.php
+sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
+    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
+    -i test/cli_example_wrapper.php
+
+#
+# The following fixes will not be required as of pre-release 0.8.8-beta1.
+#
 
 # Remove Mac files
 find . | grep -e '/\._' | xargs rm -f
@@ -86,12 +97,6 @@ find . | grep -e '/\._' | xargs rm -f
 require_once "EasyRdf/Isomorphic.php";
 REQUIRE
 ) >> lib/EasyRdf.php
-
-# Update test file
-#chmod +x test/cli_example_wrapper.php
-#sed -e 's:/usr/bin/env php:%{_bindir}/php:' \
-#    -e '/EXAMPLES_DIR = /s|\.\.|../../doc/%{name}-%{version}|' \
-#    -i test/cli_example_wrapper.php
 
 
 %build
@@ -107,13 +112,7 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %check
-%if %{with_tests}
-%{_bindir}/phpunit \
-    --bootstrap=./lib/EasyRdf.php \
-    test
-%else
-: Tests skipped, missing '--with tests' option
-%endif
+make test-lib
 
 
 %files
@@ -128,10 +127,9 @@ cp -rp test/* %{buildroot}%{_datadir}/tests/%{name}/
 
 %changelog
 * Mon Jan 28 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.7.2-2
+- Tests run by default (i.e. without "--with tests")
+- Fixes for tests
 - Removed Mac files
-- Added EasyRdf_Isomorphic require in lib/EasyRdf.php
-- Removed test file updates
-- Updated tests' phpunit run
 
 * Sun Jan 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.7.2-1
 - Initial package
