@@ -2,8 +2,6 @@
 # lib/EasyRdf/Parser/Json.php are conditional
 %global php_min_ver 5.2.8
 
-%global phpunit_min_ver 3.7
-
 Name:          php-EasyRdf
 Version:       0.7.2
 Release:       2%{?dist}
@@ -16,9 +14,9 @@ Source0:       %{url}/downloads/easyrdf-%{version}.tar.gz
 
 BuildArch:     noarch
 BuildRequires: php-common >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit) > %{phpunit_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: graphviz-gd
-BuildRequires: raptor2
+BuildRequires: raptor
 # phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
@@ -64,9 +62,9 @@ return an EasyRdf_Graph object.
 Summary:  Test suite for %{name}
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
-Requires: php-pear(pear.phpunit.de/PHPUnit) > %{phpunit_min_ver}
+Requires: php-pear(pear.phpunit.de/PHPUnit)
 Requires: graphviz-gd
-Requires: raptor2
+Requires: raptor
 
 %description tests
 %{summary}.
