@@ -23,7 +23,7 @@ Summary:       Library for Analyzing and Modifying PHP Source Code
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           http://jmsyst.com/libs/%{github_name}
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{version}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
