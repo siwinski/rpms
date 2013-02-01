@@ -72,6 +72,7 @@ mv phpunit.xml.dist tests/
 
 # Overwrite tests/bootstrap.php (which uses Composer autoloader) with simple
 # spl autoloader
+mv tests/bootstrap.php tests/bootstrap.php.dist
 ( cat <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
