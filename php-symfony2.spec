@@ -64,25 +64,7 @@ Requires: %{name}-WebProfilerBundle = %{version}-%{release}
 TODO
 
 %files
-
-#-------------------------------------------------------------------------------
-
-%package common
-
-Summary:  Common files for %{name}
-Group:    Development/Libraries
-
-Requires: php-common >= %{php_min_ver}
-
-%description common
-%{summary}.
-
-%files common
 %doc LICENSE *.md
-%dir %{_datadir}/php/Symfony
-%dir %{_datadir}/php/Symfony/Bridge
-%dir %{_datadir}/php/Symfony/Bundle
-%dir %{_datadir}/php/Symfony/Component
 
 #-------------------------------------------------------------------------------
 
@@ -92,7 +74,7 @@ Summary:  Symfony2 BrowserKit Component
 Group:    Development/Libraries
 URL:      http://symfony.com/components
 
-Requires: %{name}-common = %{version}-%{release}
+Requires: php-common >= %{php_min_ver}
 Requires: %{name}-DomCrawler = %{version}-%{release}
 # phpci requires
 Requires: php-date
@@ -103,7 +85,6 @@ Requires: php-spl
 Requires: %{name}-Process = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/BrowserKit)
-Provides: php-composer(symfony/browser-kit)
 
 %description BrowserKit
 BrowserKit simulates the behavior of a web browser.
@@ -116,6 +97,24 @@ The component only provides an abstract client and does not provide any
 %doc src/Symfony/Component/BrowserKit/composer.json
 %doc src/Symfony/Component/BrowserKit/*.md
 %{_datadir}/php/Symfony/Component/BrowserKit
+%exclude %{_datadir}/php/Symfony/Component/BrowserKit/Tests
+
+#-------------------------------------------------------------------------------
+
+%package BrowserKit-tests
+
+Summary: Test suite for %{name}-BrowserKit
+Group:   Development/Libraries
+
+Requires: %{name}-BrowserKit = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/BrowserKit/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-BrowserKit-tests
 
 #-------------------------------------------------------------------------------
 
@@ -125,7 +124,7 @@ Summary:  Symfony2 ClassLoader Component
 Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/class_loader.html
 
-Requires: %{name}-common = %{version}-%{release}
+Requires: php-common >= %{php_min_ver}
 # phpci requires
 Requires: php-date
 Requires: php-pcre
@@ -134,7 +133,6 @@ Requires: php-reflection
 Requires: php-tokenizer
 
 Provides: php-pear(%{pear_channel}/ClassLoader)
-Provides: php-composer(symfony/class-loader)
 
 %description ClassLoader
 The ClassLoader Component loads your project classes automatically if they
@@ -161,7 +159,27 @@ Optional dependencies: APC, XCache
 %doc src/Symfony/Component/ClassLoader/LICENSE
 %doc src/Symfony/Component/ClassLoader/composer.json
 %doc src/Symfony/Component/ClassLoader/*.md
-%{_datadir}/php/Symfony/Component/ClassLoader
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/ClassLoader
+%exclude %{_datadir}/php/Symfony/Component/ClassLoader/Tests
+
+#-------------------------------------------------------------------------------
+
+%package ClassLoader-tests
+
+Summary: Test suite for %{name}-ClassLoader
+Group:   Development/Libraries
+
+Requires: %{name}-ClassLoader = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/ClassLoader/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-ClassLoader-tests
 
 #-------------------------------------------------------------------------------
 
@@ -171,7 +189,7 @@ Summary:  Symfony2 Config Component
 Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/config/index.html
 
-Requires: %{name}-common = %{version}-%{release}
+Requires: php-common >= %{php_min_ver}
 # phpci requires
 Requires: php-ctype
 Requires: php-date
@@ -181,7 +199,6 @@ Requires: php-reflection
 Requires: php-spl
 
 Provides: php-pear(%{pear_channel}/Config)
-Provides: php-composer(symfony/config)
 
 %description Config
 The Config Component provides several classes to help you find, load, combine,
@@ -192,7 +209,27 @@ may be (Yaml, XML, INI files, or for instance a database).
 %doc src/Symfony/Component/Config/LICENSE
 %doc src/Symfony/Component/Config/composer.json
 %doc src/Symfony/Component/Config/*.md
-%{_datadir}/php/Symfony/Component/Config
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Config
+%exclude %{_datadir}/php/Symfony/Component/Config/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Config-tests
+
+Summary: Test suite for %{name}-Config
+Group:   Development/Libraries
+
+Requires: %{name}-Config = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/Config/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Config-tests
 
 #-------------------------------------------------------------------------------
 
@@ -202,7 +239,7 @@ Summary:  Symfony2 Console Component
 Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/console.html
 
-Requires: %{name}-common = %{version}-%{release}
+Requires: php-common >= %{php_min_ver}
 # phpci requires
 Requires: php-dom
 Requires: php-json
@@ -214,7 +251,6 @@ Requires: php-reflection
 Requires: php-spl
 
 Provides: php-pear(%{pear_channel}/Console)
-Provides: php-composer(symfony/console)
 
 %description Console
 The Console component eases the creation of beautiful and testable command line
@@ -228,14 +264,35 @@ other batch jobs.
 %doc src/Symfony/Component/Console/LICENSE
 %doc src/Symfony/Component/Console/composer.json
 %doc src/Symfony/Component/Console/*.md
-%{_datadir}/php/Symfony/Component/Console
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Console
+%exclude %{_datadir}/php/Symfony/Component/Console/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Console-tests
+
+Summary: Test suite for %{name}-Console
+Group:   Development/Libraries
+
+Requires: %{name}-Console = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/Console/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Console-tests
 
 #-------------------------------------------------------------------------------
 
 %package CssSelector
 Summary:  Symfony2 CssSelector Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/CssSelector)
 
@@ -253,7 +310,8 @@ Provides: php-pear(%{pear_channel}/CssSelector)
 %package DependencyInjection
 Summary:  Symfony2 DependencyInjection Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/DependencyInjection)
 
@@ -271,7 +329,8 @@ Provides: php-pear(%{pear_channel}/DependencyInjection)
 %package DomCrawler
 Summary:  Symfony2 DomCrawler Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/DomCrawler)
 
@@ -289,7 +348,8 @@ Provides: php-pear(%{pear_channel}/DomCrawler)
 %package EventDispatcher
 Summary:  Symfony2 EventDispatcher Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/EventDispatcher)
 
@@ -325,7 +385,8 @@ Provides: php-pear(%{pear_channel}/Filesystem)
 %package Finder
 Summary:  Symfony2 Finder Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Finder)
 
@@ -343,7 +404,8 @@ Provides: php-pear(%{pear_channel}/Finder)
 %package Form
 Summary:  Symfony2 Form Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Form)
 
@@ -361,7 +423,8 @@ Provides: php-pear(%{pear_channel}/Form)
 %package HttpFoundation
 Summary:  Symfony2 HttpFoundation Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/HttpFoundation)
 
@@ -379,7 +442,8 @@ Provides: php-pear(%{pear_channel}/HttpFoundation)
 %package HttpKernel
 Summary:  Symfony2 HttpKernel Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/HttpKernel)
 
@@ -397,7 +461,8 @@ Provides: php-pear(%{pear_channel}/HttpKernel)
 %package Locale
 Summary:  Symfony2 Locale Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Locale)
 
@@ -415,7 +480,8 @@ Provides: php-pear(%{pear_channel}/Locale)
 %package OptionsResolver
 Summary:  Symfony2 OptionsResolver Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/OptionsResolver)
 
@@ -433,7 +499,8 @@ Provides: php-pear(%{pear_channel}/OptionsResolver)
 %package Process
 Summary:  Symfony2 Process Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Process)
 
@@ -451,7 +518,8 @@ Provides: php-pear(%{pear_channel}/Process)
 %package Routing
 Summary:  Symfony2 Routing Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Routing)
 
@@ -469,7 +537,8 @@ Provides: php-pear(%{pear_channel}/Routing)
 %package Security
 Summary:  Symfony2 Security Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Security)
 
@@ -487,7 +556,8 @@ Provides: php-pear(%{pear_channel}/Security)
 %package Serializer
 Summary:  Symfony2 Serializer Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Serializer)
 
@@ -505,7 +575,8 @@ Provides: php-pear(%{pear_channel}/Serializer)
 %package Templating
 Summary:  Symfony2 Templating Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Templating)
 
@@ -523,7 +594,8 @@ Provides: php-pear(%{pear_channel}/Templating)
 %package Translation
 Summary:  Symfony2 Translation Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Translation)
 
@@ -541,7 +613,8 @@ Provides: php-pear(%{pear_channel}/Translation)
 %package Validator
 Summary:  Symfony2 Validator Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Validator)
 
@@ -559,7 +632,8 @@ Provides: php-pear(%{pear_channel}/Validator)
 %package Yaml
 Summary:  Symfony2 Yaml Component
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Yaml)
 
@@ -577,7 +651,8 @@ Provides: php-pear(%{pear_channel}/Yaml)
 %package DoctrineBridge
 Summary:  Symfony2 Doctrine Bridge
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/DoctrineBridge)
 
@@ -595,7 +670,8 @@ Provides: php-pear(%{pear_channel}/DoctrineBridge)
 %package MonologBridge
 Summary:  Symfony2 Monolog Bridge
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/MonologBridge)
 
@@ -613,7 +689,8 @@ Provides: php-pear(%{pear_channel}/MonologBridge)
 %package Propel1Bridge
 Summary:  Symfony2 Propel1 Bridge
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/Propel1Bridge)
 
@@ -631,7 +708,8 @@ Provides: php-pear(%{pear_channel}/Propel1Bridge)
 %package SwiftmailerBridge
 Summary:  Symfony2 Swiftmailer Bridge
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/SwiftmailerBridge)
 
@@ -649,7 +727,8 @@ Provides: php-pear(%{pear_channel}/SwiftmailerBridge)
 %package TwigBridge
 Summary:  Symfony2 Twig Bridge
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 Provides: php-pear(%{pear_channel}/TwigBridge)
 
@@ -667,7 +746,8 @@ Provides: php-pear(%{pear_channel}/TwigBridge)
 %package FrameworkBundle
 Summary:  Symfony2 Framework Bundle
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 %description FrameworkBundle
 %{summary}.
@@ -683,7 +763,8 @@ Requires: %{name}-common = %{version}-%{release}
 %package SecurityBundle
 Summary:  Symfony2 Security Bundle
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 %description SecurityBundle
 %{summary}.
@@ -699,7 +780,8 @@ Requires: %{name}-common = %{version}-%{release}
 %package TwigBundle
 Summary:  Symfony2 Twig Bundle
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 %description TwigBundle
 %{summary}.
@@ -715,7 +797,8 @@ Requires: %{name}-common = %{version}-%{release}
 %package WebProfilerBundle
 Summary:  Symfony2 WebProfiler Bundle
 Group:    Development/Libraries
-Requires: %{name}-common = %{version}-%{release}
+
+Requires: php-common >= %{php_min_ver}
 
 %description WebProfilerBundle
 %{summary}.
@@ -745,7 +828,7 @@ find src -name '.git*' -delete
 mkdir -p -m 755 %{buildroot}%{_datadir}/php
 cp -rp src/Symfony %{buildroot}%{_datadir}/php
 
-# Remove doc files
+# Remove doc files (already marked as %%doc in %%files)
 find %{buildroot}%{_datadir}/php -name 'LICENSE' -delete
 find %{buildroot}%{_datadir}/php -name 'composer.json' -delete
 find %{buildroot}%{_datadir}/php -name '*.md' -delete
