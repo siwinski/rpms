@@ -76,12 +76,12 @@ URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
 Requires: %{name}-DomCrawler = %{version}-%{release}
-# phpci requires
+# phpci
 Requires: php-date
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
-# Optional requires
+# Optional
 Requires: %{name}-Process = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/BrowserKit)
@@ -125,7 +125,7 @@ Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/class_loader.html
 
 Requires: php-common >= %{php_min_ver}
-# phpci requires
+# phpci
 Requires: php-date
 Requires: php-pcre
 Requires: php-spl
@@ -190,7 +190,7 @@ Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/config/index.html
 
 Requires: php-common >= %{php_min_ver}
-# phpci requires
+# phpci
 Requires: php-ctype
 Requires: php-date
 Requires: php-json
@@ -240,7 +240,7 @@ Group:    Development/Libraries
 URL:      http://symfony.com/doc/current/components/console.html
 
 Requires: php-common >= %{php_min_ver}
-# phpci requires
+# phpci
 Requires: php-dom
 Requires: php-json
 Requires: php-mbstring
@@ -289,34 +289,78 @@ Requires: %{name}-Console = %{version}-%{release}
 #-------------------------------------------------------------------------------
 
 %package CssSelector
+
 Summary:  Symfony2 CssSelector Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/css_selector.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
 
 Provides: php-pear(%{pear_channel}/CssSelector)
 
 %description CssSelector
-%{summary}.
+The CssSelector Component converts CSS selectors to XPath expressions.
 
 %files CssSelector
 %doc src/Symfony/Component/CssSelector/LICENSE
 %doc src/Symfony/Component/CssSelector/composer.json
 %doc src/Symfony/Component/CssSelector/*.md
-%{_datadir}/php/Symfony/Component/CssSelector
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/CssSelector
+%exclude %{_datadir}/php/Symfony/Component/CssSelector/Tests
+
+#-------------------------------------------------------------------------------
+
+%package CssSelector-tests
+
+Summary: Test suite for %{name}-CssSelector
+Group:   Development/Libraries
+
+Requires: %{name}-CssSelector = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/CssSelector/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-CssSelector-tests
 
 #-------------------------------------------------------------------------------
 
 %package DependencyInjection
+
 Summary:  Symfony2 DependencyInjection Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/dependency_injection/index.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-dom
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-pecl(phar)
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
+# Optional
+Requires: %{name}-Config = %{version}-%{release}
+Requires: %{name}-Yaml = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/DependencyInjection)
 
 %description DependencyInjection
-%{summary}.
+The Dependency Injection component allows you to standardize and centralize the
+way objects are constructed in your application.
+
+For an introduction to Dependency Injection and service containers see
+Service Container (http://symfony.com/doc/current/book/service_container.html).
 
 %files DependencyInjection
 %doc src/Symfony/Component/DependencyInjection/LICENSE
@@ -326,16 +370,43 @@ Provides: php-pear(%{pear_channel}/DependencyInjection)
 
 #-------------------------------------------------------------------------------
 
+%package DependencyInjection-tests
+
+Summary: Test suite for %{name}-DependencyInjection
+Group:   Development/Libraries
+
+Requires: %{name}-DependencyInjection = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/DependencyInjection/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-DependencyInjection-tests
+
+#-------------------------------------------------------------------------------
+
 %package DomCrawler
+
 Summary:  Symfony2 DomCrawler Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/dom_crawler.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-dom
+Requires: php-libxml
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
+# Optional
+Requires: %{name}-CssSelector = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/DomCrawler)
 
 %description DomCrawler
-%{summary}.
+The DomCrawler Component eases DOM navigation for HTML and XML documents.
 
 %files DomCrawler
 %doc src/Symfony/Component/DomCrawler/LICENSE
@@ -345,16 +416,58 @@ Provides: php-pear(%{pear_channel}/DomCrawler)
 
 #-------------------------------------------------------------------------------
 
+%package DomCrawler-tests
+
+Summary: Test suite for %{name}-DomCrawler
+Group:   Development/Libraries
+
+Requires: %{name}-DomCrawler = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/DomCrawler/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-DomCrawler-tests
+
+#-------------------------------------------------------------------------------
+
 %package EventDispatcher
+
 Summary:  Symfony2 EventDispatcher Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/event_dispatcher/index.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-spl
+# Optional
+Requires: %{name}-DependencyInjection = %{version}-%{release}
+Requires: %{name}-HttpKernel = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/EventDispatcher)
 
 %description EventDispatcher
-%{summary}.
+The Symfony2 Event Dispatcher component implements the Observer
+(http://en.wikipedia.org/wiki/Observer_pattern) pattern in a simple and
+effective way to make all these things possible and to make your projects
+truly extensible.
+
+Take a simple example from the Symfony2 HttpKernel component. Once a Response
+object has been created, it may be useful to allow other elements in the system
+to modify it (e.g. add some cache headers) before it's actually used. To make
+this possible, the Symfony2 kernel throws an event - kernel.response. Here's
+how it works:
+
+* A listener (PHP object) tells a central dispatcher object that it wants to
+  listen to the kernel.response event;
+* At some point, the Symfony2 kernel tells the dispatcher object to dispatch
+  the kernel.response event, passing with it an Event object that has access to
+  the Response object;
+* The dispatcher notifies (i.e. calls a method on) all listeners of the
+  kernel.response event, allowing each of them to make modifications to the
+  Response object.
 
 %files EventDispatcher
 %doc src/Symfony/Component/EventDispatcher/LICENSE
@@ -364,59 +477,166 @@ Provides: php-pear(%{pear_channel}/EventDispatcher)
 
 #-------------------------------------------------------------------------------
 
+%package EventDispatcher-tests
+
+Summary: Test suite for %{name}-EventDispatcher
+Group:   Development/Libraries
+
+Requires: %{name}-EventDispatcher = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/EventDispatcher/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-EventDispatcher-tests
+
+#-------------------------------------------------------------------------------
+
 %package Filesystem
+
 Summary:  Symfony2 Filesystem Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/filesystem.html
+
 Requires: %{name}-common = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-posix
+Requires: php-spl
 
 Provides: php-pear(%{pear_channel}/Filesystem)
 
 %description Filesystem
-%{summary}.
+The Filesystem component provides basic utilities for the filesystem.
 
 %files Filesystem
 %doc src/Symfony/Component/Filesystem/LICENSE
 %doc src/Symfony/Component/Filesystem/composer.json
 %doc src/Symfony/Component/Filesystem/*.md
-%{_datadir}/php/Symfony/Component/Filesystem
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Filesystem
+
+#-------------------------------------------------------------------------------
+
+%package Filesystem-tests
+
+Summary: Test suite for %{name}-Filesystem
+Group:   Development/Libraries
+
+Requires: %{name}-Filesystem = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/Filesystem/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Filesystem-tests
 
 #-------------------------------------------------------------------------------
 
 %package Finder
+
 Summary:  Symfony2 Finder Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/finder.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-date
+Requires: php-pcre
+Requires: php-spl
 
 Provides: php-pear(%{pear_channel}/Finder)
 
 %description Finder
-%{summary}.
+The Finder Component finds files and directories via an intuitive fluent
+interface.
 
 %files Finder
 %doc src/Symfony/Component/Finder/LICENSE
 %doc src/Symfony/Component/Finder/composer.json
 %doc src/Symfony/Component/Finder/*.md
-%{_datadir}/php/Symfony/Component/Finder
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Finder
+
+#-------------------------------------------------------------------------------
+
+%package Finder-tests
+
+Summary: Test suite for %{name}-Finder
+Group:   Development/Libraries
+
+Requires: %{name}-Finder = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/Finder/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Finder-tests
 
 #-------------------------------------------------------------------------------
 
 %package Form
+
 Summary:  Symfony2 Form Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+Requires: %{name}-EventDispatcher = %{version}-%{release}
+Requires: %{name}-Locale = %{version}-%{release}
+Requires: %{name}-OptionsResolver = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-dom
+Requires: php-intl
+Requires: php-json
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-session
+Requires: php-spl
+# Optional
+Requires: %{name}-HttpFoundation = %{version}-%{release}
+Requires: %{name}-Validator = %{version}-%{release}
 
 Provides: php-pear(%{pear_channel}/Form)
 
 %description Form
-%{summary}.
+Form provides tools for defining forms, rendering and binding request data
+to related models. Furthermore it provides integration with the Validation
+component.
 
 %files Form
 %doc src/Symfony/Component/Form/LICENSE
 %doc src/Symfony/Component/Form/composer.json
 %doc src/Symfony/Component/Form/*.md
 %{_datadir}/php/Symfony/Component/Form
+
+#-------------------------------------------------------------------------------
+
+%package Form-tests
+
+Summary: Test suite for %{name}-Form
+Group:   Development/Libraries
+
+Requires: %{name}-Form = %{version}-%{release}
+
+%description
+%{summary}.
+
+%files
+%{_datadir}/php/Symfony/Component/Form/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Form-tests
 
 #-------------------------------------------------------------------------------
 
