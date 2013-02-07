@@ -84,7 +84,7 @@ Requires: php-spl
 # Optional
 Requires: %{name}-Process = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/BrowserKit)
+Provides: php-pear(%{pear_channel}/BrowserKit) = %{version}
 
 %description BrowserKit
 BrowserKit simulates the behavior of a web browser.
@@ -108,10 +108,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-BrowserKit = %{version}-%{release}
 
-%description
+%description BrowserKit-tests
 %{summary}.
 
-%files
+%files BrowserKit-tests
 %{_datadir}/php/Symfony/Component/BrowserKit/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-BrowserKit-tests
@@ -132,7 +132,7 @@ Requires: php-spl
 Requires: php-reflection
 Requires: php-tokenizer
 
-Provides: php-pear(%{pear_channel}/ClassLoader)
+Provides: php-pear(%{pear_channel}/ClassLoader) = %{version}
 
 %description ClassLoader
 The ClassLoader Component loads your project classes automatically if they
@@ -173,10 +173,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-ClassLoader = %{version}-%{release}
 
-%description
+%description ClassLoader-tests
 %{summary}.
 
-%files
+%files ClassLoader-tests
 %{_datadir}/php/Symfony/Component/ClassLoader/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-ClassLoader-tests
@@ -198,7 +198,7 @@ Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Config)
+Provides: php-pear(%{pear_channel}/Config) = %{version}
 
 %description Config
 The Config Component provides several classes to help you find, load, combine,
@@ -223,10 +223,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-Config = %{version}-%{release}
 
-%description
+%description Config-tests
 %{summary}.
 
-%files
+%files Config-tests
 %{_datadir}/php/Symfony/Component/Config/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-Config-tests
@@ -250,7 +250,7 @@ Requires: php-readline
 Requires: php-reflection
 Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Console)
+Provides: php-pear(%{pear_channel}/Console) = %{version}
 
 %description Console
 The Console component eases the creation of beautiful and testable command line
@@ -278,10 +278,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-Console = %{version}-%{release}
 
-%description
+%description Console-tests
 %{summary}.
 
-%files
+%files Console-tests
 %{_datadir}/php/Symfony/Component/Console/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-Console-tests
@@ -300,7 +300,7 @@ Requires: php-mbstring
 Requires: php-pcre
 Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/CssSelector)
+Provides: php-pear(%{pear_channel}/CssSelector) = %{version}
 
 %description CssSelector
 The CssSelector Component converts CSS selectors to XPath expressions.
@@ -323,10 +323,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-CssSelector = %{version}-%{release}
 
-%description
+%description CssSelector-tests
 %{summary}.
 
-%files
+%files CssSelector-tests
 %{_datadir}/php/Symfony/Component/CssSelector/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-CssSelector-tests
@@ -353,7 +353,7 @@ Requires: php-spl
 Requires: %{name}-Config = %{version}-%{release}
 Requires: %{name}-Yaml = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/DependencyInjection)
+Provides: php-pear(%{pear_channel}/DependencyInjection) = %{version}
 
 %description DependencyInjection
 The Dependency Injection component allows you to standardize and centralize the
@@ -367,6 +367,7 @@ Service Container (http://symfony.com/doc/current/book/service_container.html).
 %doc src/Symfony/Component/DependencyInjection/composer.json
 %doc src/Symfony/Component/DependencyInjection/*.md
 %{_datadir}/php/Symfony/Component/DependencyInjection
+%exclude %{_datadir}/php/Symfony/Component/DependencyInjection/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -377,10 +378,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-DependencyInjection = %{version}-%{release}
 
-%description
+%description DependencyInjection-tests
 %{summary}.
 
-%files
+%files DependencyInjection-tests
 %{_datadir}/php/Symfony/Component/DependencyInjection/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-DependencyInjection-tests
@@ -403,7 +404,7 @@ Requires: php-spl
 # Optional
 Requires: %{name}-CssSelector = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/DomCrawler)
+Provides: php-pear(%{pear_channel}/DomCrawler) = %{version}
 
 %description DomCrawler
 The DomCrawler Component eases DOM navigation for HTML and XML documents.
@@ -413,6 +414,7 @@ The DomCrawler Component eases DOM navigation for HTML and XML documents.
 %doc src/Symfony/Component/DomCrawler/composer.json
 %doc src/Symfony/Component/DomCrawler/*.md
 %{_datadir}/php/Symfony/Component/DomCrawler
+%exclude %{_datadir}/php/Symfony/Component/DomCrawler/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -423,10 +425,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-DomCrawler = %{version}-%{release}
 
-%description
+%description DomCrawler-tests
 %{summary}.
 
-%files
+%files DomCrawler-tests
 %{_datadir}/php/Symfony/Component/DomCrawler/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-DomCrawler-tests
@@ -446,7 +448,7 @@ Requires: php-spl
 Requires: %{name}-DependencyInjection = %{version}-%{release}
 Requires: %{name}-HttpKernel = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/EventDispatcher)
+Provides: php-pear(%{pear_channel}/EventDispatcher) = %{version}
 
 %description EventDispatcher
 The Symfony2 Event Dispatcher component implements the Observer
@@ -474,6 +476,7 @@ how it works:
 %doc src/Symfony/Component/EventDispatcher/composer.json
 %doc src/Symfony/Component/EventDispatcher/*.md
 %{_datadir}/php/Symfony/Component/EventDispatcher
+%exclude %{_datadir}/php/Symfony/Component/EventDispatcher/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -484,10 +487,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-EventDispatcher = %{version}-%{release}
 
-%description
+%description EventDispatcher-tests
 %{summary}.
 
-%files
+%files EventDispatcher-tests
 %{_datadir}/php/Symfony/Component/EventDispatcher/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-EventDispatcher-tests
@@ -507,7 +510,7 @@ Requires: php-date
 Requires: php-posix
 Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Filesystem)
+Provides: php-pear(%{pear_channel}/Filesystem) = %{version}
 
 %description Filesystem
 The Filesystem component provides basic utilities for the filesystem.
@@ -519,6 +522,7 @@ The Filesystem component provides basic utilities for the filesystem.
 %dir %{_datadir}/php/Symfony
 %dir %{_datadir}/php/Symfony/Component
      %{_datadir}/php/Symfony/Component/Filesystem
+%exclude %{_datadir}/php/Symfony/Component/Filesystem/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -529,10 +533,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-Filesystem = %{version}-%{release}
 
-%description
+%description Filesystem-tests
 %{summary}.
 
-%files
+%files Filesystem-tests
 %{_datadir}/php/Symfony/Component/Filesystem/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-Filesystem-tests
@@ -551,7 +555,7 @@ Requires: php-date
 Requires: php-pcre
 Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Finder)
+Provides: php-pear(%{pear_channel}/Finder) = %{version}
 
 %description Finder
 The Finder Component finds files and directories via an intuitive fluent
@@ -564,6 +568,7 @@ interface.
 %dir %{_datadir}/php/Symfony
 %dir %{_datadir}/php/Symfony/Component
      %{_datadir}/php/Symfony/Component/Finder
+%exclude %{_datadir}/php/Symfony/Component/Finder/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -574,10 +579,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-Finder = %{version}-%{release}
 
-%description
+%description Finder-tests
 %{summary}.
 
-%files
+%files Finder-tests
 %{_datadir}/php/Symfony/Component/Finder/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-Finder-tests
@@ -608,7 +613,7 @@ Requires: php-spl
 Requires: %{name}-HttpFoundation = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/Form)
+Provides: php-pear(%{pear_channel}/Form) = %{version}
 
 %description Form
 Form provides tools for defining forms, rendering and binding request data
@@ -620,6 +625,7 @@ component.
 %doc src/Symfony/Component/Form/composer.json
 %doc src/Symfony/Component/Form/*.md
 %{_datadir}/php/Symfony/Component/Form
+%exclude %{_datadir}/php/Symfony/Component/Form/Tests
 
 #-------------------------------------------------------------------------------
 
@@ -630,10 +636,10 @@ Group:   Development/Libraries
 
 Requires: %{name}-Form = %{version}-%{release}
 
-%description
+%description Form-tests
 %{summary}.
 
-%files
+%files Form-tests
 %{_datadir}/php/Symfony/Component/Form/Tests
 %dir %{_datadir}/tests
      %{_datadir}/tests/%{name}-Form-tests
@@ -641,88 +647,260 @@ Requires: %{name}-Form = %{version}-%{release}
 #-------------------------------------------------------------------------------
 
 %package HttpFoundation
+
 Summary:  Symfony2 HttpFoundation Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/http_foundation/index.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-date
+Requires: php-fileinfo
+Requires: php-json
+Requires: php-pcre
+Requires: php-pdo
+Requires: php-reflection
+Requires: php-session
+Requires: php-sockets
+Requires: php-spl
+%{?fedora:Requires: php-filter}
 
-Provides: php-pear(%{pear_channel}/HttpFoundation)
+Provides: php-pear(%{pear_channel}/HttpFoundation) = %{version}
 
 %description HttpFoundation
-%{summary}.
+The HttpFoundation Component defines an object-oriented layer for the HTTP
+specification.
+
+In PHP, the request is represented by some global variables ($_GET, $_POST,
+$_FILE, $_COOKIE, $_SESSION...) and the response is generated by some functions
+(echo, header, setcookie, ...).
+
+The Symfony2 HttpFoundation component replaces these default PHP global
+variables and functions by an Object-Oriented layer.
+
+Optional dependencies: memcache, memcached, mongo
 
 %files HttpFoundation
 %doc src/Symfony/Component/HttpFoundation/LICENSE
 %doc src/Symfony/Component/HttpFoundation/composer.json
 %doc src/Symfony/Component/HttpFoundation/*.md
-%{_datadir}/php/Symfony/Component/HttpFoundation
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/HttpFoundation
+%exclude %{_datadir}/php/Symfony/Component/HttpFoundation/Tests
+
+#-------------------------------------------------------------------------------
+
+%package HttpFoundation-tests
+
+Summary: Test suite for %{name}-HttpFoundation
+Group:   Development/Libraries
+
+Requires: %{name}-HttpFoundation = %{version}-%{release}
+
+%description HttpFoundation-tests
+%{summary}.
+
+%files HttpFoundation-tests
+%{_datadir}/php/Symfony/Component/HttpFoundation/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-HttpFoundation-tests
 
 #-------------------------------------------------------------------------------
 
 %package HttpKernel
+
 Summary:  Symfony2 HttpKernel Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+Requires: %{name}-EventDispatcher = %{version}-%{release}
+Requires: %{name}-HttpFoundation = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-json
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-pdo
+Requires: php-pdo_mysql
+Requires: php-pdo_sqlite
+Requires: php-reflection
+Requires: php-session
+Requires: php-spl
+Requires: php-tokenizer
+# Optional
+Requires: %{name}-BrowserKit = %{version}-%{release}
+Requires: %{name}-ClassLoader = %{version}-%{release}
+Requires: %{name}-Config = %{version}-%{release}
+Requires: %{name}-Console = %{version}-%{release}
+Requires: %{name}-DependencyInjection = %{version}-%{release}
+Requires: %{name}-Finder = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/HttpKernel)
+Provides: php-pear(%{pear_channel}/HttpKernel) = %{version}
 
 %description HttpKernel
-%{summary}.
+HttpKernel provides the building blocks to create flexible and fast
+HTTP-based frameworks.
+
+It takes a Request as an input and should return a Response as an output.
+Using this interface makes your code compatible with all frameworks using
+the Symfony2 components. And this will give you many cool features for free.
+
+Optional dependencies: memcache, memcached, mongo
 
 %files HttpKernel
 %doc src/Symfony/Component/HttpKernel/LICENSE
 %doc src/Symfony/Component/HttpKernel/composer.json
 %doc src/Symfony/Component/HttpKernel/*.md
 %{_datadir}/php/Symfony/Component/HttpKernel
+%exclude %{_datadir}/php/Symfony/Component/HttpKernel/Tests
+
+#-------------------------------------------------------------------------------
+
+%package HttpKernel-tests
+
+Summary: Test suite for %{name}-HttpKernel
+Group:   Development/Libraries
+
+Requires: %{name}-HttpKernel = %{version}-%{release}
+
+%description HttpKernel-tests
+%{summary}.
+
+%files HttpKernel-tests
+%{_datadir}/php/Symfony/Component/HttpKernel/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-HttpKernel-tests
 
 #-------------------------------------------------------------------------------
 
 %package Locale
+
 Summary:  Symfony2 Locale Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/locale.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-intl
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Locale)
+Provides: php-pear(%{pear_channel}/Locale) = %{version}
 
 %description Locale
-%{summary}.
+Locale component provides fallback code to handle cases when the intl extension
+is missing. Additionally it extends the implementation of a native Locale
+(http://php.net/manual/en/class.locale.php) class with several handy methods.
+
+Replacement for the following functions and classes is provided:
+
+* intl_is_failure
+* intl_get_error_code
+* intl_get_error_message
+* Collator
+* IntlDateFormatter
+* Locale
+* NumberFormatter
+
+Stub implementation only supports the en locale.
 
 %files Locale
 %doc src/Symfony/Component/Locale/LICENSE
 %doc src/Symfony/Component/Locale/composer.json
 %doc src/Symfony/Component/Locale/*.md
-%{_datadir}/php/Symfony/Component/Locale
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Locale
+# TODO: LANG FILES!!! -- http://pkgs.fedoraproject.org/cgit/php-symfony2-Locale.git/tree/php-symfony2-Locale.spec
+%exclude %{_datadir}/php/Symfony/Component/Locale/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Locale-tests
+
+Summary: Test suite for %{name}-Locale
+Group:   Development/Libraries
+
+Requires: %{name}-Locale = %{version}-%{release}
+
+%description Locale-tests
+%{summary}.
+
+%files Locale-tests
+%{_datadir}/php/Symfony/Component/Locale/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Locale-tests
 
 #-------------------------------------------------------------------------------
 
 %package OptionsResolver
+
 Summary:  Symfony2 OptionsResolver Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-reflection
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/OptionsResolver)
+Provides: php-pear(%{pear_channel}/OptionsResolver) = %{version}
 
 %description OptionsResolver
-%{summary}.
+OptionsResolver helps at configuring objects with option arrays.
+
+It supports default values on different levels of your class hierarchy, option
+constraints (required vs. optional, allowed values) and lazy options whose
+default value depends on the value of another option.
 
 %files OptionsResolver
 %doc src/Symfony/Component/OptionsResolver/LICENSE
 %doc src/Symfony/Component/OptionsResolver/composer.json
 %doc src/Symfony/Component/OptionsResolver/*.md
-%{_datadir}/php/Symfony/Component/OptionsResolver
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/OptionsResolver
+%exclude %{_datadir}/php/Symfony/Component/OptionsResolver/Tests
+
+#-------------------------------------------------------------------------------
+
+%package OptionsResolver-tests
+
+Summary: Test suite for %{name}-OptionsResolver
+Group:   Development/Libraries
+
+Requires: %{name}-OptionsResolver = %{version}-%{release}
+
+%description OptionsResolver-tests
+%{summary}.
+
+%files OptionsResolver-tests
+%{_datadir}/php/Symfony/Component/OptionsResolver/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-OptionsResolver-tests
 
 #-------------------------------------------------------------------------------
 
 %package Process
+
 Summary:  Symfony2 Process Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/process.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-pcntl
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Process)
+Provides: php-pear(%{pear_channel}/Process) = %{version}
 
 %description Process
 %{summary}.
@@ -731,121 +909,356 @@ Provides: php-pear(%{pear_channel}/Process)
 %doc src/Symfony/Component/Process/LICENSE
 %doc src/Symfony/Component/Process/composer.json
 %doc src/Symfony/Component/Process/*.md
-%{_datadir}/php/Symfony/Component/Process
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Process
+%exclude %{_datadir}/php/Symfony/Component/Process/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Process-tests
+
+Summary: Test suite for %{name}-Process
+Group:   Development/Libraries
+
+Requires: %{name}-Process = %{version}-%{release}
+
+%description Process-tests
+%{summary}.
+
+%files Process-tests
+%{_datadir}/php/Symfony/Component/Process/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Process-tests
 
 #-------------------------------------------------------------------------------
 
 %package Routing
+
 Summary:  Symfony2 Routing Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/routing.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-dom
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
+Requires: php-tokenizer
+# Optional
+Requires: %{name}-Config = %{version}-%{release}
+Requires: %{name}-Yaml = %{version}-%{release}
+Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  2.4
 
-Provides: php-pear(%{pear_channel}/Routing)
+Provides: php-pear(%{pear_channel}/Routing) = %{version}
 
 %description Routing
-%{summary}.
+The Routing Component maps an HTTP request to a set of configuration variables.
 
 %files Routing
 %doc src/Symfony/Component/Routing/LICENSE
 %doc src/Symfony/Component/Routing/composer.json
 %doc src/Symfony/Component/Routing/*.md
 %{_datadir}/php/Symfony/Component/Routing
+%exclude %{_datadir}/php/Symfony/Component/Routing/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Routing-tests
+
+Summary: Test suite for %{name}-Routing
+Group:   Development/Libraries
+
+Requires: %{name}-Routing = %{version}-%{release}
+
+%description Routing-tests
+%{summary}.
+
+%files Routing-tests
+%{_datadir}/php/Symfony/Component/Routing/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Routing-tests
 
 #-------------------------------------------------------------------------------
 
 %package Security
+
 Summary:  Symfony2 Security Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+Requires: %{name}-EventDispatcher = %{version}-%{release}
+Requires: %{name}-HttpFoundation = %{version}-%{release}
+Requires: %{name}-HttpKernel = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-hash
+Requires: php-json
+Requires: php-openssl
+Requires: php-pcre
+Requires: php-pdo
+Requires: php-reflection
+Requires: php-spl
+# Optional
+Requires: %{name}-ClassLoader = %{version}-%{release}
+Requires: %{name}-Finder = %{version}-%{release}
+Requires: %{name}-Form = %{version}-%{release}
+Requires: %{name}-Routing = %{version}-%{release}
+Requires: %{name}-Validator = %{version}-%{release}
+# TODO: Add DoctrineDBAL (>=2.2,<2.4-dev) when available
 
-Provides: php-pear(%{pear_channel}/Security)
+Provides: php-pear(%{pear_channel}/Security) = %{version}
 
 %description Security
-%{summary}.
+Security provides an infrastructure for sophisticated authorization systems,
+which makes it possible to easily separate the actual authorization logic from
+so called user providers that hold the users credentials. It is inspired by
+the Java Spring framework.
+
+Optional dependencies: DoctrineCommon and DoctrineDBAL
 
 %files Security
 %doc src/Symfony/Component/Security/LICENSE
 %doc src/Symfony/Component/Security/composer.json
 %doc src/Symfony/Component/Security/*.md
 %{_datadir}/php/Symfony/Component/Security
+%exclude %{_datadir}/php/Symfony/Component/Security/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Security-tests
+
+Summary: Test suite for %{name}-Security
+Group:   Development/Libraries
+
+Requires: %{name}-Security = %{version}-%{release}
+
+%description Security-tests
+%{summary}.
+
+%files Security-tests
+%{_datadir}/php/Symfony/Component/Security/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Security-tests
 
 #-------------------------------------------------------------------------------
 
 %package Serializer
+
 Summary:  Symfony2 Serializer Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-dom
+Requires: php-json
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Serializer)
+Provides: php-pear(%{pear_channel}/Serializer) = %{version}
 
 %description Serializer
-%{summary}.
+With the Serializer component it's possible to handle serializing data
+structures, including object graphs, into array structures or other
+formats like XML and JSON.  It can also handle deserializing XML and
+JSON back to object graphs.
 
 %files Serializer
 %doc src/Symfony/Component/Serializer/LICENSE
 %doc src/Symfony/Component/Serializer/composer.json
 %doc src/Symfony/Component/Serializer/*.md
-%{_datadir}/php/Symfony/Component/Serializer
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Serializer
+%exclude %{_datadir}/php/Symfony/Component/Serializer/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Serializer-tests
+
+Summary: Test suite for %{name}-Serializer
+Group:   Development/Libraries
+
+Requires: %{name}-Serializer = %{version}-%{release}
+
+%description Serializer-tests
+%{summary}.
+
+%files Serializer-tests
+%{_datadir}/php/Symfony/Component/Serializer/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Serializer-tests
 
 #-------------------------------------------------------------------------------
 
 %package Templating
+
 Summary:  Symfony2 Templating Component
 Group:    Development/Libraries
+URL:      http://symfony.com/doc/current/components/templating.html
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-iconv
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Templating)
+Provides: php-pear(%{pear_channel}/Templating) = %{version}
 
 %description Templating
-%{summary}.
+Templating provides all the tools needed to build any kind of template system.
+
+It provides an infrastructure to load template files and optionally monitor
+them for changes. It also provides a concrete template engine implementation
+using PHP with additional tools for escaping and separating templates into
+blocks and layouts.
 
 %files Templating
 %doc src/Symfony/Component/Templating/LICENSE
 %doc src/Symfony/Component/Templating/composer.json
 %doc src/Symfony/Component/Templating/*.md
-%{_datadir}/php/Symfony/Component/Templating
+%dir %{_datadir}/php/Symfony
+%dir %{_datadir}/php/Symfony/Component
+     %{_datadir}/php/Symfony/Component/Templating
+%exclude %{_datadir}/php/Symfony/Component/Templating/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Templating-tests
+
+Summary: Test suite for %{name}-Templating
+Group:   Development/Libraries
+
+Requires: %{name}-Templating = %{version}-%{release}
+
+%description Templating-tests
+%{summary}.
+
+%files Templating-tests
+%{_datadir}/php/Symfony/Component/Templating/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Templating-tests
 
 #-------------------------------------------------------------------------------
 
 %package Translation
+
 Summary:  Symfony2 Translation Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-dom
+Requires: php-intl
+Requires: php-libxml
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-simplexml
+Requires: php-spl
+# Optional
+Requires: %{name}-Config = %{version}-%{release}
+Requires: %{name}-Yaml = %{version}-%{release}
 
-Provides: php-pear(%{pear_channel}/Translation)
+Provides: php-pear(%{pear_channel}/Translation) = %{version}
 
 %description Translation
-%{summary}.
+Translation provides tools for loading translation files and generating
+translated strings from these including support for pluralization.
 
 %files Translation
 %doc src/Symfony/Component/Translation/LICENSE
 %doc src/Symfony/Component/Translation/composer.json
 %doc src/Symfony/Component/Translation/*.md
 %{_datadir}/php/Symfony/Component/Translation
+%exclude %{_datadir}/php/Symfony/Component/Translation/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Translation-tests
+
+Summary: Test suite for %{name}-Translation
+Group:   Development/Libraries
+
+Requires: %{name}-Translation = %{version}-%{release}
+
+%description Translation-tests
+%{summary}.
+
+%files Translation-tests
+%{_datadir}/php/Symfony/Component/Translation/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Translation-tests
 
 #-------------------------------------------------------------------------------
 
 %package Validator
+
 Summary:  Symfony2 Validator Component
 Group:    Development/Libraries
+URL:      http://symfony.com/components
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-dom
+Requires: php-intl
+Requires: php-libxml
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
+%{?fedora:Requires: php-filter}
+# Optional
+Requires: %{name}-HttpFoundation = %{version}-%{release}
+Requires: %{name}-Yaml = %{version}-%{release}
+Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
+Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  2.4
 
-Provides: php-pear(%{pear_channel}/Validator)
+Provides: php-pear(%{pear_channel}/Validator) = %{version}
 
 %description Validator
-%{summary}.
+This component is based on the JSR-303 Bean Validation specification and
+enables specifying validation rules for classes using XML, YAML, PHP or
+annotations, which can then be checked against instances of these classes.
 
 %files Validator
 %doc src/Symfony/Component/Validator/LICENSE
 %doc src/Symfony/Component/Validator/composer.json
 %doc src/Symfony/Component/Validator/*.md
 %{_datadir}/php/Symfony/Component/Validator
+%exclude %{_datadir}/php/Symfony/Component/Validator/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Validator-tests
+
+Summary: Test suite for %{name}-Validator
+Group:   Development/Libraries
+
+Requires: %{name}-Validator = %{version}-%{release}
+
+%description Validator-tests
+%{summary}.
+
+%files Validator-tests
+%{_datadir}/php/Symfony/Component/Validator/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Validator-tests
 
 #-------------------------------------------------------------------------------
 
@@ -854,17 +1267,52 @@ Summary:  Symfony2 Yaml Component
 Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-iconv
+Requires: php-json
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
 
-Provides: php-pear(%{pear_channel}/Yaml)
+Provides: php-pear(%{pear_channel}/Yaml) = %{version}
 
 %description Yaml
-%{summary}.
+The Symfony2 YAML Component parses YAML strings to convert them to PHP arrays.
+It is also able to convert PHP arrays to YAML strings.
+
+YAML, YAML Ain't Markup Language, is a human friendly data serialization
+standard for all programming languages. YAML is a great format for your
+configuration files. YAML files are as expressive as XML files and as readable
+as INI files.
+
+The Symfony2 YAML Component implements the YAML 1.2 version of the
+specification.
 
 %files Yaml
 %doc src/Symfony/Component/Yaml/LICENSE
 %doc src/Symfony/Component/Yaml/composer.json
 %doc src/Symfony/Component/Yaml/*.md
 %{_datadir}/php/Symfony/Component/Yaml
+%exclude %{_datadir}/php/Symfony/Component/Yaml/Tests
+
+#-------------------------------------------------------------------------------
+
+%package Yaml-tests
+
+Summary: Test suite for %{name}-Yaml
+Group:   Development/Libraries
+
+Requires: %{name}-Yaml = %{version}-%{release}
+
+%description Yaml-tests
+%{summary}.
+
+%files Yaml-tests
+%{_datadir}/php/Symfony/Component/Yaml/Tests
+%dir %{_datadir}/tests
+     %{_datadir}/tests/%{name}-Yaml-tests
 
 #-------------------------------------------------------------------------------
 
@@ -874,7 +1322,7 @@ Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
 
-Provides: php-pear(%{pear_channel}/DoctrineBridge)
+Provides: php-pear(%{pear_channel}/DoctrineBridge) = %{version}
 
 %description DoctrineBridge
 %{summary}.
@@ -893,7 +1341,7 @@ Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
 
-Provides: php-pear(%{pear_channel}/MonologBridge)
+Provides: php-pear(%{pear_channel}/MonologBridge) = %{version}
 
 %description MonologBridge
 %{summary}.
@@ -912,7 +1360,7 @@ Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
 
-Provides: php-pear(%{pear_channel}/Propel1Bridge)
+Provides: php-pear(%{pear_channel}/Propel1Bridge) = %{version}
 
 %description Propel1Bridge
 %{summary}.
@@ -931,7 +1379,7 @@ Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
 
-Provides: php-pear(%{pear_channel}/SwiftmailerBridge)
+Provides: php-pear(%{pear_channel}/SwiftmailerBridge) = %{version}
 
 %description SwiftmailerBridge
 %{summary}.
@@ -950,7 +1398,7 @@ Group:    Development/Libraries
 
 Requires: php-common >= %{php_min_ver}
 
-Provides: php-pear(%{pear_channel}/TwigBridge)
+Provides: php-pear(%{pear_channel}/TwigBridge) = %{version}
 
 %description TwigBridge
 %{summary}.
