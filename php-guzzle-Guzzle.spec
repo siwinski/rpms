@@ -5,7 +5,7 @@
 %global pear_name    Guzzle
 
 Name:             php-guzzle-%{pear_name}
-Version:          3.1.1
+Version:          3.1.2
 Release:          1%{?dist}
 Summary:          PHP HTTP client library and framework for building RESTful web service clients
 
@@ -22,6 +22,7 @@ Requires:         php-common >= 5.3.2
 Requires:         php-pear(PEAR)
 Requires:         php-channel(%{pear_channel})
 Requires:         php-pear(pear.symfony.com/EventDispatcher) >= 2.1.0
+Requires:         ca-certificates
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 # phpci requires
@@ -70,6 +71,13 @@ Optional dependencies:
 # https://github.com/guzzle/guzzle/blob/v3.1.1/phing/tasks/GuzzlePearPharPackageTask.php#L146
 sed '/\.md"/s/role="data"/role="doc"/' -i package.xml
 
+# Remove bundled cert
+sed "s:__DIR__\s*.\s*'/Resources/cacert.pem':'%{_sysconfdir}/pki/tls/cert.pem':" \
+    -i %{pear_name}-%{version}/Guzzle/Http/Client.php
+sed -e '/cacert.pem/d' \
+    -e '/name="Guzzle\/Http\/Client.php"/s:\s*md5sum="[^"]*"::' \
+    -i package.xml
+
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
 
@@ -109,11 +117,14 @@ fi
 %files
 %doc %{pear_docdir}/%{pear_name}
 %{pear_xmldir}/%{name}.xml
-%{pear_datadir}/%{pear_name}
 %{pear_phpdir}/%{pear_name}
 
 
 %changelog
+* Mon Feb 04 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.1.2-1
+- Updated to upstream version 3.1.2
+- Removed bundled cert
+
 * Sat Jan 26 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.1.1-1
 - Updated to upstream version 3.1.1
 
