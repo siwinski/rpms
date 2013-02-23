@@ -1,20 +1,22 @@
 %global github_owner      symfony-cmf
 %global github_name       Routing
 %global github_version    1.0.0
-%global github_prerelease alpha4
 %global github_commit     92ee467ea2ed1797acd630c9576543d2120ca97a
+%global github_date       20130121
+
+%global github_release    alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
 %global php_min_ver       5.3.2
 
 Name:          php-SymfonyCmfRouting
 Version:       %{github_version}
-Release:       0.1.%{github_prerelease}%{?dist}
+Release:       0.1.%{github_release}%{?dist}
 Summary:       Extends the Symfony2 routing component for dynamic routes and chaining several routers
 
 Group:         Development/Libraries
 License:       MIT
 URL:           http://symfony.com/doc/master/cmf/components/routing.html
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_prerelease}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Test build requires
@@ -32,7 +34,6 @@ Requires:      php-pear(pear.symfony.com/Routing) <  2.3.0
 Requires:      php-pear(pear.symfony.com/HttpKernel) >= 2.1.0
 Requires:      php-pear(pear.symfony.com/HttpKernel) <  2.3.0
 # phpci requires
-Requires:      php-json
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-spl
@@ -77,9 +78,22 @@ Requires: %{name} = %{version}-%{release}
 
 # TODO: Update tests bootstrap
 
+# PHPUnit config
 sed -e 's:Tests/bootstrap.php:./bootstrap.php:' \
     -e 's:<directory>\.\?/\?:<directory>%{_datadir}/php/Symfony/Cmf/Component/Routing/:' \
     -i phpunit.xml.dist
+
+# Overwrite (and move) Tests/bootstrap.php (which uses Composer autoloader)
+# with simple spl autoloader
+mv Tests/bootstrap.php bootstrap.php.dist
+( cat <<'AUTOLOAD'
+<?php
+spl_autoload_register(function ($class) {
+    $src = str_replace(array('\\', '_'), '/', $class).'.php';
+    @include_once $src;
+});
+AUTOLOAD
+) > bootstrap.php
 
 
 %build
@@ -92,15 +106,14 @@ cp -rp * %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/
 
 mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
 mv %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/phpunit.xml.dist \
-   %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/Tests/bootstrap.php \
+   %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/bootstrap.php* \
    %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %check
-# TODO: Run tests
-#%{_bindir}/phpunit \
-#    -d include_path="./src:./tests:.:%{pear_phpdir}:%{_datadir}/php" \
-#    -c tests/phpunit.xml.dist
+%{_bindir}/phpunit \
+    -d include_path="%{buildroot}%{_datadir}/php:%{pear_phpdir}" \
+    -c phpunit.xml.dist
 
 
 %files
@@ -122,5 +135,5 @@ mv %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/phpunit.xml.dist \
 
 
 %changelog
-* Thu Jan 31 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.1.alpha4
+* Thu Jan 31 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.1.alpha4.20130121git92ee467
 - Initial package
