@@ -1,12 +1,12 @@
-%global github_owner      symfony-cmf
-%global github_name       Routing
-%global github_version    1.0.0
-%global github_commit     92ee467ea2ed1797acd630c9576543d2120ca97a
-%global github_date       20130121
+%global github_owner   symfony-cmf
+%global github_name    Routing
+%global github_version 1.0.0
+%global github_commit  92ee467ea2ed1797acd630c9576543d2120ca97a
+%global github_date    20130121
 
-%global github_release    alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
-%global php_min_ver       5.3.2
+%global php_min_ver    5.3.2
 
 Name:          php-SymfonyCmfRouting
 Version:       %{github_version}
@@ -19,11 +19,10 @@ URL:           http://symfony.com/doc/master/cmf/components/routing.html
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-# Test build requires
+# For tests
 BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# Test build requires: phpci
-BuildRequires: php-json
+# For tests: phpci
 BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-spl
@@ -33,7 +32,7 @@ Requires:      php-pear(pear.symfony.com/Routing) >= 2.1.0
 Requires:      php-pear(pear.symfony.com/Routing) <  2.3.0
 Requires:      php-pear(pear.symfony.com/HttpKernel) >= 2.1.0
 Requires:      php-pear(pear.symfony.com/HttpKernel) <  2.3.0
-# phpci requires
+# phpci
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-spl
