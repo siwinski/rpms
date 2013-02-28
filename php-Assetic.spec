@@ -49,10 +49,7 @@ Requires:      php-lessphp
 %description
 Assetic is an asset management framework for PHP.
 
-Optional dependencies:
-* APC (php-pecl-apc)
-* Twig (php-twig-Twig)
-* lessphp (php-lessphp)
+Optional dependency: APC (php-pecl-apc)
 
 Optional packages:
 * https://github.com/leafo/scssphp
