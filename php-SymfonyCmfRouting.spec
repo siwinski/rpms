@@ -1,16 +1,19 @@
-%global github_owner   symfony-cmf
-%global github_name    Routing
-%global github_version 1.0.0
-%global github_commit  92ee467ea2ed1797acd630c9576543d2120ca97a
-%global github_date    20130121
+%global github_owner    symfony-cmf
+%global github_name     Routing
+%global github_version  1.0.0
+%global github_commit   92ee467ea2ed1797acd630c9576543d2120ca97a
+%global github_date     20130121
 
-%global github_release alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release  alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
-%global php_min_ver    5.3.2
+%global php_min_ver     5.3.2
+
+%global symfony_min_ver 2.1.0
+%global symfony_max_ver 2.3.0
 
 Name:          php-SymfonyCmfRouting
 Version:       %{github_version}
-Release:       0.1.%{github_release}%{?dist}
+Release:       0.2.%{github_release}%{?dist}
 Summary:       Extends the Symfony2 routing component for dynamic routes and chaining several routers
 
 Group:         Development/Libraries
@@ -28,10 +31,10 @@ BuildRequires: php-reflection
 BuildRequires: php-spl
 
 Requires:      php-common >= %{php_min_ver}
-Requires:      php-pear(pear.symfony.com/Routing) >= 2.1.0
-Requires:      php-pear(pear.symfony.com/Routing) <  2.3.0
-Requires:      php-pear(pear.symfony.com/HttpKernel) >= 2.1.0
-Requires:      php-pear(pear.symfony.com/HttpKernel) <  2.3.0
+Requires:      php-pear(pear.symfony.com/Routing) >= %{symfony_min_ver}
+Requires:      php-pear(pear.symfony.com/Routing) <  %{symfony_max_ver}
+Requires:      php-pear(pear.symfony.com/HttpKernel) >= %{symfony_min_ver}
+Requires:      php-pear(pear.symfony.com/HttpKernel) <  %{symfony_max_ver}
 # phpci
 Requires:      php-pcre
 Requires:      php-reflection
@@ -63,28 +66,11 @@ ContentAwareGenerator on top of it to determine the route object from a
 content object.
 
 
-%package tests
-Summary:  Test suite for %{name}
-Group:    Development/Libraries
-Requires: %{name} = %{version}-%{release}
-
-%description tests
-%{summary}.
-
-
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
-# TODO: Update tests bootstrap
-
-# PHPUnit config
-sed -e 's:Tests/bootstrap.php:./bootstrap.php:' \
-    -e 's:<directory>\.\?/\?:<directory>%{_datadir}/php/Symfony/Cmf/Component/Routing/:' \
-    -i phpunit.xml.dist
-
-# Overwrite (and move) Tests/bootstrap.php (which uses Composer autoloader)
-# with simple spl autoloader
-mv Tests/bootstrap.php bootstrap.php.dist
+# Overwrite Tests/bootstrap.php (which uses Composer autoloader)
+# with a simple spl autoloader
 ( cat <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
@@ -92,7 +78,7 @@ spl_autoload_register(function ($class) {
     @include_once $src;
 });
 AUTOLOAD
-) > bootstrap.php
+) > Tests/bootstrap.php
 
 
 %build
@@ -102,11 +88,6 @@ AUTOLOAD
 %install
 mkdir -p -m 755 %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing
 cp -rp * %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/
-
-mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
-mv %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/phpunit.xml.dist \
-   %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/bootstrap.php* \
-   %{buildroot}%{_datadir}/tests/%{name}/
 
 
 %check
@@ -126,13 +107,11 @@ mv %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/phpunit.xml.dist \
 %exclude %{_datadir}/php/Symfony/Cmf/Component/Routing/Test
 %exclude %{_datadir}/php/Symfony/Cmf/Component/Routing/Tests
 
-%files tests
-%dir %{_datadir}/tests
-     %{_datadir}/tests/%{name}
-%{_datadir}/php/Symfony/Cmf/Component/Routing/Test
-%{_datadir}/php/Symfony/Cmf/Component/Routing/Tests
-
 
 %changelog
+* Tue Mar 05 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.2.alpha4.20130121git92ee467
+- Added globals symfony_min_ver and symfony_max_ver
+- Removed tests sub-package
+
 * Thu Jan 31 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.1.alpha4.20130121git92ee467
 - Initial package
