@@ -1,27 +1,36 @@
-%global libname scssphp
+%global github_owner   leafo
+%global github_name    scssphp
+%global github_version 0.0.4
+%global github_commit  3463d7dab573b98a45308d6cb8bd29f358ee313a
+%global github_date    20130301
 
-Name:          php-%{libname}
-Version:       0.0.4
-Release:       1%{?dist}
+%global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7})
+
+%global lib_name       scssphp
+%global php_min_ver    5.3.0
+
+Name:          php-%{lib_name}
+Version:       %{github_version}
+Release:       2.%{github_release}%{?dist}
 Summary:       A compiler for SCSS written in PHP
 
 Group:         Development/Libraries
 License:       MIT or GPLv3
-URL:           http://leafo.net/%{libname}
-Source0:       %{url}/src/%{libname}-%{version}.tar.gz
+URL:           http://leafo.net/%{lib_name}
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 BuildRequires: help2man
-# Test build requires
-BuildRequires: php-common
+# For tests
+BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# Test build requires: phpci
+# For tests: phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-pcre
 
-Requires:      php-common
-# phpci requires
+Requires:      php-common >= %{php_min_ver}
+# phpci
 Requires:      php-ctype
 Requires:      php-date
 Requires:      php-pcre
@@ -40,19 +49,16 @@ the SCSS syntax.
 
 
 %prep
-%setup -q -n %{libname}
+%setup -q -n %{github_name}-%{github_commit}
 
-# AWAITING https://github.com/leafo/scssphp/pull/23
 # Create man page for bin
 # Required here b/c path to include file is changed in next command
-#help2man --no-info ./pscss > pscss.1
+help2man --no-info ./pscss > pscss.1
 
-# Update bin require
-sed 's#scss.inc.php#%{_datadir}/php/%{libname}/scss.inc.php#' -i pscss
-
-# Update tests' require
-sed 's#__DIR__ . "/../scss.inc.php"#"%{_datadir}/php/%{libname}/scss.inc.php"#' \
-    -i tests/*.php
+# Update bin shebang and require
+sed -e 's#/usr/bin/env php#%{__php}#' \
+    -e 's#scss.inc.php#%{_datadir}/php/%{lib_name}/scss.inc.php#' \
+    -i pscss
 
 
 %build
@@ -60,35 +66,32 @@ sed 's#__DIR__ . "/../scss.inc.php"#"%{_datadir}/php/%{libname}/scss.inc.php"#' 
 
 
 %install
-mkdir -p -m 755 %{buildroot}%{_datadir}/php/%{libname}
-cp -p scss.inc.php %{buildroot}%{_datadir}/php/%{libname}/
-
-mkdir -p -m 755 %{buildroot}%{_datadir}/tests/%{name}
-cp -rp tests/* %{buildroot}%{_datadir}/tests/%{name}/
+mkdir -p -m 755 %{buildroot}%{_datadir}/php/%{lib_name}
+install -p -m 644 scss.inc.php %{buildroot}%{_datadir}/php/%{lib_name}/
 
 mkdir -p -m 755 %{buildroot}%{_bindir}
-cp -p pscss %{buildroot}%{_bindir}
+install -p -m 755 pscss %{buildroot}%{_bindir}/
 
-# AWAITING https://github.com/leafo/scssphp/pull/23
-#mkdir -p  %{buildroot}%{_mandir}/man1
-#cp -p pscss.1  %{buildroot}%{_mandir}/man1/
+mkdir -p -m 755  %{buildroot}%{_mandir}/man1
+install -p -m 644 pscss.1 %{buildroot}%{_mandir}/man1/
 
 
 %check
-# Update tests' require to use buildroot
-sed 's#%{_datadir}#%{buildroot}%{_datadir}#' -i tests/*.php
-
 %{_bindir}/phpunit tests
 
 
 %files
 %doc *.md composer.json
-%{_datadir}/php/%{libname}
+%doc %{_mandir}/man1/pscss.1*
+%{_datadir}/php/%{lib_name}
 %{_bindir}/pscss
-%dir %{_datadir}/tests
-     %{_datadir}/tests/%{name}
 
 
 %changelog
+* Thu Mar 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-2.20130301git3463d7d
+- Updated to latest snapshot
+- Added man page
+- Tests not packaged
+
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-1
 - Initial package
