@@ -22,14 +22,14 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 BuildArch:     noarch
 BuildRequires: help2man
 # For tests
-BuildRequires: php-common >= %{php_min_ver}
+BuildRequires: php-cli >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 # For tests: phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-pcre
 
-Requires:      php-common >= %{php_min_ver}
+Requires:      php-cli >= %{php_min_ver}
 # phpci
 Requires:      php-ctype
 Requires:      php-date
@@ -90,6 +90,7 @@ install -p -m 644 pscss.1 %{buildroot}%{_mandir}/man1/
 %changelog
 * Sat Mar 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-2.20130301git3463d7d
 - Updated to latest snapshot
+- php-common => php-cli
 - Added man page
 - Removed tests from package
 
