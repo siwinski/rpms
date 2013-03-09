@@ -1,8 +1,8 @@
 %global github_owner    symfony-cmf
 %global github_name     Routing
 %global github_version  1.0.0
-%global github_commit   92ee467ea2ed1797acd630c9576543d2120ca97a
-%global github_date     20130121
+%global github_commit   4706313dc7708633cfb1228c8b44e807aa44b6bf
+%global github_date     20130306
 
 %global github_release  alpha4.%{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
@@ -13,8 +13,8 @@
 
 Name:          php-SymfonyCmfRouting
 Version:       %{github_version}
-Release:       0.2.%{github_release}%{?dist}
-Summary:       Extends the Symfony2 routing component for dynamic routes and chaining several routers
+Release:       0.3.%{github_release}%{?dist}
+Summary:       Extends the Symfony2 routing component
 
 Group:         Development/Libraries
 License:       MIT
@@ -25,6 +25,10 @@ BuildArch:     noarch
 # For tests
 BuildRequires: php-common >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+BuildRequires: php-pear(pear.symfony.com/Routing) >= %{symfony_min_ver}
+BuildRequires: php-pear(pear.symfony.com/Routing) <  %{symfony_max_ver}
+BuildRequires: php-pear(pear.symfony.com/HttpKernel) >= %{symfony_min_ver}
+BuildRequires: php-pear(pear.symfony.com/HttpKernel) <  %{symfony_max_ver}
 # For tests: phpci
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -109,6 +113,11 @@ cp -rp * %{buildroot}%{_datadir}/php/Symfony/Cmf/Component/Routing/
 
 
 %changelog
+* Sat Mar 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.3.alpha4.20130306git4706313
+- Added additional commits (snapshot) beyond tagged version 1.0.0-alpha4 which
+  include several Symfony 2.2 fixes
+- Fixed build requires
+
 * Tue Mar 05 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-0.2.alpha4.20130121git92ee467
 - Added globals symfony_min_ver and symfony_max_ver
 - Removed tests sub-package
