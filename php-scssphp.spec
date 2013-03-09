@@ -88,10 +88,10 @@ install -p -m 644 pscss.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
-* Thu Mar 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-2.20130301git3463d7d
+* Sat Mar 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-2.20130301git3463d7d
 - Updated to latest snapshot
 - Added man page
-- Tests not packaged
+- Removed tests from package
 
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-1
 - Initial package
