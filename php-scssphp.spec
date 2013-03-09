@@ -6,17 +6,16 @@
 
 %global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
-%global lib_name       scssphp
 %global php_min_ver    5.3.0
 
-Name:          php-%{lib_name}
+Name:          php-%{github_name}
 Version:       %{github_version}
 Release:       2.%{github_release}%{?dist}
 Summary:       A compiler for SCSS written in PHP
 
 Group:         Development/Libraries
 License:       MIT or GPLv3
-URL:           http://leafo.net/%{lib_name}
+URL:           http://leafo.net/%{github_name}
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
@@ -57,7 +56,7 @@ help2man --no-info ./pscss > pscss.1
 
 # Update bin shebang and require
 sed -e 's#/usr/bin/env php#%{__php}#' \
-    -e 's#scss.inc.php#%{_datadir}/php/%{lib_name}/scss.inc.php#' \
+    -e 's#scss.inc.php#%{_datadir}/php/%{github_name}/scss.inc.php#' \
     -i pscss
 
 
@@ -66,8 +65,8 @@ sed -e 's#/usr/bin/env php#%{__php}#' \
 
 
 %install
-mkdir -p -m 755 %{buildroot}%{_datadir}/php/%{lib_name}
-install -p -m 644 scss.inc.php %{buildroot}%{_datadir}/php/%{lib_name}/
+mkdir -p -m 755 %{buildroot}%{_datadir}/php/%{github_name}
+install -p -m 644 scss.inc.php %{buildroot}%{_datadir}/php/%{github_name}/
 
 mkdir -p -m 755 %{buildroot}%{_bindir}
 install -p -m 755 pscss %{buildroot}%{_bindir}/
@@ -83,7 +82,7 @@ install -p -m 644 pscss.1 %{buildroot}%{_mandir}/man1/
 %files
 %doc *.md composer.json
 %doc %{_mandir}/man1/pscss.1*
-%{_datadir}/php/%{lib_name}
+%{_datadir}/php/%{github_name}
 %{_bindir}/pscss
 
 
