@@ -1,10 +1,10 @@
 %global github_owner        kriswallsmith
 %global github_name         assetic
 %global github_version      1.1.0
-%global github_commit       6f580dd1cf03d6d80a3885921ca068b774224161
-%global github_date         20130218
+%global github_commit       df03baa337ae1c87803a7b1a76a393f8a59813f3
+%global github_date         20130224
 
-%global github_release      alpha3
+%global github_release      alpha4
 
 %global php_min_ver         5.3.1
 
@@ -15,7 +15,7 @@
 
 Name:          php-Assetic
 Version:       %{github_version}
-Release:       0.1.%{github_release}%{?dist}
+Release:       0.2.%{github_release}%{?dist}
 Summary:       Asset Management for PHP
 
 Group:         Development/Libraries
@@ -79,7 +79,7 @@ cp -rp src/Assetic %{buildroot}%{_datadir}/php/
 %check
 # TODO: Work with upstream to figure out why tests are ignored for export
 #       (and therefore not included in a GitHub archive)
-#       https://github.com/kriswallsmith/assetic/blob/v1.1.0-alpha3/.gitattributes
+#       https://github.com/kriswallsmith/assetic/blob/v1.1.0-alpha4/.gitattributes
 
 
 %files
@@ -88,5 +88,8 @@ cp -rp src/Assetic %{buildroot}%{_datadir}/php/
 
 
 %changelog
+* Sat Mar 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-0.2.alpha4
+- Updated to upstream pre-release version 1.1.0-alpha4
+
 * Wed Feb 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.0-0.1.alpha3
 - Initial package
