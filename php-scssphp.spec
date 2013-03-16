@@ -1,16 +1,14 @@
 %global github_owner   leafo
 %global github_name    scssphp
-%global github_version 0.0.4
-%global github_commit  3463d7dab573b98a45308d6cb8bd29f358ee313a
-%global github_date    20130301
-
-%global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7})
+%global github_version 0.0.5
+%global github_commit  dd4e4cdc8295b0897b9fe8b1b580561b8174ad35
+%global github_date    20130311
 
 %global php_min_ver    5.3.0
 
 Name:          php-%{github_name}
 Version:       %{github_version}
-Release:       2.%{github_release}%{?dist}
+Release:       1%{?dist}
 Summary:       A compiler for SCSS written in PHP
 
 Group:         Development/Libraries
@@ -21,14 +19,14 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 BuildArch:     noarch
 BuildRequires: help2man
 # For tests
-BuildRequires: php-cli >= %{php_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 # For tests: phpci
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-pcre
 
-Requires:      php-cli >= %{php_min_ver}
+Requires:      php(language) >= %{php_min_ver}
 # phpci
 Requires:      php-ctype
 Requires:      php-date
@@ -43,7 +41,7 @@ The entire compiler comes in a single class file ready for including in any kind
 of project in addition to a command line tool for running the compiler from the
 terminal.
 
-scssphp implements SCSS (3.1.20). It does not implement the SASS syntax, only
+scssphp implements SCSS (3.2.7). It does not implement the SASS syntax, only
 the SCSS syntax.
 
 
@@ -55,7 +53,7 @@ the SCSS syntax.
 help2man --no-info ./pscss > pscss.1
 
 # Update bin shebang and require
-sed -e 's#/usr/bin/env php#%{__php}#' \
+sed -e 's#/usr/bin/env php#%{_bindir}/php#' \
     -e 's#scss.inc.php#%{_datadir}/php/%{github_name}/scss.inc.php#' \
     -i pscss
 
@@ -87,6 +85,11 @@ install -p -m 644 pscss.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Sat Mar 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.5-1
+- Updated to version 0.0.5
+- php-cli => php(language)
+- %%{__php} => %%{_bindir}/php
+
 * Sat Mar 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.0.4-2.20130301git3463d7d
 - Updated to latest snapshot
 - php-common => php-cli
