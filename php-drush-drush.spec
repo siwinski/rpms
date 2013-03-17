@@ -109,6 +109,11 @@ sed -e '/<file.*name="drush.bat"/,/<\/file>/d' \
     -e '/<install.*drush.bat/d' \
     -i package.xml
 
+# Fix rpmlint "W: wrong-file-end-of-line-encoding
+# /usr/share/doc/pear/drush/examples/sandwich.txt"
+sed 's/\r//' -i %{pear_name}-%{version}/examples/sandwich.txt
+sed '/examples\/sandwich.txt/s/md5sum="[^"]*"//' -i package.xml
+
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
 
@@ -166,6 +171,7 @@ fi
 %changelog
 * Sun Mar 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-2
 - Removed drush.bat
+- Fixed rpmlint wrong-file-end-of-line-encoding warning
 
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-1
 - Updated to upstream version 5.8.0
