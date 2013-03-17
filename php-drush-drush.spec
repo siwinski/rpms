@@ -9,13 +9,13 @@
 %{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
 
 %global pear_channel pear.drush.org
-%global pear_name    %(echo %{name} | sed -e 's/^php-drush-//' -e 's/-/_/g')
+%global pear_name    drush
 
 # Tests are only run with rpmbuild --with tests
 # Lot of failures, need investigation
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
-Name:             php-drush-drush
+Name:             php-drush-%{pear_name}
 Version:          5.8.0
 Release:          2%{?dist}
 Summary:          Command line shell and Unix scripting interface for Drupal
@@ -27,7 +27,7 @@ Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
 
 Provides:         php-pear(%{pear_channel}/%{pear_name}) = %{version}
 Provides:         drupal6-drush = %{version}-%{release}
-Obsoletes:        drupal6-drush < 5.7.0-1
+Obsoletes:        drupal6-drush < %{version}-%{release}
 
 BuildArch:        noarch
 BuildRequires:    php-pear(PEAR)
