@@ -32,6 +32,7 @@ Obsoletes:        drupal6-drush < 5.7.0-1
 BuildArch:        noarch
 BuildRequires:    php-pear(PEAR)
 BuildRequires:    php-channel(%{pear_channel})
+BuildRequires:    help2man
 %if %{with_tests}
 BuildRequires:    php-pear(pear.phpunit.de/PHPUnit) >= 3.5
 %endif
@@ -119,7 +120,13 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 
 %build
-# Empty build section, nothing required
+# Build man page
+cd %{pear_name}-%{version}
+sed -e 's#@pear_directory@/drush#`dirname -- "$0"`#' \
+    -e 's#@php_bin@#%{_bindir}/php#' \
+    drush > drush-help2man
+chmod +x drush-help2man
+help2man --no-info ./drush-help2man > drush.1
 
 
 %install
@@ -137,6 +144,10 @@ chmod a+x %{buildroot}%{pear_testdir}/%{pear_name}/tests/runner.php
 # Install XML package description
 mkdir -p %{buildroot}%{pear_xmldir}
 install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
+
+# Install man page
+mkdir -p %{buildroot}%{_mandir}/man1
+cp -p drush.1 %{buildroot}%{_mandir}/man1/
 
 
 %check
@@ -162,6 +173,7 @@ fi
 
 %files
 %doc %{pear_docdir}/%{pear_name}
+%doc %{_mandir}/man1/drush.1*
 %{pear_xmldir}/%{name}.xml
 %{pear_phpdir}/%{pear_name}
 %{pear_testdir}/%{pear_name}
@@ -172,6 +184,7 @@ fi
 * Sun Mar 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-2
 - Removed drush.bat
 - Fixed rpmlint wrong-file-end-of-line-encoding warning
+- Added man page
 
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-1
 - Updated to upstream version 5.8.0
