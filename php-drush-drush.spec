@@ -17,7 +17,7 @@
 
 Name:             php-drush-drush
 Version:          5.8.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Command line shell and Unix scripting interface for Drupal
 
 Group:            Development/Libraries
@@ -103,6 +103,12 @@ sed -e '/.travis.yml/d' \
     -e '/.gitignore/d' \
     -i package.xml
 
+# Remove drush.bat
+# *** Upstream issue: http://drupal.org/node/1704986
+sed -e '/<file.*name="drush.bat"/,/<\/file>/d' \
+    -e '/<install.*drush.bat/d' \
+    -i package.xml
+
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
 
@@ -158,6 +164,9 @@ fi
 
 
 %changelog
+* Sun Mar 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-2
+- Removed drush.bat
+
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 5.8.0-1
 - Updated to upstream version 5.8.0
 
