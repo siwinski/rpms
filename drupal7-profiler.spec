@@ -38,7 +38,7 @@ cp -p %{SOURCE1} .
 %install
 rm -rf %{buildroot}
 mkdir -p -m 0755 %{buildroot}%{drupal7_modules}/%{module_name}
-cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}
+cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}/
 
 
 %clean
@@ -53,5 +53,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Mar 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.beta1
+* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.beta1
 - Initial package
