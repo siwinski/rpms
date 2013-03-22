@@ -22,7 +22,7 @@ Requires:      php-pcre
 Requires:      php-spl
 
 %description
-Boxes module is a reimplementation of the custom blocks (boxes) that the core
+Boxes module is a re-implementation of the custom blocks (boxes) that the core
 block module provides. It is a proof of concept for what a re-worked block
 module could do.
 
@@ -49,7 +49,7 @@ cp -p %{SOURCE1} .
 %install
 rm -rf %{buildroot}
 mkdir -p -m 0755 %{buildroot}%{drupal7_modules}/%{module_name}
-cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}
+cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}/
 
 
 %clean
@@ -64,5 +64,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Mar 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
+* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package
