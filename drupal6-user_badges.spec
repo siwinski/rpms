@@ -18,8 +18,13 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+#Requires:  drupal6(upload)
+#Requires:  drupal6(ecommerce)
 # phpci
 Requires:  php-pcre
+
+Provides:  drupal6(%{module_name}) = %{version}
+Provides:  drupal6(%{module_name}_products) = %{version}
 
 %description
 The User Badges module allows each user to be assigned 'badges' which can be
@@ -40,6 +45,10 @@ this one.
 User Badges can be used as a way to establish trust (in the same way as eBay's
 star graphics), or as an incentive for users. They can also be a quick way to
 identify moderators, administrators, or anyone with a given role.
+
+This package provides the following Drupal modules:
+* %{module_name}
+* %{module_name}_products (NOTE: Requires manual install of the ecommerce module)
 
 
 %prep
