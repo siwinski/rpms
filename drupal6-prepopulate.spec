@@ -6,7 +6,7 @@
 Name:      drupal6-%{module_name}
 Version:   2.2
 Release:   1%{?dist}
-Summary:   Allows form elements to be prepopulated from the URL
+Summary:   Allows form elements to be pre-populated from the URL
 
 Group:     Applications/Publishing
 License:   GPLv2
@@ -18,8 +18,8 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
-# phpci
-Requires:  php-
+
+Provides:  drupal6(%{module_name}) = %{version}
 
 %description
 The Prepopulate module allows fields in most forms to be pre-populated from
@@ -30,11 +30,14 @@ For example, the following URL:
 http://www.example.com/node/add/blog?edit[title]=this is the title
 
 will automatically fill the Title field on a new blog post with the words
-"this is the title". Any field can be prepopulated this way, including taxonomy
+"this is the title". Any field can be pre-populated this way, including taxonomy
 and CCK fields. You can prepopulate more than one field at a time as well.
 Prepopulate is excellent for creating bookmarklets. For examples on usage for
 all of these cases, please read the USAGE.txt file that comes with the module
 or you can read the online handbook page (http://drupal.org/node/228167).
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
