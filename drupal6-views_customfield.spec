@@ -18,6 +18,10 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-views
+#Requires:  drupal6(views)
+
+Provides:  drupal6(%{module_name}) = %{version}
 
 %description
 This module provides some useful views fields.
@@ -27,6 +31,9 @@ Available views fields:
 * PHP code: Field that allows usage of custom PHP code (with access to view's
   database result)
 * Rownumber: Field containing rownumber (respects pagers).
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
