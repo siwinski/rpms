@@ -18,15 +18,21 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-date
 # phpci
 Requires:  php-date
 Requires:  php-ereg
+
+Provides: drupal6(%{module_name}) = %{version}
 
 %description
 Node import allows users to import content (node, user, taxonomy) from CSV or
 TSV files.
 
 Note that all files need to be in UTF8 encoding.
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
