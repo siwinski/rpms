@@ -18,8 +18,12 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-votingapi
+#Requires:  drupal6(votingapi)
 # phpci
-Requires:  php-
+Requires:  php-date
+
+Provides:  drupal6(%{module_name}) = %{version}
 
 %description
 Makes it possible for voting widgets (that leverage the Voting API) to hook
@@ -27,11 +31,20 @@ into the User Points ecosystem. Sites using voting tools like Fivestar, Voting,
 or Latest and Greatest (to name a few) can now award their users points for
 voting.
 
+This package provides the following Drupal modules:
+* %{module_name}
+
 
 %prep
 %setup -qn %{module_name}
 
 cp -p %{SOURCE1} .
+
+# Remove executable bits
+chmod a-x *
+
+# Fix wrong-file-end-of-line-encoding
+sed -i 's/\r//' README.txt
 
 
 %build
