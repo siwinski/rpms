@@ -19,6 +19,10 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+# phpci
+Requires:  php-pcre
+
+Provides:  drupal6(%{module_name}) = %{version}
 
 %description
 Provides vertical tabs like the node add form here:
@@ -34,6 +38,9 @@ This module provides the following features:
   settings.php and $conf
 * When used in combination with Form module allows you to configure vertical
   tabs on all possible forms
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
@@ -64,5 +71,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
+* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.rc2
 - Initial package
