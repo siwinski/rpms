@@ -40,7 +40,8 @@ Devel
   (short is good - use cache for complex queries).
 * Also a dprint_r($array) function is provided, which pretty prints arrays.
   Useful during development. Similarly, a ddebug_backtrace() is offerred.
-* much more. See this helpful demo page.
+* much more. See this helpful demo page
+  (http://ratatosk.net/drupal/tutorials/debugging-drupal.html).
 
 Generate content
 * Accelerate development of your site or module by quickly generating nodes,
