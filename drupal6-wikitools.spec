@@ -6,7 +6,7 @@
 Name:      drupal6-%{module_name}
 Version:   1.3
 Release:   1%{?dist}
-Summary:   Provides helper functionality to have wiki-like behaviour
+Summary:   Provides helper functionality to have wiki-like behavior
 
 Group:     Applications/Publishing
 License:   GPLv2
@@ -18,6 +18,10 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+# phpci
+Requires:  php-pcre
+
+Provides:  drupal6(%{module_name}) = %{version}
 
 %description
 The wikitools module provides some settings to get a more wiki-like behavior.
@@ -43,6 +47,9 @@ Some of the features of this module are:
 The module can be used in conjunction with the flexifilter module (of course),
 the freelinking module by hijacking freelinking links, or together with the
 pearwiki filter module for various wiki formats.
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
