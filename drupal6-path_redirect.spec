@@ -19,13 +19,22 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6(devel_generate)
 # phpci
+Requires:  php-date
 Requires:  php-pcre
+
+Provides:  drupal6(%{module_name}) = %{version}
+Provides:  drupal6(%{module_name}_generate) = %{version}
 
 %description
 This module allows you to specify a redirect from one path to another path
 or an external URL, using any HTTP redirect status
 (http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3).
+
+This package provides the following Drupal modules:
+* %{module_name}
+* %{module_name}_generate
 
 
 %prep
@@ -56,5 +65,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
+* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.rc2
 - Initial package
