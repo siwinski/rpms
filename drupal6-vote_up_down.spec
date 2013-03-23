@@ -18,6 +18,19 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-ctools
+Requires:  drupal6-votingapi
+# Requires:  drupal6(comment)
+# Requires:  drupal6(ctools)
+# Requires:  drupal6(taxonomy)
+# Requires:  drupal6(votingapi)
+# phpci
+Requires:  php-date
+
+Provides:  drupal6(vud) = %{version}
+Provides:  drupal6(vud_comment) = %{version}
+Provides:  drupal6(vud_node) = %{version}
+Provides:  drupal6(vud_term) = %{version}
 
 %description
 Allows votes on some drupal entities and provides the base for implementing
@@ -29,6 +42,12 @@ Features:
 * Code voting support for your own objects
 * Make your own widgets using ctools plugins
 * And more!
+
+This package provides the following Drupal modules:
+* vud
+* vud_comment
+* vud_node
+* vud_term
 
 
 %prep
