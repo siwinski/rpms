@@ -18,6 +18,14 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-rules
+#Requires:  drupal6(rules)
+# phpci
+Requires:  php-date
+
+Provides:  drupal6(%{module_name}) = %{version}
+Provides:  drupal6(%{module_name}_rules) = %{version}
+Provides:  drupal6(%{module_name}_service) = %{version}
 
 %description
 This module provides an API for users to gain or lose points for performing
@@ -34,6 +42,11 @@ based on point balance, or purchase goods from your store.
 
 This module is useful in providing an incentive for users to participate in
 the site, and be more active.
+
+This package provides the following Drupal modules:
+* %{module_name}
+* %{module_name}_rules
+* %{module_name}_service (NOTE: Requires manual install of the services module)
 
 
 %prep
