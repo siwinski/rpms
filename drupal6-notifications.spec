@@ -6,7 +6,7 @@
 Name:      drupal6-%{module_name}
 Version:   2.3
 Release:   1%{?dist}
-Summary:   The basic notifications framework
+Summary:   This is a complete Subscriptions/Notifications Framework
 
 Group:     Applications/Publishing
 License:   GPLv2
