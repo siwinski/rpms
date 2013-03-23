@@ -19,6 +19,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
 
+Provides:  drupal6(%{module_name}) = %{version}
+
 %description
 Provides a quick and easy way to replace any text on a site.
 
@@ -29,6 +31,9 @@ Features:
 * Note that this is not a replacement to Locale as having thousands of overrides
   can cause more pain then benefit. Use this only if you need a few easy text
   changes.
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
