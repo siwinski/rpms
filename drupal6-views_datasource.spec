@@ -19,10 +19,17 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:  drupal6
+Requires:  drupal6-views
+#Requires:  drupal6(views)
 # phpci
 Requires:  php-date
 Requires:  php-json
 Requires:  php-pcre
+
+Provides:  drupal6(views_json) = %{version}
+Provides:  drupal6(views_rdf) = %{version}
+Provides:  drupal6(views_xhtml) = %{version}
+Provides:  drupal6(views_xml) = %{version}
 
 %description
 Views Datasource is a set of plugins for Drupal Views for rendering content in
@@ -40,9 +47,16 @@ able to create datasources in the different formats.
 
 The project consists of 4 Views style plugins (and related row plugins):
 * views_xml - Output as raw XML, OPML, and Atom;
-* views_json - Output as Simile/Exhibit JSON, Canonical JSON, JSONP/JSON in script;
+* views_json - Output as Simile/Exhibit JSON, Canonical JSON, JSONP/JSON in
+               script;
 * views_rdf- Output as FOAF, SIOC, and DOAP;
 * views_xhtml - Output as hCard, hCalendar, and Geo.
+
+This package provides the following Drupal modules:
+* views_json
+* views_rdf
+* views_xhtml
+* views_xml
 
 
 %prep
@@ -73,5 +87,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
+* Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.beta2
 - Initial package
