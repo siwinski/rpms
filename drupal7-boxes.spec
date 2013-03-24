@@ -2,7 +2,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Provides exports for custom blocks and spaces integration
 
 Group:         Applications/Publishing
@@ -21,6 +21,8 @@ Requires:      drupal7-ctools
 Requires:      php-pcre
 Requires:      php-spl
 
+Provides:      drupal7(%{module_name}) = %{version}
+
 %description
 Boxes module is a re-implementation of the custom blocks (boxes) that the core
 block module provides. It is a proof of concept for what a re-worked block
@@ -35,6 +37,9 @@ the contents of blocks without going to an admin page.
 
 Boxes provides exportables for its blocks via the (required) Chaos tools module.
 This allows modules to provide blocks in code that can be overwritten in the UI.
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
@@ -64,5 +69,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
+- Added virtual provides
+
 * Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package
