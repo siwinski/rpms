@@ -2,7 +2,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Fixes the crooked access checks for Taxonomy pages
 
 Group:         Applications/Publishing
@@ -18,6 +18,8 @@ BuildRequires: drupal7-rpmbuild
 Requires:      drupal7
 # Since Drupal 7 only requires PHP >= 5.2.5, we must must specify greater PHP min ver
 Requires:      php-common >= 5.3.0
+
+Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 This module:
@@ -36,6 +38,9 @@ permissions for the desired vocabularies.
 Note: A module can't add permissions to another module, so the extra "add terms
 in X" permissions are located under "Taxonomy access fix" and not under
 "Taxonomy".
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
@@ -65,5 +70,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
+- Added virtual provides
+
 * Tue Mar 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package
