@@ -3,7 +3,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       2.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       Allows an install profile to be defined as a Drupal .info file
 
 Group:         Applications/Publishing
@@ -18,12 +18,17 @@ BuildRequires: drupal7-rpmbuild
 
 Requires:      drupal7
 
+Provides:      drupal7(%{module_name}) = %{version}
+
 %description
 Profiler provides a new way to write install profiles. Gone are the days where
 you needed to know all the quirks of Drupal's APIs in order to write a solid
 install profile. Profiler allows you to quickly and easily create new install
 profiles, as well as have 'Sub' Install Profiles, where one Install Profile
 inherits from and extends another Install Profile.
+
+This package provides the following Drupal modules:
+* %{module_name}
 
 
 %prep
@@ -53,5 +58,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.2.beta1
+- Added virtual provides
+
 * Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.beta1
 - Initial package
