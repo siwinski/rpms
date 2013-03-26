@@ -4,7 +4,7 @@
 Name:          drupal7-%{module_name}
 Version:       3.0
 Release:       0.1.%{pre_release}%{?dist}
-Summary:       Provides exports for custom blocks and spaces integration
+Summary:       Allows creation of custom breadcrumbs for any page using contexts
 
 Group:         Applications/Publishing
 License:       GPLv2+
