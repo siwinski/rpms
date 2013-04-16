@@ -2,7 +2,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Provides exports for custom blocks and spaces integration
 
 Group:         Applications/Publishing
@@ -17,6 +17,7 @@ BuildRequires: drupal7-rpmbuild
 
 Requires:      drupal7
 Requires:      drupal7-ctools
+#Requires:      drupal7(ctools)
 # phpci
 Requires:      php-pcre
 Requires:      php-spl
@@ -69,8 +70,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
-- Added virtual provides
-
 * Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package
