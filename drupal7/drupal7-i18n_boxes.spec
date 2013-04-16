@@ -17,6 +17,7 @@ BuildRequires: drupal7-rpmbuild
 
 Requires:      drupal7
 Requires:      drupal7-ctools
+Requires:      drupal7-i18n
 Requires:      drupal7(boxes)
 #Requires:      drupal7(ctools)
 #Requires:      drupal7(i18n_string)
