@@ -17,9 +17,15 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild
 
 Requires:      drupal7
+Requires:      drupal7-ctools
+Requires:      drupal7-features
+#Requires:      drupal7(ctools)
+#Requires:      drupal7(features)
+#Requires:      drupal7(profile)
 # phpci
 Requires:      php-pcre
 
+Provides:      drupal7(%{module_name}) = %{version}
 Provides:      drupal7(fe_block) = %{version}
 Provides:      drupal7(fe_nodequeue) = %{version}
 Provides:      drupal7(fe_profile) = %{version}
@@ -30,10 +36,10 @@ Features Extra provides faux exportables (via Features) of several
 site-building components
 
 This package provides the following Drupal modules:
-* fe_block
-* fe_nodequeue
+* fe_block (requires manual install of block_class module only if running tests)
+* fe_nodequeue (requires manual install of the nodequeue module)
 * fe_profile
-* features_extra_test
+* features_extra_test (requires manual install of block_class module)
 
 
 %prep
