@@ -8,6 +8,9 @@ Summary:       Zen is a powerful, yet simple, HTML5 starting theme
 Group:         Applications/Publishing
 # Drupal theme itself is licensed under GPL
 # js/html5.js and js/html5-respond.js are dual-licensed under MIT or GPL
+#
+# Added upstream issue http://drupal.org/node/1985332 to address rpmlint
+# "incorrect-fsf-address STARTERKIT/sass-extensions/zen-grids/LICENSE.txt"
 License:       GPLv2 and MIT
 URL:           http://drupal.org/project/%{theme_name}
 Source0:       http://ftp.drupal.org/files/projects/%{theme_name}-7.x-%{version}.tar.gz
