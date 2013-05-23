@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name language_cookie
 
 Name:          drupal7-%{module_name}
 Version:       1.6
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Allows usage of cookies to remember the user's last language
 
 Group:         Applications/Publishing
@@ -13,12 +15,11 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 #Requires:      drupal7(locale)
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Adds an extra "Cookie" field to the Language Negotiation settings, allowing the
@@ -57,5 +58,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.6-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.6-1
 - Initial package

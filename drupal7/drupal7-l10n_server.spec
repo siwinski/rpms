@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name l10n_server
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.1.dev.20130220%{?dist}
+Release:       0.2.dev.20130220%{?dist}
 Summary:       Localization server
 
 Group:         Applications/Publishing
@@ -13,7 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7(potx)
@@ -23,14 +26,6 @@ Requires:      drupal7(l10n_pconfig)
 Requires:      php-date
 Requires:      php-pcre
 Requires:      php-simplexml
-
-Provides:      drupal7(l10n_community) = %{version}
-Provides:      drupal7(l10n_groups) = %{version}
-Provides:      drupal7(l10n_remote) = %{version}
-Provides:      drupal7(l10n_packager) = %{version}
-Provides:      drupal7(l10n_server) = %{version}
-Provides:      drupal7(l10n_drupal) = %{version}
-Provides:      drupal7(l10n_gettext) = %{version}
 
 %description
 The localization server is a set of Drupal modules powering
@@ -81,5 +76,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.dev.20130220
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.dev.20130220
 - Initial package

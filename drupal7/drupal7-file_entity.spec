@@ -1,9 +1,11 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name file_entity
 %global pre_release unstable7
 
 Name:          drupal7-%{module_name}
 Version:       2.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       File entity (fieldable files)
 
 Group:         Applications/Publishing
@@ -14,7 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-ctools
@@ -23,9 +26,6 @@ Requires:      drupal7-ctools
 #Requires:      drupal7(ctools)
 # phpci
 Requires:      php-spl
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_test) = %{version}
 
 %description
 File entity provides interfaces for managing files. It also extends the core
@@ -65,5 +65,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.2.unstable7
+- Updated for drupal7-rpmbuild auto-provides
+
 * Wed Apr 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.unstable7
 - Initial package

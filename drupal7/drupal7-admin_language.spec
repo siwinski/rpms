@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name admin_language
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.1.dev.20130226%{?dist}
+Release:       0.2.dev.20130226%{?dist}
 Summary:       Displays administration pages in preferred language
 
 Group:         Applications/Publishing
@@ -13,12 +15,11 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 #Requires:      drupal7(locale)
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 This module lets the administrator see all administration pages in her
@@ -61,5 +62,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.dev.20130226
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.dev.20130226
 - Initial package

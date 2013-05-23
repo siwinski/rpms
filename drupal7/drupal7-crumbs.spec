@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name crumbs
 
 Name:          drupal7-%{module_name}
 Version:       1.9
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       The ultimate breadcrumbs module
 
 Group:         Applications/Publishing
@@ -13,14 +15,13 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 # phpci
 Requires:      php-pcre
 Requires:      php-spl
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Crumbs is a powerful breadcrumb-building machine, generating high-quality
@@ -74,5 +75,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.9-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Sat May 04 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.9-1
 - Initial package

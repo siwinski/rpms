@@ -1,9 +1,11 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name domain_locale
 %global pre_release beta1
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       Adds language handling functionality per domain basis
 
 Group:         Applications/Publishing
@@ -14,14 +16,13 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7(domain)
 Requires:      drupal7(domain_conf)
 #Requires:      drupal7(locale)
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Domain Locale allows to customize language sets per domain for Drupal installs
@@ -63,5 +64,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta1
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.beta1
 - Initial package

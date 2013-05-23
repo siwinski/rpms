@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name ds
 
 Name:          drupal7-%{module_name}
 Version:       2.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Extend the display options for every entity type
 
 Group:         Applications/Publishing
@@ -13,21 +15,14 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-cools
 #Requires:      drupal7(ctools)
 # phpci
 Requires:      php-pcre
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_ui) = %{version}
-Provides:      drupal7(%{module_name}_devel) = %{version}
-Provides:      drupal7(%{module_name}_format) = %{version}
-Provides:      drupal7(%{module_name}_extras) = %{version}
-Provides:      drupal7(%{module_name}_search) = %{version}
-Provides:      drupal7(%{module_name}_forms) = %{version}
 
 %description
 Display Suite allows you to take full control over how your content is displayed
@@ -79,5 +74,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2-1
 - Initial package

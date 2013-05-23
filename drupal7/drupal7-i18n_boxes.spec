@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name i18n_boxes
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Provides the ability to localize Boxes blocks
 
 Group:         Applications/Publishing
@@ -13,7 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-ctools
@@ -21,8 +24,6 @@ Requires:      drupal7-i18n
 Requires:      drupal7(boxes)
 #Requires:      drupal7(ctools)
 #Requires:      drupal7(i18n_string)
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 This module enables block titles and block content to be exported to code
@@ -59,5 +60,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Mon Apr 15 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
 - Initial package

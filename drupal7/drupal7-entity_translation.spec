@@ -1,9 +1,11 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name entity_translation
 %global pre_release beta2
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       Allows entities to be translated into different languages
 
 Group:         Applications/Publishing
@@ -14,7 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-i18n
@@ -26,10 +29,6 @@ Requires:      php-date
 Requires:      php-pcre
 Requires:      php-pdo
 Requires:      php-spl
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_i18n_menu) = %{version}
-Provides:      drupal7(%{module_name}_upgrade) = %{version}
 
 %description
 Allows (fieldable) entities to be translated into different languages,
@@ -75,5 +74,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.beta2
 - Initial package

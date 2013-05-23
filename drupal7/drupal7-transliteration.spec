@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name transliteration
 
 Name:          drupal7-%{module_name}
 Version:       3.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Converts non-Latin text to US-ASCII and sanitizes file names
 
 Group:         Applications/Publishing
@@ -13,13 +15,12 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 # phpci
 Requires:      php-pcre
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Provides one-way string transliteration (romanization) and cleans file names
@@ -61,5 +62,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.1-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.1-1
 - Initial package

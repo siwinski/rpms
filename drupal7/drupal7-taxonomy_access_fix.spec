@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name taxonomy_access_fix
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Fixes the crooked access checks for Taxonomy pages
 
 Group:         Applications/Publishing
@@ -13,13 +15,12 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 # Since Drupal 7 only requires PHP >= 5.2.5, we must must specify greater PHP min ver
 Requires:      php-common >= 5.3.0
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 This module:
@@ -70,6 +71,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-3
+- Updated for drupal7-rpmbuild auto-provides
+
 * Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
 - Added virtual provides
 

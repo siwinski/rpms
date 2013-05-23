@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name drush_language
 
 Name:          drupal7-%{module_name}
 Version:       1.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Drush language commands
 
 Group:         Applications/Publishing
@@ -13,11 +15,10 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Drush commands allowing languages to be added, switched, enabled, disabled,
@@ -55,5 +56,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Wed Apr 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2-1
 - Initial package

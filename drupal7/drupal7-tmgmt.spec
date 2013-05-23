@@ -1,9 +1,11 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name tmgmt
 %global pre_release alpha3
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       Translation Management Tool
 
 Group:         Applications/Publishing
@@ -14,7 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-entity
@@ -40,18 +43,6 @@ Requires:      php-pcre
 Requires:      php-simplexml
 Requires:      php-spl
 Requires:      php-xmlwriter
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_local) = %{version}
-Provides:      drupal7(%{module_name}_skills) = %{version}
-Provides:      drupal7(%{module_name}_file) = %{version}
-Provides:      drupal7(%{module_name}_entity) = %{version}
-Provides:      drupal7(%{module_name}_entity_ui) = %{version}
-Provides:      drupal7(%{module_name}_node) = %{version}
-Provides:      drupal7(%{module_name}_node_ui) = %{version}
-Provides:      drupal7(%{module_name}_field) = %{version}
-Provides:      drupal7(%{module_name}_i18n_string) = %{version}
-Provides:      drupal7(%{module_name}_ui) = %{version}
 
 %description
 The Translation Management Tool (TMGMT) module provides a tool set for
@@ -112,5 +103,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.alpha3
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.alpha3
 - Initial package

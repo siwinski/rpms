@@ -1,9 +1,11 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name path_breadcrumbs
 %global pre_release beta1
 
 Name:          drupal7-%{module_name}
 Version:       3.0
-Release:       0.1.%{pre_release}%{?dist}
+Release:       0.2.%{pre_release}%{?dist}
 Summary:       Allows creation of custom breadcrumbs for any page using contexts
 
 Group:         Applications/Publishing
@@ -14,7 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-ctools
@@ -23,10 +26,6 @@ Requires:      drupal7-entity
 #Requires:      drupal7(entity_token)
 # phpci
 Requires:      php-pcre
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_ui) = %{version}
-Provides:      drupal7(%{module_name}_i18n) = %{version}
 
 %description
 Path breadcrumbs module helps you to create breadcrumbs for any page with any
@@ -83,5 +82,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.2.beta1
+- Updated for drupal7-rpmbuild auto-provides
+
 * Mon Mar 26 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.1.beta1
 - Initial package

@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name boxes
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Provides exports for custom blocks and spaces integration
 
 Group:         Applications/Publishing
@@ -13,7 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 Requires:      drupal7-ctools
@@ -21,8 +24,6 @@ Requires:      drupal7-ctools
 # phpci
 Requires:      php-pcre
 Requires:      php-spl
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 Boxes module is a re-implementation of the custom blocks (boxes) that the core
@@ -70,5 +71,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri Mar 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package

@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name potx
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Translation template extractor
 
 Group:         Applications/Publishing
@@ -13,7 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 #Requires:      drupal7(locale)
@@ -21,8 +24,6 @@ Requires:      drupal7
 Requires:      php-date
 Requires:      php-pcre
 Requires:      php-tokenizer
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 The Translation template extractor provides a web based and a command line
@@ -65,5 +66,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
 - Initial package

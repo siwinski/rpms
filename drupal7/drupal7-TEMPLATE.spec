@@ -1,3 +1,5 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name __MODULE__
 
 Name:          drupal7-%{module_name}
@@ -13,13 +15,12 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 # phpci
 Requires:      php-
-
-Provides:      drupal7(%{module_name}) = %{version}
 
 %description
 __DESCRIPTION__

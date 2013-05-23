@@ -1,8 +1,10 @@
+%{?drupal7_find_provides_and_requires}
+
 %global module_name domain
 
 Name:          drupal7-%{module_name}
 Version:       3.9
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A domain-based access control system
 
 Group:         Applications/Publishing
@@ -13,7 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild
+# For macros and auto-provides
+BuildRequires: drupal7-rpmbuild >= 7.22-4
 
 Requires:      drupal7
 # phpci
@@ -22,17 +25,6 @@ Requires:      php-pcre
 Requires:      php-pdo
 Requires:      php-session
 Requires:      php-spl
-
-Provides:      drupal7(%{module_name}) = %{version}
-Provides:      drupal7(%{module_name}_alias) = %{version}
-Provides:      drupal7(%{module_name}_conf) = %{version}
-Provides:      drupal7(%{module_name}_content) = %{version}
-Provides:      drupal7(%{module_name}_nav) = %{version}
-Provides:      drupal7(%{module_name}_settings) = %{version}
-Provides:      drupal7(%{module_name}_source) = %{version}
-Provides:      drupal7(%{module_name}_strict) = %{version}
-Provides:      drupal7(%{module_name}_test) = %{version}
-Provides:      drupal7(%{module_name}_theme) = %{version}
 
 %description
 The Domain Access project is a suite of modules that provide tools for running
@@ -90,5 +82,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.9-2
+- Updated for drupal7-rpmbuild auto-provides
+
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.9-1
 - Initial package
