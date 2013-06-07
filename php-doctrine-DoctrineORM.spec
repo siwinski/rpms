@@ -38,6 +38,7 @@ Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 # phpci requires
 Requires:         php-ctype
+Requires:         php-dom
 Requires:         php-pcre
 Requires:         php-pdo
 Requires:         php-reflection
@@ -134,6 +135,7 @@ fi
 * Fri Jun 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.3-1
 - Updated to 2.3.3
 - Fixed license
+- Added php-dom require
 - Made a single executable (removed doctrine-pear.php)
 - Removed doctrine.bat
 - Added "%%global pear_metadir" and usage in %%install
