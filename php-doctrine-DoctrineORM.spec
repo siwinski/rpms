@@ -1,14 +1,20 @@
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
-%global pear_channel pear.doctrine-project.org
-%global pear_name %(echo %{name} | sed -e 's/^php-doctrine-//' -e 's/-/_/g')
 
-Name:             php-doctrine-DoctrineORM
-Version:          2.2.2
+%global pear_channel    pear.doctrine-project.org
+%global pear_name       DoctrineORM
+
+%global symfony_min_ver 2.0
+%global symfony_max_ver 3.0
+
+Name:             php-doctrine-%{pear_name}
+Version:          2.3.3
 Release:          1%{?dist}
 Summary:          Doctrine Object Relational Mapper
 
 Group:            Development/Libraries
-License:          LGPLv2
+# License clarification from upstream since both MIT and LGPL are found:
+# https://groups.google.com/d/topic/doctrine-dev/BNd84oKdOP0/discussion
+License:          MIT
 URL:              http://www.doctrine-project.org/projects/orm.html
 Source0:          http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
 
@@ -19,12 +25,14 @@ BuildRequires:    php-channel(%{pear_channel})
 Requires:         php-common >= 5.3.0
 Requires:         php-pear(PEAR)
 Requires:         php-channel(%{pear_channel})
-Requires:         php-pear(%{pear_channel}/DoctrineCommon) >= 2.2.0-0.1.beta1
-Requires:         php-pear(%{pear_channel}/DoctrineCommon) <= 2.2.99
-Requires:         php-pear(%{pear_channel}/DoctrineDBAL) >= 2.2.0-0.1.beta1
-Requires:         php-pear(%{pear_channel}/DoctrineDBAL) <= 2.2.99
-Requires:         php-pear(pear.symfony.com/Console) >= 2.0.0
-Requires:         php-pear(pear.symfony.com/Yaml) >= 2.0.0
+Requires:         php-pear(%{pear_channel}/DoctrineCommon) >= 2.3.0
+Requires:         php-pear(%{pear_channel}/DoctrineCommon) <  2.4.0
+Requires:         php-pear(%{pear_channel}/DoctrineDBAL) >= 2.3.0
+Requires:         php-pear(%{pear_channel}/DoctrineDBAL) <  2.4.0
+Requires:         php-pear(pear.symfony.com/Console) >= %{symfony_min_ver}
+Requires:         php-pear(pear.symfony.com/Console) <  %{symfony_max_ver}
+Requires:         php-pear(pear.symfony.com/Yaml) >= %{symfony_min_ver}
+Requires:         php-pear(pear.symfony.com/Yaml) <  %{symfony_max_ver}
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 # phpci requires
@@ -49,18 +57,40 @@ flexibility without requiring unnecessary code duplication.
 
 %prep
 %setup -q -c
+
+# Modify package.xml
+# - Fix role for README, LICENSE, and UPGRADE files (role="data" => role="doc")
+# - Remove doctrine.bat
+# *** http://www.doctrine-project.org/jira/browse/DDC-1913
+sed -i \
+    -e '/README.markdown/s/role="data"/role="doc"/' \
+    -e '/LICENSE/s/role="data"/role="doc"/' \
+    -e '/UPGRADE/s/role="data"/role="doc"/' \
+	-e '/<file.*doctrine.bat/,/<\/file>/d' \
+    -e '/<install.*doctrine.bat/d' \
+    package.xml
+
+# Make a single executable
+pushd %{pear_name}-%{version}/bin
+rm -f doctrine
+(
+    echo '#!@php_bin@'
+    cat doctrine-pear.php
+) > doctrine
+chmod +x doctrine
+rm -f doctrine-pear.php
+popd
+# Modify PEAR package.xml for above changes
+# - Remove doctrine-pear.php file
+# - Remove md5sum from doctrine file since it was changed
+sed -e '/doctrine-pear.php/d' \
+    -e '/name="bin\/doctrine"/s/md5sum="[^"]*"\s*//' \
+    -i package.xml
+
+# Remove doctrine.bat
+
 # package.xml is version 2.0
 mv package.xml %{pear_name}-%{version}/%{name}.xml
-
-# Fix package.xml for README and LICENSE files to have role="doc" instead of
-# role="data"
-# *** NOTE: This needs to be fixed upstream
-# ^^^ http://www.doctrine-project.org/jira/browse/DDC-1913
-sed -i \
-    -e 's#\(.*\)name="Doctrine/ORM/README.markdown" *role="data"\(.*\)#\1 name="Doctrine/ORM/README.markdown" role="doc"\2#' \
-    -e 's#\(.*\)name="LICENSE" *role="data"\(.*\)#\1 name="LICENSE" role="doc"\2#' \
-    -e 's#\(.*\)name="UPGRADE\([^"]*\)" *role="data"\(.*\)#\1 name="UPGRADE\2" role="doc"\3#' \
-    %{pear_name}-%{version}/%{name}.xml
 
 
 %build
@@ -96,11 +126,15 @@ fi
 %{pear_xmldir}/%{name}.xml
 %{pear_datadir}/%{pear_name}
 %{pear_phpdir}/Doctrine/ORM
-%{_bindir}/doctrine.bat
-%{_bindir}/doctrine.php
 %{_bindir}/doctrine
 
 
 %changelog
+* Fri Jun 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.3-1
+- Updated to 2.3.3
+- Fixed license
+- Made a single executable (removed doctrine-pear.php)
+- Removed doctrine.bat
+
 * Wed Jul 4 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.2-1
 - Initial package
