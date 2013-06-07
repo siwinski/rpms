@@ -1,4 +1,5 @@
 %{!?__pear: %{expand: %%global __pear %{_bindir}/pear}}
+%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
 
 %global pear_channel    pear.doctrine-project.org
 %global pear_name       DoctrineORM
@@ -99,14 +100,14 @@ mv package.xml %{pear_name}-%{version}/%{name}.xml
 
 %install
 cd %{pear_name}-%{version}
-%{__pear} install --nodeps --packagingroot $RPM_BUILD_ROOT %{name}.xml
+%{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
 
 # Clean up unnecessary files
-rm -rf $RPM_BUILD_ROOT%{pear_phpdir}/.??*
+rm -rf %{buildroot}%{pear_metadir}/.??*
 
 # Install XML package description
-mkdir -p $RPM_BUILD_ROOT%{pear_xmldir}
-install -pm 644 %{name}.xml $RPM_BUILD_ROOT%{pear_xmldir}
+mkdir -p %{buildroot}%{pear_xmldir}
+install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
 %post
@@ -135,6 +136,8 @@ fi
 - Fixed license
 - Made a single executable (removed doctrine-pear.php)
 - Removed doctrine.bat
+- Added "%%global pear_metadir" and usage in %%install
+- Changed RPM_BUILD_ROOT to %%{buildroot}
 
 * Wed Jul 4 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.2-1
 - Initial package
