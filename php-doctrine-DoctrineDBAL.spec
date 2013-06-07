@@ -2,10 +2,10 @@
 %{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
 
 %global pear_channel pear.doctrine-project.org
-%global pear_name    %(echo %{name} | sed -e 's/^php-doctrine-//' -e 's/-/_/g')
+%global pear_name    DoctrineDBAL
 
-Name:             php-doctrine-DoctrineDBAL
-Version:          2.3.0
+Name:             php-doctrine-%{pear_name}
+Version:          2.3.4
 Release:          1%{?dist}
 Summary:          Doctrine Database Abstraction Layer
 
@@ -24,7 +24,9 @@ Requires:         php-common >= 5.3.2
 Requires:         php-pear(PEAR)
 Requires:         php-channel(%{pear_channel})
 Requires:         php-pear(%{pear_channel}/DoctrineCommon) >= 2.3.0
-Requires:         php-pear(pear.symfony.com/Console) >= 2.0.0
+Requires:         php-pear(%{pear_channel}/DoctrineCommon) <  2.5.0
+Requires:         php-pear(pear.symfony.com/Console) >= 2.0
+Requires:         php-pear(pear.symfony.com/Console) <  3.0
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
 # phpci requires
@@ -61,13 +63,21 @@ sed -e '/README/s/role="data"/role="doc"/' \
     -e '/LICENSE/s/role="data"/role="doc"/' \
     -i package.xml
 
-# Use Symfony package(s) instead of Doctrine packaged version(s)
-# *** http://www.doctrine-project.org/jira/browse/DBAL-393
-# *** Fixed upstream in future version 2.3.1
-sed "s/'Symfony', 'Doctrine'/'Symfony'/" \
-    -i %{pear_name}-%{version}/bin/doctrine-dbal.php
-# Remove package.xml checksum for changed file
-sed '/doctrine-dbal.php/s/md5sum="[^"]*"\s*//' \
+# Make a single executable
+pushd %{pear_name}-%{version}/bin
+rm -f doctrine-dbal
+(
+    echo '#!%{_bindir}/php'
+    cat doctrine-dbal.php
+) > doctrine-dbal
+chmod +x doctrine-dbal
+rm -f doctrine-dbal.php
+popd
+# Modify PEAR package.xml for above changes
+# - Remove doctrine-dbal.php file
+# - Remove md5sum from doctrine-dbal file since it was changed
+sed -e '/doctrine-dbal.php/d' \
+    -e '/doctrine-dbal/s/md5sum="[^"]*"\s*//' \
     -i package.xml
 
 # package.xml is version 2.0
@@ -106,11 +116,16 @@ fi
 %doc %{pear_docdir}/%{pear_name}
 %{pear_xmldir}/%{name}.xml
 %{pear_phpdir}/Doctrine/DBAL
-%{_bindir}/doctrine-dbal.php
 %{_bindir}/doctrine-dbal
 
 
 %changelog
+* Fri Jun 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.4-1
+- Updated to 2.3.4
+- Removed manual fix of Symfony package usage b/c fixed upstream
+  (http://www.doctrine-project.org/jira/browse/DBAL-393)
+- Made a single executable (removed doctrine-dbal.php)
+
 * Tue Nov 27 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.0-1
 - Updated to upstream version 2.3.0
 - Added "%%global pear_metadir" and usage in %%install
@@ -119,5 +134,5 @@ fi
 - PEAR package.xml fixes in %%prep
 - Changed RPM_BUILD_ROOT to %%{buildroot}
 
-* Wed Jul 4 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.2-1
+* Wed Jul 04 2012 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.2-1
 - Initial package
