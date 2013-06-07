@@ -67,7 +67,7 @@ sed -i \
     -e '/README.markdown/s/role="data"/role="doc"/' \
     -e '/LICENSE/s/role="data"/role="doc"/' \
     -e '/UPGRADE/s/role="data"/role="doc"/' \
-	-e '/<file.*doctrine.bat/,/<\/file>/d' \
+    -e '/<file.*doctrine.bat/,/<\/file>/d' \
     -e '/<install.*doctrine.bat/d' \
     package.xml
 
