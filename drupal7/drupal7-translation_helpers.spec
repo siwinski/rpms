@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Provides methods for other modules to use with translated content
 
 Group:         Applications/Publishing
@@ -15,13 +15,9 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
-#Requires:      drupal7(translation)
-
-Provides:      drupal7(%{module_name}) = %{version}
+Requires:      drupal7(translation)
 
 %description
 Translation helpers enables other modules to respond to changes in the "source
@@ -62,6 +58,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jun 08 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-3
+- Updated for drupal7-rpmbuild 7.22-5
+
 * Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
 - Updated for drupal7-rpmbuild auto-provides
 
