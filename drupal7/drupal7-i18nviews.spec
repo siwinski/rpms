@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       3.0
-Release:       0.2.dev.20120725%{?dist}
+Release:       0.2.dev.20120724%{?dist}
 Summary:       Translate views using Internationalization
 
 Group:         Applications/Publishing
@@ -15,10 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-i18n
 Requires:      drupal7-views
 #Requires:      drupal7(i18n_string)
@@ -58,8 +56,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.2.dev.20120725
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.2.dev.20120724
+- Updated for drupal7-rpmbuild 7.22-5
 
-* Wed Apr 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.1.dev.20120725
+* Wed Apr 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.1.dev.20120724
 - Initial package
