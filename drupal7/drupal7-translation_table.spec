@@ -16,13 +16,11 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-i18n
 #Requires:      drupal7(i18n_string)
-#Requires:      drupal7(locale)
+Requires:      drupal7(locale)
 
 %description
 UI for quick translation of taxonomies and menus. The i18n module allows for
@@ -42,7 +40,7 @@ Requires the i18n module, and either taxonomy or menu string translation.
 * content type names and descriptions
 * quick tab titles
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -73,8 +71,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta1
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 09 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta1
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.beta1
 - Initial package
