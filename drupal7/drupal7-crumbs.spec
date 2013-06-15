@@ -15,10 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 # phpci
 Requires:      php-pcre
 Requires:      php-spl
@@ -75,8 +73,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.9-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sat Jun 15 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.9-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Sat May 04 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.9-1
 - Initial package
