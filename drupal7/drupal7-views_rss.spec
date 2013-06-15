@@ -1,30 +1,37 @@
 %{?drupal7_find_provides_and_requires}
 
-%global module_name __MODULE__
+%global module_name views_rss
+%global pre_release rc3
 
 Name:          drupal7-%{module_name}
-Version:       __VERSION__
-Release:       1%{?dist}
-Summary:       __SUMMARY__
+Version:       2.0
+Release:       0.1.%{pre_release}%{?dist}
+Summary:       Provides a views plugin that allows fields in RSS feeds
 
 Group:         Applications/Publishing
 License:       GPLv2+
 URL:           http://drupal.org/project/%{module_name}
-Source0:       http://ftp.drupal.org/files/projects/%{module_name}-7.x-%{version}.tar.gz
+Source0:       http://ftp.drupal.org/files/projects/%{module_name}-7.x-%{version}-%{pre_release}.tar.gz
 Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild >= 7.22-5
 
+Requires:      drupal7-views
+#Requires:      drupal7(views)
 # phpci
-Requires:      php-
+Requires:      php-date
+Requires:      php-pcre
 
 %description
-__DESCRIPTION__
+This module allows users to take control of their feeds by providing a
+fields-based views style plugin for RSS.
 
 This package provides the following Drupal modules:
 * %{module_name}
+* %{module_name}_core
+* %{module_name}_dc
 
 
 %prep
@@ -54,5 +61,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* ddd MMM DD YYYY Shawn Iwinski <shawn.iwinski@gmail.com> __VERSION__-1
+* Tue Jun 11 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.rc3
 - Initial package
