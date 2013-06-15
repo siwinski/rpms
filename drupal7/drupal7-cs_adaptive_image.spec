@@ -15,11 +15,9 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
-#Requires:      drupal7(image)
+Requires:      drupal7(image)
 
 %description
 The Client-side adaptive image module helps build responsive web designs with
@@ -40,7 +38,7 @@ Some highlights:
 * Does not attempt to perform any client OS detection
 * Reverse proxy cache friendly
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -71,8 +69,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sat Jun 15 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Sat May 04 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
 - Initial package
