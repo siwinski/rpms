@@ -1,7 +1,7 @@
 %{?drupal7_find_provides_and_requires}
 
 %global module_name path_breadcrumbs
-%global pre_release beta1
+%global pre_release beta2
 
 Name:          drupal7-%{module_name}
 Version:       3.0
@@ -16,10 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-ctools
 Requires:      drupal7-entity
 #Requires:      drupal7(ctools)
@@ -82,8 +80,9 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.2.beta1
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.2.beta2
+- Updated to 3.0-beta2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Mon Mar 26 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.0-0.1.beta1
 - Initial package
