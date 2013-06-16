@@ -16,15 +16,13 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-ctools
 Requires:      drupal7-features
 #Requires:      drupal7(ctools)
 #Requires:      drupal7(features)
-#Requires:      drupal7(profile)
+Requires:      drupal7(profile)
 # phpci
 Requires:      php-pcre
 
@@ -36,7 +34,6 @@ This package provides the following Drupal modules:
 * fe_block (requires manual install of block_class module only if running tests)
 * fe_nodequeue (requires manual install of the nodequeue module)
 * fe_profile
-* features_extra_test (requires manual install of block_class module)
 
 
 %prep
@@ -66,8 +63,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta1
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.beta1
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Thu Apr 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.beta1
 - Initial package
