@@ -15,11 +15,9 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
-#Requires:      drupal7(locale)
+Requires:      drupal7(locale)
 # phpci
 Requires:      php-pcre
 
@@ -39,7 +37,7 @@ This module recognizes the system name of the text group in the name of your
 The .po files will be searched in an "auto_translations" folder within your
 modules/features instead of "translations".
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -70,8 +68,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Thu Apr 18 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
 - Initial package
