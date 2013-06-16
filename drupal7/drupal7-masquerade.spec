@@ -16,10 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 # phpci
 Requires:      php-session
 
@@ -30,7 +28,7 @@ While masquerading, a field is set on the $user object, and a menu item appears
 allowing the user to switch back. Watchdog entries are made any time a user
 masquerades or stops masquerading.
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
