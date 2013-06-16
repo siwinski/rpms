@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.1
-Release:       3%{?dist}
+Release:       2%{?dist}
 Summary:       Fixes the crooked access checks for Taxonomy pages
 
 Group:         Applications/Publishing
@@ -15,10 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 # Since Drupal 7 only requires PHP >= 5.2.5, we must must specify greater PHP min ver
 Requires:      php-common >= 5.3.0
 
@@ -40,7 +38,7 @@ Note: A module can't add permissions to another module, so the extra "add terms
 in X" permissions are located under "Taxonomy access fix" and not under
 "Taxonomy".
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -71,11 +69,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-3
-- Updated for drupal7-rpmbuild auto-provides
-
-* Sat Mar 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
-- Added virtual provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Tue Mar 19 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1
 - Initial package
