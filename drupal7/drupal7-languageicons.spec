@@ -15,18 +15,16 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
-#Requires:      drupal7(locale)
+Requires:      drupal7(locale)
 
 %description
 This module provides icons for language links, both for the Language
 switcher block and (optionally) for node links. It is a spin-off from
 Internationalization (i18n) package.
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -57,8 +55,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1
 - Initial package
