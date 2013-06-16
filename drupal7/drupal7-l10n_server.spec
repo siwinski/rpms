@@ -15,13 +15,11 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7(potx)
 Requires:      drupal7(l10n_pconfig)
-#Requires:      drupal7(locale)
+Requires:      drupal7(locale)
 # phpci
 Requires:      php-date
 Requires:      php-pcre
@@ -76,8 +74,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.dev.20130220
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.dev.20130220
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.dev.20130220
 - Initial package
