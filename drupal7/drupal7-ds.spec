@@ -3,8 +3,8 @@
 %global module_name ds
 
 Name:          drupal7-%{module_name}
-Version:       2.2
-Release:       2%{?dist}
+Version:       2.4
+Release:       1%{?dist}
 Summary:       Extend the display options for every entity type
 
 Group:         Applications/Publishing
@@ -15,10 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-cools
 #Requires:      drupal7(ctools)
 # phpci
@@ -74,8 +72,9 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4-1
+- Updated to 2.4
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2-1
 - Initial package
