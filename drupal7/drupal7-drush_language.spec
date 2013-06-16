@@ -15,10 +15,7 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
-
-Requires:      drupal7
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
 %description
 Drush commands allowing languages to be added, switched, enabled, disabled,
@@ -56,8 +53,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2-2
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Wed Apr 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2-1
 - Initial package
