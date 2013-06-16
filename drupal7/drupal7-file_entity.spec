@@ -16,14 +16,12 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 Requires:      drupal7-ctools
-#Requires:      drupal7(field)
-#Requires:      drupal7(file)
 #Requires:      drupal7(ctools)
+Requires:      drupal7(field)
+Requires:      drupal7(file)
 # phpci
 Requires:      php-spl
 
@@ -33,9 +31,8 @@ file entity, allowing files to be fieldable, grouped into types, viewed (using
 display modes) and formatted using field formatters. File entity integrates
 with a number of modules, exposing files to Views, Entity API, Token and more.
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
-* %{module_name}_test
 
 
 %prep
@@ -65,8 +62,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.2.unstable7
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.2.unstable7
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Wed Apr 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.0-0.1.unstable7
 - Initial package
