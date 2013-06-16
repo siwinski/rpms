@@ -16,10 +16,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 
 %description
 While working on the new content translation system
@@ -34,7 +32,7 @@ la Automatic Nodetitles (http://drupal.org/project/auto_nodetitle).
 This will be exploited by the related Entity Translation
 (http://drupal.org/project/entity_translation) project.
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
@@ -65,8 +63,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.alpha7
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.2.alpha7
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-0.1.alpha7
 - Initial package
