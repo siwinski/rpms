@@ -3,8 +3,8 @@
 %global module_name domain
 
 Name:          drupal7-%{module_name}
-Version:       3.9
-Release:       2%{?dist}
+Version:       3.10
+Release:       1%{?dist}
 Summary:       A domain-based access control system
 
 Group:         Applications/Publishing
@@ -15,10 +15,8 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-# For macros and auto-provides
-BuildRequires: drupal7-rpmbuild >= 7.22-4
+BuildRequires: drupal7-rpmbuild >= 7.22-5
 
-Requires:      drupal7
 # phpci
 Requires:      php-hash
 Requires:      php-pcre
@@ -82,8 +80,9 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu May 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.9-2
-- Updated for drupal7-rpmbuild auto-provides
+* Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.10-1
+- Updated to 3.10
+- Updated for drupal7-rpmbuild 7.22-5
 
 * Fri May 03 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.9-1
 - Initial package
