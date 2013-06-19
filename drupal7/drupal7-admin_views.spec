@@ -36,7 +36,7 @@ Features:
 * Filter comments by title, author, node title, or published status.
 * Filter users by name, ban/blocked status, or user roles.
 
-This package provides the following Drupal modules:
+This package provides the following Drupal module:
 * %{module_name}
 
 
