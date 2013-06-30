@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       3.10
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A domain-based access control system
 
 Group:         Applications/Publishing
@@ -57,6 +57,10 @@ This package provides the following Drupal modules:
 %setup -q -n %{module_name}
 cp -p %{SOURCE1} .
 
+# Remove empty, unused, and unreferenced file "domain.overlay.js"
+# https://drupal.org/node/2031505
+rm -f domain.overlay.js
+
 
 %build
 # Empty build section, nothing to build
@@ -80,6 +84,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jun 29 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.10-2
+- Removed empty, unused, and unreferenced file "domain.overlay.js"
+
 * Sun Jun 16 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 3.10-1
 - Updated to 3.10
 - Updated for drupal7-rpmbuild 7.22-5
