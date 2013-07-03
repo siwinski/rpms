@@ -17,6 +17,7 @@ BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild >= 7.22-5
 
+Requires:      drupal7(menu)
 # phpci
 Requires:      php-pdo
 
