@@ -1,4 +1,9 @@
-### TODO: Investigate RHEL xmlreader and xmlwriter
+### TODO: investigate RHEL xmlreader and xmlwriter
+### TODO: resources
+### TODO: bin
+### TODO: languages in i18n?
+### TODO: manual
+### TODO: apidoc
 
 Name:             php-ZendFramework2
 Version:          2.2.1
@@ -14,10 +19,62 @@ Source2:          https://packages.zendframework.com/releases/ZendFramework-%{ve
 
 BuildArch:        noarch
 
+Requires: %{name}-Authentication   = %{version}-%{release}
+Requires: %{name}-Barcode          = %{version}-%{release}
+Requires: %{name}-Cache            = %{version}-%{release}
+Requires: %{name}-Captcha          = %{version}-%{release}
+Requires: %{name}-Code             = %{version}-%{release}
+Requires: %{name}-Config           = %{version}-%{release}
+Requires: %{name}-Console          = %{version}-%{release}
+Requires: %{name}-Crypt            = %{version}-%{release}
+Requires: %{name}-Db               = %{version}-%{release}
+Requires: %{name}-Debug            = %{version}-%{release}
+Requires: %{name}-Di               = %{version}-%{release}
+Requires: %{name}-Dom              = %{version}-%{release}
+Requires: %{name}-Escaper          = %{version}-%{release}
+Requires: %{name}-EventManager     = %{version}-%{release}
+Requires: %{name}-Feed             = %{version}-%{release}
+Requires: %{name}-File             = %{version}-%{release}
+Requires: %{name}-Filter           = %{version}-%{release}
+Requires: %{name}-Form             = %{version}-%{release}
+Requires: %{name}-Http             = %{version}-%{release}
+Requires: %{name}-I18n             = %{version}-%{release}
+Requires: %{name}-InputFilter      = %{version}-%{release}
+Requires: %{name}-Json             = %{version}-%{release}
+Requires: %{name}-Ldap             = %{version}-%{release}
+Requires: %{name}-Loader           = %{version}-%{release}
+Requires: %{name}-Log              = %{version}-%{release}
+Requires: %{name}-Mail             = %{version}-%{release}
+Requires: %{name}-Math             = %{version}-%{release}
+Requires: %{name}-Memory           = %{version}-%{release}
+Requires: %{name}-Mime             = %{version}-%{release}
+Requires: %{name}-ModuleManager    = %{version}-%{release}
+Requires: %{name}-Mvc              = %{version}-%{release}
+Requires: %{name}-Navigation       = %{version}-%{release}
+Requires: %{name}-Paginator        = %{version}-%{release}
+Requires: %{name}-Permissions-Acl  = %{version}-%{release}
+Requires: %{name}-Permissions-Rbac = %{version}-%{release}
+Requires: %{name}-ProgressBar      = %{version}-%{release}
+Requires: %{name}-Serializer       = %{version}-%{release}
+Requires: %{name}-Server           = %{version}-%{release}
+Requires: %{name}-ServiceManager   = %{version}-%{release}
+Requires: %{name}-Session          = %{version}-%{release}
+Requires: %{name}-Soap             = %{version}-%{release}
+Requires: %{name}-Stdlib           = %{version}-%{release}
+Requires: %{name}-Tag              = %{version}-%{release}
+Requires: %{name}-Test             = %{version}-%{release}
+Requires: %{name}-Text             = %{version}-%{release}
+Requires: %{name}-Uri              = %{version}-%{release}
+Requires: %{name}-Validator        = %{version}-%{release}
+Requires: %{name}-Version          = %{version}-%{release}
+Requires: %{name}-View             = %{version}-%{release}
+Requires: %{name}-XmlRpc           = %{version}-%{release}
+
+
 %description
 Zend Framework 2 is an open source framework for developing web applications
 and services using PHP 5.3+. Zend Framework 2 uses 100% object-oriented code
-and utilises most of the new features of PHP 5.3, namely namespaces, late
+and utilizes most of the new features of PHP 5.3, namely namespaces, late
 static binding, lambda functions and closures.
 
 Zend Framework 2 evolved from Zend Framework 1, a successful PHP framework
@@ -1366,325 +1423,582 @@ and building new XML-RPC servers.
 %prep
 %setup -q -n ZendFramework-minimal-%{version}
 
-
 %build
 # Empty build section, nothing required
 
-
 %install
+mkdir -p %{buildroot}%{_datadir}/php
+cp -rp library/* %{buildroot}%{_datadir}/php
 
+mkdir -p %{buildroot}%{_docdir}
+ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
 %check
 
 
 %files
-
+# Empty files section, included in sub-package "common"
 
 # ##############################################################################
 
 %files common
-%doc *.md composer.json demos
+
+%doc *.md composer.json
+%doc %{_docdir}/%{name}-%{version}
+
 %dir %{_datadir}/php/Zend
 
 # ------------------------------------------------------------------------------
 
 %files Authentication
-%doc *.md composer.json
+
+%doc library/Zend/Authentication/*.md
+%doc library/Zend/Authentication/composer.json
+
 %{_datadir}/php/Zend/Authentication
+%exclude %{_datadir}/php/Zend/Authentication/*.md
+%exclude %{_datadir}/php/Zend/Authentication/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Barcode
-%doc *.md composer.json
+
+%doc library/Zend/Barcode/*.md
+%doc library/Zend/Barcode/composer.json
+
 %{_datadir}/php/Zend/Barcode
+%exclude %{_datadir}/php/Zend/Barcode/*.md
+%exclude %{_datadir}/php/Zend/Barcode/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Cache
-%doc *.md composer.json
+
+%doc library/Zend/Cache/*.md
+%doc library/Zend/Cache/composer.json
+
 %{_datadir}/php/Zend/Cache
+%exclude %{_datadir}/php/Zend/Cache/*.md
+%exclude %{_datadir}/php/Zend/Cache/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Captcha
-%doc *.md composer.json
+
+%doc library/Zend/Captcha/*.md
+%doc library/Zend/Captcha/composer.json
+
 %{_datadir}/php/Zend/Captcha
+%exclude %{_datadir}/php/Zend/Captcha/*.md
+%exclude %{_datadir}/php/Zend/Captcha/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Code
-%doc *.md composer.json
+
+%doc library/Zend/Code/*.md
+%doc library/Zend/Code/composer.json
+
 %{_datadir}/php/Zend/Code
+%exclude %{_datadir}/php/Zend/Code/*.md
+%exclude %{_datadir}/php/Zend/Code/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Config
-%doc *.md composer.json
+
+%doc library/Zend/Config/*.md
+%doc library/Zend/Config/composer.json
+
 %{_datadir}/php/Zend/Config
+%exclude %{_datadir}/php/Zend/Config/*.md
+%exclude %{_datadir}/php/Zend/Config/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Console
-%doc *.md composer.json
+
+%doc library/Zend/Console/*.md
+%doc library/Zend/Console/composer.json
+
 %{_datadir}/php/Zend/Console
+%exclude %{_datadir}/php/Zend/Console/*.md
+%exclude %{_datadir}/php/Zend/Console/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Crypt
-%doc *.md composer.json
+
+%doc library/Zend/Crypt/*.md
+%doc library/Zend/Crypt/composer.json
+
 %{_datadir}/php/Zend/Crypt
+%exclude %{_datadir}/php/Zend/Crypt/*.md
+%exclude %{_datadir}/php/Zend/Crypt/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Db
-%doc *.md composer.json
+
+%doc library/Zend/Db/*.md
+%doc library/Zend/Db/composer.json
+
 %{_datadir}/php/Zend/Db
+%exclude %{_datadir}/php/Zend/Db/*.md
+%exclude %{_datadir}/php/Zend/Db/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Debug
-%doc *.md composer.json
+
+%doc library/Zend/Debug/*.md
+%doc library/Zend/Debug/composer.json
+
 %{_datadir}/php/Zend/Debug
+%exclude %{_datadir}/php/Zend/Debug/*.md
+%exclude %{_datadir}/php/Zend/Debug/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Di
-%doc *.md composer.json
+
+%doc library/Zend/Di/*.md
+%doc library/Zend/Di/composer.json
+
 %{_datadir}/php/Zend/Di
+%exclude %{_datadir}/php/Zend/Di/*.md
+%exclude %{_datadir}/php/Zend/Di/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Dom
-%doc *.md composer.json
+
+%doc library/Zend/Dom/*.md
+%doc library/Zend/Dom/composer.json
+
 %{_datadir}/php/Zend/Dom
+%exclude %{_datadir}/php/Zend/Dom/*.md
+%exclude %{_datadir}/php/Zend/Dom/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Escaper
-%doc *.md composer.json
+
+%doc library/Zend/Escaper/*.md
+%doc library/Zend/Escaper/composer.json
+
 %{_datadir}/php/Zend/Escaper
+%exclude %{_datadir}/php/Zend/Escaper/*.md
+%exclude %{_datadir}/php/Zend/Escaper/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files EventManager
-%doc *.md composer.json
+
+%doc library/Zend/EventManager/*.md
+%doc library/Zend/EventManager/composer.json
+
 %{_datadir}/php/Zend/EventManager
+%exclude %{_datadir}/php/Zend/EventManager/*.md
+%exclude %{_datadir}/php/Zend/EventManager/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Feed
-%doc *.md composer.json
+
+%doc library/Zend/Feed/*.md
+%doc library/Zend/Feed/composer.json
+
 %{_datadir}/php/Zend/Feed
+%exclude %{_datadir}/php/Zend/Feed/*.md
+%exclude %{_datadir}/php/Zend/Feed/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files File
-%doc *.md composer.json
+
+%doc library/Zend/File/*.md
+%doc library/Zend/File/composer.json
+
 %{_datadir}/php/Zend/File
+%exclude %{_datadir}/php/Zend/File/*.md
+%exclude %{_datadir}/php/Zend/File/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Filter
-%doc *.md composer.json
+
+%doc library/Zend/Filter/*.md
+%doc library/Zend/Filter/composer.json
+
 %{_datadir}/php/Zend/Filter
+%exclude %{_datadir}/php/Zend/Filter/*.md
+%exclude %{_datadir}/php/Zend/Filter/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Form
-%doc *.md composer.json
+
+%doc library/Zend/Form/*.md
+%doc library/Zend/Form/composer.json
+
 %{_datadir}/php/Zend/Form
+%exclude %{_datadir}/php/Zend/Form/*.md
+%exclude %{_datadir}/php/Zend/Form/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Http
-%doc *.md composer.json
+
+%doc library/Zend/Http/*.md
+%doc library/Zend/Http/composer.json
+
 %{_datadir}/php/Zend/Http
+%exclude %{_datadir}/php/Zend/Http/*.md
+%exclude %{_datadir}/php/Zend/Http/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files I18n
-%doc *.md composer.json
+
+%doc library/Zend/I18n/*.md
+%doc library/Zend/I18n/composer.json
+
 %{_datadir}/php/Zend/I18n
+%exclude %{_datadir}/php/Zend/I18n/*.md
+%exclude %{_datadir}/php/Zend/I18n/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files InputFilter
-%doc *.md composer.json
+
+%doc library/Zend/InputFilter/*.md
+%doc library/Zend/InputFilter/composer.json
+
 %{_datadir}/php/Zend/InputFilter
+%exclude %{_datadir}/php/Zend/InputFilter/*.md
+%exclude %{_datadir}/php/Zend/InputFilter/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Json
-%doc *.md composer.json
+
+%doc library/Zend/Json/*.md
+%doc library/Zend/Json/composer.json
+
 %{_datadir}/php/Zend/Json
+%exclude %{_datadir}/php/Zend/Json/*.md
+%exclude %{_datadir}/php/Zend/Json/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Ldap
-%doc *.md composer.json
+
+%doc library/Zend/Ldap/*.md
+%doc library/Zend/Ldap/composer.json
+
 %{_datadir}/php/Zend/Ldap
+%exclude %{_datadir}/php/Zend/Ldap/*.md
+%exclude %{_datadir}/php/Zend/Ldap/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Loader
-%doc *.md composer.json
+
+%doc library/Zend/Loader/*.md
+%doc library/Zend/Loader/composer.json
+
 %{_datadir}/php/Zend/Loader
+%exclude %{_datadir}/php/Zend/Loader/*.md
+%exclude %{_datadir}/php/Zend/Loader/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Log
-%doc *.md composer.json
+
+%doc library/Zend/Log/*.md
+%doc library/Zend/Log/composer.json
+
 %{_datadir}/php/Zend/Log
+%exclude %{_datadir}/php/Zend/Log/*.md
+%exclude %{_datadir}/php/Zend/Log/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Mail
-%doc *.md composer.json
+
+%doc library/Zend/Mail/*.md
+%doc library/Zend/Mail/composer.json
+
 %{_datadir}/php/Zend/Mail
+%exclude %{_datadir}/php/Zend/Mail/*.md
+%exclude %{_datadir}/php/Zend/Mail/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Math
-%doc *.md composer.json
+
+%doc library/Zend/Math/*.md
+%doc library/Zend/Math/composer.json
+
 %{_datadir}/php/Zend/Math
+%exclude %{_datadir}/php/Zend/Math/*.md
+%exclude %{_datadir}/php/Zend/Math/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Memory
-%doc *.md composer.json
+
+%doc library/Zend/Memory/*.md
+%doc library/Zend/Memory/composer.json
+
 %{_datadir}/php/Zend/Memory
+%exclude %{_datadir}/php/Zend/Memory/*.md
+%exclude %{_datadir}/php/Zend/Memory/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Mime
-%doc *.md composer.json
+
+%doc library/Zend/Mime/*.md
+%doc library/Zend/Mime/composer.json
+
 %{_datadir}/php/Zend/Mime
+%exclude %{_datadir}/php/Zend/Mime/*.md
+%exclude %{_datadir}/php/Zend/Mime/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files ModuleManager
-%doc *.md composer.json
+
+%doc library/Zend/ModuleManager/*.md
+%doc library/Zend/ModuleManager/composer.json
+
 %{_datadir}/php/Zend/ModuleManager
+%exclude %{_datadir}/php/Zend/ModuleManager/*.md
+%exclude %{_datadir}/php/Zend/ModuleManager/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Mvc
-%doc *.md composer.json
+
+%doc library/Zend/Mvc/*.md
+%doc library/Zend/Mvc/composer.json
+
 %{_datadir}/php/Zend/Mvc
+%exclude %{_datadir}/php/Zend/Mvc/*.md
+%exclude %{_datadir}/php/Zend/Mvc/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Navigation
-%doc *.md composer.json
+
+%doc library/Zend/Navigation/*.md
+%doc library/Zend/Navigation/composer.json
+
 %{_datadir}/php/Zend/Navigation
+%exclude %{_datadir}/php/Zend/Navigation/*.md
+%exclude %{_datadir}/php/Zend/Navigation/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Paginator
-%doc *.md composer.json
+
+%doc library/Zend/Paginator/*.md
+%doc library/Zend/Paginator/composer.json
+
 %{_datadir}/php/Zend/Paginator
+%exclude %{_datadir}/php/Zend/Paginator/*.md
+%exclude %{_datadir}/php/Zend/Paginator/composer.json
 
 # ------------------------------------------------------------------------------
 
-%files Permissions
-%doc *.md composer.json
-%{_datadir}/php/Zend/Permissions
+%files Permissions-Acl
+
+%doc library/Zend/Permissions/Acl/*.md
+%doc library/Zend/Permissions/Acl/composer.json
+
+%dir %{_datadir}/php/Zend/Permissions
+     %{_datadir}/php/Zend/Permissions/Acl
+%exclude %{_datadir}/php/Zend/Permissions/Acl/*.md
+%exclude %{_datadir}/php/Zend/Permissions/Acl/composer.json
 
 # ------------------------------------------------------------------------------
 
-%files Permissions
-%doc *.md composer.json
-%{_datadir}/php/Zend/Permissions
+%files Permissions-Rbac
+
+%doc library/Zend/Permissions/Rbac/*.md
+%doc library/Zend/Permissions/Rbac/composer.json
+
+%dir %{_datadir}/php/Zend/Permissions
+     %{_datadir}/php/Zend/Permissions/Rbac
+%exclude %{_datadir}/php/Zend/Permissions/Rbac/*.md
+%exclude %{_datadir}/php/Zend/Permissions/Rbac/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files ProgressBar
-%doc *.md composer.json
+
+%doc library/Zend/ProgressBar/*.md
+%doc library/Zend/ProgressBar/composer.json
+
 %{_datadir}/php/Zend/ProgressBar
+%exclude %{_datadir}/php/Zend/ProgressBar/*.md
+%exclude %{_datadir}/php/Zend/ProgressBar/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Serializer
-%doc *.md composer.json
+
+%doc library/Zend/Serializer/*.md
+%doc library/Zend/Serializer/composer.json
+
 %{_datadir}/php/Zend/Serializer
+%exclude %{_datadir}/php/Zend/Serializer/*.md
+%exclude %{_datadir}/php/Zend/Serializer/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Server
-%doc *.md composer.json
+
+%doc library/Zend/Server/*.md
+%doc library/Zend/Server/composer.json
+
 %{_datadir}/php/Zend/Server
+%exclude %{_datadir}/php/Zend/Server/*.md
+%exclude %{_datadir}/php/Zend/Server/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files ServiceManager
-%doc *.md composer.json
+
+%doc library/Zend/ServiceManager/*.md
+%doc library/Zend/ServiceManager/composer.json
+
 %{_datadir}/php/Zend/ServiceManager
+%exclude %{_datadir}/php/Zend/ServiceManager/*.md
+%exclude %{_datadir}/php/Zend/ServiceManager/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Session
-%doc *.md composer.json
+
+%doc library/Zend/Session/*.md
+%doc library/Zend/Session/composer.json
+
 %{_datadir}/php/Zend/Session
+%exclude %{_datadir}/php/Zend/Session/*.md
+%exclude %{_datadir}/php/Zend/Session/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Soap
-%doc *.md composer.json
+
+%doc library/Zend/Soap/*.md
+%doc library/Zend/Soap/composer.json
+
 %{_datadir}/php/Zend/Soap
+%exclude %{_datadir}/php/Zend/Soap/*.md
+%exclude %{_datadir}/php/Zend/Soap/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Stdlib
-%doc *.md composer.json
+
+%doc library/Zend/Stdlib/*.md
+%doc library/Zend/Stdlib/composer.json
+
 %{_datadir}/php/Zend/Stdlib
+%exclude %{_datadir}/php/Zend/Stdlib/*.md
+%exclude %{_datadir}/php/Zend/Stdlib/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Tag
-%doc *.md composer.json
+
+%doc library/Zend/Tag/*.md
+%doc library/Zend/Tag/composer.json
+
 %{_datadir}/php/Zend/Tag
+%exclude %{_datadir}/php/Zend/Tag/*.md
+%exclude %{_datadir}/php/Zend/Tag/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Test
-%doc *.md composer.json
+
+%doc library/Zend/Test/*.md
+%doc library/Zend/Test/composer.json
+
 %{_datadir}/php/Zend/Test
+%exclude %{_datadir}/php/Zend/Test/*.md
+%exclude %{_datadir}/php/Zend/Test/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Text
-%doc *.md composer.json
+
+%doc library/Zend/Text/*.md
+%doc library/Zend/Text/composer.json
+
 %{_datadir}/php/Zend/Text
+%exclude %{_datadir}/php/Zend/Text/*.md
+%exclude %{_datadir}/php/Zend/Text/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Uri
-%doc *.md composer.json
+
+%doc library/Zend/Uri/*.md
+%doc library/Zend/Uri/composer.json
+
 %{_datadir}/php/Zend/Uri
+%exclude %{_datadir}/php/Zend/Uri/*.md
+%exclude %{_datadir}/php/Zend/Uri/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Validator
-%doc *.md composer.json
+
+%doc library/Zend/Validator/*.md
+%doc library/Zend/Validator/composer.json
+
 %{_datadir}/php/Zend/Validator
+%exclude %{_datadir}/php/Zend/Validator/*.md
+%exclude %{_datadir}/php/Zend/Validator/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files Version
-%doc *.md composer.json
+
+%doc library/Zend/Version/*.md
+%doc library/Zend/Version/composer.json
+
 %{_datadir}/php/Zend/Version
+%exclude %{_datadir}/php/Zend/Version/*.md
+%exclude %{_datadir}/php/Zend/Version/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files View
-%doc *.md composer.json
+
+%doc library/Zend/View/*.md
+%doc library/Zend/View/composer.json
+
 %{_datadir}/php/Zend/View
+%exclude %{_datadir}/php/Zend/View/*.md
+%exclude %{_datadir}/php/Zend/View/composer.json
 
 # ------------------------------------------------------------------------------
 
 %files XmlRpc
-%doc *.md composer.json
+
+%doc library/Zend/XmlRpc/*.md
+%doc library/Zend/XmlRpc/composer.json
+
 %{_datadir}/php/Zend/XmlRpc
+%exclude %{_datadir}/php/Zend/XmlRpc/*.md
+%exclude %{_datadir}/php/Zend/XmlRpc/composer.json
 
 # ##############################################################################
 
