@@ -1,3 +1,5 @@
+### TODO: Investigate RHEL xmlreader and xmlwriter
+
 Name:             php-ZendFramework2
 Version:          2.2.1
 Release:          1%{?dist}
@@ -37,57 +39,82 @@ Requires: php(language) >= 5.3.3
 %package  Authentication
 
 Summary:  Zend Framework 2: Authentication Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.authentication.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.authentication.intro.html
 
 Requires: %{name}-common  = %{version}-%{release}
 Requires: %{name}-Stdlib  = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-Crypt   = %{version}-%{release}
 Requires: %{name}-Db      = %{version}-%{release}
 Requires: %{name}-Session = %{version}-%{release}
 Requires: %{name}-Uri     = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-hash
+Requires: php-pcre
+Requires: php-spl
 
 %description Authentication
-%{summary}.
+The Zend\Authentication component provides an API for authentication and
+includes concrete authentication adapters for common use case scenarios.
+
+Zend\Authentication is concerned only with authentication and not with
+authorization. Authentication is loosely defined as determining whether
+an entity actually is what it purports to be (i.e., identification),
+based on some set of credentials. Authorization, the process of deciding
+whether to allow an entity access to, or to perform operations upon, other
+entities is outside the scope of Zend\Authentication. For more information
+about authorization and access control with Zend Framework, please see the
+Zend\Permissions\Acl or Zend\Permissions\Rbac component.
 
 # ------------------------------------------------------------------------------
 
 %package  Barcode
 
 Summary:  Zend Framework 2: Barcode Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.barcode.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.barcode.intro.html
 
-Requires: %{name}-common   = %{version}-%{release}
-Requires: %{name}-Stdlib   = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common    = %{version}-%{release}
+Requires: %{name}-Stdlib    = %{version}-%{release}
 # Optional
 Requires: %{name}-Validator = %{version}-%{release}
 ### TODO: ZendPdf
+# phpci
+Requires: php-dom
+Requires: php-gd
+Requires: php-iconv
+Requires: php-pcre
+Requires: php-spl
 
 %description Barcode
-%{summary}.
+Zend\Barcode\Barcode provides a generic way to generate barcodes. The
+Zend\Barcode component is divided into two subcomponents: barcode objects
+and renderers. Objects allow you to create barcodes independently of the
+renderer. Renderer allow you to draw barcodes based on the support required.
 
 # ------------------------------------------------------------------------------
 
-### TODO: SEPARATE OUT!!!
+### TODO: SEPARATE OUT!!!... apc, dba, memcached, redis
+### TODO: Remove wincache?
 
 %package  Cache
 
 Summary:  Zend Framework 2: Cache Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.cache.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-cache
 
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-EventManager   = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-Serializer     = %{version}-%{release}
 Requires: %{name}-Session        = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Cache
 %{summary}.
@@ -96,101 +123,168 @@ Requires: %{name}-Session        = %{version}-%{release}
 
 %package  Captcha
 
-Summary:  Zend Framework 2: Captcha Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.captcha.html
+Summary:  Zend Framework 2: CAPTCHA Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.captcha.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Math   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
-### TODO: zendframework/zend-resources
 ### TODO: zendframework/zendservice-recaptcha
+# phpci
+Requires: php-date
+Requires: php-gd
+Requires: php-spl
 
 %description Captcha
-%{summary}.
+CAPTCHA stands for “Completely Automated Public Turing test to tell Computers
+and Humans Apart”; it is used as a challenge-response to ensure that the
+individual submitting information is a human and not an automated process.
+Typically, a captcha is used with form submissions where authenticated users
+are not necessary, but you want to prevent spam submissions.
+
+Captchas can take a variety of forms, including asking logic questions,
+presenting skewed fonts, and presenting multiple images and asking how they
+relate. The Zend\Captcha component aims to provide a variety of back ends
+that may be utilized either standalone or in conjunction with the Zend\Form
+component.
 
 # ------------------------------------------------------------------------------
 
 %package  Code
 
 Summary:  Zend Framework 2: Code Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.code.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html
 
 Requires: %{name}-common       = %{version}-%{release}
 Requires: %{name}-EventManager = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
+# phpci
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
+Requires: php-tokenizer
 
 %description Code
-%{summary}.
+Provides facilities to generate arbitrary code using an object oriented
+interface.
 
 # ------------------------------------------------------------------------------
 
 %package  Config
 
 Summary:  Zend Framework 2: Config Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.config.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.config.introduction.html
 
-Requires: %{name}-common        = %{version}-%{release}
-Requires: %{name}-Stdlib        = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-Json           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-libxml
+Requires: php-spl
+Requires: php-xmlreader
+Requires: php-xmlwriter
 
 %description Config
-%{summary}.
+Zend\Config is designed to simplify access to configuration data within
+applications. It provides a nested object property-based user interface
+for accessing this configuration data within application code. The
+configuration data may come from a variety of media supporting hierarchical
+data storage. Currently, Zend\Config provides adapters that read and write
+configuration data stored in .ini, JSON, YAML and XML files.
 
 # ------------------------------------------------------------------------------
 
 %package  Console
 
 Summary:  Zend Framework 2: Console Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.console.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.console.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
+Requires: php-xml
 
 %description Console
-%{summary}.
+Zend Framework 2 features built-in console support.
+
+When a Zend\Application is run from a console window (a shell window), it will
+recognize this fact and prepare Zend\Mvc components to handle the request.
+Console support is enabled by default, but to function properly it requires at
+least one console route and one action controller to handle the request.
+
+* Console routing allows you to invoke controllers and action depending on
+  command line parameters provided by the user.
+* Module Manager integration allows ZF2 applications and modules to display
+  help and usage information, in case the command line has not been understood
+  (no route matched).
+* Console-aware action controllers will receive a console request containing
+  all named parameters and flags. They are able to send output back to the
+  console window.
+* Console adapters provide a level of abstraction for interacting with console
+  on different operating systems.
+* Console prompts can be used to interact with the user by asking him questions
+  and retrieving input.
 
 # ------------------------------------------------------------------------------
 
 %package  Crypt
 
 Summary:  Zend Framework 2: Crypt Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.crypt.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.crypt.introduction.html
 
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-Math           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-hash
+Requires: php-mcrypt
+Requires: php-openssl
+Requires: php-pcre
+Requires: php-spl
 
 %description Crypt
-%{summary}.
+Zend\Crypt provides support of some cryptographic tools. The available
+features are:
+
+* encrypt-then-authenticate using symmetric ciphers (the authentication step is
+  provided using HMAC)
+* encrypt/decrypt using symmetric and public key algorithm (e.g. RSA algorithm)
+* generate digital sign using public key algorithm (e.g. RSA algorithm)
+* key exchange using the Diffie-Hellman method
+* Key derivation function (e.g. using PBKDF2 algorithm)
+* Secure password hash (e.g. using Bcrypt algorithm)
+* generate Hash values
+* generate HMAC values
+
+The main scope of this component is to offer an easy and secure way to protect
+and authenticate sensitive data in PHP. Because the use of cryptography is not
+so easy we recommend to use the Zend\Crypt component only if you have a minimum
+background on this topic.
 
 # ------------------------------------------------------------------------------
 
-### TODO: SEPARATE OUT!!!
+### TODO: SEPARATE OUT!!!... ibm_db2, mysqli, oci8, pgsql, sqlsrv
 
 %package  Db
 
-Summary:  Zend Framework 2: Db Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.db.html
+Summary:  Zend Framework 2: DB Component
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-db
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-date
+Requires: php-pcre
+Requires: php-pdo
+Requires: php-spl
 
 %description Db
 %{summary}.
@@ -200,14 +294,12 @@ Requires: php-
 %package  Debug
 
 Summary:  Zend Framework 2: Debug Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.debug.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html
 
 Requires: %{name}-common  = %{version}-%{release}
 Requires: %{name}-Escaper = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
 
 %description Debug
 %{summary}.
@@ -218,93 +310,147 @@ Optional: XDebug (php-pecl-xdebug)
 
 %package  Di
 
-Summary:  Zend Framework 2: Di Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.di.html
+Summary:  Zend Framework 2: DI Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.di.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Code   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Di
-%{summary}.
+Dependency Injection (here-in called DI) is a concept that has been talked
+about in numerous places over the web. Simply put, we’ll explain the act of
+injecting dependencies simply with this below code:
+
+$b = new MovieLister(new MovieFinder());
+
+Above, MovieFinder is a dependency of MovieLister, and MovieFinder was
+injected into MovieLister.
 
 # ------------------------------------------------------------------------------
 
 %package  Dom
 
-Summary:  Zend Framework 2: Dom Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.dom.html
+Summary:  Zend Framework 2: DOM Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.dom.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-dom
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-spl
 
 %description Dom
-%{summary}.
+The Zend\Dom component provides tools for working with DOM documents and
+structures. Currently, we offer Zend\Dom\Query, which provides a unified
+interface for querying DOM documents utilizing both XPath and CSS selectors.
 
 # ------------------------------------------------------------------------------
 
 %package  Escaper
 
 Summary:  Zend Framework 2: Escaper Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.escaper.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.escaper.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-ctype
+Requires: php-iconv
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
 
 %description Escaper
-%{summary}.
+The OWASP Top 10 web security risks study lists Cross-Site Scripting (XSS)
+in second place. PHP’s sole functionality against XSS is limited to two
+functions of which one is commonly misapplied. Thus, the Zend\Escaper component
+was written. It offers developers a way to escape output and defend from XSS
+and related vulnerabilities by introducing contextual escaping based on
+peer-reviewed rules.
 
 # ------------------------------------------------------------------------------
 
 %package  EventManager
 
 Summary:  Zend Framework 2: EventManager Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.eventmanager.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.event-manager.event-manager.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-spl
 
 %description EventManager
-%{summary}.
+The EventManager is a component designed for the following use cases:
+
+* Implementing simple subject/observer patterns.
+* Implementing Aspect-Oriented designs.
+* Implementing event-driven architectures.
+
+The basic architecture allows you to attach and detach listeners to named
+events, both on a per-instance basis as well as via shared collections;
+trigger events; and interrupt execution of listeners.
 
 # ------------------------------------------------------------------------------
 
 %package  Feed
 
 Summary:  Zend Framework 2: Feed Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.feed.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.feed.introduction.html
 
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-Escaper        = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-Http           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-dom
+Requires: php-hash
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-spl
+Requires: php-tidy
 
 %description Feed
-%{summary}.
+Zend\Feed provides functionality for consuming RSS and Atom feeds. It provides
+a natural syntax for accessing elements of feeds, feed attributes, and entry
+attributes. Zend\Feed also has extensive support for modifying feed and entry
+structure with the same natural syntax, and turning the result back into XML.
+In the future, this modification support could provide support for the Atom
+Publishing Protocol.
+
+Zend\Feed consists of Zend\Feed\Reader for reading RSS and Atom feeds,
+Zend\Feed\Writer for writing RSS and Atom feeds, and Zend\Feed\PubSubHubbub
+for working with Hub servers. Furthermore, both Zend\Feed\Reader and
+Zend\Feed\Writer support extensions which allows for working with additional
+data in feeds, not covered in the core API but used in conjunction with RSS
+and Atom feeds.
 
 # ------------------------------------------------------------------------------
 
 %package  File
 
 Summary:  Zend Framework 2: File Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.file.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-file
 
-Requires: %{name}-common         = %{version}-%{release}
-Requires: %{name}-Stdlib         = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-fileinfo
+Requires: php-hash
+Requires: php-pcre
+Requires: php-spl
+Requires: php-tokenizer
 
 %description File
 %{summary}.
@@ -316,42 +462,69 @@ Requires: php-
 Summary:  Zend Framework 2: Filter Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.filter.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common    = %{version}-%{release}
+Requires: %{name}-Stdlib    = %{version}-%{release}
 # Optional
 Requires: %{name}-Crypt     = %{version}-%{release}
 Requires: %{name}-I18n      = %{version}-%{release}
 Requires: %{name}-Uri       = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
+# phpci
+Requires: php-bz2
+Requires: php-date
+Requires: php-iconv
+Requires: php-mbstring
+Requires: php-openssl
+Requires: php-pcre
+Requires: php-pecl(LZF)
+Requires: php-spl
+Requires: php-zip
+Requires: php-zlib
 
 %description Filter
-%{summary}.
+The Zend\Filter component provides a set of commonly needed data filters.
+It also provides a simple filter chaining mechanism by which multiple filters
+may be applied to a single datum in a user-defined order.
 
 # ------------------------------------------------------------------------------
 
 %package  Form
 
 Summary:  Zend Framework 2: Form Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.form.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.form.intro.html
 
 Requires: %{name}-common      = %{version}-%{release}
 Requires: %{name}-InputFilter = %{version}-%{release}
 Requires: %{name}-Stdlib      = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 ### TODO: zendframework/zendservice-recaptcha
+# phpci
+Requires: php-date
+Requires: php-intl
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Form
-%{summary}.
+Zend\Form is intended primarily as a bridge between your domain models and the
+View Layer. It composes a thin layer of objects representing form elements, an
+InputFilter, and a small number of methods for binding data to and from the
+form and attached objects.
+
+The Zend\Form component consists of the following objects:
+
+* Elements, which simply consist of a name and attributes.
+* Fieldsets, which extend from Elements, but allow composing other fieldsets
+  and elements.
+* Forms, which extend from Fieldsets (and thus Elements). They provide data
+  and object binding, and compose InputFilters. Data binding is done via
+  ZendStdlibHydrator.
 
 # ------------------------------------------------------------------------------
 
 %package  Http
 
-Summary:  Zend Framework 2: Http Component
+Summary:  Zend Framework 2: HTTP Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.http.html
 
 Requires: %{name}-common    = %{version}-%{release}
@@ -360,166 +533,261 @@ Requires: %{name}-Stdlib    = %{version}-%{release}
 Requires: %{name}-Uri       = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-ctype
+Requires: php-curl
+Requires: php-date
+Requires: php-fileinfo
+Requires: php-openssl
+Requires: php-pcre
+Requires: php-spl
+Requires: php-zlib
 
 %description Http
-%{summary}.
+Zend\Http is a primary foundational component of Zend Framework. Since much
+of what PHP does is web-based, specifically HTTP, it makes sense to have a
+performant, extensible, concise and consistent API to do all things HTTP.
+In nutshell, there are several parts of Zend\Http:
+
+* Context-less Request and Response classes that expose a fluent API for
+  introspecting several aspects of HTTP messages:
+  ** Request line information and response status information
+  ** Parameters, such as those found in POST and GET
+  ** Message Body
+  ** Headers
+* A Client implementation with various adapters that allow for sending requests
+  and introspecting responses.
 
 # ------------------------------------------------------------------------------
 
 %package  I18n
 
 Summary:  Zend Framework 2: i18n Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.i18n.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.i18n.translating.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common       = %{version}-%{release}
+Requires: %{name}-Stdlib       = %{version}-%{release}
 # Optional
 Requires: %{name}-EventManager = %{version}-%{release}
 Requires: %{name}-Filter       = %{version}-%{release}
 Requires: %{name}-Validator    = %{version}-%{release}
 Requires: %{name}-View         = %{version}-%{release}
-### TODO: zendframework/zend-resources
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-intl
+Requires: php-pcre
+Requires: php-spl
 
 %description I18n
-%{summary}.
+ZendI18n comes with a complete translation suite which supports all major
+formats and includes popular features like plural translations and text
+domains. The Translator component is mostly dependency free, except for
+the fallback to a default locale, where it relies on the Intl PHP extension.
+
+The translator itself is initialized without any parameters, as any
+configuration to it is optional. A translator without any translations
+will actually do nothing but just return the given message IDs.
 
 # ------------------------------------------------------------------------------
 
 %package  InputFilter
 
 Summary:  Zend Framework 2: InputFilter Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.inputfilter.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.input-filter.intro.html
 
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-Filter         = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-spl
 
 %description InputFilter
-%{summary}.
+The Zend\InputFilter component can be used to filter and validate generic sets
+of input data. For instance, you could use it to filter $_GET or $_POST values,
+CLI arguments, etc.
 
 # ------------------------------------------------------------------------------
 
 %package  Json
 
-Summary:  Zend Framework 2: Json Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.json.html
+Summary:  Zend Framework 2: JSON Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.json.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-Server = %{version}-%{release}
+# phpci
+Requires: php-json
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
 
 %description Json
-%{summary}.
+Zend\Json provides convenience methods for serializing native PHP to JSON
+and decoding JSON to native PHP.
+
+JSON, JavaScript Object Notation, can be used for data interchange between
+JavaScript and other languages. Since JSON can be directly evaluated by
+JavaScript, it is a more efficient and lightweight format than XML for
+exchanging data with JavaScript clients.
+
+In addition, Zend\Json provides a useful way to convert any arbitrary XML
+formatted string into a JSON formatted string. This built-in feature will
+enable PHP developers to transform the enterprise data encoded in XML format
+into JSON format before sending it to browser-based Ajax client applications.
+It provides an easy way to do dynamic data conversion on the server-side code
+thereby avoiding unnecessary XML parsing in the browser-side applications. It
+offers a nice utility function that results in easier application-specific
+data processing techniques.
 
 # ------------------------------------------------------------------------------
 
 %package  Ldap
 
-Summary:  Zend Framework 2: Ldap Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.ldap.html
+Summary:  Zend Framework 2: LDAP Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.ldap.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-date
+Requires: php-iconv
+Requires: php-json
+Requires: php-ldap
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-spl
 
 %description Ldap
-%{summary}.
+Zend\Ldap\Ldap is a class for performing LDAP operations including but not
+limited to binding, searching and modifying entries in an LDAP directory.
 
 # ------------------------------------------------------------------------------
 
 %package  Loader
 
 Summary:  Zend Framework 2: Loader Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.loader.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-loader
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Loader
 %{summary}.
 
 # ------------------------------------------------------------------------------
 
+### TODO: Investigate mongo separation
+
 %package  Log
 
 Summary:  Zend Framework 2: Log Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.log.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.log.overview.html
 
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
 Requires: %{name}-Db             = %{version}-%{release}
 Requires: %{name}-Escaper        = %{version}-%{release}
 Requires: %{name}-Mail           = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-dom
+Requires: php-json
+Requires: php-pcre
+Requires: php-spl
 
 %description Log
-%{summary}.
+Zend\Log\Logger is a component for general purpose logging. It supports multiple
+log backends, formatting messages sent to the log, and filtering messages from
+being logged. These functions are divided into the following objects:
+
+* A Logger (instance of Zend\Log\Logger) is the object that your application
+  uses the most. You can have as many Logger objects as you like; they do not
+  interact. A Logger object must contain at least one Writer, and can optionally
+  contain one or more Filters.
+* A Writer (inherits from Zend\Log\Writer\AbstractWriter) is responsible for
+  saving data to storage.
+* A Filter (implements Zend\Log\Filter\FilterInterface) blocks log data from
+  being saved. A filter is applied to an individual writer. Filters can be
+  chained.
+* A Formatter (implements Zend\Log\Formatter\FormatterInterface) can format the
+  log data before it is written by a Writer. Each Writer has exactly one
+  Formatter.
 
 # ------------------------------------------------------------------------------
 
 %package  Mail
 
 Summary:  Zend Framework 2: Mail Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mail.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mail.introduction.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Loader         = %{version}-%{release}
+Requires: %{name}-Mime           = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+Requires: %{name}-Validator      = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-iconv
+Requires: php-pcre
+Requires: php-spl
 
 %description Mail
-%{summary}.
+Zend\Mail provides generalized functionality to compose and send both text
+and MIME-compliant multipart email messages. Mail can be sent with Zend\Mail
+via the Mail\Transport\Sendmail, Mail\Transport\Smtp or the Mail\Transport\File
+transport. Of course, you can also implement your own transport by implementing
+the Mail\Transport\TransportInterface.
 
 # ------------------------------------------------------------------------------
 
 %package  Math
 
 Summary:  Zend Framework 2: Math Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.math.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.math.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-bcmath
+Requires: php-gmp
+Requires: php-mcrypt
+Requires: php-openssl
+Requires: php-pcre
+Requires: php-spl
 
 %description Math
-%{summary}.
+Zend\Math namespace provides general mathematical functions. So far the
+supported functionalities are:
+
+* Zend\Math\Rand: A random number generator
+* Zend\Math\BigInteger: A library to manage big integers
 
 # ------------------------------------------------------------------------------
 
 %package  Memory
 
 Summary:  Zend Framework 2: Memory Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.memory.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-spl
 
 %description Memory
 %{summary}.
@@ -528,154 +796,239 @@ Requires: %{name}- = %{version}-%{release}
 
 %package  Mime
 
-Summary:  Zend Framework 2: Mime Component
+Summary:  Zend Framework 2: MIME Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mime.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-iconv
+Requires: php-pcre
+Requires: php-spl
 
 %description Mime
-%{summary}.
+Zend\Mime\Mime is a support class for handling multipart MIME messages. It
+is used by Zend\Mail and Zend\Mime\Message and may be used by applications
+requiring MIME support.
 
 # ------------------------------------------------------------------------------
 
 %package  ModuleManager
 
 Summary:  Zend Framework 2: ModuleManager Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.modulemanager.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.module-manager.intro.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Config         = %{version}-%{release}
+Requires: %{name}-Loader         = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-spl
 
 %description ModuleManager
-%{summary}.
+Zend Framework 2.0 introduces a new and powerful approach to modules. This new
+module system is designed with flexibility, simplicity, and re-usability in
+mind. A module may contain just about anything: PHP code, including MVC
+functionality; library code; view scripts; and/or public assets such as images,
+CSS, and JavaScript.
 
 # ------------------------------------------------------------------------------
 
 %package  Mvc
 
-Summary:  Zend Framework 2: Mvc Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mvc.html
+Summary:  Zend Framework 2: MVC Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mvc.intro.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Config         = %{version}-%{release}
+Requires: %{name}-Console        = %{version}-%{release}
+Requires: %{name}-Di             = %{version}-%{release}
+Requires: %{name}-Filter         = %{version}-%{release}
+Requires: %{name}-Http           = %{version}-%{release}
+Requires: %{name}-Form           = %{version}-%{release}
+Requires: %{name}-I18n           = %{version}-%{release}
+Requires: %{name}-InputFilter    = %{version}-%{release}
+Requires: %{name}-ModuleManager  = %{version}-%{release}
+Requires: %{name}-Serializer     = %{version}-%{release}
+Requires: %{name}-Text           = %{version}-%{release}
+Requires: %{name}-Uri            = %{version}-%{release}
+Requires: %{name}-Validator      = %{version}-%{release}
+Requires: %{name}-View           = %{version}-%{release}
+# phpci
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Mvc
-%{summary}.
+Zend\Mvc is a brand new MVC implementation designed from the ground up for
+Zend Framework 2, focusing on performance and flexibility.
+
+The MVC layer is built on top of the following components:
+
+* Zend\ServiceManager - Zend Framework provides a set of default service
+  definitions set up at Zend\Mvc\Service. The ServiceManager creates and
+  configures your application instance and workflow.
+* Zend\EventManager - The MVC is event driven. This component is used everywhere
+  from initial bootstrapping of the application, through returning response and
+  request calls, to setting and retrieving routes and matched routes, as well as
+  render views.
+* Zend\Http - specifically the request and response objects.
+* Zend\Stdlib\DispatchableInterface. All “controllers” are simply dispatchable
+  objects.
 
 # ------------------------------------------------------------------------------
 
 %package  Navigation
 
 Summary:  Zend Framework 2: Navigation Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.navigation.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.navigation.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Config = %{version}-%{release}
+Requires: %{name}-Mvc    = %{version}-%{release}
+Requires: %{name}-View   = %{version}-%{release}
+# phpci
+Requires: php-pcre
+Requires: php-spl
 
 %description Navigation
-%{summary}.
+Zend\Navigation is a component for managing trees of pointers to web pages.
+Simply put: It can be used for creating menus, breadcrumbs, links, and sitemaps,
+or serve as a model for other navigation related purposes.
 
 # ------------------------------------------------------------------------------
 
 %package  Paginator
 
 Summary:  Zend Framework 2: Paginator Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.paginator.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.paginator.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-reflection
+Requires: php-spl
 
 %description Paginator
-%{summary}.
+Zend\Paginator is a flexible component for paginating collections of data and
+presenting that data to users.
+
+The primary design goals of Zend\Paginator are as follows:
+
+* Paginate arbitrary data, not just relational databases
+* Fetch only the results that need to be displayed
+* Do not force users to adhere to only one way of displaying data or rendering
+  pagination controls
+* Loosely couple Zend\Paginator to other Zend Framework components so that users
+  who wish to use it independently of Zend\View, Zend\Db, etc. can do so
 
 # ------------------------------------------------------------------------------
 
-%package  Permissions
+%package  Permissions-Acl
 
-Summary:  Zend Framework 2: Permissions Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.html
+Summary:  Zend Framework 2: Permissions ACL Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.acl.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-spl
 
-%description Permissions
-%{summary}.
+%description Permissions-Acl
+The Zend\Permissions\Acl component provides a lightweight and flexible access
+control list (ACL) implementation for privileges management. In general, an
+application may utilize such ACL‘s to control access to certain protected
+objects by other requesting objects.
+
+For the purposes of this documentation:
+
+* a resource is an object to which access is controlled.
+* a role is an object that may request access to a Resource.
+
+Put simply, roles request access to resources. For example, if a parking
+attendant requests access to a car, then the parking attendant is the requesting
+role, and the car is the resource, since access to the car may not be granted
+to everyone.
+
+Through the specification and use of an ACL, an application may control how
+roles are granted access to resources.
 
 # ------------------------------------------------------------------------------
 
-%package  Permissions
+%package  Permissions-Rbac
 
-Summary:  Zend Framework 2: Permissions Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.html
+Summary:  Zend Framework 2: Permissions RBAC Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.rbac.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-spl
 
-%description Permissions
-%{summary}.
+%description Permissions-Rbac
+The Zend\Permissions\Rbac component provides a lightweight role-based access
+control implementation based around PHP 5.3’s SPL RecursiveIterator and
+RecursiveIteratorIterator. RBAC differs from access control lists (ACL) by
+putting the emphasis on roles and their permissions rather than objects
+(resources).
 
 # ------------------------------------------------------------------------------
 
 %package  ProgressBar
 
 Summary:  Zend Framework 2: ProgressBar Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.progressbar.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.progress-bar.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-date
+Requires: php-pcre
+### TODO: Investigate APC requirement...
+Requires: php-pecl(APC)
+Requires: php-spl
+### TODO: uploadprogress
 
 %description ProgressBar
-%{summary}.
+Zend\ProgressBar is a component to create and update progress bars in different
+environments. It consists of a single backend, which outputs the progress
+through one of the multiple adapters. On every update, it takes an absolute
+value and optionally a status message, and then calls the adapter with some
+precalculated values like percentage and estimated time left.
 
 # ------------------------------------------------------------------------------
+
+### TODO: Split out packages?... igbinary, msgpack, wddx
 
 %package  Serializer
 
 Summary:  Zend Framework 2: Serializer Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.serializer.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Json           = %{version}-%{release}
+Requires: %{name}-Math           = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-dom
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-simplexml
+Requires: php-spl
 
 %description Serializer
-%{summary}.
+The Zend\Serializer component provides an adapter based interface to simply
+generate storable representation of PHP types by different facilities, and
+recover.
 
 # ------------------------------------------------------------------------------
 
@@ -685,62 +1038,87 @@ Summary:  Zend Framework 2: Server Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.server.html
 
 Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-Code   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Server
-%{summary}.
+The Zend\Server family of classes provides functionality for the various server
+classes, including Zend\XmlRpc\Server and Zend\Json\Server. Zend\Server\Server
+provides an interface that mimics PHP 5’s SoapServer class; all server classes
+should implement this interface in order to provide a standard server API.
+
+The Zend\Server\Reflection tree provides a standard mechanism for performing
+function and class introspection for use as callbacks with the server classes,
+and provides data suitable for use with Zend\Server\Server‘s getFunctions()
+and loadFunctions() methods.
 
 # ------------------------------------------------------------------------------
 
 %package  ServiceManager
 
 Summary:  Zend Framework 2: ServiceManager Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.servicemanager.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.service-manager.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Di     = %{version}-%{release}
+# phpci
+Requires: php-reflection
+Requires: php-spl
 
 %description ServiceManager
-%{summary}.
+The Service Locator design pattern is implemented by the Zend\ServiceManager
+component. The Service Locator is a service/object locator, tasked with
+retrieving other objects.
 
 # ------------------------------------------------------------------------------
 
 %package  Session
 
 Summary:  Zend Framework 2: Session Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.session.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-session
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+Requires: %{name}-Validator      = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-hash
+Requires: php-pcre
+Requires: php-session
+Requires: php-spl
+### TODO: Investigate mongo
 
 %description Session
-%{summary}.
+Manage and preserve session data, a logical complement of cookie data, across
+multiple page requests by the same client.
 
 # ------------------------------------------------------------------------------
 
 %package  Soap
 
-Summary:  Zend Framework 2: Soap Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.soap.html
+Summary:  Zend Framework 2: SOAP Component
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-soap
 
 Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-Server = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
+Requires: %{name}-Uri    = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-curl
+Requires: php-dom
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
+### TODO: Investigate SOAP extension...
 
 %description Soap
 %{summary}.
@@ -750,14 +1128,20 @@ Requires: %{name}- = %{version}-%{release}
 %package  Stdlib
 
 Summary:  Zend Framework 2: Stdlib Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.stdlib.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-stdlib
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-iconv
+Requires: php-intl
+Requires: php-mbstring
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-spl
 
 %description Stdlib
 %{summary}.
@@ -767,48 +1151,75 @@ Requires: %{name}- = %{version}-%{release}
 %package  Tag
 
 Summary:  Zend Framework 2: Tag Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.tag.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.tag.introduction.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
+Requires: %{name}-common  = %{version}-%{release}
+Requires: %{name}-Escaper = %{version}-%{release}
+Requires: %{name}-Stdlib  = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
+Requires: php-spl
 
 %description Tag
-%{summary}.
+Zend\Tag is a component suite which provides a facility to work with taggable
+Items. As its base, it provides two classes to work with Tags, Zend\Tag\Item
+and Zend\Tag\ItemList. Additionally, it comes with the interface
+Zend\Tag\TaggableInterface, which allows you to use any of your models as a
+taggable item in conjunction with Zend\Tag.
+
+Zend\Tag\Item is a basic taggable item implementation which comes with the
+essential functionality required to work with the Zend\Tag suite. A taggable
+item always consists of a title and a relative weight (e.g. number of
+occurrences). It also stores parameters which are used by the different
+sub-components of Zend\Tag.
+
+To group multiple items together, Zend\Tag\ItemList exists as an array iterator
+and provides additional functionality to calculate absolute weight values based
+on the given relative weights of each item in it.
 
 # ------------------------------------------------------------------------------
 
 %package  Test
 
 Summary:  Zend Framework 2: Test Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.test.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.test.introduction.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Dom            = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-Http           = %{version}-%{release}
+Requires: %{name}-Mvc            = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
+Requires: %{name}-Uri            = %{version}-%{release}
+Requires: %{name}-View           = %{version}-%{release}
+Requires: php-pear(pear.phpunit.de/PHPUnit) >= 3.7.0
+Requires: php-pear(pear.phpunit.de/PHPUnit) <  3.8.0
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
+Requires: php-spl
 
 %description Test
-%{summary}.
+The Zend\Test component provides tools to facilitate unit testing of your Zend
+Framework applications. At this time, we offer facilities to enable testing of
+your Zend Framework MVC applications.
+
+PHPUnit is the only library supported currently.
 
 # ------------------------------------------------------------------------------
 
 %package  Text
 
 Summary:  Zend Framework 2: Text Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.text.html
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-text
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-ctype
+Requires: php-pcre
+Requires: php-spl
 
 %description Text
 %{summary}.
@@ -817,18 +1228,28 @@ Requires: %{name}- = %{version}-%{release}
 
 %package  Uri
 
-Summary:  Zend Framework 2: Uri Component
+Summary:  Zend Framework 2: URI Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.uri.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
+Requires: %{name}-common    = %{version}-%{release}
+Requires: %{name}-Escaper   = %{version}-%{release}
+Requires: %{name}-Validator = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
+Requires: php-spl
 
 %description Uri
-%{summary}.
+Zend\Uri is a component that aids in manipulating and validating Uniform
+Resource Identifiers (URIs) [1]. Zend\Uri exists primarily to service other
+components, such as Zend\Http\, but is also useful as a standalone utility.
+
+URIs always begin with a scheme, followed by a colon. The construction of the
+many different schemes varies significantly. The Zend\Uri component provides
+the Zend\Uri\UriFactory that returns a class implementing the
+Zend\Uri\UriInterface which specializes in the scheme if such a class is
+registered with the Factory.
+
+[1] http://www.ietf.org/rfc/rfc3986.txt
 
 # ------------------------------------------------------------------------------
 
@@ -837,15 +1258,25 @@ Requires: %{name}- = %{version}-%{release}
 Summary:  Zend Framework 2: Validator Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.validator.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Db             = %{version}-%{release}
+Requires: %{name}-I18n           = %{version}-%{release}
+Requires: %{name}-Math           = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-ctype
+Requires: php-date
+Requires: php-fileinfo
+Requires: php-hash
+Requires: php-pcre
+Requires: php-spl
 
 %description Validator
-%{summary}.
+The Zend\Validator component provides a set of commonly needed validators.
+It also provides a simple validator chaining mechanism by which multiple
+validators may be applied to a single datum in a user-defined order.
 
 # ------------------------------------------------------------------------------
 
@@ -855,48 +1286,80 @@ Summary:  Zend Framework 2: Version Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.version.html
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-pcre
 
 %description Version
-%{summary}.
+Zend\Version provides a class constant Zend\Version\Version::VERSION that
+contains a string identifying the version number of your Zend Framework
+installation. Zend\Version\Version::VERSION might contain “1.7.4”, for
+example.
+
+The static method Zend\Version\Version::compareVersion($version) is based on
+the PHP function version_compare(). This method returns -1 if the specified
+version is older than the installed Zend Framework version, 0 if they are the
+same and +1 if the specified version is newer than the version of the Zend
+Framework installation.
 
 # ------------------------------------------------------------------------------
 
 %package  View
 
 Summary:  Zend Framework 2: View Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.view.html
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.view.quick-start.html
 
-Requires: %{name}-common = %{version}-%{release}
-Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
-Requires: php-
+Requires: %{name}-common         = %{version}-%{release}
+Requires: %{name}-EventManager   = %{version}-%{release}
+Requires: %{name}-Loader         = %{version}-%{release}
+Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: %{name}-Filter         = %{version}-%{release}
+Requires: %{name}-ServiceManager = %{version}-%{release}
+# phpci
+Requires: php-date
+Requires: php-dom
+Requires: php-pcre
+Requires: php-spl
+%{!?rhel:Requires: php-filter}
 
 %description View
-%{summary}.
+Zend\View provides the “View” layer of Zend Framework 2’s MVC system. It
+is a multi-tiered system allowing a variety of mechanisms for extension,
+substitution, and more.
 
 # ------------------------------------------------------------------------------
 
 %package  XmlRpc
 
-Summary:  Zend Framework 2: XmlRpc Component
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.xmlrpc.html
+Summary:  Zend Framework 2: XML-RPC Component
+URL:      http://framework.zend.com/manual/2.2/en/modules/zend.xmlrpc.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-Http   = %{version}-%{release}
+Requires: %{name}-Math   = %{version}-%{release}
+Requires: %{name}-Server = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
-Requires: php-
-# Optional
-Requires: %{name}- = %{version}-%{release}
+Requires: php-date
+Requires: php-dom
+Requires: php-iconv
+Requires: php-libxml
+Requires: php-pcre
+Requires: php-reflection
+Requires: php-simplexml
+Requires: php-spl
+Requires: php-xmlwriter
 
 %description XmlRpc
-%{summary}.
+From its home page, XML-RPC is described as a ”...remote procedure calling
+using HTTP as the transport and XML as the encoding. XML-RPC is designed to
+be as simple as possible, while allowing complex data structures to be
+transmitted, processed and returned.”
+
+Zend Framework provides support for both consuming remote XML-RPC services
+and building new XML-RPC servers.
+
+[1] http://www.xmlrpc.com/
 
 # ##############################################################################
 
