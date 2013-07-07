@@ -5,71 +5,70 @@
 ### TODO: manual
 ### TODO: apidoc
 
-Name:             php-ZendFramework2
-Version:          2.2.1
-Release:          1%{?dist}
-Summary:          Zend Framework 2
+Name:      php-ZendFramework2
+Version:   2.2.1
+Release:   1%{?dist}
+Summary:   Zend Framework 2
 
-Group:            Development/Libraries
-License:          BSD
-URL:              http://framework.zend.com
-Source0:          https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-minimal-%{version}.tgz
-Source1:          https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
-Source2:          https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
+Group:     Development/Libraries
+License:   BSD
+URL:       http://framework.zend.com
+Source0:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-minimal-%{version}.tgz
+Source1:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
+Source2:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
 
-BuildArch:        noarch
+BuildArch: noarch
 
-Requires: %{name}-Authentication   = %{version}-%{release}
-Requires: %{name}-Barcode          = %{version}-%{release}
-Requires: %{name}-Cache            = %{version}-%{release}
-Requires: %{name}-Captcha          = %{version}-%{release}
-Requires: %{name}-Code             = %{version}-%{release}
-Requires: %{name}-Config           = %{version}-%{release}
-Requires: %{name}-Console          = %{version}-%{release}
-Requires: %{name}-Crypt            = %{version}-%{release}
-Requires: %{name}-Db               = %{version}-%{release}
-Requires: %{name}-Debug            = %{version}-%{release}
-Requires: %{name}-Di               = %{version}-%{release}
-Requires: %{name}-Dom              = %{version}-%{release}
-Requires: %{name}-Escaper          = %{version}-%{release}
-Requires: %{name}-EventManager     = %{version}-%{release}
-Requires: %{name}-Feed             = %{version}-%{release}
-Requires: %{name}-File             = %{version}-%{release}
-Requires: %{name}-Filter           = %{version}-%{release}
-Requires: %{name}-Form             = %{version}-%{release}
-Requires: %{name}-Http             = %{version}-%{release}
-Requires: %{name}-I18n             = %{version}-%{release}
-Requires: %{name}-InputFilter      = %{version}-%{release}
-Requires: %{name}-Json             = %{version}-%{release}
-Requires: %{name}-Ldap             = %{version}-%{release}
-Requires: %{name}-Loader           = %{version}-%{release}
-Requires: %{name}-Log              = %{version}-%{release}
-Requires: %{name}-Mail             = %{version}-%{release}
-Requires: %{name}-Math             = %{version}-%{release}
-Requires: %{name}-Memory           = %{version}-%{release}
-Requires: %{name}-Mime             = %{version}-%{release}
-Requires: %{name}-ModuleManager    = %{version}-%{release}
-Requires: %{name}-Mvc              = %{version}-%{release}
-Requires: %{name}-Navigation       = %{version}-%{release}
-Requires: %{name}-Paginator        = %{version}-%{release}
-Requires: %{name}-Permissions-Acl  = %{version}-%{release}
-Requires: %{name}-Permissions-Rbac = %{version}-%{release}
-Requires: %{name}-ProgressBar      = %{version}-%{release}
-Requires: %{name}-Serializer       = %{version}-%{release}
-Requires: %{name}-Server           = %{version}-%{release}
-Requires: %{name}-ServiceManager   = %{version}-%{release}
-Requires: %{name}-Session          = %{version}-%{release}
-Requires: %{name}-Soap             = %{version}-%{release}
-Requires: %{name}-Stdlib           = %{version}-%{release}
-Requires: %{name}-Tag              = %{version}-%{release}
-Requires: %{name}-Test             = %{version}-%{release}
-Requires: %{name}-Text             = %{version}-%{release}
-Requires: %{name}-Uri              = %{version}-%{release}
-Requires: %{name}-Validator        = %{version}-%{release}
-Requires: %{name}-Version          = %{version}-%{release}
-Requires: %{name}-View             = %{version}-%{release}
-Requires: %{name}-XmlRpc           = %{version}-%{release}
-
+Requires:  %{name}-Authentication   = %{version}-%{release}
+Requires:  %{name}-Barcode          = %{version}-%{release}
+Requires:  %{name}-Cache            = %{version}-%{release}
+Requires:  %{name}-Captcha          = %{version}-%{release}
+Requires:  %{name}-Code             = %{version}-%{release}
+Requires:  %{name}-Config           = %{version}-%{release}
+Requires:  %{name}-Console          = %{version}-%{release}
+Requires:  %{name}-Crypt            = %{version}-%{release}
+Requires:  %{name}-Db               = %{version}-%{release}
+Requires:  %{name}-Debug            = %{version}-%{release}
+Requires:  %{name}-Di               = %{version}-%{release}
+Requires:  %{name}-Dom              = %{version}-%{release}
+Requires:  %{name}-Escaper          = %{version}-%{release}
+Requires:  %{name}-EventManager     = %{version}-%{release}
+Requires:  %{name}-Feed             = %{version}-%{release}
+Requires:  %{name}-File             = %{version}-%{release}
+Requires:  %{name}-Filter           = %{version}-%{release}
+Requires:  %{name}-Form             = %{version}-%{release}
+Requires:  %{name}-Http             = %{version}-%{release}
+Requires:  %{name}-I18n             = %{version}-%{release}
+Requires:  %{name}-InputFilter      = %{version}-%{release}
+Requires:  %{name}-Json             = %{version}-%{release}
+Requires:  %{name}-Ldap             = %{version}-%{release}
+Requires:  %{name}-Loader           = %{version}-%{release}
+Requires:  %{name}-Log              = %{version}-%{release}
+Requires:  %{name}-Mail             = %{version}-%{release}
+Requires:  %{name}-Math             = %{version}-%{release}
+Requires:  %{name}-Memory           = %{version}-%{release}
+Requires:  %{name}-Mime             = %{version}-%{release}
+Requires:  %{name}-ModuleManager    = %{version}-%{release}
+Requires:  %{name}-Mvc              = %{version}-%{release}
+Requires:  %{name}-Navigation       = %{version}-%{release}
+Requires:  %{name}-Paginator        = %{version}-%{release}
+Requires:  %{name}-Permissions-Acl  = %{version}-%{release}
+Requires:  %{name}-Permissions-Rbac = %{version}-%{release}
+Requires:  %{name}-ProgressBar      = %{version}-%{release}
+Requires:  %{name}-Serializer       = %{version}-%{release}
+Requires:  %{name}-Server           = %{version}-%{release}
+Requires:  %{name}-ServiceManager   = %{version}-%{release}
+Requires:  %{name}-Session          = %{version}-%{release}
+Requires:  %{name}-Soap             = %{version}-%{release}
+Requires:  %{name}-Stdlib           = %{version}-%{release}
+Requires:  %{name}-Tag              = %{version}-%{release}
+Requires:  %{name}-Test             = %{version}-%{release}
+Requires:  %{name}-Text             = %{version}-%{release}
+Requires:  %{name}-Uri              = %{version}-%{release}
+Requires:  %{name}-Validator        = %{version}-%{release}
+Requires:  %{name}-Version          = %{version}-%{release}
+Requires:  %{name}-View             = %{version}-%{release}
+Requires:  %{name}-XmlRpc           = %{version}-%{release}
 
 %description
 Zend Framework 2 is an open source framework for developing web applications
