@@ -1,9 +1,4 @@
-### TODO: investigate RHEL xmlreader and xmlwriter
 ### TODO: resources
-### TODO: bin
-### TODO: languages in i18n?
-### TODO: manual
-### TODO: apidoc
 
 Name:      php-ZendFramework2
 Version:   2.2.1
@@ -14,8 +9,8 @@ Group:     Development/Libraries
 License:   BSD
 URL:       http://framework.zend.com
 Source0:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-minimal-%{version}.tgz
-Source1:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
-Source2:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
+#Source1:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
+#Source2:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
 
 BuildArch: noarch
 
@@ -88,7 +83,7 @@ Summary:  Zend Framework 2: Common files
 Requires: php(language) >= 5.3.3
 
 %description common
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -135,7 +130,7 @@ Requires: %{name}-common    = %{version}-%{release}
 Requires: %{name}-Stdlib    = %{version}-%{release}
 # Optional
 Requires: %{name}-Validator = %{version}-%{release}
-### TODO: ZendPdf
+### TODO: zendframework/zendpdf ?
 # phpci
 Requires: php-dom
 Requires: php-gd
@@ -150,9 +145,6 @@ and renderers. Objects allow you to create barcodes independently of the
 renderer. Renderer allow you to draw barcodes based on the support required.
 
 # ------------------------------------------------------------------------------
-
-### TODO: SEPARATE OUT!!!... apc, dba, memcached, redis
-### TODO: Remove wincache?
 
 %package  Cache
 
@@ -173,7 +165,51 @@ Requires: php-reflection
 Requires: php-spl
 
 %description Cache
-%{summary}.
+%{summary}
+
+Optional:
+* %{name}-Cache-apc
+* %{name}-Cache-memcached
+* %{name}-Cache-redis
+
+# ------------------------------------------------------------------------------
+
+%package  Cache-apc
+
+Summary:  Zend Framework 2: Cache Component: APC
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-cache
+
+Requires: %{name}-Cache = %{version}-%{release}
+Requires: php-pecl(APC)
+
+%description Cache-apc
+%{summary}
+
+# ------------------------------------------------------------------------------
+
+%package  Cache-memcached
+
+Summary:  Zend Framework 2: Cache Component: Memcached
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-cache
+
+Requires: %{name}-Cache = %{version}-%{release}
+Requires: php-pecl(memcached)
+
+%description Cache-memcached
+%{summary}
+
+# ------------------------------------------------------------------------------
+
+%package  Cache-redis
+
+Summary:  Zend Framework 2: Cache Component: Redis
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-cache
+
+Requires: %{name}-Cache = %{version}-%{release}
+Requires: php-pecl(redis)
+
+%description Cache-redis
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -186,7 +222,7 @@ Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Math   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # Optional
-### TODO: zendframework/zendservice-recaptcha
+### TODO: zendframework/zendservice-recaptcha ?
 # phpci
 Requires: php-date
 Requires: php-gd
@@ -204,6 +240,8 @@ presenting skewed fonts, and presenting multiple images and asking how they
 relate. The Zend\Captcha component aims to provide a variety of back ends
 that may be utilized either standalone or in conjunction with the Zend\Form
 component.
+
+Optional: ZendService_ReCaptcha
 
 # ------------------------------------------------------------------------------
 
@@ -343,7 +381,7 @@ Requires: php-pdo
 Requires: php-spl
 
 %description Db
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -358,7 +396,7 @@ Requires: %{name}-Escaper = %{version}-%{release}
 Requires: php-pcre
 
 %description Debug
-%{summary}.
+%{summary}
 
 Optional: XDebug (php-pecl-xdebug)
 
@@ -509,7 +547,7 @@ Requires: php-spl
 Requires: php-tokenizer
 
 %description File
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -553,7 +591,7 @@ Requires: %{name}-common      = %{version}-%{release}
 Requires: %{name}-InputFilter = %{version}-%{release}
 Requires: %{name}-Stdlib      = %{version}-%{release}
 # Optional
-### TODO: zendframework/zendservice-recaptcha
+### TODO: zendframework/zendservice-recaptcha ?
 # phpci
 Requires: php-date
 Requires: php-intl
@@ -739,7 +777,7 @@ Requires: php-reflection
 Requires: php-spl
 
 %description Loader
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -846,7 +884,7 @@ Requires: %{name}-common = %{version}-%{release}
 Requires: php-spl
 
 %description Memory
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1177,7 +1215,7 @@ Requires: php-spl
 ### TODO: Investigate SOAP extension...
 
 %description Soap
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1200,7 +1238,7 @@ Requires: php-reflection
 Requires: php-spl
 
 %description Stdlib
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1264,6 +1302,8 @@ PHPUnit is the only library supported currently.
 
 # ------------------------------------------------------------------------------
 
+### TODO: Is Zend/Text/Figlet/zend-framework.flf allowed?
+
 %package  Text
 
 Summary:  Zend Framework 2: Text Component
@@ -1278,7 +1318,7 @@ Requires: php-pcre
 Requires: php-spl
 
 %description Text
-%{summary}.
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1374,9 +1414,9 @@ Requires: %{name}-ServiceManager = %{version}-%{release}
 # phpci
 Requires: php-date
 Requires: php-dom
+Requires: php-filter
 Requires: php-pcre
 Requires: php-spl
-%{!?rhel:Requires: php-filter}
 
 %description View
 Zend\View provides the “View” layer of Zend Framework 2’s MVC system. It
@@ -1479,6 +1519,27 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %{_datadir}/php/Zend/Cache
 %exclude %{_datadir}/php/Zend/Cache/*.md
 %exclude %{_datadir}/php/Zend/Cache/composer.json
+%exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Apc*
+%exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Memcached*
+%exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Redis*
+
+# ------------------------------------------------------------------------------
+
+%files Cache-apc
+
+%{_datadir}/php/Zend/Cache/Storage/Adapter/Apc*
+
+# ------------------------------------------------------------------------------
+
+%files Cache-memcached
+
+%{_datadir}/php/Zend/Cache/Storage/Adapter/Memcached*
+
+# ------------------------------------------------------------------------------
+
+%files Cache-redis
+
+%{_datadir}/php/Zend/Cache/Storage/Adapter/Redis*
 
 # ------------------------------------------------------------------------------
 
