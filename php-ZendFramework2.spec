@@ -1202,11 +1202,26 @@ Requires: php-hash
 Requires: php-pcre
 Requires: php-session
 Requires: php-spl
-### TODO: Investigate mongo
 
 %description Session
 Manage and preserve session data, a logical complement of cookie data, across
 multiple page requests by the same client.
+
+Optional:
+* %{name}-Session-mongo
+
+# ------------------------------------------------------------------------------
+
+%package  Session-mongo
+
+Summary:  Zend Framework 2: Session Component: Mongo
+URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-session
+
+Requires: %{name}-Session = %{version}-%{release}
+Requires: php-pecl(mongo)
+
+%description Session-mongo
+%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1970,6 +1985,13 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %{_datadir}/php/Zend/Session
 %exclude %{_datadir}/php/Zend/Session/*.md
 %exclude %{_datadir}/php/Zend/Session/composer.json
+%exclude %{_datadir}/php/Zend/Session/SaveHandler/MongoDB*
+
+# ------------------------------------------------------------------------------
+
+%files Session-mongo
+
+%{_datadir}/php/Zend/Session/SaveHandler/MongoDB*
 
 # ------------------------------------------------------------------------------
 
