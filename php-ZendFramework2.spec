@@ -161,6 +161,7 @@ Requires: %{name}-Session        = %{version}-%{release}
 # phpci
 Requires: php-date
 Requires: php-pcre
+Requires: php-pecl(redis)
 Requires: php-reflection
 Requires: php-spl
 
@@ -170,7 +171,6 @@ Requires: php-spl
 Optional:
 * %{name}-Cache-apc
 * %{name}-Cache-memcached
-* %{name}-Cache-redis
 
 # ------------------------------------------------------------------------------
 
@@ -196,19 +196,6 @@ Requires: %{name}-Cache = %{version}-%{release}
 Requires: php-pecl(memcached)
 
 %description Cache-memcached
-%{summary}
-
-# ------------------------------------------------------------------------------
-
-%package  Cache-redis
-
-Summary:  Zend Framework 2: Cache Component: Redis
-URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-cache
-
-Requires: %{name}-Cache = %{version}-%{release}
-Requires: php-pecl(redis)
-
-%description Cache-redis
 %{summary}
 
 # ------------------------------------------------------------------------------
@@ -1550,7 +1537,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %exclude %{_datadir}/php/Zend/Cache/composer.json
 %exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Apc*
 %exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Memcached*
-%exclude %{_datadir}/php/Zend/Cache/Storage/Adapter/Redis*
 
 # ------------------------------------------------------------------------------
 
@@ -1563,12 +1549,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %files Cache-memcached
 
 %{_datadir}/php/Zend/Cache/Storage/Adapter/Memcached*
-
-# ------------------------------------------------------------------------------
-
-%files Cache-redis
-
-%{_datadir}/php/Zend/Cache/Storage/Adapter/Redis*
 
 # ------------------------------------------------------------------------------
 
