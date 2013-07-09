@@ -786,6 +786,7 @@ Requires: php-date
 Requires: php-dom
 Requires: php-json
 Requires: php-pcre
+Requires: php-pecl(mongo)
 Requires: php-spl
 
 %description Log
@@ -805,22 +806,6 @@ being logged. These functions are divided into the following objects:
 * A Formatter (implements Zend\Log\Formatter\FormatterInterface) can format the
   log data before it is written by a Writer. Each Writer has exactly one
   Formatter.
-
-Optional:
-* %{name}-Log-mongo
-
-# ------------------------------------------------------------------------------
-
-%package  Log-mongo
-
-Summary:  Zend Framework 2: Log Component: Mongo
-URL:      http://framework.zend.com/manual/2.2/en/modules/zend.log.overview.html
-
-Requires: %{name}-Log = %{version}-%{release}
-Requires: php-pecl(mongo)
-
-%description Log-mongo
-%{summary}
 
 # ------------------------------------------------------------------------------
 
@@ -1791,13 +1776,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %{_datadir}/php/Zend/Log
 %exclude %{_datadir}/php/Zend/Log/*.md
 %exclude %{_datadir}/php/Zend/Log/composer.json
-%exclude %{_datadir}/php/Zend/Log/Writer/MongoDB.php
-
-# ------------------------------------------------------------------------------
-
-%files Log-mongo
-
-%{_datadir}/php/Zend/Log/Writer/MongoDB.php
 
 # ------------------------------------------------------------------------------
 
