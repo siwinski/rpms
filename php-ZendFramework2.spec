@@ -1113,8 +1113,6 @@ precalculated values like percentage and estimated time left.
 
 # ------------------------------------------------------------------------------
 
-### TODO: Split out packages?... igbinary, msgpack, wddx
-
 %package  Serializer
 
 Summary:  Zend Framework 2: Serializer Component
@@ -1130,6 +1128,8 @@ Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: php-dom
 Requires: php-libxml
 Requires: php-pcre
+Requires: php-pecl(igbinary)
+Requires: php-pecl(msgpack)
 Requires: php-simplexml
 Requires: php-spl
 
