@@ -1,5 +1,3 @@
-### TODO: resources
-
 Name:      php-ZendFramework2
 Version:   2.2.1
 Release:   1%{?dist}
@@ -130,7 +128,7 @@ Requires: %{name}-common    = %{version}-%{release}
 Requires: %{name}-Stdlib    = %{version}-%{release}
 # Optional
 Requires: %{name}-Validator = %{version}-%{release}
-### TODO: zendframework/zendpdf ?
+# zendframework/zendpdf
 # phpci
 Requires: php-dom
 Requires: php-gd
@@ -209,7 +207,7 @@ Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Math   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # Optional
-### TODO: zendframework/zendservice-recaptcha ?
+# zendframework/zendservice-recaptcha
 # phpci
 Requires: php-date
 Requires: php-gd
@@ -578,7 +576,7 @@ Requires: %{name}-common      = %{version}-%{release}
 Requires: %{name}-InputFilter = %{version}-%{release}
 Requires: %{name}-Stdlib      = %{version}-%{release}
 # Optional
-### TODO: zendframework/zendservice-recaptcha ?
+# zendframework/zendservice-recaptcha
 # phpci
 Requires: php-date
 Requires: php-intl
@@ -1071,10 +1069,9 @@ Requires: %{name}-Stdlib = %{version}-%{release}
 # phpci
 Requires: php-date
 Requires: php-pcre
-### TODO: Investigate APC requirement...
 Requires: php-pecl(APC)
 Requires: php-spl
-### TODO: uploadprogress
+# uploadprogress
 
 %description ProgressBar
 Zend\ProgressBar is a component to create and update progress bars in different
@@ -1198,7 +1195,7 @@ Requires: php-libxml
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
-### TODO: Investigate SOAP extension...
+Requires: php-soap
 
 %description Soap
 %{summary}
@@ -2042,5 +2039,5 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
-* Fri Jul 05 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
+* Wed Jul 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
 - Initial package
