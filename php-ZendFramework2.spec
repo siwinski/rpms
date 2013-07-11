@@ -72,6 +72,15 @@ static binding, lambda functions and closures.
 Zend Framework 2 evolved from Zend Framework 1, a successful PHP framework
 with over 15 million downloads.
 
+Note: This meta package installs all base Zend Framework component packages
+(Authentication, Barcode, Cache, Captcha, Code, Config, Console, Crypt, Db,
+Debug, Di, Dom, Escaper, EventManager, Feed, File, Filter, Form, Http, I18n,
+InputFilter, Json, Ldap, Loader, Log, Mail, Math, Memory, Mime, ModuleManager,
+Mvc, Navigation, Paginator, Permissions-Acl, Permissions-Rbac, ProgressBar,
+Serializer, Server, ServiceManager, Session, Soap, Stdlib, Tag, Test, Text,
+Uri, Validator, Version, View, XmlRpc) except the optional Cache-apc and
+Cache-memcached packages.
+
 # ##############################################################################
 
 %package  common
@@ -217,16 +226,14 @@ Requires: php-spl
 CAPTCHA stands for “Completely Automated Public Turing test to tell Computers
 and Humans Apart”; it is used as a challenge-response to ensure that the
 individual submitting information is a human and not an automated process.
-Typically, a captcha is used with form submissions where authenticated users
+Typically, a CAPTCHA is used with form submissions where authenticated users
 are not necessary, but you want to prevent spam submissions.
 
-Captchas can take a variety of forms, including asking logic questions,
+CAPTCHAs can take a variety of forms, including asking logic questions,
 presenting skewed fonts, and presenting multiple images and asking how they
 relate. The Zend\Captcha component aims to provide a variety of back ends
 that may be utilized either standalone or in conjunction with the Zend\Form
 component.
-
-Optional: ZendService_ReCaptcha
 
 # ------------------------------------------------------------------------------
 
@@ -2039,5 +2046,5 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
-* Wed Jul 10 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
+* Thu Jul 11 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
 - Initial package
