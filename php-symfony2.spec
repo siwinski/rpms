@@ -85,138 +85,127 @@ Requires:      php(language) >= %{php_min_ver}
 %package   DoctrineBridge
 
 Summary:   Symfony2 Doctrine Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Form      = %{version}-%{release}
+Requires:  %{name}-Validator = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
+Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  >= 2.2.3
+Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  <  3.0
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-json
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-pdo
+Requires:  php-reflection
+Requires:  php-session
+Requires:  php-spl
 
-Provides:  php-pear(%{pear_channel}/Doctrine) = %{version}
+Provides:  php-pear(%{pear_channel}/DoctrineBridge) = %{version}
 
 %description DoctrineBridge
-%{summary}
+Provides integration for Doctrine (http://www.doctrine-project.org/) with
+various Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
 %package   MonologBridge
 
 Summary:   Symfony2 Monolog Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     =  %{version}-%{release}
+Requires:  %{name}-HttpKernel =  %{version}-%{release}
+Requires:  php-Monolog        >= 1.3
+Requires:  php-Monolog        <  2.0
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-pcre
 
-Provides:  php-pear(%{pear_channel}/Monolog) = %{version}
+Provides:  php-pear(%{pear_channel}/MonologBridge) = %{version}
 
 %description MonologBridge
-%{summary}
+Provides integration for Monolog (https://github.com/Seldaek/monolog) with
+various Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
 %package   Propel1Bridge
 
-Summary:   Symfony2 Propel1 Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+Summary:   Symfony2 Propel 1 Bridge
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
-# phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/Propel1) = %{version}
+Requires:  %{name}-common         = %{version}-%{release}
+Requires:  %{name}-HttpFoundation = %{version}-%{release}
+Requires:  %{name}-HttpKernel     = %{version}-%{release}
+Requires:  %{name}-Form           = %{version}-%{release}
+# propel/propel1 1.6.*
 
 %description Propel1Bridge
-%{summary}
+Provides integration for Propel 1 (http://propelorm.org/) with various
+Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
 %package   ProxyManagerBridge
 
 Summary:   Symfony2 ProxyManager Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common              = %{version}-%{release}
+Requires:  %{name}-DependencyInjection = %{version}-%{release}
+# ocramius/proxy-manager >=0.3.1,<0.4-dev
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/ProxyManager) = %{version}
+Requires:  php-reflection
+Requires:  php-spl
 
 %description ProxyManagerBridge
-%{summary}
+Provides integration for ProxyManager (https://github.com/Ocramius/ProxyManager)
+with various Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
 %package   SwiftmailerBridge
 
 Summary:   Symfony2 Swiftmailer Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  php-pear(pear.swiftmailer.org/Swift) >= 4.2.0
+Requires:  php-pear(pear.swiftmailer.org/Swift) >  5.1.0
 # Optional
-Requires:  %{name}- = %{version}-%{release}
-# phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/Swiftmailer) = %{version}
+Requires:  %{name}-HttpKernel = %{version}-%{release}
 
 %description SwiftmailerBridge
-%{summary}
+Provides integration for Swift Mailer (http://swiftmailer.org/) with various
+Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
 %package   TwigBridge
 
 Summary:   Symfony2 Twig Bridge
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  php-pear(pear.twig-project.org/Twig) >= 1.11
+Requires:  php-pear(pear.twig-project.org/Twig) <  2.0
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Form        = %{version}-%{release}
+Requires:  %{name}-HttpKernel  = %{version}-%{release}
+Requires:  %{name}-Routing     = %{version}-%{release}
+Requires:  %{name}-Templating  = %{version}-%{release}
+Requires:  %{name}-Translation = %{version}-%{release}
+Requires:  %{name}-Yaml        = %{version}-%{release}
+Requires:  %{name}-Security    = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-pcre
+Requires:  php-spl
 
-Provides:  php-pear(%{pear_channel}/Twig) = %{version}
+Provides:  php-pear(%{pear_channel}/TwigBridge) = %{version}
 
 %description TwigBridge
-%{summary}
+Provides integration for Twig (http://twig.sensiolabs.org/) with various
+Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
