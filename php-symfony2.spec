@@ -1061,8 +1061,24 @@ find src -name '.git*' -delete
 mkdir -p %{buildroot}%{symfony_dir}
 cp -rp src/Symfony/* %{buildroot}%{symfony_dir}/
 
+# Symlink pkg docs to common sub-pkg docs
 mkdir -p %{buildroot}%{_docdir}
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
+
+# Lang files
+for res_file in \
+    %{buildroot}%{symfony_dir}/Component/Icu/Resources/data/*/*.res
+do
+    res_file_lang=$(basename $res_file | sed 's#\(_.*\)*\.res##')
+    if [ "root" != "$res_file_lang" ] && \
+       [ "supplementaldata" != "$res_file_lang" ]
+    then
+        echo "%lang($res_file_lang) $res_file"
+    else
+        echo "$res_file"
+    fi
+done > php-SymfonyComponentIcu.lang
+sed -i "s#%{buildroot}##" php-SymfonyComponentIcu.lang
 
 
 %check
@@ -1662,17 +1678,26 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
 # ------------------------------------------------------------------------------
 
-%files -n php-SymfonyComponentIcu
+%files -n php-SymfonyComponentIcu -f php-SymfonyComponentIcu.lang
 
 %doc src/Symfony/Component/Icu/LICENSE
 %doc src/Symfony/Component/Icu/*.md
 %doc src/Symfony/Component/Icu/composer.*
+%doc src/Symfony/Component/Icu/Resources/data/*.txt
 
-         %{symfony_dir}/Component/Icu
+%dir     %{symfony_dir}/Component/Icu
+         %{symfony_dir}/Component/Icu/*.php
+%dir     %{symfony_dir}/Component/Icu/Resources
+%dir     %{symfony_dir}/Component/Icu/Resources/data
+%dir     %{symfony_dir}/Component/Icu/Resources/data/curr
+%dir     %{symfony_dir}/Component/Icu/Resources/data/lang
+%dir     %{symfony_dir}/Component/Icu/Resources/data/locales
+%dir     %{symfony_dir}/Component/Icu/Resources/data/region
 %exclude %{symfony_dir}/Component/Icu/LICENSE
 %exclude %{symfony_dir}/Component/Icu/*.md
 %exclude %{symfony_dir}/Component/Icu/composer.*
 %exclude %{symfony_dir}/Component/Icu/phpunit.*
+%exclude %{symfony_dir}/Component/Icu/Resources/data/*.txt
 %exclude %{symfony_dir}/Component/Icu/Tests
 
 # ##############################################################################
