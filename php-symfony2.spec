@@ -340,8 +340,6 @@ The component only provide an abstract client and does not provide any
 
 # ------------------------------------------------------------------------------
 
-### TODO: Split out apc and xcache
-
 %package   ClassLoader
 
 Summary:   Symfony2 ClassLoader Component
@@ -371,6 +369,8 @@ implement one of the following conventions:
 If your classes and the third-party libraries you use for your project follow
 these standards, the Symfony2 autoloader is the only autoloader you will ever
 need.
+
+Optional: APC, XCache
 
 [1] http://symfony.com/PSR0
 [2] http://pear.php.net/manual/en/standards.php
@@ -1019,8 +1019,6 @@ cp -rp src/Symfony/* %{buildroot}%{symfony_dir}/
 mkdir -p %{buildroot}%{_docdir}
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
-### TODO: %lang() files
-
 
 %check
 # TODO
@@ -1416,8 +1414,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
 # ------------------------------------------------------------------------------
 
-### TODO: %lang() files
-
 %files Intl
 
 %doc src/Symfony/Component/Intl/LICENSE
@@ -1433,8 +1429,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %exclude %{symfony_dir}/Component/Intl/Tests
 
 # ------------------------------------------------------------------------------
-
-### TODO: %lang() files
 
 %files Locale
 
