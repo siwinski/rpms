@@ -320,46 +320,60 @@ http://symfony.com/doc/current/reference/configuration/web_profiler.html
 %package   BrowserKit
 
 Summary:   Symfony2 BrowserKit Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     = %{version}-%{release}
+Requires:  %{name}-DomCrawler = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Process    = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/BrowserKit) = %{version}
 
 %description BrowserKit
-%{summary}
+BrowserKit simulates the behavior of a web browser.
+
+The component only provide an abstract client and does not provide any
+"default" backend for the HTTP layer.
 
 # ------------------------------------------------------------------------------
+
+### TODO: Split out apc and xcache
 
 %package   ClassLoader
 
 Summary:   Symfony2 ClassLoader Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/class_loader.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-spl
+Requires:  php-tokenizer
 
 Provides:  php-pear(%{pear_channel}/ClassLoader) = %{version}
 
 %description ClassLoader
-%{summary}
+The ClassLoader Component loads your project classes automatically if they
+follow some standard PHP conventions.
+
+Whenever you use an undefined class, PHP uses the autoloading mechanism
+to delegate the loading of a file defining the class. Symfony2 provides
+a "universal" autoloader, which is able to load classes from files that
+implement one of the following conventions:
+* The technical interoperability standards [1] for PHP 5.3 namespaces
+  and class names
+* The PEAR naming convention [2] for classes
+
+If your classes and the third-party libraries you use for your project follow
+these standards, the Symfony2 autoloader is the only autoloader you will ever
+need.
+
+[1] http://symfony.com/PSR0
+[2] http://pear.php.net/manual/en/standards.php
 
 # ------------------------------------------------------------------------------
 
