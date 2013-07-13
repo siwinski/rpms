@@ -380,92 +380,92 @@ need.
 %package   Config
 
 Summary:   Symfony2 Config Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/config/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     = %{version}-%{release}
+Requires:  %{name}-Filesystem = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-dom
+Requires:  php-json
+Requires:  php-libxml
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Config) = %{version}
 
 %description Config
-%{summary}
+The Config Component provides several classes to help you find, load, combine,
+autofill and validate configuration values of any kind, whatever their source
+may be (Yaml, XML, INI files, or for instance a database).
 
 # ------------------------------------------------------------------------------
 
 %package   Console
 
 Summary:   Symfony2 Console Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/console/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common          = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-EventDispatcher = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-dom
+Requires:  php-json
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-posix
+Requires:  php-readline
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Console) = %{version}
 
 %description Console
-%{summary}
+The Console component eases the creation of beautiful and testable command line
+interfaces.
+
+The Console component allows you to create command-line commands. Your console
+commands can be used for any recurring task, such as cronjobs, imports, or
+other batch jobs.
 
 # ------------------------------------------------------------------------------
 
 %package   CssSelector
 
 Summary:   Symfony2 CssSelector Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-mbstring
+Requires:  php-pcre
 
 Provides:  php-pear(%{pear_channel}/CssSelector) = %{version}
 
 %description CssSelector
-%{summary}
+The CssSelector Component converts CSS selectors to XPath expressions.
 
 # ------------------------------------------------------------------------------
 
 %package   Debug
 
 Summary:   Symfony2 Debug Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/debug.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common         = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-ClassLoader    = %{version}-%{release}
+Requires:  %{name}-HttpFoundation = %{version}-%{release}
+Requires:  %{name}-HttpKernel     = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-pecl(xdebug)
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Debug) = %{version}
 
 %description Debug
-%{summary}
+The Debug Component provides tools to ease debugging PHP code.
 
 # ------------------------------------------------------------------------------
 
@@ -1160,7 +1160,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/BrowserKit/*.md
 %doc src/Symfony/Component/BrowserKit/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/BrowserKit
 %exclude %{symfony_dir}/Component/BrowserKit/LICENSE
 %exclude %{symfony_dir}/Component/BrowserKit/*.md
@@ -1192,7 +1191,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Config/*.md
 %doc src/Symfony/Component/Config/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Config
 %exclude %{symfony_dir}/Component/Config/LICENSE
 %exclude %{symfony_dir}/Component/Config/*.md
@@ -1208,7 +1206,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Console/*.md
 %doc src/Symfony/Component/Console/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Console
 %exclude %{symfony_dir}/Component/Console/LICENSE
 %exclude %{symfony_dir}/Component/Console/*.md
@@ -1240,7 +1237,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Debug/*.md
 %doc src/Symfony/Component/Debug/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Debug
 %exclude %{symfony_dir}/Component/Debug/LICENSE
 %exclude %{symfony_dir}/Component/Debug/*.md
