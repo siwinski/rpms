@@ -448,6 +448,8 @@ The CssSelector Component converts CSS selectors to XPath expressions.
 
 # ------------------------------------------------------------------------------
 
+## TODO: xdebug optional?  NOTE: HttpKernel requires this component
+
 %package   Debug
 
 Summary:   Symfony2 Debug Component
@@ -459,7 +461,7 @@ Requires:  %{name}-ClassLoader    = %{version}-%{release}
 Requires:  %{name}-HttpFoundation = %{version}-%{release}
 Requires:  %{name}-HttpKernel     = %{version}-%{release}
 # phpci
-Requires:  php-pecl(xdebug)
+#Requires:  php-pecl(xdebug)
 Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Debug) = %{version}
@@ -472,233 +474,262 @@ The Debug Component provides tools to ease debugging PHP code.
 %package   DependencyInjection
 
 Summary:   Symfony2 DependencyInjection Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/dependency_injection/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Config             = %{version}-%{release}
+#Requires:  %{name}-ProxyManagerBridge = %{version}-%{release}
+Requires:  %{name}-Yaml               = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-dom
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-simplexml
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/DependencyInjection) = %{version}
 
 %description DependencyInjection
-%{summary}
+The Dependency Injection component allows you to standardize and centralize
+the way objects are constructed in your application.
 
 # ------------------------------------------------------------------------------
 
 %package   DomCrawler
 
 Summary:   Symfony2 DomCrawler Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/dom_crawler.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common      = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-CssSelector = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-dom
+Requires:  php-libxml
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/DomCrawler) = %{version}
 
 %description DomCrawler
-%{summary}
+The DomCrawler Component eases DOM navigation for HTML and XML documents.
 
 # ------------------------------------------------------------------------------
 
 %package   EventDispatcher
 
 Summary:   Symfony2 EventDispatcher Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/event_dispatcher/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common              = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-DependencyInjection = %{version}-%{release}
+Requires:  %{name}-HttpKernel          = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/EventDispatcher) = %{version}
 
 %description EventDispatcher
-%{summary}
+The Symfony2 Event Dispatcher component implements the Observer [1] pattern in
+a simple and effective way to make all these things possible and to make your
+projects truly extensible.
+
+[1] http://en.wikipedia.org/wiki/Observer_pattern
 
 # ------------------------------------------------------------------------------
 
 %package   Filesystem
 
 Summary:   Symfony2 Filesystem Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Filesystem) = %{version}
 
 %description Filesystem
-%{summary}
+The Filesystem component provides basic utilities for the filesystem.
 
 # ------------------------------------------------------------------------------
 
 %package   Finder
 
 Summary:   Symfony2 Finder Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Finder) = %{version}
 
 %description Finder
-%{summary}
+The Finder Component finds files and directories via an intuitive fluent
+interface.
 
 # ------------------------------------------------------------------------------
 
 %package   Form
 
 Summary:   Symfony2 Form Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common          = %{version}-%{release}
+Requires:  %{name}-EventDispatcher = %{version}-%{release}
+Requires:  %{name}-Intl            = %{version}-%{release}
+Requires:  %{name}-OptionsResolver = %{version}-%{release}
+Requires:  %{name}-PropertyAccess  = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-HttpFoundation  = %{version}-%{release}
+Requires:  %{name}-Validator       = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-date
+Requires:  php-intl
+Requires:  php-json
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-session
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Form) = %{version}
 
 %description Form
-%{summary}
+Form provides tools for defining forms, rendering and mapping request data
+to related models. Furthermore it provides integration with the Validation
+component.
 
 # ------------------------------------------------------------------------------
 
 %package   HttpFoundation
 
 Summary:   Symfony2 HttpFoundation Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/http_foundation/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-fileinfo
+Requires:  php-filter
+Requires:  php-json
+Requires:  php-pcre
+Requires:  php-pdo
+Requires:  php-session
+Requires:  php-sockets
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/HttpFoundation) = %{version}
 
 %description HttpFoundation
-%{summary}
+The HttpFoundation Component defines an object-oriented layer for the HTTP
+specification.
+
+In PHP, the request is represented by some global variables ($_GET, $_POST,
+$_FILES, $_COOKIE, $_SESSION, ...) and the response is generated by some
+functions (echo, header, setcookie, ...).
+
+The Symfony2 HttpFoundation component replaces these default PHP global
+variables and functions by an Object-Oriented layer.
+
+Optional: memcache, memcached, mongo
 
 # ------------------------------------------------------------------------------
 
 %package   HttpKernel
 
 Summary:   Symfony2 HttpKernel Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/http_kernel/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common              =  %{version}-%{release}
+Requires:  %{name}-Debug               =  %{version}-%{release}
+Requires:  %{name}-EventDispatcher     =  %{version}-%{release}
+Requires:  %{name}-HttpFoundation      =  %{version}-%{release}
+Requires:  php-PsrLog                  >= 1.0
+Requires:  php-PsrLog                  <  2.0
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-BrowserKit          =  %{version}-%{release}
+Requires:  %{name}-ClassLoader         =  %{version}-%{release}
+Requires:  %{name}-Config              =  %{version}-%{release}
+Requires:  %{name}-Console             =  %{version}-%{release}
+Requires:  %{name}-DependencyInjection =  %{version}-%{release}
+Requires:  %{name}-Finder              =  %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-hash
+Requires:  php-json
+Requires:  php-pcre
+Requires:  php-pdo
+Requires:  php-reflection
+Requires:  php-spl
+Requires:  php-sqlite3
+Requires:  php-tokenizer
 
 Provides:  php-pear(%{pear_channel}/HttpKernel) = %{version}
 
 %description HttpKernel
-%{summary}
+The HttpKernel Component provides a structured process for converting a Request
+into a Response by making use of the event dispatcher. It's flexible enough to
+create a full-stack framework (Symfony), a micro-framework (Silex) or an
+advanced CMS system (Drupal).
 
 Configuration reference:
 http://symfony.com/doc/current/reference/configuration/kernel.html
 
+Optional: memcache, memcached, redis, Zend OPcache
+
 # ------------------------------------------------------------------------------
+
+### TODO: Requires: symfony/icu (*not optional*)
 
 %package   Intl
 
 Summary:   Symfony2 Intl Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/intl.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-intl
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-simplexml
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Intl) = %{version}
 
 %description Intl
-%{summary}
+A PHP replacement layer for the C intl extension [1] that also provides access
+to the localization data of the ICU library [2].
+
+[1] http://www.php.net/manual/en/book.intl.php
+[2] http://site.icu-project.org/
 
 # ------------------------------------------------------------------------------
 
 %package   Locale
 
 Summary:   Symfony2 Locale Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Intl   = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-intl
 
 Provides:  php-pear(%{pear_channel}/Locale) = %{version}
 
 %description Locale
-%{summary}
+Locale provides fallback code to handle cases when the intl extension is
+missing.
+
+The Locale component is deprecated since version 2.3 and will be removed in
+Symfony 3.0. You should use the more capable Intl component instead.
 
 # ------------------------------------------------------------------------------
 
@@ -973,6 +1004,8 @@ cp -rp src/Symfony/* %{buildroot}%{symfony_dir}/
 
 mkdir -p %{buildroot}%{_docdir}
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
+
+### TODO: %lang() files
 
 
 %check
@@ -1252,7 +1285,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/DependencyInjection/*.md
 %doc src/Symfony/Component/DependencyInjection/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/DependencyInjection
 %exclude %{symfony_dir}/Component/DependencyInjection/LICENSE
 %exclude %{symfony_dir}/Component/DependencyInjection/*.md
@@ -1268,7 +1300,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/DomCrawler/*.md
 %doc src/Symfony/Component/DomCrawler/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/DomCrawler
 %exclude %{symfony_dir}/Component/DomCrawler/LICENSE
 %exclude %{symfony_dir}/Component/DomCrawler/*.md
@@ -1284,7 +1315,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/EventDispatcher/*.md
 %doc src/Symfony/Component/EventDispatcher/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/EventDispatcher
 %exclude %{symfony_dir}/Component/EventDispatcher/LICENSE
 %exclude %{symfony_dir}/Component/EventDispatcher/*.md
@@ -1332,7 +1362,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Form/*.md
 %doc src/Symfony/Component/Form/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Form
 %exclude %{symfony_dir}/Component/Form/LICENSE
 %exclude %{symfony_dir}/Component/Form/*.md
@@ -1364,7 +1393,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/HttpKernel/*.md
 %doc src/Symfony/Component/HttpKernel/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/HttpKernel
 %exclude %{symfony_dir}/Component/HttpKernel/LICENSE
 %exclude %{symfony_dir}/Component/HttpKernel/*.md
@@ -1373,6 +1401,8 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %exclude %{symfony_dir}/Component/HttpKernel/Tests
 
 # ------------------------------------------------------------------------------
+
+### TODO: %lang() files
 
 %files Intl
 
@@ -1390,13 +1420,14 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
 # ------------------------------------------------------------------------------
 
+### TODO: %lang() files
+
 %files Locale
 
 %doc src/Symfony/Component/Locale/LICENSE
 %doc src/Symfony/Component/Locale/*.md
 %doc src/Symfony/Component/Locale/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Locale
 %exclude %{symfony_dir}/Component/Locale/LICENSE
 %exclude %{symfony_dir}/Component/Locale/*.md
