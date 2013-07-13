@@ -28,8 +28,8 @@ BuildArch: noarch
 # Bridges
 Requires:  %{name}-DoctrineBridge      = %{version}-%{release}
 Requires:  %{name}-MonologBridge       = %{version}-%{release}
-Requires:  %{name}-Propel1Bridge       = %{version}-%{release}
-Requires:  %{name}-ProxyManagerBridge  = %{version}-%{release}
+#Requires:  %%{name}-Propel1Bridge       = %%{version}-%%{release}
+#Requires:  %%{name}-ProxyManagerBridge  = %%{version}-%%{release}
 Requires:  %{name}-SwiftmailerBridge   = %{version}-%{release}
 Requires:  %{name}-TwigBridge          = %{version}-%{release}
 
@@ -147,36 +147,36 @@ http://symfony.com/doc/current/reference/configuration/monolog.html
 
 # ------------------------------------------------------------------------------
 
-%package   Propel1Bridge
+#%%package   Propel1Bridge
 
-Summary:   Symfony2 Propel 1 Bridge
+#Summary:   Symfony2 Propel 1 Bridge
 
-Requires:  %{name}-common         = %{version}-%{release}
-Requires:  %{name}-HttpFoundation = %{version}-%{release}
-Requires:  %{name}-HttpKernel     = %{version}-%{release}
-Requires:  %{name}-Form           = %{version}-%{release}
-# propel/propel1 1.6.*
+#Requires:  %%{name}-common         = %%{version}-%%{release}
+#Requires:  %%{name}-HttpFoundation = %%{version}-%%{release}
+#Requires:  %%{name}-HttpKernel     = %%{version}-%%{release}
+#Requires:  %%{name}-Form           = %%{version}-%%{release}
+## propel/propel1 1.6.*
 
-%description Propel1Bridge
-Provides integration for Propel 1 (http://propelorm.org/) with various
-Symfony2 components.
+#%%description Propel1Bridge
+#Provides integration for Propel 1 (http://propelorm.org/) with various
+#Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
-%package   ProxyManagerBridge
+#%%package   ProxyManagerBridge
 
-Summary:   Symfony2 ProxyManager Bridge
+#Summary:   Symfony2 ProxyManager Bridge
 
-Requires:  %{name}-common              = %{version}-%{release}
-Requires:  %{name}-DependencyInjection = %{version}-%{release}
-# ocramius/proxy-manager >=0.3.1,<0.4-dev
-# phpcompatinfo
-Requires:  php-reflection
-Requires:  php-spl
+#Requires:  %%{name}-common              = %%{version}-%{release}
+#Requires:  %%{name}-DependencyInjection = %%{version}-%{release}
+## ocramius/proxy-manager >=0.3.1,<0.4-dev
+## phpcompatinfo
+#Requires:  php-reflection
+#Requires:  php-spl
 
-%description ProxyManagerBridge
-Provides integration for ProxyManager (https://github.com/Ocramius/ProxyManager)
-with various Symfony2 components.
+#%%description ProxyManagerBridge
+#Provides integration for ProxyManager (https://github.com/Ocramius/ProxyManager)
+#with various Symfony2 components.
 
 # ------------------------------------------------------------------------------
 
@@ -1051,6 +1051,7 @@ popd
 
 # Remove unnecessary files
 find src -name '.git*' -delete
+rm -rf src/Symfony/Bridge/{Propel1,ProxyManager}
 
 
 %build
@@ -1132,35 +1133,35 @@ sed -i "s#%{buildroot}##" php-SymfonyComponentIcu.lang
 
 # ------------------------------------------------------------------------------
 
-%files Propel1Bridge
+#%%files Propel1Bridge
 
-%doc src/Symfony/Bridge/Propel1/LICENSE
-%doc src/Symfony/Bridge/Propel1/*.md
-%doc src/Symfony/Bridge/Propel1/composer.*
+#%%doc src/Symfony/Bridge/Propel1/LICENSE
+#%%doc src/Symfony/Bridge/Propel1/*.md
+#%%doc src/Symfony/Bridge/Propel1/composer.*
 
-%dir     %{symfony_dir}/Bridge
-         %{symfony_dir}/Bridge/Propel1
-%exclude %{symfony_dir}/Bridge/Propel1/LICENSE
-%exclude %{symfony_dir}/Bridge/Propel1/*.md
-%exclude %{symfony_dir}/Bridge/Propel1/composer.*
-%exclude %{symfony_dir}/Bridge/Propel1/phpunit.*
-%exclude %{symfony_dir}/Bridge/Propel1/Tests
+#%%dir     %%{symfony_dir}/Bridge
+#         %%{symfony_dir}/Bridge/Propel1
+#%%exclude %%{symfony_dir}/Bridge/Propel1/LICENSE
+#%%exclude %%{symfony_dir}/Bridge/Propel1/*.md
+#%%exclude %%{symfony_dir}/Bridge/Propel1/composer.*
+#%%exclude %%{symfony_dir}/Bridge/Propel1/phpunit.*
+#%%exclude %%{symfony_dir}/Bridge/Propel1/Tests
 
 # ------------------------------------------------------------------------------
 
-%files ProxyManagerBridge
+#%%files ProxyManagerBridge
 
-%doc src/Symfony/Bridge/ProxyManager/LICENSE
-%doc src/Symfony/Bridge/ProxyManager/*.md
-%doc src/Symfony/Bridge/ProxyManager/composer.*
+#%%doc src/Symfony/Bridge/ProxyManager/LICENSE
+#%%doc src/Symfony/Bridge/ProxyManager/*.md
+#%%doc src/Symfony/Bridge/ProxyManager/composer.*
 
-%dir     %{symfony_dir}/Bridge
-         %{symfony_dir}/Bridge/ProxyManager
-%exclude %{symfony_dir}/Bridge/ProxyManager/LICENSE
-%exclude %{symfony_dir}/Bridge/ProxyManager/*.md
-%exclude %{symfony_dir}/Bridge/ProxyManager/composer.*
-%exclude %{symfony_dir}/Bridge/ProxyManager/phpunit.*
-%exclude %{symfony_dir}/Bridge/ProxyManager/Tests
+#%%dir     %%{symfony_dir}/Bridge
+#         %%{symfony_dir}/Bridge/ProxyManager
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/LICENSE
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/*.md
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/composer.*
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/phpunit.*
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/Tests
 
 # ------------------------------------------------------------------------------
 
