@@ -112,6 +112,9 @@ Provides:  php-pear(%{pear_channel}/DoctrineBridge) = %{version}
 Provides integration for Doctrine (http://www.doctrine-project.org/) with
 various Symfony2 components.
 
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/doctrine.html
+
 # ------------------------------------------------------------------------------
 
 %package   MonologBridge
@@ -130,6 +133,9 @@ Provides:  php-pear(%{pear_channel}/MonologBridge) = %{version}
 %description MonologBridge
 Provides integration for Monolog (https://github.com/Seldaek/monolog) with
 various Symfony2 components.
+
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/monolog.html
 
 # ------------------------------------------------------------------------------
 
@@ -180,6 +186,9 @@ Requires:  %{name}-HttpKernel = %{version}-%{release}
 Provides integration for Swift Mailer (http://swiftmailer.org/) with various
 Symfony2 components.
 
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/swiftmailer.html
+
 # ------------------------------------------------------------------------------
 
 %package   TwigBridge
@@ -211,44 +220,57 @@ Symfony2 components.
 
 %package   FrameworkBundle
 
-Summary:   Symfony2 FrameworkBundle Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+Summary:   Symfony2 Framework Bundle
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common              = %{version}-%{release}
+Requires:  %{name}-Config              = %{version}-%{release}
+Requires:  %{name}-DependencyInjection = %{version}-%{release}
+Requires:  %{name}-EventDispatcher     = %{version}-%{release}
+Requires:  %{name}-Filesystem          = %{version}-%{release}
+Requires:  %{name}-HttpKernel          = %{version}-%{release}
+Requires:  %{name}-Routing             = %{version}-%{release}
+Requires:  %{name}-Stopwatch           = %{version}-%{release}
+Requires:  %{name}-Templating          = %{version}-%{release}
+Requires:  %{name}-Translation         = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Console             = %{version}-%{release}
+Requires:  %{name}-Finder              = %{version}-%{release}
+Requires:  %{name}-Form                = %{version}-%{release}
+Requires:  %{name}-Validator           = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/FrameworkBundle) = %{version}
+Requires:  php-date
+Requires:  php-fileinfo
+Requires:  php-filter
+Requires:  php-json
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-session
+Requires:  php-spl
+Requires:  php-tokenizer
 
 %description FrameworkBundle
-%{summary}
+The FrameworkBundle contains most of the "base" framework functionality and can
+be configured under the framework key in your application configuration. This
+includes settings related to sessions, translation, forms, validation, routing
+and more.
+
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/framework.html
 
 # ------------------------------------------------------------------------------
 
 %package   SecurityBundle
 
-Summary:   Symfony2 SecurityBundle Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+Summary:   Symfony2 Security Bundle
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     = %{version}-%{release}
+Requires:  %{name}-HttpKernel = %{version}-%{release}
+Requires:  %{name}-Security   = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/SecurityBundle) = %{version}
+Requires:  php-pcre
+Requires:  php-spl
 
 %description SecurityBundle
 %{summary}
@@ -257,47 +279,41 @@ Provides:  php-pear(%{pear_channel}/SecurityBundle) = %{version}
 
 %package   TwigBundle
 
-Summary:   Symfony2 TwigBundle Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+Summary:   Symfony2 Twig Bundle
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     = %{version}-%{release}
+Requires:  %{name}-HttpKernel = %{version}-%{release}
+Requires:  %{name}-TwigBridge = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/TwigBundle) = %{version}
+Requires:  php-ctype
+Requires:  php-reflection
+Requires:  php-spl
 
 %description TwigBundle
 %{summary}
+
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/twig.html
 
 # ------------------------------------------------------------------------------
 
 %package   WebProfilerBundle
 
-Summary:   Symfony2 WebProfilerBundle Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+Summary:   Symfony2 WebProfiler Bundle
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common     = %{version}-%{release}
+Requires:  %{name}-HttpKernel = %{version}-%{release}
+Requires:  %{name}-Routing    = %{version}-%{release}
+Requires:  %{name}-TwigBridge = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-
-Provides:  php-pear(%{pear_channel}/WebProfilerBundle) = %{version}
+Requires:  php-pcre
+Requires:  php-spl
 
 %description WebProfilerBundle
 %{summary}
+
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/web_profiler.html
 
 # ------------------------------------------------------------------------------
 
@@ -620,6 +636,9 @@ Provides:  php-pear(%{pear_channel}/HttpKernel) = %{version}
 
 %description HttpKernel
 %{summary}
+
+Configuration reference:
+http://symfony.com/doc/current/reference/configuration/kernel.html
 
 # ------------------------------------------------------------------------------
 
