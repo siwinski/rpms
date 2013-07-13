@@ -856,138 +856,147 @@ based on their roles, and it contains an advanced ACL system.
 %package   Serializer
 
 Summary:   Symfony2 Serializer Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/serializer.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-dom
+Requires:  php-json
+Requires:  php-libxml
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-simplexml
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Serializer) = %{version}
 
 %description Serializer
-%{summary}
+The Serializer Component is meant to be used to turn objects into a specific
+format (XML, JSON, Yaml, ...) and the other way around.
 
 # ------------------------------------------------------------------------------
 
 %package   Stopwatch
 
 Summary:   Symfony2 Stopwatch Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/stopwatch.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Stopwatch) = %{version}
 
 %description Stopwatch
-%{summary}
+Stopwatch component provides a way to profile code.
 
 # ------------------------------------------------------------------------------
 
 %package   Templating
 
 Summary:   Symfony2 Templating Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/templating.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-iconv
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Templating) = %{version}
 
 %description Templating
-%{summary}
+Templating provides all the tools needed to build any kind of template system.
+
+It provides an infrastructure to load template files and optionally monitor
+them for changes. It also provides a concrete template engine implementation
+using PHP with additional tools for escaping and separating templates into
+blocks and layouts.
 
 # ------------------------------------------------------------------------------
 
 %package   Translation
 
 Summary:   Symfony2 Translation Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Config = %{version}-%{release}
+Requires:  %{name}-Yaml   = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-dom
+Requires:  php-iconv
+Requires:  php-intl
+Requires:  php-libxml
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-simplexml
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Translation) = %{version}
 
 %description Translation
-%{summary}
+Translation provides tools for loading translation files and generating
+translated strings from these including support for pluralization.
 
 # ------------------------------------------------------------------------------
 
 %package   Validator
 
 Summary:   Symfony2 Validator Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common         = %{version}-%{release}
+Requires:  %{name}-Translation    = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Config         = %{version}-%{release}
+Requires:  %{name}-HttpFoundation = %{version}-%{release}
+Requires:  %{name}-Intl           = %{version}-%{release}
+Requires:  %{name}-Yaml           = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon)
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-date
+Requires:  php-filter
+Requires:  php-intl
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-simplexml
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Validator) = %{version}
 
 %description Validator
-%{summary}
+This component is based on the JSR-303 Bean Validation specification and
+enables specifying validation rules for classes using XML, YAML, PHP or
+annotations, which can then be checked against instances of these classes.
+
+Optional: APC
 
 # ------------------------------------------------------------------------------
 
 %package   Yaml
 
 Summary:   Symfony2 Yaml Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/yaml/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-date
+Requires:  php-iconv
+Requires:  php-json
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Yaml) = %{version}
 
 %description Yaml
-%{summary}
+The YAML Component loads and dumps YAML files.
 
 # ##############################################################################
 
@@ -1574,7 +1583,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Translation/*.md
 %doc src/Symfony/Component/Translation/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Translation
 %exclude %{symfony_dir}/Component/Translation/LICENSE
 %exclude %{symfony_dir}/Component/Translation/*.md
@@ -1590,7 +1598,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Validator/*.md
 %doc src/Symfony/Component/Validator/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Validator
 %exclude %{symfony_dir}/Component/Validator/LICENSE
 %exclude %{symfony_dir}/Component/Validator/*.md
