@@ -1,11 +1,16 @@
-%global github_owner   symfony
-%global github_name    symfony
-%global github_version 2.3.1
-%global github_commit  0902c606b4df1161f5b786ae89f37b71380b1f23
+%global github_owner       symfony
+%global github_name        symfony
+%global github_version     2.3.1
+%global github_commit      0902c606b4df1161f5b786ae89f37b71380b1f23
 
-%global symfony_dir    %{_datadir}/php/Symfony
-%global pear_channel   pear.symfony.com
-%global php_min_ver    5.3.3
+%global icu_github_owner   symfony
+%global icu_github_name    Icu
+%global icu_github_version 1.2.0
+%global icu_github_commit  7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
+
+%global symfony_dir        %{_datadir}/php/Symfony
+%global pear_channel       pear.symfony.com
+%global php_min_ver        5.3.3
 
 Name:      php-symfony2
 Version:   %{github_version}
@@ -16,6 +21,7 @@ Group:     Development/Libraries
 License:   MIT
 URL:       http://symfony.com
 Source0:   https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:   https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit}/%{name}-Icu-%{icu_github_version}-%{icu_github_commit}.tar.gz
 
 BuildArch: noarch
 
@@ -61,6 +67,8 @@ Requires:  %{name}-Templating          = %{version}-%{release}
 Requires:  %{name}-Translation         = %{version}-%{release}
 Requires:  %{name}-Validator           = %{version}-%{release}
 Requires:  %{name}-Yaml                = %{version}-%{release}
+
+Requires:  php-SymfonyComponentIcu     = %{icu_github_version}-%{release}
 
 %description
 %{summary}
@@ -686,14 +694,13 @@ Optional: memcache, memcached, redis, Zend OPcache
 
 # ------------------------------------------------------------------------------
 
-### TODO: Requires: symfony/icu (*not optional*)
-
 %package   Intl
 
 Summary:   Symfony2 Intl Component
 URL:       http://symfony.com/doc/current/components/intl.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common          = %{version}-%{release}
+Requires:  php-SymfonyComponentIcu = %{icu_github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-intl
@@ -998,11 +1005,49 @@ Provides:  php-pear(%{pear_channel}/Yaml) = %{version}
 %description Yaml
 The YAML Component loads and dumps YAML files.
 
+# ------------------------------------------------------------------------------
+
+%package -n php-SymfonyComponentIcu
+
+Version:    %{icu_github_version}
+Summary:    Symfony2 Icu Component
+URL:        https://github.com/symfony/Icu
+
+Requires:   %{name}-common = %{github_version}-%{release}
+Requires:   %{name}-Intl   = %{github_version}-%{release}
+# phpcompatinfo
+Requires:   php-date
+Requires:   php-intl
+Requires:   php-pcre
+Requires:   php-reflection
+Requires:   php-simplexml
+Requires:   php-spl
+
+%description -n php-SymfonyComponentIcu
+Contains data of the ICU library.
+
+The bundled resource files have the resource bundle format version 2.* [1],
+which can be read using ICU 4.4 and later. Compatibility can be tested with
+the test-compat.php script bundled in the Intl component:
+
+%{_bindir}/php %{symfony_dir}/Component/Intl/Resources/bin/test-compat.php
+
+You should not directly use this component. Use it through the API of the Intl
+component instead.
+
+[1] http://site.icu-project.org/design/data/res2
+
 # ##############################################################################
 
 
 %prep
 %setup -q -n %{github_name}-%{github_commit}
+
+# Setup Icu component
+mkdir -p -m 755 src/Symfony/Component/Icu
+pushd src/Symfony/Component/Icu
+  tar xzf %{SOURCE1} --strip-components 1 || tar xzf %{SOURCE1} --strip-path 1
+popd
 
 # Remove unnecessary files
 find src -name '.git*' -delete
@@ -1614,6 +1659,21 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %exclude %{symfony_dir}/Component/Yaml/composer.*
 %exclude %{symfony_dir}/Component/Yaml/phpunit.*
 %exclude %{symfony_dir}/Component/Yaml/Tests
+
+# ------------------------------------------------------------------------------
+
+%files -n php-SymfonyComponentIcu
+
+%doc src/Symfony/Component/Icu/LICENSE
+%doc src/Symfony/Component/Icu/*.md
+%doc src/Symfony/Component/Icu/composer.*
+
+         %{symfony_dir}/Component/Icu
+%exclude %{symfony_dir}/Component/Icu/LICENSE
+%exclude %{symfony_dir}/Component/Icu/*.md
+%exclude %{symfony_dir}/Component/Icu/composer.*
+%exclude %{symfony_dir}/Component/Icu/phpunit.*
+%exclude %{symfony_dir}/Component/Icu/Tests
 
 # ##############################################################################
 
