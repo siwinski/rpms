@@ -736,115 +736,120 @@ Symfony 3.0. You should use the more capable Intl component instead.
 %package   OptionsResolver
 
 Summary:   Symfony2 OptionsResolver Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-reflection
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/OptionsResolver) = %{version}
 
 %description OptionsResolver
-%{summary}
+The OptionsResolver Component helps you configure objects with option arrays.
+It supports default values, option constraints and lazy options.
 
 # ------------------------------------------------------------------------------
 
 %package   Process
 
 Summary:   Symfony2 Process Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-pcntl
+Requires:  php-pcre
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Process) = %{version}
 
 %description Process
-%{summary}
+The Process Component executes commands in sub-processes.
 
 # ------------------------------------------------------------------------------
 
 %package   PropertyAccess
 
 Summary:   Symfony2 PropertyAccess Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/property_access/introduction.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
-# Optional
-Requires:  %{name}- = %{version}-%{release}
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-ctype
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/PropertyAccess) = %{version}
 
 %description PropertyAccess
-%{summary}
+The PropertyAccess component provides function to read and write from/to an
+object or array using a simple string notation.
 
 # ------------------------------------------------------------------------------
 
 %package   Routing
 
 Summary:   Symfony2 Routing Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/routing/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-Config = %{version}-%{release}
+Requires:  %{name}-Yaml   = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-dom
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-spl
+Requires:  php-tokenizer
 
 Provides:  php-pear(%{pear_channel}/Routing) = %{version}
 
 %description Routing
-%{summary}
+The Routing Component maps an HTTP request to a set of configuration variables.
 
 # ------------------------------------------------------------------------------
 
 %package   Security
 
 Summary:   Symfony2 Security Component
-URL:       xyzxyzxyzxyzxyzxyzxyzxyzxyz
+URL:       http://symfony.com/doc/current/components/security/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-common          = %{version}-%{release}
+Requires:  %{name}-EventDispatcher = %{version}-%{release}
+Requires:  %{name}-HttpFoundation  = %{version}-%{release}
+Requires:  %{name}-HttpKernel      = %{version}-%{release}
 # Optional
-Requires:  %{name}- = %{version}-%{release}
+Requires:  %{name}-ClassLoader     = %{version}-%{release}
+Requires:  %{name}-Finder          = %{version}-%{release}
+Requires:  %{name}-Form            = %{version}-%{release}
+Requires:  %{name}-Routing         = %{version}-%{release}
+Requires:  %{name}-Validator       = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
+# TODO: ircmaxell/password-compat 1.0.*
 # phpci
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
-Requires:  php-
+Requires:  php-date
+Requires:  php-hash
+Requires:  php-json
+Requires:  php-openssl
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Security) = %{version}
 
 %description Security
-%{summary}
+The Security Component provides a complete security system for your web
+application. It ships with facilities for authenticating using HTTP basic
+or digest authentication, interactive form login or X.509 certificate login,
+but also allows you to implement your own authentication strategies.
+Furthermore, the component provides ways to authorize authenticated users
+based on their roles, and it contains an advanced ACL system.
 
 # ------------------------------------------------------------------------------
 
@@ -1491,7 +1496,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Routing/*.md
 %doc src/Symfony/Component/Routing/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Routing
 %exclude %{symfony_dir}/Component/Routing/LICENSE
 %exclude %{symfony_dir}/Component/Routing/*.md
@@ -1507,7 +1511,6 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %doc src/Symfony/Component/Security/*.md
 %doc src/Symfony/Component/Security/composer.*
 
-%dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Security
 %exclude %{symfony_dir}/Component/Security/LICENSE
 %exclude %{symfony_dir}/Component/Security/*.md
