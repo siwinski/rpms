@@ -96,7 +96,7 @@ Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
 Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  >= 2.2.3
 Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  <  3.0
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-json
 Requires:  php-mbstring
@@ -125,7 +125,7 @@ Requires:  %{name}-common     =  %{version}-%{release}
 Requires:  %{name}-HttpKernel =  %{version}-%{release}
 Requires:  php-Monolog        >= 1.3
 Requires:  php-Monolog        <  2.0
-# phpci
+# phpcompatinfo
 Requires:  php-pcre
 
 Provides:  php-pear(%{pear_channel}/MonologBridge) = %{version}
@@ -162,7 +162,7 @@ Summary:   Symfony2 ProxyManager Bridge
 Requires:  %{name}-common              = %{version}-%{release}
 Requires:  %{name}-DependencyInjection = %{version}-%{release}
 # ocramius/proxy-manager >=0.3.1,<0.4-dev
-# phpci
+# phpcompatinfo
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -206,7 +206,7 @@ Requires:  %{name}-Templating  = %{version}-%{release}
 Requires:  %{name}-Translation = %{version}-%{release}
 Requires:  %{name}-Yaml        = %{version}-%{release}
 Requires:  %{name}-Security    = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -239,7 +239,7 @@ Requires:  %{name}-Console             = %{version}-%{release}
 Requires:  %{name}-Finder              = %{version}-%{release}
 Requires:  %{name}-Form                = %{version}-%{release}
 Requires:  %{name}-Validator           = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
@@ -268,7 +268,7 @@ Summary:   Symfony2 Security Bundle
 Requires:  %{name}-common     = %{version}-%{release}
 Requires:  %{name}-HttpKernel = %{version}-%{release}
 Requires:  %{name}-Security   = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -284,7 +284,7 @@ Summary:   Symfony2 Twig Bundle
 Requires:  %{name}-common     = %{version}-%{release}
 Requires:  %{name}-HttpKernel = %{version}-%{release}
 Requires:  %{name}-TwigBridge = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-reflection
 Requires:  php-spl
@@ -305,7 +305,7 @@ Requires:  %{name}-common     = %{version}-%{release}
 Requires:  %{name}-HttpKernel = %{version}-%{release}
 Requires:  %{name}-Routing    = %{version}-%{release}
 Requires:  %{name}-TwigBridge = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -325,7 +325,7 @@ Requires:  %{name}-common     = %{version}-%{release}
 Requires:  %{name}-DomCrawler = %{version}-%{release}
 # Optional
 Requires:  %{name}-Process    = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -348,7 +348,7 @@ Summary:   Symfony2 ClassLoader Component
 URL:       http://symfony.com/doc/current/components/class_loader.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -384,7 +384,7 @@ URL:       http://symfony.com/doc/current/components/config/index.html
 
 Requires:  %{name}-common     = %{version}-%{release}
 Requires:  %{name}-Filesystem = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -409,7 +409,7 @@ URL:       http://symfony.com/doc/current/components/console/index.html
 Requires:  %{name}-common          = %{version}-%{release}
 # Optional
 Requires:  %{name}-EventDispatcher = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-dom
 Requires:  php-json
@@ -437,7 +437,7 @@ Summary:   Symfony2 CssSelector Component
 URL:       http://symfony.com/doc/current/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-mbstring
 Requires:  php-pcre
 
@@ -460,7 +460,7 @@ Requires:  %{name}-common         = %{version}-%{release}
 Requires:  %{name}-ClassLoader    = %{version}-%{release}
 Requires:  %{name}-HttpFoundation = %{version}-%{release}
 Requires:  %{name}-HttpKernel     = %{version}-%{release}
-# phpci
+# phpcompatinfo
 #Requires:  php-pecl(xdebug)
 Requires:  php-spl
 
@@ -481,7 +481,7 @@ Requires:  %{name}-common = %{version}-%{release}
 Requires:  %{name}-Config             = %{version}-%{release}
 #Requires:  %{name}-ProxyManagerBridge = %{version}-%{release}
 Requires:  %{name}-Yaml               = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -504,7 +504,7 @@ URL:       http://symfony.com/doc/current/components/dom_crawler.html
 Requires:  %{name}-common      = %{version}-%{release}
 # Optional
 Requires:  %{name}-CssSelector = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-dom
 Requires:  php-libxml
 Requires:  php-mbstring
@@ -527,7 +527,7 @@ Requires:  %{name}-common              = %{version}-%{release}
 # Optional
 Requires:  %{name}-DependencyInjection = %{version}-%{release}
 Requires:  %{name}-HttpKernel          = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/EventDispatcher) = %{version}
@@ -547,7 +547,7 @@ Summary:   Symfony2 Filesystem Component
 URL:       http://symfony.com/doc/current/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-spl
 
@@ -564,7 +564,7 @@ Summary:   Symfony2 Finder Component
 URL:       http://symfony.com/doc/current/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -589,7 +589,7 @@ Requires:  %{name}-PropertyAccess  = %{version}-%{release}
 # Optional
 Requires:  %{name}-HttpFoundation  = %{version}-%{release}
 Requires:  %{name}-Validator       = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-intl
@@ -614,7 +614,7 @@ Summary:   Symfony2 HttpFoundation Component
 URL:       http://symfony.com/doc/current/components/http_foundation/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
@@ -660,7 +660,7 @@ Requires:  %{name}-Config              =  %{version}-%{release}
 Requires:  %{name}-Console             =  %{version}-%{release}
 Requires:  %{name}-DependencyInjection =  %{version}-%{release}
 Requires:  %{name}-Finder              =  %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -694,7 +694,7 @@ Summary:   Symfony2 Intl Component
 URL:       http://symfony.com/doc/current/components/intl.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-intl
 Requires:  php-pcre
@@ -719,7 +719,7 @@ Summary:   Symfony2 Locale Component
 
 Requires:  %{name}-common = %{version}-%{release}
 Requires:  %{name}-Intl   = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-intl
 
 Provides:  php-pear(%{pear_channel}/Locale) = %{version}
@@ -739,7 +739,7 @@ Summary:   Symfony2 OptionsResolver Component
 URL:       http://symfony.com/doc/current/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -757,7 +757,7 @@ Summary:   Symfony2 Process Component
 URL:       http://symfony.com/doc/current/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-pcntl
 Requires:  php-pcre
 Requires:  php-spl
@@ -775,7 +775,7 @@ Summary:   Symfony2 PropertyAccess Component
 URL:       http://symfony.com/doc/current/components/property_access/introduction.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-pcre
 Requires:  php-reflection
@@ -800,7 +800,7 @@ Requires:  %{name}-Config = %{version}-%{release}
 Requires:  %{name}-Yaml   = %{version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
-# phpci
+# phpcompatinfo
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -832,7 +832,7 @@ Requires:  %{name}-Validator       = %{version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
 # TODO: ircmaxell/password-compat 1.0.*
-# phpci
+# phpcompatinfo
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -859,7 +859,7 @@ Summary:   Symfony2 Serializer Component
 URL:       http://symfony.com/doc/current/components/serializer.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -883,7 +883,7 @@ Summary:   Symfony2 Stopwatch Component
 URL:       http://symfony.com/doc/current/components/stopwatch.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-spl
 
 Provides:  php-pear(%{pear_channel}/Stopwatch) = %{version}
@@ -899,7 +899,7 @@ Summary:   Symfony2 Templating Component
 URL:       http://symfony.com/doc/current/components/templating.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-iconv
 Requires:  php-mbstring
@@ -926,7 +926,7 @@ Requires:  %{name}-common = %{version}-%{release}
 # Optional
 Requires:  %{name}-Config = %{version}-%{release}
 Requires:  %{name}-Yaml   = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-dom
 Requires:  php-iconv
 Requires:  php-intl
@@ -956,7 +956,7 @@ Requires:  %{name}-HttpFoundation = %{version}-%{release}
 Requires:  %{name}-Intl           = %{version}-%{release}
 Requires:  %{name}-Yaml           = %{version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon)
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-filter
@@ -984,7 +984,7 @@ Summary:   Symfony2 Yaml Component
 URL:       http://symfony.com/doc/current/components/yaml/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-iconv
