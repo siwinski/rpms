@@ -221,8 +221,8 @@ http://symfony.com/doc/current/reference/configuration/monolog.html
 
 #Summary:   Symfony2 ProxyManager Bridge
 
-#Requires:  %%{name}-common              = %%{version}-%{release}
-#Requires:  %%{name}-DependencyInjection = %%{version}-%{release}
+#Requires:  %%{name}-common              = %%{version}-%%{release}
+#Requires:  %%{name}-DependencyInjection = %%{version}-%%{release}
 ## ocramius/proxy-manager >=0.3.1,<0.4-dev
 ## phpcompatinfo
 #Requires:  php-reflection
@@ -1116,7 +1116,7 @@ rm -rf src/Symfony/Bridge/{Propel1,ProxyManager}
 mkdir -p %{buildroot}%{symfony_dir}
 cp -rp src/Symfony/* %{buildroot}%{symfony_dir}/
 
-# Symlink pkg docs to common sub-pkg docs
+# Symlink package docs to common sub-package docs
 mkdir -p %{buildroot}%{_docdir}
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
@@ -1139,7 +1139,7 @@ sed -i "s#%{buildroot}##" php-SymfonyComponentIcu.lang
 %check
 # Create autoloader
 mkdir vendor
-( cat <<'PHPUNIT_AUTOLOADER'
+( cat <<'AUTOLOADER'
 <?php
 
 require_once __DIR__.'/../src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
@@ -1151,7 +1151,7 @@ $loader->useIncludePath(true);
 $loader->register();
 
 return $loader;
-PHPUNIT_AUTOLOADER
+AUTOLOADER
 ) > vendor/autoload.php
 
 # Turn off colors
