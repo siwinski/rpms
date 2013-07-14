@@ -1,16 +1,31 @@
-%global github_owner       symfony
-%global github_name        symfony
-%global github_version     2.3.1
-%global github_commit      0902c606b4df1161f5b786ae89f37b71380b1f23
+%global github_owner            symfony
+%global github_name             symfony
+%global github_version          2.3.1
+%global github_commit           0902c606b4df1161f5b786ae89f37b71380b1f23
 
-%global icu_github_owner   symfony
-%global icu_github_name    Icu
-%global icu_github_version 1.2.0
-%global icu_github_commit  7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
+%global icu_github_owner        symfony
+%global icu_github_name         Icu
+%global icu_github_version      1.2.0
+%global icu_github_commit       7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
 
-%global symfony_dir        %{_datadir}/php/Symfony
-%global pear_channel       pear.symfony.com
-%global php_min_ver        5.3.3
+%global php_min_ver             5.3.3
+%global doctrine_common_min_ver 2.2
+%global doctrine_common_max_ver 3.0
+%global doctrine_dbal_min_ver   2.2
+%global doctrine_dbal_max_ver   3.0
+%global doctrine_orm_min_ver    2.2.3
+%global doctrine_orm_max_ver    3.0
+%global monolog_min_ver         1.3
+%global monolog_max_ver         2.0
+%global psrlog_min_ver          1.0
+%global psrlog_max_ver          2.0
+%global swift_min_ver           4.2.0
+%global swift_max_ver           5.1.0
+%global twig_min_ver            1.11
+%global twig_max_ver            2.0
+
+%global symfony_dir             %{_datadir}/php/Symfony
+%global pear_channel            pear.symfony.com
 
 Name:          php-symfony2
 Version:       %{github_version}
@@ -26,28 +41,24 @@ Source1:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive
 BuildArch:     noarch
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-Monolog   >= 1.3
-BuildRequires: php-Monolog   <  2.0
-BuildRequires: php-PsrLog    >= 1.0
-BuildRequires: php-PsrLog    <  2.0
+BuildRequires: php-Monolog   >= %{monolog_min_ver}
+BuildRequires: php-Monolog   <  %{monolog_max_ver}
+BuildRequires: php-PsrLog    >= %{psrlog_min_ver}
+BuildRequires: php-PsrLog    <  %{psrlog_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   >= 2.2
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   <  3.0
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    >= 2.2.3
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    <  3.0
-BuildRequires: php-pear(pear.twig-project.org/Twig)               >= 1.11
-BuildRequires: php-pear(pear.twig-project.org/Twig)               <  2.0
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   >= %{doctrine_dbal_min_ver}
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   <  %{doctrine_dbal_max_ver}
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_orm_min_ver}
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    <  %{doctrine_orm_max_ver}
+BuildRequires: php-pear(pear.twig-project.org/Twig)               >= %{twig_min_ver}
+BuildRequires: php-pear(pear.twig-project.org/Twig)               <  %{twig_max_ver}
 ## TODO: "doctrine/data-fixtures": "1.0.*"
 ## TODO: "propel/propel1": "1.6.*"
 ## TODO: "ircmaxell/password-compat": "1.0.*"
 ## TODO: "ocramius/proxy-manager": ">=0.3.1,<0.4-dev"
 # For tests: phpcompatinfo
-BuildRequires: php-pdo
-BuildRequires: php-reflection
-BuildRequires: php-spl
-BuildRequires: php-simplexml
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-dom
@@ -62,10 +73,14 @@ BuildRequires: php-mbstring
 BuildRequires: php-openssl
 BuildRequires: php-pcntl
 BuildRequires: php-pcre
+BuildRequires: php-pdo
 BuildRequires: php-posix
 BuildRequires: php-readline
+BuildRequires: php-reflection
 BuildRequires: php-session
+BuildRequires: php-simplexml
 BuildRequires: php-sockets
+BuildRequires: php-spl
 BuildRequires: php-sqlite3
 BuildRequires: php-tokenizer
 BuildRequires: php-xml
@@ -133,16 +148,16 @@ Requires:      php(language) >= %{php_min_ver}
 
 Summary:   Symfony2 Doctrine Bridge
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
+Requires:  %{name}-common    = %{version}-%{release}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # Optional
 Requires:  %{name}-Form      = %{version}-%{release}
 Requires:  %{name}-Validator = %{version}-%{release}
-Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
-Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
-Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  >= 2.2.3
-Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)  <  3.0
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL)   >= %{doctrine_dbal_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL)   <  %{doctrine_dbal_max_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_orm_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)    <  %{doctrine_orm_max_ver}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-json
@@ -170,8 +185,8 @@ Summary:   Symfony2 Monolog Bridge
 
 Requires:  %{name}-common     =  %{version}-%{release}
 Requires:  %{name}-HttpKernel =  %{version}-%{release}
-Requires:  php-Monolog        >= 1.3
-Requires:  php-Monolog        <  2.0
+Requires:  php-Monolog        >= %{monolog_min_ver}
+Requires:  php-Monolog        <  %{monolog_max_ver}
 # phpcompatinfo
 Requires:  php-pcre
 
@@ -224,8 +239,8 @@ http://symfony.com/doc/current/reference/configuration/monolog.html
 Summary:   Symfony2 Swiftmailer Bridge
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  php-pear(pear.swiftmailer.org/Swift) >= 4.2.0
-Requires:  php-pear(pear.swiftmailer.org/Swift) >  5.1.0
+Requires:  php-pear(pear.swiftmailer.org/Swift) >= %{swift_min_ver}
+Requires:  php-pear(pear.swiftmailer.org/Swift) >  %{swift_max_ver}
 # Optional
 Requires:  %{name}-HttpKernel = %{version}-%{release}
 
@@ -243,8 +258,8 @@ http://symfony.com/doc/current/reference/configuration/swiftmailer.html
 Summary:   Symfony2 Twig Bridge
 
 Requires:  %{name}-common = %{version}-%{release}
-Requires:  php-pear(pear.twig-project.org/Twig) >= 1.11
-Requires:  php-pear(pear.twig-project.org/Twig) <  2.0
+Requires:  php-pear(pear.twig-project.org/Twig) >= %{twig_min_ver}
+Requires:  php-pear(pear.twig-project.org/Twig) <  %{twig_max_ver}
 # Optional
 Requires:  %{name}-Form        = %{version}-%{release}
 Requires:  %{name}-HttpKernel  = %{version}-%{release}
@@ -279,8 +294,8 @@ Requires:  %{name}-Routing             = %{version}-%{release}
 Requires:  %{name}-Stopwatch           = %{version}-%{release}
 Requires:  %{name}-Templating          = %{version}-%{release}
 Requires:  %{name}-Translation         = %{version}-%{release}
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # Optional
 Requires:  %{name}-Console             = %{version}-%{release}
 Requires:  %{name}-Finder              = %{version}-%{release}
@@ -526,7 +541,7 @@ URL:       http://symfony.com/doc/current/components/dependency_injection/index.
 Requires:  %{name}-common = %{version}-%{release}
 # Optional
 Requires:  %{name}-Config             = %{version}-%{release}
-#Requires:  %{name}-ProxyManagerBridge = %{version}-%{release}
+#Requires:  %%{name}-ProxyManagerBridge = %%{version}-%%{release}
 Requires:  %{name}-Yaml               = %{version}-%{release}
 # phpcompatinfo
 Requires:  php-dom
@@ -698,8 +713,8 @@ Requires:  %{name}-common              =  %{version}-%{release}
 Requires:  %{name}-Debug               =  %{version}-%{release}
 Requires:  %{name}-EventDispatcher     =  %{version}-%{release}
 Requires:  %{name}-HttpFoundation      =  %{version}-%{release}
-Requires:  php-PsrLog                  >= 1.0
-Requires:  php-PsrLog                  <  2.0
+Requires:  php-PsrLog                  >= %{psrlog_min_ver}
+Requires:  php-PsrLog                  <  %{psrlog_max_ver}
 # Optional
 Requires:  %{name}-BrowserKit          =  %{version}-%{release}
 Requires:  %{name}-ClassLoader         =  %{version}-%{release}
@@ -844,8 +859,8 @@ Requires:  %{name}-common = %{version}-%{release}
 # Optional
 Requires:  %{name}-Config = %{version}-%{release}
 Requires:  %{name}-Yaml   = %{version}-%{release}
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
-Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # phpcompatinfo
 Requires:  php-dom
 Requires:  php-pcre
@@ -875,8 +890,8 @@ Requires:  %{name}-Finder          = %{version}-%{release}
 Requires:  %{name}-Form            = %{version}-%{release}
 Requires:  %{name}-Routing         = %{version}-%{release}
 Requires:  %{name}-Validator       = %{version}-%{release}
-Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
-Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_dbal_min_ver}
+Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_dbal_max_ver}
 # TODO: "ircmaxell/password-compat": "1.0.*"
 # phpcompatinfo
 Requires:  php-date
