@@ -1254,8 +1254,8 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 %exclude %{symfony_dir}/Bridge/Swiftmailer/LICENSE
 %exclude %{symfony_dir}/Bridge/Swiftmailer/*.md
 %exclude %{symfony_dir}/Bridge/Swiftmailer/composer.*
-%exclude %{symfony_dir}/Bridge/Swiftmailer/phpunit.*
-%exclude %{symfony_dir}/Bridge/Swiftmailer/Tests
+#%%exclude %%{symfony_dir}/Bridge/Swiftmailer/phpunit.*
+#%%exclude %%{symfony_dir}/Bridge/Swiftmailer/Tests
 
 # ------------------------------------------------------------------------------
 
