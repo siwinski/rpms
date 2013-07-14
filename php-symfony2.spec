@@ -12,63 +12,106 @@
 %global pear_channel       pear.symfony.com
 %global php_min_ver        5.3.3
 
-Name:      php-symfony2
-Version:   %{github_version}
-Release:   1%{dist}
-Summary:   PHP full-stack web framework
+Name:          php-symfony2
+Version:       %{github_version}
+Release:       1%{dist}
+Summary:       PHP full-stack web framework
 
-Group:     Development/Libraries
-License:   MIT
-URL:       http://symfony.com
-Source0:   https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
-Source1:   https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit}/%{name}-Icu-%{icu_github_version}-%{icu_github_commit}.tar.gz
+Group:         Development/Libraries
+License:       MIT
+URL:           http://symfony.com
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit}/%{name}-Icu-%{icu_github_version}-%{icu_github_commit}.tar.gz
 
-BuildArch: noarch
+BuildArch:     noarch
+# For tests
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-Monolog   >= 1.3
+BuildRequires: php-Monolog   <  2.0
+BuildRequires: php-PsrLog    >= 1.0
+BuildRequires: php-PsrLog    <  2.0
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  3.0
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   >= 2.2
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineDBAL)   <  3.0
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    >= 2.2.3
+BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    <  3.0
+BuildRequires: php-pear(pear.twig-project.org/Twig)               >= 1.11
+BuildRequires: php-pear(pear.twig-project.org/Twig)               <  2.0
+## TODO: "doctrine/data-fixtures": "1.0.*"
+## TODO: "propel/propel1": "1.6.*"
+## TODO: "ircmaxell/password-compat": "1.0.*"
+## TODO: "ocramius/proxy-manager": ">=0.3.1,<0.4-dev"
+# For tests: phpcompatinfo
+BuildRequires: php-pdo
+BuildRequires: php-reflection
+BuildRequires: php-spl
+BuildRequires: php-simplexml
+BuildRequires: php-ctype
+BuildRequires: php-date
+BuildRequires: php-dom
+BuildRequires: php-fileinfo
+BuildRequires: php-filter
+BuildRequires: php-hash
+BuildRequires: php-iconv
+BuildRequires: php-intl
+BuildRequires: php-json
+BuildRequires: php-libxml
+BuildRequires: php-mbstring
+BuildRequires: php-openssl
+BuildRequires: php-pcntl
+BuildRequires: php-pcre
+BuildRequires: php-posix
+BuildRequires: php-readline
+BuildRequires: php-session
+BuildRequires: php-sockets
+BuildRequires: php-sqlite3
+BuildRequires: php-tokenizer
+BuildRequires: php-xml
 
+Requires:      %{name}-common              = %{version}-%{release}
 # Bridges
-Requires:  %{name}-DoctrineBridge      = %{version}-%{release}
-Requires:  %{name}-MonologBridge       = %{version}-%{release}
-#Requires:  %%{name}-Propel1Bridge       = %%{version}-%%{release}
-#Requires:  %%{name}-ProxyManagerBridge  = %%{version}-%%{release}
-Requires:  %{name}-SwiftmailerBridge   = %{version}-%{release}
-Requires:  %{name}-TwigBridge          = %{version}-%{release}
-
+Requires:      %{name}-DoctrineBridge      = %{version}-%{release}
+Requires:      %{name}-MonologBridge       = %{version}-%{release}
+#Requires:      %%{name}-Propel1Bridge       = %%{version}-%%{release}
+#Requires:      %%{name}-ProxyManagerBridge  = %%{version}-%%{release}
+Requires:      %{name}-SwiftmailerBridge   = %{version}-%{release}
+Requires:      %{name}-TwigBridge          = %{version}-%{release}
 # Bundles
-Requires:  %{name}-FrameworkBundle     = %{version}-%{release}
-Requires:  %{name}-SecurityBundle      = %{version}-%{release}
-Requires:  %{name}-TwigBundle          = %{version}-%{release}
-Requires:  %{name}-WebProfilerBundle   = %{version}-%{release}
-
+Requires:      %{name}-FrameworkBundle     = %{version}-%{release}
+Requires:      %{name}-SecurityBundle      = %{version}-%{release}
+Requires:      %{name}-TwigBundle          = %{version}-%{release}
+Requires:      %{name}-WebProfilerBundle   = %{version}-%{release}
 # Components
-Requires:  %{name}-BrowserKit          = %{version}-%{release}
-Requires:  %{name}-ClassLoader         = %{version}-%{release}
-Requires:  %{name}-Config              = %{version}-%{release}
-Requires:  %{name}-Console             = %{version}-%{release}
-Requires:  %{name}-CssSelector         = %{version}-%{release}
-Requires:  %{name}-Debug               = %{version}-%{release}
-Requires:  %{name}-DependencyInjection = %{version}-%{release}
-Requires:  %{name}-DomCrawler          = %{version}-%{release}
-Requires:  %{name}-EventDispatcher     = %{version}-%{release}
-Requires:  %{name}-Filesystem          = %{version}-%{release}
-Requires:  %{name}-Finder              = %{version}-%{release}
-Requires:  %{name}-Form                = %{version}-%{release}
-Requires:  %{name}-HttpFoundation      = %{version}-%{release}
-Requires:  %{name}-HttpKernel          = %{version}-%{release}
-Requires:  %{name}-Intl                = %{version}-%{release}
-Requires:  %{name}-Locale              = %{version}-%{release}
-Requires:  %{name}-OptionsResolver     = %{version}-%{release}
-Requires:  %{name}-Process             = %{version}-%{release}
-Requires:  %{name}-PropertyAccess      = %{version}-%{release}
-Requires:  %{name}-Routing             = %{version}-%{release}
-Requires:  %{name}-Security            = %{version}-%{release}
-Requires:  %{name}-Serializer          = %{version}-%{release}
-Requires:  %{name}-Stopwatch           = %{version}-%{release}
-Requires:  %{name}-Templating          = %{version}-%{release}
-Requires:  %{name}-Translation         = %{version}-%{release}
-Requires:  %{name}-Validator           = %{version}-%{release}
-Requires:  %{name}-Yaml                = %{version}-%{release}
-
-Requires:  php-SymfonyComponentIcu     = %{icu_github_version}-%{release}
+Requires:      %{name}-BrowserKit          = %{version}-%{release}
+Requires:      %{name}-ClassLoader         = %{version}-%{release}
+Requires:      %{name}-Config              = %{version}-%{release}
+Requires:      %{name}-Console             = %{version}-%{release}
+Requires:      %{name}-CssSelector         = %{version}-%{release}
+Requires:      %{name}-Debug               = %{version}-%{release}
+Requires:      %{name}-DependencyInjection = %{version}-%{release}
+Requires:      %{name}-DomCrawler          = %{version}-%{release}
+Requires:      %{name}-EventDispatcher     = %{version}-%{release}
+Requires:      %{name}-Filesystem          = %{version}-%{release}
+Requires:      %{name}-Finder              = %{version}-%{release}
+Requires:      %{name}-Form                = %{version}-%{release}
+Requires:      %{name}-HttpFoundation      = %{version}-%{release}
+Requires:      %{name}-HttpKernel          = %{version}-%{release}
+Requires:      %{name}-Intl                = %{version}-%{release}
+Requires:      %{name}-Locale              = %{version}-%{release}
+Requires:      %{name}-OptionsResolver     = %{version}-%{release}
+Requires:      %{name}-Process             = %{version}-%{release}
+Requires:      %{name}-PropertyAccess      = %{version}-%{release}
+Requires:      %{name}-Routing             = %{version}-%{release}
+Requires:      %{name}-Security            = %{version}-%{release}
+Requires:      %{name}-Serializer          = %{version}-%{release}
+Requires:      %{name}-Stopwatch           = %{version}-%{release}
+Requires:      %{name}-Templating          = %{version}-%{release}
+Requires:      %{name}-Translation         = %{version}-%{release}
+Requires:      %{name}-Validator           = %{version}-%{release}
+Requires:      %{name}-Yaml                = %{version}-%{release}
+Requires:      php-SymfonyComponentIcu     = %{icu_github_version}-%{release}
 
 %description
 %{summary}
@@ -78,10 +121,6 @@ Requires:  php-SymfonyComponentIcu     = %{icu_github_version}-%{release}
 %package       common
 
 Summary:       Symfony2 common files
-
-# For tests
-BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 
 Requires:      php(language) >= %{php_min_ver}
 
@@ -838,7 +877,7 @@ Requires:  %{name}-Routing         = %{version}-%{release}
 Requires:  %{name}-Validator       = %{version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  3.0
-# TODO: ircmaxell/password-compat 1.0.*
+# TODO: "ircmaxell/password-compat": "1.0.*"
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-hash
