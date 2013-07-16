@@ -1628,8 +1628,8 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 %exclude %{symfony_dir}/Component/PropertyAccess/LICENSE
 %exclude %{symfony_dir}/Component/PropertyAccess/*.md
 %exclude %{symfony_dir}/Component/PropertyAccess/composer.*
-%exclude %{symfony_dir}/Component/PropertyAccess/phpunit.*
-%exclude %{symfony_dir}/Component/PropertyAccess/Tests
+#%%exclude %%{symfony_dir}/Component/PropertyAccess/phpunit.*
+#%%exclude %%{symfony_dir}/Component/PropertyAccess/Tests
 
 # ------------------------------------------------------------------------------
 
@@ -1690,8 +1690,8 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 %exclude %{symfony_dir}/Component/Stopwatch/LICENSE
 %exclude %{symfony_dir}/Component/Stopwatch/*.md
 %exclude %{symfony_dir}/Component/Stopwatch/composer.*
-%exclude %{symfony_dir}/Component/Stopwatch/phpunit.*
-%exclude %{symfony_dir}/Component/Stopwatch/Tests
+#%%exclude %%{symfony_dir}/Component/Stopwatch/phpunit.*
+#%%exclude %%{symfony_dir}/Component/Stopwatch/Tests
 
 # ------------------------------------------------------------------------------
 
