@@ -13,11 +13,6 @@ URL:           http://drupal.org/project/%{module_name}
 Source0:       http://ftp.drupal.org/files/projects/%{module_name}-7.x-%{version}.tar.gz
 Source1:       %{name}-RPM-README.txt
 
-# Write simpletests: https://drupal.org/node/1966814
-Patch0:        http://drupal.org/files/1966814-1-scheduler_workbench-tests.patch
-# Publish only "approved" nodes: https://drupal.org/node/1955938
-Patch1:        http://drupal.org/files/1955938-12-scheduler_workbench-only_publish_approved.patch
-
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild >= 7.22-5
@@ -43,11 +38,7 @@ This package provides the following Drupal module:
 
 %prep
 %setup -q -n %{module_name}
-
 cp -p %{SOURCE1} .
-
-%patch0 -p1 -F3
-%patch1 -p1
 
 
 %build
