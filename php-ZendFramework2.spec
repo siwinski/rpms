@@ -106,7 +106,7 @@ Requires: %{name}-Crypt   = %{version}-%{release}
 Requires: %{name}-Db      = %{version}-%{release}
 Requires: %{name}-Session = %{version}-%{release}
 Requires: %{name}-Uri     = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-date
 Requires: php-hash
@@ -138,7 +138,7 @@ Requires: %{name}-Stdlib    = %{version}-%{release}
 # Optional
 Requires: %{name}-Validator = %{version}-%{release}
 # zendframework/zendpdf
-# phpci
+# phpcompatinfo
 Requires: php-dom
 Requires: php-gd
 Requires: php-iconv
@@ -165,7 +165,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-Serializer     = %{version}-%{release}
 Requires: %{name}-Session        = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-pcre
 Requires: php-pecl(redis)
@@ -217,7 +217,7 @@ Requires: %{name}-Math   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # Optional
 # zendframework/zendservice-recaptcha
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-gd
 Requires: php-spl
@@ -246,7 +246,7 @@ Requires: %{name}-common       = %{version}-%{release}
 Requires: %{name}-EventManager = %{version}-%{release}
 # Optional
 Requires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -268,7 +268,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-Json           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-libxml
 Requires: php-spl
 Requires: php-xmlreader
@@ -291,7 +291,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.console.introduct
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -329,7 +329,7 @@ Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-Math           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-hash
 Requires: php-mcrypt
 Requires: php-openssl
@@ -364,7 +364,7 @@ URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-db
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-mysql
 Requires: php-pcre
@@ -384,7 +384,7 @@ URL:      http://framework.zend.com/manual/2.2/en/index.html
 
 Requires: %{name}-common  = %{version}-%{release}
 Requires: %{name}-Escaper = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 
 %description Debug
@@ -402,7 +402,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.di.introduction.h
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Code   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -426,7 +426,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.dom.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-dom
 Requires: php-libxml
 Requires: php-pcre
@@ -445,7 +445,7 @@ Summary:  Zend Framework 2: Escaper Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.escaper.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-iconv
 Requires: php-mbstring
@@ -469,7 +469,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.event-manager.eve
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description EventManager
@@ -497,7 +497,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 Requires: %{name}-Http           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-date
 Requires: php-dom
@@ -531,7 +531,7 @@ URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-file
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-fileinfo
 Requires: php-hash
 Requires: php-pcre
@@ -555,7 +555,7 @@ Requires: %{name}-Crypt     = %{version}-%{release}
 Requires: %{name}-I18n      = %{version}-%{release}
 Requires: %{name}-Uri       = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-bz2
 Requires: php-date
 Requires: php-iconv
@@ -584,7 +584,7 @@ Requires: %{name}-InputFilter = %{version}-%{release}
 Requires: %{name}-Stdlib      = %{version}-%{release}
 # Optional
 # zendframework/zendservice-recaptcha
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-intl
 Requires: php-pcre
@@ -618,7 +618,7 @@ Requires: %{name}-Loader    = %{version}-%{release}
 Requires: %{name}-Stdlib    = %{version}-%{release}
 Requires: %{name}-Uri       = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-curl
 Requires: php-date
@@ -657,7 +657,7 @@ Requires: %{name}-EventManager = %{version}-%{release}
 Requires: %{name}-Filter       = %{version}-%{release}
 Requires: %{name}-Validator    = %{version}-%{release}
 Requires: %{name}-View         = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-date
 Requires: php-intl
@@ -687,7 +687,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
 # Optional
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description InputFilter
@@ -706,7 +706,7 @@ Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 # Optional
 Requires: %{name}-Server = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-json
 Requires: php-mbstring
 Requires: php-pcre
@@ -741,7 +741,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.ldap.introduction
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-iconv
 Requires: php-json
@@ -763,7 +763,7 @@ URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-loader
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -786,7 +786,7 @@ Requires: %{name}-Db             = %{version}-%{release}
 Requires: %{name}-Escaper        = %{version}-%{release}
 Requires: %{name}-Mail           = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-dom
 Requires: php-json
@@ -826,7 +826,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-date
 Requires: php-iconv
@@ -848,7 +848,7 @@ Summary:  Zend Framework 2: Math Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.math.introduction.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-bcmath
 Requires: php-gmp
 Requires: php-mcrypt
@@ -871,7 +871,7 @@ Summary:  Zend Framework 2: Memory Component
 URL:      http://framework.zend.com/manual/2.2/en/index.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description Memory
@@ -886,7 +886,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.mime.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-iconv
 Requires: php-pcre
 Requires: php-spl
@@ -910,7 +910,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 Requires: %{name}-Config         = %{version}-%{release}
 Requires: %{name}-Loader         = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description ModuleManager
@@ -946,7 +946,7 @@ Requires: %{name}-Text           = %{version}-%{release}
 Requires: %{name}-Uri            = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
 Requires: %{name}-View           = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -981,7 +981,7 @@ Requires: %{name}-Stdlib = %{version}-%{release}
 Requires: %{name}-Config = %{version}-%{release}
 Requires: %{name}-Mvc    = %{version}-%{release}
 Requires: %{name}-View   = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-spl
 
@@ -999,7 +999,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.paginator.introdu
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-reflection
 Requires: php-spl
 
@@ -1024,7 +1024,7 @@ Summary:  Zend Framework 2: Permissions ACL Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.acl.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description Permissions-Acl
@@ -1054,7 +1054,7 @@ Summary:  Zend Framework 2: Permissions RBAC Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.permissions.rbac.intro.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-spl
 
 %description Permissions-Rbac
@@ -1073,7 +1073,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.progress-bar.html
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-pcre
 Requires: php-pecl(APC)
@@ -1100,7 +1100,7 @@ Requires: %{name}-Math           = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-dom
 Requires: php-libxml
 Requires: php-pcre
@@ -1124,7 +1124,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.server.html
 Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Code   = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-reflection
 Requires: php-spl
@@ -1150,7 +1150,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.service-manager.i
 Requires: %{name}-common = %{version}-%{release}
 # Optional
 Requires: %{name}-Di     = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-reflection
 Requires: php-spl
 
@@ -1172,7 +1172,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 Requires: %{name}-EventManager   = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Validator      = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-hash
 Requires: php-pcre
@@ -1195,7 +1195,7 @@ Requires: %{name}-common = %{version}-%{release}
 Requires: %{name}-Server = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
 Requires: %{name}-Uri    = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-curl
 Requires: php-dom
 Requires: php-libxml
@@ -1218,7 +1218,7 @@ Requires: %{name}-common         = %{version}-%{release}
 # Optional
 Requires: %{name}-EventManager   = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-iconv
 Requires: php-intl
@@ -1240,7 +1240,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.tag.introduction.
 Requires: %{name}-common  = %{version}-%{release}
 Requires: %{name}-Escaper = %{version}-%{release}
 Requires: %{name}-Stdlib  = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-spl
 
@@ -1279,7 +1279,7 @@ Requires: %{name}-Uri            = %{version}-%{release}
 Requires: %{name}-View           = %{version}-%{release}
 Requires: php-pear(pear.phpunit.de/PHPUnit) >= 3.7.0
 Requires: php-pear(pear.phpunit.de/PHPUnit) <  3.8.0
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-spl
 
@@ -1302,7 +1302,7 @@ URL:      http://framework.zend.com/manual/2.2/en/index.html#zend-text
 Requires: %{name}-common         = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
 Requires: %{name}-Stdlib         = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-pcre
 Requires: php-spl
@@ -1320,7 +1320,7 @@ URL:      http://framework.zend.com/manual/2.2/en/modules/zend.uri.html
 Requires: %{name}-common    = %{version}-%{release}
 Requires: %{name}-Escaper   = %{version}-%{release}
 Requires: %{name}-Validator = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 Requires: php-spl
 
@@ -1351,7 +1351,7 @@ Requires: %{name}-Db             = %{version}-%{release}
 Requires: %{name}-I18n           = %{version}-%{release}
 Requires: %{name}-Math           = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-ctype
 Requires: php-date
 Requires: php-fileinfo
@@ -1372,7 +1372,7 @@ Summary:  Zend Framework 2: Version Component
 URL:      http://framework.zend.com/manual/2.2/en/modules/zend.version.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-pcre
 
 %description Version
@@ -1401,7 +1401,7 @@ Requires: %{name}-Stdlib         = %{version}-%{release}
 # Optional
 Requires: %{name}-Filter         = %{version}-%{release}
 Requires: %{name}-ServiceManager = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-dom
 Requires: php-filter
@@ -1425,7 +1425,7 @@ Requires: %{name}-Http   = %{version}-%{release}
 Requires: %{name}-Math   = %{version}-%{release}
 Requires: %{name}-Server = %{version}-%{release}
 Requires: %{name}-Stdlib = %{version}-%{release}
-# phpci
+# phpcompatinfo
 Requires: php-date
 Requires: php-dom
 Requires: php-iconv
