@@ -6,7 +6,7 @@ Summary:   Zend Framework 2
 Group:     Development/Libraries
 License:   BSD
 URL:       http://framework.zend.com
-Source0:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-minimal-%{version}.tgz
+Source0:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}.tgz
 #Source1:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
 #Source2:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
 
@@ -1449,24 +1449,31 @@ and building new XML-RPC servers.
 
 # ##############################################################################
 
+
 %prep
-%setup -q -n ZendFramework-minimal-%{version}
+%setup -q -n ZendFramework-%{version}
+
 
 %build
 # Empty build section, nothing required
+
 
 %install
 mkdir -p %{buildroot}%{_datadir}/php
 cp -rp library/* %{buildroot}%{_datadir}/php
 
+# Symlink package docs to common sub-package docs
 mkdir -p %{buildroot}%{_docdir}
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
+
 %check
+# No tests provided
 
 
 %files
 # Empty files section, included in sub-package "common"
+
 
 # ##############################################################################
 
@@ -2046,5 +2053,5 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
-* Thu Jul 11 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
+* Mon Jul 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
 - Initial package
