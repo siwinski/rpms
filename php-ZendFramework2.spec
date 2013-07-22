@@ -1,6 +1,6 @@
 Name:      php-ZendFramework2
 Version:   2.2.1
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Zend Framework 2
 
 Group:     Development/Libraries
@@ -83,11 +83,14 @@ Cache-memcached packages.
 
 # ##############################################################################
 
-%package  common
+%package   common
 
-Summary:  Zend Framework 2: Common files
+Summary:   Zend Framework 2: Common files
 
-Requires: php(language) >= 5.3.3
+Requires:  php(language) >= 5.3.3
+
+# v1 and v2 cannot be installed at the same time
+Conflicts: php-ZendFramework
 
 %description common
 %{summary}
@@ -2053,5 +2056,8 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
+* Mon Jul 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-2
+- Added php-ZendFramework conflict
+
 * Mon Jul 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-1
 - Initial package
