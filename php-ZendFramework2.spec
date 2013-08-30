@@ -1,6 +1,6 @@
 Name:      php-ZendFramework2
-Version:   2.2.1
-Release:   2%{?dist}
+Version:   2.2.4
+Release:   1%{?dist}
 Summary:   Zend Framework 2
 
 Group:     Development/Libraries
@@ -90,7 +90,7 @@ Summary:   Zend Framework 2: Common files
 Requires:  php(language) >= 5.3.3
 
 # v1 and v2 cannot be installed at the same time
-Conflicts: php-ZendFramework
+Conflicts: php-ZendFramework < 2
 
 %description common
 %{summary}
@@ -2056,6 +2056,10 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
+* Thu Aug 29 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.4-1
+- Updated to 2.2.4
+- Versioned conflict
+
 * Mon Jul 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-2
 - Added php-ZendFramework conflict
 
