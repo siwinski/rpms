@@ -7,8 +7,8 @@ Group:     Development/Libraries
 License:   BSD
 URL:       http://framework.zend.com
 Source0:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}.tgz
-#Source1:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-manual-en.tgz
-#Source2:   https://packages.zendframework.com/releases/ZendFramework-%{version}/ZendFramework-%{version}-apidoc.tgz
+#Source1:   https://packages.zendframework.com/releases/ZendFramework-%%{version}/ZendFramework-%%{version}-manual-en.tgz
+#Source2:   https://packages.zendframework.com/releases/ZendFramework-%%{version}/ZendFramework-%%{version}-apidoc.tgz
 
 BuildArch: noarch
 
@@ -2056,9 +2056,10 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 # ##############################################################################
 
 %changelog
-* Thu Aug 29 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.4-1
+* Thu Sep 12 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.4-1
 - Updated to 2.2.4
 - Versioned conflict
+- Macros in comment fix
 
 * Mon Jul 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.2.1-2
 - Added php-ZendFramework conflict
