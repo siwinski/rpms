@@ -1,7 +1,7 @@
 %global github_owner            symfony
 %global github_name             symfony
-%global github_version          2.3.1
-%global github_commit           0902c606b4df1161f5b786ae89f37b71380b1f23
+%global github_version          2.3.6
+%global github_commit           d0597156c4c03ceca039f6b7770a47397ba295f0
 
 %global icu_github_owner        symfony
 %global icu_github_name         Icu
@@ -1382,65 +1382,67 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 
 %files frameworkbundle
 
-%doc src/Symfony/Bundle/FrameworkBundle/LICENSE
 %doc src/Symfony/Bundle/FrameworkBundle/*.md
 %doc src/Symfony/Bundle/FrameworkBundle/composer.*
+%doc src/Symfony/Bundle/FrameworkBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/FrameworkBundle
-%exclude %{symfony_dir}/Bundle/FrameworkBundle/LICENSE
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/*.md
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/composer.*
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/Tests
+%exclude %{symfony_dir}/Bundle/FrameworkBundle/Resources/meta/LICENSE
 
 # ------------------------------------------------------------------------------
 
 %files securitybundle
 
-%doc src/Symfony/Bundle/SecurityBundle/LICENSE
 %doc src/Symfony/Bundle/SecurityBundle/*.md
 %doc src/Symfony/Bundle/SecurityBundle/composer.*
+%doc src/Symfony/Bundle/SecurityBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/SecurityBundle
-%exclude %{symfony_dir}/Bundle/SecurityBundle/LICENSE
 %exclude %{symfony_dir}/Bundle/SecurityBundle/*.md
 %exclude %{symfony_dir}/Bundle/SecurityBundle/composer.*
 %exclude %{symfony_dir}/Bundle/SecurityBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/SecurityBundle/Tests
+%exclude %{symfony_dir}/Bundle/SecurityBundle/Resources/meta/LICENSE
 
 # ------------------------------------------------------------------------------
 
 %files twigbundle
 
-%doc src/Symfony/Bundle/TwigBundle/LICENSE
 %doc src/Symfony/Bundle/TwigBundle/*.md
 %doc src/Symfony/Bundle/TwigBundle/composer.*
+%doc src/Symfony/Bundle/TwigBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/TwigBundle
-%exclude %{symfony_dir}/Bundle/TwigBundle/LICENSE
 %exclude %{symfony_dir}/Bundle/TwigBundle/*.md
 %exclude %{symfony_dir}/Bundle/TwigBundle/composer.*
 %exclude %{symfony_dir}/Bundle/TwigBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/TwigBundle/Tests
+%exclude %{symfony_dir}/Bundle/TwigBundle/Resources/meta/LICENSE
 
 # ------------------------------------------------------------------------------
 
 %files webprofilerbundle
 
-%doc src/Symfony/Bundle/WebProfilerBundle/LICENSE
 %doc src/Symfony/Bundle/WebProfilerBundle/*.md
 %doc src/Symfony/Bundle/WebProfilerBundle/composer.*
+%doc src/Symfony/Bundle/WebProfilerBundle/Resources/ICONS_LICENSE.txt
+%doc src/Symfony/Bundle/WebProfilerBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/WebProfilerBundle
-%exclude %{symfony_dir}/Bundle/WebProfilerBundle/LICENSE
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/*.md
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/composer.*
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/Tests
+%exclude %{symfony_dir}/Bundle/WebProfilerBundle/Resources/ICONS_LICENSE.txt
+%exclude %{symfony_dir}/Bundle/WebProfilerBundle/Resources/meta/LICENSE
 
 # ------------------------------------------------------------------------------
 
@@ -1887,8 +1889,9 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 # ##############################################################################
 
 %changelog
-* Sat Jul 13 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.1-2
-- Renamed to lowercase
+* Mon Oct 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-1
+- Updated to 2.3.6
+- Renamed sub-packages to lowercase
 
 * Sat Jul 13 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.1-1
 - Initial package
