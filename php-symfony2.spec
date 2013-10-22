@@ -56,7 +56,6 @@ BuildRequires: php-pear(pear.twig-project.org/Twig)               >= %{twig_min_
 BuildRequires: php-pear(pear.twig-project.org/Twig)               <  %{twig_max_ver}
 ## TODO: "doctrine/data-fixtures": "1.0.*"
 ## TODO: "propel/propel1": "1.6.*"
-## TODO: "ircmaxell/password-compat": "1.0.*"
 ## TODO: "ocramius/proxy-manager": ">=0.3.1,<0.4-dev"
 # For tests: phpcompatinfo
 BuildRequires: php-ctype
@@ -1004,7 +1003,6 @@ Requires:  %{name}-routing         = %{version}-%{release}
 Requires:  %{name}-validator       = %{version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_dbal_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_dbal_max_ver}
-# TODO: "ircmaxell/password-compat": "1.0.*"
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-hash
@@ -1027,6 +1025,9 @@ or digest authentication, interactive form login or X.509 certificate login,
 but also allows you to implement your own authentication strategies.
 Furthermore, the component provides ways to authorize authenticated users
 based on their roles, and it contains an advanced ACL system.
+
+NOTE: In order to use BCryptPasswordEncoder with PHP < 5.5 you must also
+      install "php-password-compat".
 
 # ------------------------------------------------------------------------------
 
