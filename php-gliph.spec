@@ -1,14 +1,16 @@
 %global github_owner   sdboyer
 %global github_name    gliph
 %global github_version 0.1.4
-%global github_commit  aad932ef7d808105341cc9a36538e9fe2cb5ee82
+%global github_commit  8da23c6397354e9acc7a7e6f8d2a782fdf21ab54
+%global github_date    20131024
+%global github_release %{github_date}git%(c=%{github_commit}; echo ${c:0:7})
 
 %global lib_name       Gliph
 %global php_min_ver    5.3.0
 
 Name:          php-%{github_name}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       1.%{github_release}%{?dist}
 Summary:       A graph library for PHP
 
 Group:         Development/Libraries
@@ -18,13 +20,14 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_commi
 
 BuildArch:     noarch
 # For tests
-BuildRequires: php-common >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit) >= 3.7.0
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit) <  3.8.0
 # For tests: phpcompatinfo
 BuildRequires: php-reflection
 BuildRequires: php-spl
 
-Requires:      php-common >= %{php_min_ver}
+Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo
 Requires:      php-spl
 
@@ -69,10 +72,16 @@ cp -rp src/%{lib_name} %{buildroot}%{_datadir}/php/
 
 
 %files
-%doc README.md composer.json
+%doc LICENSE README.md composer.json
 %{_datadir}/php/%{lib_name}
 
 
 %changelog
-* Wed Oct 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.1.4-1
+* Thu Oct 24 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.4-1.20131024git8da23c6
+- Updated to latest snapshot (commit 8da23c6397354e9acc7a7e6f8d2a782fdf21ab54)
+  which includes LICENSE
+- "php-common" -> "php(language)"
+- Added PHPUnit min/max versions
+
+* Wed Oct 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.1.4-1
 - Initial package
