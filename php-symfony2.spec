@@ -17,6 +17,8 @@
 %global doctrine_orm_max_ver    3.0
 %global monolog_min_ver         1.3
 %global monolog_max_ver         2.0
+%global password_compat_min_ver 1.0.0
+%global password_compat_max_ver 1.1.0
 %global psrlog_min_ver          1.0
 %global psrlog_max_ver          2.0
 %global swift_min_ver           4.2.0
@@ -29,7 +31,7 @@
 
 Name:          php-symfony2
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{dist}
 Summary:       PHP full-stack web framework
 
 Group:         Development/Libraries
@@ -43,6 +45,10 @@ BuildArch:     noarch
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-Monolog   >= %{monolog_min_ver}
 BuildRequires: php-Monolog   <  %{monolog_max_ver}
+#%%if 0%%{?el6}
+#BuildRequires: php-password-compat >= %%{password_compat_min_ver}
+#BuildRequires: php-password-compat <  %%{password_compat_max_ver}
+#%%endif
 BuildRequires: php-PsrLog    >= %{psrlog_min_ver}
 BuildRequires: php-PsrLog    <  %{psrlog_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
@@ -995,6 +1001,10 @@ Requires:  %{name}-common          = %{version}-%{release}
 Requires:  %{name}-eventdispatcher = %{version}-%{release}
 Requires:  %{name}-httpfoundation  = %{version}-%{release}
 Requires:  %{name}-httpkernel      = %{version}-%{release}
+#%%if 0%%{?el6}
+#Requires:   php-password-compat    >= %%{password_compat_min_ver}
+#Requires:   php-password-compat    <  %%{password_compat_max_ver}
+#%%endif
 # Optional
 Requires:  %{name}-classloader     = %{version}-%{release}
 Requires:  %{name}-finder          = %{version}-%{release}
@@ -1025,9 +1035,6 @@ or digest authentication, interactive form login or X.509 certificate login,
 but also allows you to implement your own authentication strategies.
 Furthermore, the component provides ways to authorize authenticated users
 based on their roles, and it contains an advanced ACL system.
-
-NOTE: In order to use BCryptPasswordEncoder with PHP < 5.5 you must also
-      install "php-password-compat".
 
 # ------------------------------------------------------------------------------
 
@@ -1253,8 +1260,13 @@ require_once __DIR__.'/../src/Symfony/Component/ClassLoader/UniversalClassLoader
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
+$loader->registerNamespace('Symfony', __DIR__.'/../src');
 $loader->useIncludePath(true);
 $loader->register();
+
+%if 0%{?el6}
+require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
+%endif
 
 return $loader;
 AUTOLOADER
@@ -1264,10 +1276,24 @@ AUTOLOADER
 sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 
 # Run tests
-%{_bindir}/phpunit \
-    -d include_path="./src:%{_datadir}/php:%{pear_phpdir}" \
-    -d date.timezone="UTC" \
-    || : Temporarily ignore failed tests
+for PKG in src/Symfony/*/*; do
+    [ "src/Symfony/Bridge/Twig" = "${PKG}" ] && continue
+    [ "src/Symfony/Bundle/FrameworkBundle" = "${PKG}" ] && continue
+    [ "src/Symfony/Bundle/SecurityBundle" = "${PKG}" ] && continue
+    [ "src/Symfony/Component/DomCrawler" = "${PKG}" ] && continue
+# Package "php-password-compat" is not available in EPEL so the Security
+# Component's tests fail
+# https://bugzilla.redhat.com/show_bug.cgi?id=1023544
+%if 0%{?el6}
+    [ "src/Symfony/Component/Security" = "${PKG}" ] && continue
+%endif
+
+    echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
+    %{_bindir}/phpunit \
+        -d include_path="./src:%{_datadir}/php:%{pear_phpdir}" \
+        -d date.timezone="UTC" \
+        $PKG
+done
 
 
 %files
@@ -1890,6 +1916,10 @@ sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 # ##############################################################################
 
 %changelog
+* Fri Oct 25 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
+- Updated tests' autoloader
+- Individual pkg tests instead of one
+
 * Mon Oct 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-1
 - Updated to 2.3.6
 - Renamed sub-packages to lowercase
