@@ -1275,6 +1275,11 @@ AUTOLOADER
 # Turn off colors
 sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
 
+# Skip tests that rely on external resources
+sed -i \
+    's/function testNonSeekableStream/function SKIP_testNonSeekableStream/' \
+    src/Symfony/Component/Finder/Tests/FinderTest.php
+
 # Run tests
 for PKG in src/Symfony/*/*; do
     [ "src/Symfony/Bridge/Twig" = "${PKG}" ] && continue
@@ -1292,6 +1297,7 @@ for PKG in src/Symfony/*/*; do
     %{_bindir}/phpunit \
         -d include_path="./src:%{_datadir}/php:%{pear_phpdir}" \
         -d date.timezone="UTC" \
+        --exclude-group tty,benchmark \
         $PKG
 done
 
@@ -1919,6 +1925,8 @@ done
 * Fri Oct 25 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
 - Updated tests' autoloader
 - Individual pkg tests instead of one
+- Skip tests that rely on external resources
+- Exclude tty and benchmark test groups
 
 * Mon Oct 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-1
 - Updated to 2.3.6
