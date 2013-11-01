@@ -5,8 +5,13 @@
 
 %global icu_github_owner        symfony
 %global icu_github_name         Icu
+%if 0%{?el6}
+%global icu_github_version      1.1.0
+%global icu_github_commit       b4081efff21a8a85c57789a39f454fed244f8e46
+%else
 %global icu_github_version      1.2.0
 %global icu_github_commit       7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
+%endif
 
 %global php_min_ver             5.3.3
 %global doctrine_common_min_ver 2.2
@@ -1213,7 +1218,7 @@ The YAML Component loads and dumps YAML files.
 # Setup Icu component
 mkdir -p -m 755 src/Symfony/Component/Icu
 pushd src/Symfony/Component/Icu
-  tar xzf %{SOURCE1} --strip-components 1 || tar xzf %{SOURCE1} --strip-path 1
+  tar xzf %{SOURCE1} --strip-components 1
 popd
 
 # Remove unnecessary files
@@ -1273,26 +1278,27 @@ AUTOLOADER
 ) > vendor/autoload.php
 
 # Turn off colors
-sed 's/colors="true"/colors="false"/' -i phpunit.xml.dist
+cat phpunit.xml.dist \
+    | sed 's/colors="true"/colors="false"/' \
+    > phpunit.xml
 
 # Skip tests that rely on external resources
 sed -i \
     's/function testNonSeekableStream/function SKIP_testNonSeekableStream/' \
     src/Symfony/Component/Finder/Tests/FinderTest.php
 
-# Run tests
-for PKG in src/Symfony/*/*; do
-    [ "src/Symfony/Bridge/Twig" = "${PKG}" ] && continue
-    [ "src/Symfony/Bundle/FrameworkBundle" = "${PKG}" ] && continue
-    [ "src/Symfony/Bundle/SecurityBundle" = "${PKG}" ] && continue
-    [ "src/Symfony/Component/DomCrawler" = "${PKG}" ] && continue
 # Package "php-password-compat" is not available in EPEL so the Security
-# Component's tests fail
+# Component's BCryptPasswordEncoderTest fails
 # https://bugzilla.redhat.com/show_bug.cgi?id=1023544
 %if 0%{?el6}
-    [ "src/Symfony/Component/Security" = "${PKG}" ] && continue
+rm -f src/Symfony/Component/Security/Tests/Core/Encoder/BCryptPasswordEncoderTest.php
 %endif
 
+# Temporarily skip tests that are known to fail
+rm -rf src/Symfony/Component/DomCrawler/Tests
+
+# Run tests
+for PKG in src/Symfony/*/*; do
     echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
     %{_bindir}/phpunit \
         -d include_path="./src:%{_datadir}/php:%{pear_phpdir}" \
