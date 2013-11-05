@@ -1296,6 +1296,9 @@ rm -f src/Symfony/Component/Security/Tests/Core/Encoder/BCryptPasswordEncoderTes
 
 # Temporarily skip tests that are known to fail
 rm -rf src/Symfony/Component/DomCrawler/Tests
+%if 0%{?el6}
+rm -f src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NativeFileSessionHandlerTest.php
+%endif
 
 # Run tests
 for PKG in src/Symfony/*/*; do
