@@ -1319,7 +1319,7 @@ done
 
 %files common
 
-%doc LICENSE *.md composer.*
+%doc LICENSE *.md composer.json
 %doc %{_docdir}/%{name}-%{version}
 
 %dir %{symfony_dir}
@@ -1330,13 +1330,13 @@ done
 
 %doc src/Symfony/Bridge/Doctrine/LICENSE
 %doc src/Symfony/Bridge/Doctrine/*.md
-%doc src/Symfony/Bridge/Doctrine/composer.*
+%doc src/Symfony/Bridge/Doctrine/composer.json
 
 %dir     %{symfony_dir}/Bridge
          %{symfony_dir}/Bridge/Doctrine
 %exclude %{symfony_dir}/Bridge/Doctrine/LICENSE
 %exclude %{symfony_dir}/Bridge/Doctrine/*.md
-%exclude %{symfony_dir}/Bridge/Doctrine/composer.*
+%exclude %{symfony_dir}/Bridge/Doctrine/composer.json
 %exclude %{symfony_dir}/Bridge/Doctrine/phpunit.*
 %exclude %{symfony_dir}/Bridge/Doctrine/Tests
 
@@ -1346,13 +1346,13 @@ done
 
 %doc src/Symfony/Bridge/Monolog/LICENSE
 %doc src/Symfony/Bridge/Monolog/*.md
-%doc src/Symfony/Bridge/Monolog/composer.*
+%doc src/Symfony/Bridge/Monolog/composer.json
 
 %dir     %{symfony_dir}/Bridge
          %{symfony_dir}/Bridge/Monolog
 %exclude %{symfony_dir}/Bridge/Monolog/LICENSE
 %exclude %{symfony_dir}/Bridge/Monolog/*.md
-%exclude %{symfony_dir}/Bridge/Monolog/composer.*
+%exclude %{symfony_dir}/Bridge/Monolog/composer.json
 %exclude %{symfony_dir}/Bridge/Monolog/phpunit.*
 %exclude %{symfony_dir}/Bridge/Monolog/Tests
 
@@ -1362,13 +1362,13 @@ done
 
 #%%doc src/Symfony/Bridge/Propel1/LICENSE
 #%%doc src/Symfony/Bridge/Propel1/*.md
-#%%doc src/Symfony/Bridge/Propel1/composer.*
+#%%doc src/Symfony/Bridge/Propel1/composer.json
 
 #%%dir     %%{symfony_dir}/Bridge
 #         %%{symfony_dir}/Bridge/Propel1
 #%%exclude %%{symfony_dir}/Bridge/Propel1/LICENSE
 #%%exclude %%{symfony_dir}/Bridge/Propel1/*.md
-#%%exclude %%{symfony_dir}/Bridge/Propel1/composer.*
+#%%exclude %%{symfony_dir}/Bridge/Propel1/composer.json
 #%%exclude %%{symfony_dir}/Bridge/Propel1/phpunit.*
 #%%exclude %%{symfony_dir}/Bridge/Propel1/Tests
 
@@ -1378,13 +1378,13 @@ done
 
 #%%doc src/Symfony/Bridge/ProxyManager/LICENSE
 #%%doc src/Symfony/Bridge/ProxyManager/*.md
-#%%doc src/Symfony/Bridge/ProxyManager/composer.*
+#%%doc src/Symfony/Bridge/ProxyManager/composer.json
 
 #%%dir     %%{symfony_dir}/Bridge
 #         %%{symfony_dir}/Bridge/ProxyManager
 #%%exclude %%{symfony_dir}/Bridge/ProxyManager/LICENSE
 #%%exclude %%{symfony_dir}/Bridge/ProxyManager/*.md
-#%%exclude %%{symfony_dir}/Bridge/ProxyManager/composer.*
+#%%exclude %%{symfony_dir}/Bridge/ProxyManager/composer.json
 #%%exclude %%{symfony_dir}/Bridge/ProxyManager/phpunit.*
 #%%exclude %%{symfony_dir}/Bridge/ProxyManager/Tests
 
@@ -1394,13 +1394,13 @@ done
 
 %doc src/Symfony/Bridge/Swiftmailer/LICENSE
 %doc src/Symfony/Bridge/Swiftmailer/*.md
-%doc src/Symfony/Bridge/Swiftmailer/composer.*
+%doc src/Symfony/Bridge/Swiftmailer/composer.json
 
 %dir     %{symfony_dir}/Bridge
          %{symfony_dir}/Bridge/Swiftmailer
 %exclude %{symfony_dir}/Bridge/Swiftmailer/LICENSE
 %exclude %{symfony_dir}/Bridge/Swiftmailer/*.md
-%exclude %{symfony_dir}/Bridge/Swiftmailer/composer.*
+%exclude %{symfony_dir}/Bridge/Swiftmailer/composer.json
 #%%exclude %%{symfony_dir}/Bridge/Swiftmailer/phpunit.*
 #%%exclude %%{symfony_dir}/Bridge/Swiftmailer/Tests
 
@@ -1410,13 +1410,13 @@ done
 
 %doc src/Symfony/Bridge/Twig/LICENSE
 %doc src/Symfony/Bridge/Twig/*.md
-%doc src/Symfony/Bridge/Twig/composer.*
+%doc src/Symfony/Bridge/Twig/composer.json
 
 %dir     %{symfony_dir}/Bridge
          %{symfony_dir}/Bridge/Twig
 %exclude %{symfony_dir}/Bridge/Twig/LICENSE
 %exclude %{symfony_dir}/Bridge/Twig/*.md
-%exclude %{symfony_dir}/Bridge/Twig/composer.*
+%exclude %{symfony_dir}/Bridge/Twig/composer.json
 %exclude %{symfony_dir}/Bridge/Twig/phpunit.*
 %exclude %{symfony_dir}/Bridge/Twig/Tests
 
@@ -1425,13 +1425,13 @@ done
 %files frameworkbundle
 
 %doc src/Symfony/Bundle/FrameworkBundle/*.md
-%doc src/Symfony/Bundle/FrameworkBundle/composer.*
+%doc src/Symfony/Bundle/FrameworkBundle/composer.json
 %doc src/Symfony/Bundle/FrameworkBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/FrameworkBundle
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/*.md
-%exclude %{symfony_dir}/Bundle/FrameworkBundle/composer.*
+%exclude %{symfony_dir}/Bundle/FrameworkBundle/composer.json
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/Tests
 %exclude %{symfony_dir}/Bundle/FrameworkBundle/Resources/meta/LICENSE
@@ -1441,13 +1441,13 @@ done
 %files securitybundle
 
 %doc src/Symfony/Bundle/SecurityBundle/*.md
-%doc src/Symfony/Bundle/SecurityBundle/composer.*
+%doc src/Symfony/Bundle/SecurityBundle/composer.json
 %doc src/Symfony/Bundle/SecurityBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/SecurityBundle
 %exclude %{symfony_dir}/Bundle/SecurityBundle/*.md
-%exclude %{symfony_dir}/Bundle/SecurityBundle/composer.*
+%exclude %{symfony_dir}/Bundle/SecurityBundle/composer.json
 %exclude %{symfony_dir}/Bundle/SecurityBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/SecurityBundle/Tests
 %exclude %{symfony_dir}/Bundle/SecurityBundle/Resources/meta/LICENSE
@@ -1457,13 +1457,13 @@ done
 %files twigbundle
 
 %doc src/Symfony/Bundle/TwigBundle/*.md
-%doc src/Symfony/Bundle/TwigBundle/composer.*
+%doc src/Symfony/Bundle/TwigBundle/composer.json
 %doc src/Symfony/Bundle/TwigBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/TwigBundle
 %exclude %{symfony_dir}/Bundle/TwigBundle/*.md
-%exclude %{symfony_dir}/Bundle/TwigBundle/composer.*
+%exclude %{symfony_dir}/Bundle/TwigBundle/composer.json
 %exclude %{symfony_dir}/Bundle/TwigBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/TwigBundle/Tests
 %exclude %{symfony_dir}/Bundle/TwigBundle/Resources/meta/LICENSE
@@ -1473,14 +1473,14 @@ done
 %files webprofilerbundle
 
 %doc src/Symfony/Bundle/WebProfilerBundle/*.md
-%doc src/Symfony/Bundle/WebProfilerBundle/composer.*
+%doc src/Symfony/Bundle/WebProfilerBundle/composer.json
 %doc src/Symfony/Bundle/WebProfilerBundle/Resources/ICONS_LICENSE.txt
 %doc src/Symfony/Bundle/WebProfilerBundle/Resources/meta/LICENSE
 
 %dir     %{symfony_dir}/Bundle
          %{symfony_dir}/Bundle/WebProfilerBundle
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/*.md
-%exclude %{symfony_dir}/Bundle/WebProfilerBundle/composer.*
+%exclude %{symfony_dir}/Bundle/WebProfilerBundle/composer.json
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/phpunit.*
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/Tests
 %exclude %{symfony_dir}/Bundle/WebProfilerBundle/Resources/ICONS_LICENSE.txt
@@ -1492,12 +1492,12 @@ done
 
 %doc src/Symfony/Component/BrowserKit/LICENSE
 %doc src/Symfony/Component/BrowserKit/*.md
-%doc src/Symfony/Component/BrowserKit/composer.*
+%doc src/Symfony/Component/BrowserKit/composer.json
 
          %{symfony_dir}/Component/BrowserKit
 %exclude %{symfony_dir}/Component/BrowserKit/LICENSE
 %exclude %{symfony_dir}/Component/BrowserKit/*.md
-%exclude %{symfony_dir}/Component/BrowserKit/composer.*
+%exclude %{symfony_dir}/Component/BrowserKit/composer.json
 %exclude %{symfony_dir}/Component/BrowserKit/phpunit.*
 %exclude %{symfony_dir}/Component/BrowserKit/Tests
 
@@ -1507,13 +1507,13 @@ done
 
 %doc src/Symfony/Component/ClassLoader/LICENSE
 %doc src/Symfony/Component/ClassLoader/*.md
-%doc src/Symfony/Component/ClassLoader/composer.*
+%doc src/Symfony/Component/ClassLoader/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/ClassLoader
 %exclude %{symfony_dir}/Component/ClassLoader/LICENSE
 %exclude %{symfony_dir}/Component/ClassLoader/*.md
-%exclude %{symfony_dir}/Component/ClassLoader/composer.*
+%exclude %{symfony_dir}/Component/ClassLoader/composer.json
 %exclude %{symfony_dir}/Component/ClassLoader/phpunit.*
 %exclude %{symfony_dir}/Component/ClassLoader/Tests
 
@@ -1523,12 +1523,12 @@ done
 
 %doc src/Symfony/Component/Config/LICENSE
 %doc src/Symfony/Component/Config/*.md
-%doc src/Symfony/Component/Config/composer.*
+%doc src/Symfony/Component/Config/composer.json
 
          %{symfony_dir}/Component/Config
 %exclude %{symfony_dir}/Component/Config/LICENSE
 %exclude %{symfony_dir}/Component/Config/*.md
-%exclude %{symfony_dir}/Component/Config/composer.*
+%exclude %{symfony_dir}/Component/Config/composer.json
 %exclude %{symfony_dir}/Component/Config/phpunit.*
 %exclude %{symfony_dir}/Component/Config/Tests
 
@@ -1538,12 +1538,12 @@ done
 
 %doc src/Symfony/Component/Console/LICENSE
 %doc src/Symfony/Component/Console/*.md
-%doc src/Symfony/Component/Console/composer.*
+%doc src/Symfony/Component/Console/composer.json
 
          %{symfony_dir}/Component/Console
 %exclude %{symfony_dir}/Component/Console/LICENSE
 %exclude %{symfony_dir}/Component/Console/*.md
-%exclude %{symfony_dir}/Component/Console/composer.*
+%exclude %{symfony_dir}/Component/Console/composer.json
 %exclude %{symfony_dir}/Component/Console/phpunit.*
 %exclude %{symfony_dir}/Component/Console/Tests
 
@@ -1553,13 +1553,13 @@ done
 
 %doc src/Symfony/Component/CssSelector/LICENSE
 %doc src/Symfony/Component/CssSelector/*.md
-%doc src/Symfony/Component/CssSelector/composer.*
+%doc src/Symfony/Component/CssSelector/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/CssSelector
 %exclude %{symfony_dir}/Component/CssSelector/LICENSE
 %exclude %{symfony_dir}/Component/CssSelector/*.md
-%exclude %{symfony_dir}/Component/CssSelector/composer.*
+%exclude %{symfony_dir}/Component/CssSelector/composer.json
 %exclude %{symfony_dir}/Component/CssSelector/phpunit.*
 %exclude %{symfony_dir}/Component/CssSelector/Tests
 
@@ -1569,12 +1569,12 @@ done
 
 %doc src/Symfony/Component/Debug/LICENSE
 %doc src/Symfony/Component/Debug/*.md
-%doc src/Symfony/Component/Debug/composer.*
+%doc src/Symfony/Component/Debug/composer.json
 
          %{symfony_dir}/Component/Debug
 %exclude %{symfony_dir}/Component/Debug/LICENSE
 %exclude %{symfony_dir}/Component/Debug/*.md
-%exclude %{symfony_dir}/Component/Debug/composer.*
+%exclude %{symfony_dir}/Component/Debug/composer.json
 %exclude %{symfony_dir}/Component/Debug/phpunit.*
 %exclude %{symfony_dir}/Component/Debug/Tests
 
@@ -1584,12 +1584,12 @@ done
 
 %doc src/Symfony/Component/DependencyInjection/LICENSE
 %doc src/Symfony/Component/DependencyInjection/*.md
-%doc src/Symfony/Component/DependencyInjection/composer.*
+%doc src/Symfony/Component/DependencyInjection/composer.json
 
          %{symfony_dir}/Component/DependencyInjection
 %exclude %{symfony_dir}/Component/DependencyInjection/LICENSE
 %exclude %{symfony_dir}/Component/DependencyInjection/*.md
-%exclude %{symfony_dir}/Component/DependencyInjection/composer.*
+%exclude %{symfony_dir}/Component/DependencyInjection/composer.json
 %exclude %{symfony_dir}/Component/DependencyInjection/phpunit.*
 %exclude %{symfony_dir}/Component/DependencyInjection/Tests
 
@@ -1599,12 +1599,12 @@ done
 
 %doc src/Symfony/Component/DomCrawler/LICENSE
 %doc src/Symfony/Component/DomCrawler/*.md
-%doc src/Symfony/Component/DomCrawler/composer.*
+%doc src/Symfony/Component/DomCrawler/composer.json
 
          %{symfony_dir}/Component/DomCrawler
 %exclude %{symfony_dir}/Component/DomCrawler/LICENSE
 %exclude %{symfony_dir}/Component/DomCrawler/*.md
-%exclude %{symfony_dir}/Component/DomCrawler/composer.*
+%exclude %{symfony_dir}/Component/DomCrawler/composer.json
 %exclude %{symfony_dir}/Component/DomCrawler/phpunit.*
 %exclude %{symfony_dir}/Component/DomCrawler/Tests
 
@@ -1614,12 +1614,12 @@ done
 
 %doc src/Symfony/Component/EventDispatcher/LICENSE
 %doc src/Symfony/Component/EventDispatcher/*.md
-%doc src/Symfony/Component/EventDispatcher/composer.*
+%doc src/Symfony/Component/EventDispatcher/composer.json
 
          %{symfony_dir}/Component/EventDispatcher
 %exclude %{symfony_dir}/Component/EventDispatcher/LICENSE
 %exclude %{symfony_dir}/Component/EventDispatcher/*.md
-%exclude %{symfony_dir}/Component/EventDispatcher/composer.*
+%exclude %{symfony_dir}/Component/EventDispatcher/composer.json
 %exclude %{symfony_dir}/Component/EventDispatcher/phpunit.*
 %exclude %{symfony_dir}/Component/EventDispatcher/Tests
 
@@ -1629,13 +1629,13 @@ done
 
 %doc src/Symfony/Component/Filesystem/LICENSE
 %doc src/Symfony/Component/Filesystem/*.md
-%doc src/Symfony/Component/Filesystem/composer.*
+%doc src/Symfony/Component/Filesystem/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Filesystem
 %exclude %{symfony_dir}/Component/Filesystem/LICENSE
 %exclude %{symfony_dir}/Component/Filesystem/*.md
-%exclude %{symfony_dir}/Component/Filesystem/composer.*
+%exclude %{symfony_dir}/Component/Filesystem/composer.json
 %exclude %{symfony_dir}/Component/Filesystem/phpunit.*
 %exclude %{symfony_dir}/Component/Filesystem/Tests
 
@@ -1645,13 +1645,13 @@ done
 
 %doc src/Symfony/Component/Finder/LICENSE
 %doc src/Symfony/Component/Finder/*.md
-%doc src/Symfony/Component/Finder/composer.*
+%doc src/Symfony/Component/Finder/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Finder
 %exclude %{symfony_dir}/Component/Finder/LICENSE
 %exclude %{symfony_dir}/Component/Finder/*.md
-%exclude %{symfony_dir}/Component/Finder/composer.*
+%exclude %{symfony_dir}/Component/Finder/composer.json
 %exclude %{symfony_dir}/Component/Finder/phpunit.*
 %exclude %{symfony_dir}/Component/Finder/Tests
 
@@ -1661,12 +1661,12 @@ done
 
 %doc src/Symfony/Component/Form/LICENSE
 %doc src/Symfony/Component/Form/*.md
-%doc src/Symfony/Component/Form/composer.*
+%doc src/Symfony/Component/Form/composer.json
 
          %{symfony_dir}/Component/Form
 %exclude %{symfony_dir}/Component/Form/LICENSE
 %exclude %{symfony_dir}/Component/Form/*.md
-%exclude %{symfony_dir}/Component/Form/composer.*
+%exclude %{symfony_dir}/Component/Form/composer.json
 %exclude %{symfony_dir}/Component/Form/phpunit.*
 %exclude %{symfony_dir}/Component/Form/Tests
 
@@ -1676,13 +1676,13 @@ done
 
 %doc src/Symfony/Component/HttpFoundation/LICENSE
 %doc src/Symfony/Component/HttpFoundation/*.md
-%doc src/Symfony/Component/HttpFoundation/composer.*
+%doc src/Symfony/Component/HttpFoundation/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/HttpFoundation
 %exclude %{symfony_dir}/Component/HttpFoundation/LICENSE
 %exclude %{symfony_dir}/Component/HttpFoundation/*.md
-%exclude %{symfony_dir}/Component/HttpFoundation/composer.*
+%exclude %{symfony_dir}/Component/HttpFoundation/composer.json
 %exclude %{symfony_dir}/Component/HttpFoundation/phpunit.*
 %exclude %{symfony_dir}/Component/HttpFoundation/Tests
 
@@ -1692,12 +1692,12 @@ done
 
 %doc src/Symfony/Component/HttpKernel/LICENSE
 %doc src/Symfony/Component/HttpKernel/*.md
-%doc src/Symfony/Component/HttpKernel/composer.*
+%doc src/Symfony/Component/HttpKernel/composer.json
 
          %{symfony_dir}/Component/HttpKernel
 %exclude %{symfony_dir}/Component/HttpKernel/LICENSE
 %exclude %{symfony_dir}/Component/HttpKernel/*.md
-%exclude %{symfony_dir}/Component/HttpKernel/composer.*
+%exclude %{symfony_dir}/Component/HttpKernel/composer.json
 %exclude %{symfony_dir}/Component/HttpKernel/phpunit.*
 %exclude %{symfony_dir}/Component/HttpKernel/Tests
 
@@ -1707,7 +1707,7 @@ done
 
 %doc src/Symfony/Component/Icu/LICENSE
 %doc src/Symfony/Component/Icu/*.md
-%doc src/Symfony/Component/Icu/composer.*
+%doc src/Symfony/Component/Icu/composer.json
 %doc src/Symfony/Component/Icu/Resources/data/*.txt
 
 %dir     %{symfony_dir}/Component/Icu
@@ -1720,7 +1720,7 @@ done
 %dir     %{symfony_dir}/Component/Icu/Resources/data/region
 %exclude %{symfony_dir}/Component/Icu/LICENSE
 %exclude %{symfony_dir}/Component/Icu/*.md
-%exclude %{symfony_dir}/Component/Icu/composer.*
+%exclude %{symfony_dir}/Component/Icu/composer.json
 %exclude %{symfony_dir}/Component/Icu/phpunit.*
 %exclude %{symfony_dir}/Component/Icu/Resources/data/*.txt
 %exclude %{symfony_dir}/Component/Icu/Tests
@@ -1731,13 +1731,13 @@ done
 
 %doc src/Symfony/Component/Intl/LICENSE
 %doc src/Symfony/Component/Intl/*.md
-%doc src/Symfony/Component/Intl/composer.*
+%doc src/Symfony/Component/Intl/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Intl
 %exclude %{symfony_dir}/Component/Intl/LICENSE
 %exclude %{symfony_dir}/Component/Intl/*.md
-%exclude %{symfony_dir}/Component/Intl/composer.*
+%exclude %{symfony_dir}/Component/Intl/composer.json
 %exclude %{symfony_dir}/Component/Intl/phpunit.*
 %exclude %{symfony_dir}/Component/Intl/Tests
 
@@ -1747,12 +1747,12 @@ done
 
 %doc src/Symfony/Component/Locale/LICENSE
 %doc src/Symfony/Component/Locale/*.md
-%doc src/Symfony/Component/Locale/composer.*
+%doc src/Symfony/Component/Locale/composer.json
 
          %{symfony_dir}/Component/Locale
 %exclude %{symfony_dir}/Component/Locale/LICENSE
 %exclude %{symfony_dir}/Component/Locale/*.md
-%exclude %{symfony_dir}/Component/Locale/composer.*
+%exclude %{symfony_dir}/Component/Locale/composer.json
 %exclude %{symfony_dir}/Component/Locale/phpunit.*
 %exclude %{symfony_dir}/Component/Locale/Tests
 
@@ -1762,13 +1762,13 @@ done
 
 %doc src/Symfony/Component/OptionsResolver/LICENSE
 %doc src/Symfony/Component/OptionsResolver/*.md
-%doc src/Symfony/Component/OptionsResolver/composer.*
+%doc src/Symfony/Component/OptionsResolver/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/OptionsResolver
 %exclude %{symfony_dir}/Component/OptionsResolver/LICENSE
 %exclude %{symfony_dir}/Component/OptionsResolver/*.md
-%exclude %{symfony_dir}/Component/OptionsResolver/composer.*
+%exclude %{symfony_dir}/Component/OptionsResolver/composer.json
 %exclude %{symfony_dir}/Component/OptionsResolver/phpunit.*
 %exclude %{symfony_dir}/Component/OptionsResolver/Tests
 
@@ -1778,13 +1778,13 @@ done
 
 %doc src/Symfony/Component/Process/LICENSE
 %doc src/Symfony/Component/Process/*.md
-%doc src/Symfony/Component/Process/composer.*
+%doc src/Symfony/Component/Process/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Process
 %exclude %{symfony_dir}/Component/Process/LICENSE
 %exclude %{symfony_dir}/Component/Process/*.md
-%exclude %{symfony_dir}/Component/Process/composer.*
+%exclude %{symfony_dir}/Component/Process/composer.json
 %exclude %{symfony_dir}/Component/Process/phpunit.*
 %exclude %{symfony_dir}/Component/Process/Tests
 
@@ -1794,13 +1794,13 @@ done
 
 %doc src/Symfony/Component/PropertyAccess/LICENSE
 %doc src/Symfony/Component/PropertyAccess/*.md
-%doc src/Symfony/Component/PropertyAccess/composer.*
+%doc src/Symfony/Component/PropertyAccess/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/PropertyAccess
 %exclude %{symfony_dir}/Component/PropertyAccess/LICENSE
 %exclude %{symfony_dir}/Component/PropertyAccess/*.md
-%exclude %{symfony_dir}/Component/PropertyAccess/composer.*
+%exclude %{symfony_dir}/Component/PropertyAccess/composer.json
 #%%exclude %%{symfony_dir}/Component/PropertyAccess/phpunit.*
 #%%exclude %%{symfony_dir}/Component/PropertyAccess/Tests
 
@@ -1810,12 +1810,12 @@ done
 
 %doc src/Symfony/Component/Routing/LICENSE
 %doc src/Symfony/Component/Routing/*.md
-%doc src/Symfony/Component/Routing/composer.*
+%doc src/Symfony/Component/Routing/composer.json
 
          %{symfony_dir}/Component/Routing
 %exclude %{symfony_dir}/Component/Routing/LICENSE
 %exclude %{symfony_dir}/Component/Routing/*.md
-%exclude %{symfony_dir}/Component/Routing/composer.*
+%exclude %{symfony_dir}/Component/Routing/composer.json
 %exclude %{symfony_dir}/Component/Routing/phpunit.*
 %exclude %{symfony_dir}/Component/Routing/Tests
 
@@ -1825,12 +1825,12 @@ done
 
 %doc src/Symfony/Component/Security/LICENSE
 %doc src/Symfony/Component/Security/*.md
-%doc src/Symfony/Component/Security/composer.*
+%doc src/Symfony/Component/Security/composer.json
 
          %{symfony_dir}/Component/Security
 %exclude %{symfony_dir}/Component/Security/LICENSE
 %exclude %{symfony_dir}/Component/Security/*.md
-%exclude %{symfony_dir}/Component/Security/composer.*
+%exclude %{symfony_dir}/Component/Security/composer.json
 %exclude %{symfony_dir}/Component/Security/phpunit.*
 %exclude %{symfony_dir}/Component/Security/Tests
 
@@ -1840,13 +1840,13 @@ done
 
 %doc src/Symfony/Component/Serializer/LICENSE
 %doc src/Symfony/Component/Serializer/*.md
-%doc src/Symfony/Component/Serializer/composer.*
+%doc src/Symfony/Component/Serializer/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Serializer
 %exclude %{symfony_dir}/Component/Serializer/LICENSE
 %exclude %{symfony_dir}/Component/Serializer/*.md
-%exclude %{symfony_dir}/Component/Serializer/composer.*
+%exclude %{symfony_dir}/Component/Serializer/composer.json
 %exclude %{symfony_dir}/Component/Serializer/phpunit.*
 %exclude %{symfony_dir}/Component/Serializer/Tests
 
@@ -1856,13 +1856,13 @@ done
 
 %doc src/Symfony/Component/Stopwatch/LICENSE
 %doc src/Symfony/Component/Stopwatch/*.md
-%doc src/Symfony/Component/Stopwatch/composer.*
+%doc src/Symfony/Component/Stopwatch/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Stopwatch
 %exclude %{symfony_dir}/Component/Stopwatch/LICENSE
 %exclude %{symfony_dir}/Component/Stopwatch/*.md
-%exclude %{symfony_dir}/Component/Stopwatch/composer.*
+%exclude %{symfony_dir}/Component/Stopwatch/composer.json
 #%%exclude %%{symfony_dir}/Component/Stopwatch/phpunit.*
 #%%exclude %%{symfony_dir}/Component/Stopwatch/Tests
 
@@ -1872,13 +1872,13 @@ done
 
 %doc src/Symfony/Component/Templating/LICENSE
 %doc src/Symfony/Component/Templating/*.md
-%doc src/Symfony/Component/Templating/composer.*
+%doc src/Symfony/Component/Templating/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Templating
 %exclude %{symfony_dir}/Component/Templating/LICENSE
 %exclude %{symfony_dir}/Component/Templating/*.md
-%exclude %{symfony_dir}/Component/Templating/composer.*
+%exclude %{symfony_dir}/Component/Templating/composer.json
 %exclude %{symfony_dir}/Component/Templating/phpunit.*
 %exclude %{symfony_dir}/Component/Templating/Tests
 
@@ -1888,12 +1888,12 @@ done
 
 %doc src/Symfony/Component/Translation/LICENSE
 %doc src/Symfony/Component/Translation/*.md
-%doc src/Symfony/Component/Translation/composer.*
+%doc src/Symfony/Component/Translation/composer.json
 
          %{symfony_dir}/Component/Translation
 %exclude %{symfony_dir}/Component/Translation/LICENSE
 %exclude %{symfony_dir}/Component/Translation/*.md
-%exclude %{symfony_dir}/Component/Translation/composer.*
+%exclude %{symfony_dir}/Component/Translation/composer.json
 %exclude %{symfony_dir}/Component/Translation/phpunit.*
 %exclude %{symfony_dir}/Component/Translation/Tests
 
@@ -1903,12 +1903,12 @@ done
 
 %doc src/Symfony/Component/Validator/LICENSE
 %doc src/Symfony/Component/Validator/*.md
-%doc src/Symfony/Component/Validator/composer.*
+%doc src/Symfony/Component/Validator/composer.json
 
          %{symfony_dir}/Component/Validator
 %exclude %{symfony_dir}/Component/Validator/LICENSE
 %exclude %{symfony_dir}/Component/Validator/*.md
-%exclude %{symfony_dir}/Component/Validator/composer.*
+%exclude %{symfony_dir}/Component/Validator/composer.json
 %exclude %{symfony_dir}/Component/Validator/phpunit.*
 %exclude %{symfony_dir}/Component/Validator/Tests
 
@@ -1918,13 +1918,13 @@ done
 
 %doc src/Symfony/Component/Yaml/LICENSE
 %doc src/Symfony/Component/Yaml/*.md
-%doc src/Symfony/Component/Yaml/composer.*
+%doc src/Symfony/Component/Yaml/composer.json
 
 %dir     %{symfony_dir}/Component
          %{symfony_dir}/Component/Yaml
 %exclude %{symfony_dir}/Component/Yaml/LICENSE
 %exclude %{symfony_dir}/Component/Yaml/*.md
-%exclude %{symfony_dir}/Component/Yaml/composer.*
+%exclude %{symfony_dir}/Component/Yaml/composer.json
 %exclude %{symfony_dir}/Component/Yaml/phpunit.*
 %exclude %{symfony_dir}/Component/Yaml/Tests
 
