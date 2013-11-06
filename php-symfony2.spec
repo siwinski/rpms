@@ -1234,9 +1234,13 @@ rm -rf src/Symfony/Bridge/{Propel1,ProxyManager}
 mkdir -p %{buildroot}%{symfony_dir}
 cp -rp src/Symfony/* %{buildroot}%{symfony_dir}/
 
-# Symlink package docs to common sub-package docs
+# Symlink main package docs to common sub-package docs
 mkdir -p %{buildroot}%{_docdir}
+%if 0%{?fedora} >= 20
+ln -s %{name}-common %{buildroot}%{_docdir}/%{name}
+%else
 ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
+%endif
 
 # Lang files
 for res_file in \
@@ -1269,9 +1273,9 @@ $loader->registerNamespace('Symfony', __DIR__.'/../src');
 $loader->useIncludePath(true);
 $loader->register();
 
-%if 0%{?el6}
-require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
-%endif
+if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+    require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
+}
 
 return $loader;
 AUTOLOADER
@@ -1295,8 +1299,14 @@ rm -f src/Symfony/Component/Security/Tests/Core/Encoder/BCryptPasswordEncoderTes
 %endif
 
 # Temporarily skip tests that are known to fail
-rm -rf src/Symfony/Component/DomCrawler/Tests
 %if 0%{?el6}
+sed -i \
+    's/function testForm/function SKIP_testForm/' \
+    src/Symfony/Component/DomCrawler/Tests/CrawlerTest.php
+sed -i \
+    -e 's/function testConstructorHandlesFormAttribute/function SKIP_testConstructorHandlesFormAttribute/' \
+    -e 's/function testConstructorHandlesFormValues/function SKIP_testConstructorHandlesFormValues/' \
+    src/Symfony/Component/DomCrawler/Tests/FormTest.php
 rm -f src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NativeFileSessionHandlerTest.php
 %endif
 
@@ -1312,7 +1322,11 @@ done
 
 
 %files
-# Empty files section, included in sub-package "common"
+%if 0%{?fedora} >= 20
+%doc %{_docdir}/%{name}
+%else
+%doc %{_docdir}/%{name}-%{version}
+%endif
 
 
 # ##############################################################################
@@ -1320,7 +1334,6 @@ done
 %files common
 
 %doc LICENSE *.md composer.json
-%doc %{_docdir}/%{name}-%{version}
 
 %dir %{symfony_dir}
 
@@ -1931,11 +1944,12 @@ done
 # ##############################################################################
 
 %changelog
-* Fri Oct 25 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
+* Wed Nov 06 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
 - Updated tests' autoloader
 - Individual pkg tests instead of one
-- Skip tests that rely on external resources
+- Skip specific tests
 - Exclude tty and benchmark test groups
+- Fix main package doc symlink
 
 * Mon Oct 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-1
 - Updated to 2.3.6
