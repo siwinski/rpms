@@ -1307,9 +1307,9 @@ if (version_compare(PHP_VERSION, '5.4.0', '<')) {
     require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
 }
 
-%if 0%{?el6}
-require '%{_datadir}/php/password_compat/password.php';
-%endif
+if (file_exists('%{_datadir}/php/password_compat/password.php')) {
+    require '%{_datadir}/php/password_compat/password.php';
+}
 
 return $loader;
 AUTOLOADER
