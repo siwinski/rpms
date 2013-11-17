@@ -1,33 +1,42 @@
-%global github_owner            symfony
-%global github_name             symfony
-%global github_version          2.3.6
-%global github_commit           d0597156c4c03ceca039f6b7770a47397ba295f0
+%global github_owner                     symfony
+%global github_name                      symfony
+%global github_version                   2.3.7
+%global github_commit                    2829b471871c2564228fe9f0832a0f928a8ffaa1
 
-%global icu_github_owner        symfony
-%global icu_github_name         Icu
-%if 0%{?el6}
-%global icu_github_version      1.1.0
-%global icu_github_commit       b4081efff21a8a85c57789a39f454fed244f8e46
-%else
-%global icu_github_version      1.2.0
-%global icu_github_commit       7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
-%endif
+%global icu_github_owner                 symfony
+%global icu_github_name                  Icu
+%global icu_github_version               1.2.0
+%global icu_github_commit                7299cd3d8d6602103d1ebff5d0a9917b7bc6de72
+# libicu < 4.4
+%global icu_github_version_libicu_lt_4_4 1.1.0
+%global icu_github_commit_libicu_lt_4_4  b4081efff21a8a85c57789a39f454fed244f8e46
+
+# libicu >= 4.4?
+%global libicu_gte_4_4                   0%(pkg-config icu-i18n --atleast-version=4.4 && echo 1)
 
 %global php_min_ver             5.3.3
+# "doctrine/common": "~2.2" (composer.json)
 %global doctrine_common_min_ver 2.2
 %global doctrine_common_max_ver 3.0
+# "doctrine/dbal": "~2.2" (composer.json)
 %global doctrine_dbal_min_ver   2.2
 %global doctrine_dbal_max_ver   3.0
+# "doctrine/orm": "~2.2,>=2.2.3" (composer.json)
 %global doctrine_orm_min_ver    2.2.3
 %global doctrine_orm_max_ver    3.0
+# "monolog/monolog": "~1.3" (composer.json)
 %global monolog_min_ver         1.3
 %global monolog_max_ver         2.0
+# "ircmaxell/password-compat": "1.0.*" (composer.json)
 %global password_compat_min_ver 1.0.0
 %global password_compat_max_ver 1.1.0
+# "psr/log": "~1.0" (composer.json)
 %global psrlog_min_ver          1.0
 %global psrlog_max_ver          2.0
+# "swiftmailer/swiftmailer": ">=4.2.0,<5.1-dev" (src/Symfony/Bridge/Swiftmailer/composer.json)
 %global swift_min_ver           4.2.0
 %global swift_max_ver           5.1.0
+# "twig/twig": "~1.11" (composer.json)
 %global twig_min_ver            1.11
 %global twig_max_ver            2.0
 
@@ -36,24 +45,25 @@
 
 Name:          php-symfony2
 Version:       %{github_version}
-Release:       2%{dist}
+# NOTE: Do not set release to 1 unless both github_version and icu_github_version change
+Release:       3%{dist}
 Summary:       PHP full-stack web framework
 
 Group:         Development/Libraries
 License:       MIT
 URL:           http://symfony.com
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
-Source1:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit}/%{name}-Icu-%{icu_github_version}-%{icu_github_commit}.tar.gz
+Source1:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit}/%{name}-icu-%{icu_github_version}-%{icu_github_commit}.tar.gz
+# libicu < 4.4
+Source2:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive/%{icu_github_commit_libicu_lt_4_4}/%{name}-icu-%{icu_github_version_libicu_lt_4_4}-%{icu_github_commit_libicu_lt_4_4}.tar.gz
 
 BuildArch:     noarch
+# For testing libicu version
+BuildRequires: pkgconfig(icu-i18n)
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-Monolog   >= %{monolog_min_ver}
 BuildRequires: php-Monolog   <  %{monolog_max_ver}
-#%%if 0%%{?el6}
-#BuildRequires: php-password-compat >= %%{password_compat_min_ver}
-#BuildRequires: php-password-compat <  %%{password_compat_max_ver}
-#%%endif
 BuildRequires: php-PsrLog    >= %{psrlog_min_ver}
 BuildRequires: php-PsrLog    <  %{psrlog_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
@@ -65,6 +75,10 @@ BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_
 BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    <  %{doctrine_orm_max_ver}
 BuildRequires: php-pear(pear.twig-project.org/Twig)               >= %{twig_min_ver}
 BuildRequires: php-pear(pear.twig-project.org/Twig)               <  %{twig_max_ver}
+%if 0%{?el6}
+BuildRequires: php-password-compat >= %{password_compat_min_ver}
+BuildRequires: php-password-compat <  %{password_compat_max_ver}
+%endif
 ## TODO: "doctrine/data-fixtures": "1.0.*"
 ## TODO: "propel/propel1": "1.6.*"
 ## TODO: "ocramius/proxy-manager": ">=0.3.1,<0.4-dev"
@@ -95,59 +109,64 @@ BuildRequires: php-sqlite3
 BuildRequires: php-tokenizer
 BuildRequires: php-xml
 
-Requires:      %{name}-common              = %{version}-%{release}
+Requires:      %{name}-common              = %{github_version}-%{release}
 # Bridges
-Requires:      %{name}-doctrinebridge      = %{version}-%{release}
-Requires:      %{name}-monologbridge       = %{version}-%{release}
+Requires:      %{name}-doctrinebridge      = %{github_version}-%{release}
+Requires:      %{name}-monologbridge       = %{github_version}-%{release}
 #Requires:      %%{name}-propel1bridge       = %%{version}-%%{release}
 #Requires:      %%{name}-proxymanagerbridge  = %%{version}-%%{release}
-Requires:      %{name}-swiftmailerbridge   = %{version}-%{release}
-Requires:      %{name}-twigbridge          = %{version}-%{release}
+Requires:      %{name}-swiftmailerbridge   = %{github_version}-%{release}
+Requires:      %{name}-twigbridge          = %{github_version}-%{release}
 # Bundles
-Requires:      %{name}-frameworkbundle     = %{version}-%{release}
-Requires:      %{name}-securitybundle      = %{version}-%{release}
-Requires:      %{name}-twigbundle          = %{version}-%{release}
-Requires:      %{name}-webprofilerbundle   = %{version}-%{release}
+Requires:      %{name}-frameworkbundle     = %{github_version}-%{release}
+Requires:      %{name}-securitybundle      = %{github_version}-%{release}
+Requires:      %{name}-twigbundle          = %{github_version}-%{release}
+Requires:      %{name}-webprofilerbundle   = %{github_version}-%{release}
 # Components
-Requires:      %{name}-browserkit          = %{version}-%{release}
-Requires:      %{name}-classloader         = %{version}-%{release}
-Requires:      %{name}-config              = %{version}-%{release}
-Requires:      %{name}-console             = %{version}-%{release}
-Requires:      %{name}-cssselector         = %{version}-%{release}
-Requires:      %{name}-debug               = %{version}-%{release}
-Requires:      %{name}-dependencyinjection = %{version}-%{release}
-Requires:      %{name}-domcrawler          = %{version}-%{release}
-Requires:      %{name}-eventdispatcher     = %{version}-%{release}
-Requires:      %{name}-filesystem          = %{version}-%{release}
-Requires:      %{name}-finder              = %{version}-%{release}
-Requires:      %{name}-form                = %{version}-%{release}
-Requires:      %{name}-httpfoundation      = %{version}-%{release}
-Requires:      %{name}-httpkernel          = %{version}-%{release}
-Requires:      %{name}-icu                 = %{icu_github_version}-%{release}
-Requires:      %{name}-intl                = %{version}-%{release}
-Requires:      %{name}-locale              = %{version}-%{release}
-Requires:      %{name}-optionsresolver     = %{version}-%{release}
-Requires:      %{name}-process             = %{version}-%{release}
-Requires:      %{name}-propertyaccess      = %{version}-%{release}
-Requires:      %{name}-routing             = %{version}-%{release}
-Requires:      %{name}-security            = %{version}-%{release}
-Requires:      %{name}-serializer          = %{version}-%{release}
-Requires:      %{name}-stopwatch           = %{version}-%{release}
-Requires:      %{name}-templating          = %{version}-%{release}
-Requires:      %{name}-translation         = %{version}-%{release}
-Requires:      %{name}-validator           = %{version}-%{release}
-Requires:      %{name}-yaml                = %{version}-%{release}
+Requires:      %{name}-browserkit          = %{github_version}-%{release}
+Requires:      %{name}-classloader         = %{github_version}-%{release}
+Requires:      %{name}-config              = %{github_version}-%{release}
+Requires:      %{name}-console             = %{github_version}-%{release}
+Requires:      %{name}-cssselector         = %{github_version}-%{release}
+Requires:      %{name}-debug               = %{github_version}-%{release}
+Requires:      %{name}-dependencyinjection = %{github_version}-%{release}
+Requires:      %{name}-domcrawler          = %{github_version}-%{release}
+Requires:      %{name}-eventdispatcher     = %{github_version}-%{release}
+Requires:      %{name}-filesystem          = %{github_version}-%{release}
+Requires:      %{name}-finder              = %{github_version}-%{release}
+Requires:      %{name}-form                = %{github_version}-%{release}
+Requires:      %{name}-httpfoundation      = %{github_version}-%{release}
+Requires:      %{name}-httpkernel          = %{github_version}-%{release}
+Requires:      %{name}-intl                = %{github_version}-%{release}
+Requires:      %{name}-locale              = %{github_version}-%{release}
+Requires:      %{name}-optionsresolver     = %{github_version}-%{release}
+Requires:      %{name}-process             = %{github_version}-%{release}
+Requires:      %{name}-propertyaccess      = %{github_version}-%{release}
+Requires:      %{name}-routing             = %{github_version}-%{release}
+Requires:      %{name}-security            = %{github_version}-%{release}
+Requires:      %{name}-serializer          = %{github_version}-%{release}
+Requires:      %{name}-stopwatch           = %{github_version}-%{release}
+Requires:      %{name}-templating          = %{github_version}-%{release}
+Requires:      %{name}-translation         = %{github_version}-%{release}
+Requires:      %{name}-validator           = %{github_version}-%{release}
+Requires:      %{name}-yaml                = %{github_version}-%{release}
+
+%if %{libicu_gte_4_4}
+Requires:      %{name}-icu                 = %{icu_github_version_libicu}-%{release}
+%else
+Requires:      %{name}-icu                 = %{icu_github_version_libicu_lt_4_4}-%{release}
+%endif
 
 %description
 %{summary}
 
 # ##############################################################################
 
-%package       common
+%package   common
 
-Summary:       Symfony2 common files
+Summary:   Symfony2 common files
 
-Requires:      php(language) >= %{php_min_ver}
+Requires:  php(language) >= %{php_min_ver}
 
 %description common
 %{summary}
@@ -158,12 +177,12 @@ Requires:      php(language) >= %{php_min_ver}
 
 Summary:   Symfony2 Doctrine Bridge
 
-Requires:  %{name}-common    = %{version}-%{release}
+Requires:  %{name}-common    = %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # Optional
-Requires:  %{name}-form      = %{version}-%{release}
-Requires:  %{name}-validator = %{version}-%{release}
+Requires:  %{name}-form      = %{github_version}-%{release}
+Requires:  %{name}-validator = %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL)   >= %{doctrine_dbal_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL)   <  %{doctrine_dbal_max_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_orm_min_ver}
@@ -179,7 +198,7 @@ Requires:  php-session
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/DoctrineBridge) = %{version}
+Provides:  php-pear(%{pear_channel}/DoctrineBridge) = %{github_version}
 
 %description doctrinebridge
 Provides integration for Doctrine (http://www.doctrine-project.org/) with
@@ -194,15 +213,15 @@ http://symfony.com/doc/current/reference/configuration/doctrine.html
 
 Summary:   Symfony2 Monolog Bridge
 
-Requires:  %{name}-common     =  %{version}-%{release}
-Requires:  %{name}-httpkernel =  %{version}-%{release}
+Requires:  %{name}-common     =  %{github_version}-%{release}
+Requires:  %{name}-httpkernel =  %{github_version}-%{release}
 Requires:  php-Monolog        >= %{monolog_min_ver}
 Requires:  php-Monolog        <  %{monolog_max_ver}
 # phpcompatinfo
 Requires:  php-pcre
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/MonologBridge) = %{version}
+Provides:  php-pear(%{pear_channel}/MonologBridge) = %{github_version}
 
 %description monologbridge
 Provides integration for Monolog (https://github.com/Seldaek/monolog) with
@@ -250,11 +269,11 @@ http://symfony.com/doc/current/reference/configuration/monolog.html
 
 Summary:   Symfony2 Swiftmailer Bridge
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 Requires:  php-pear(pear.swiftmailer.org/Swift) >= %{swift_min_ver}
 Requires:  php-pear(pear.swiftmailer.org/Swift) >  %{swift_max_ver}
 # Optional
-Requires:  %{name}-httpkernel = %{version}-%{release}
+Requires:  %{name}-httpkernel = %{github_version}-%{release}
 
 %description swiftmailerbridge
 Provides integration for Swift Mailer (http://swiftmailer.org/) with various
@@ -269,23 +288,23 @@ http://symfony.com/doc/current/reference/configuration/swiftmailer.html
 
 Summary:   Symfony2 Twig Bridge
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 Requires:  php-pear(pear.twig-project.org/Twig) >= %{twig_min_ver}
 Requires:  php-pear(pear.twig-project.org/Twig) <  %{twig_max_ver}
 # Optional
-Requires:  %{name}-form        = %{version}-%{release}
-Requires:  %{name}-httpkernel  = %{version}-%{release}
-Requires:  %{name}-routing     = %{version}-%{release}
-Requires:  %{name}-security    = %{version}-%{release}
-Requires:  %{name}-templating  = %{version}-%{release}
-Requires:  %{name}-translation = %{version}-%{release}
-Requires:  %{name}-yaml        = %{version}-%{release}
+Requires:  %{name}-form        = %{github_version}-%{release}
+Requires:  %{name}-httpkernel  = %{github_version}-%{release}
+Requires:  %{name}-routing     = %{github_version}-%{release}
+Requires:  %{name}-security    = %{github_version}-%{release}
+Requires:  %{name}-templating  = %{github_version}-%{release}
+Requires:  %{name}-translation = %{github_version}-%{release}
+Requires:  %{name}-yaml        = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/TwigBridge) = %{version}
+Provides:  php-pear(%{pear_channel}/TwigBridge) = %{github_version}
 
 %description twigbridge
 Provides integration for Twig (http://twig.sensiolabs.org/) with various
@@ -297,23 +316,23 @@ Symfony2 components.
 
 Summary:   Symfony2 Framework Bundle
 
-Requires:  %{name}-common              = %{version}-%{release}
-Requires:  %{name}-config              = %{version}-%{release}
-Requires:  %{name}-dependencyinjection = %{version}-%{release}
-Requires:  %{name}-eventdispatcher     = %{version}-%{release}
-Requires:  %{name}-filesystem          = %{version}-%{release}
-Requires:  %{name}-httpkernel          = %{version}-%{release}
-Requires:  %{name}-routing             = %{version}-%{release}
-Requires:  %{name}-stopwatch           = %{version}-%{release}
-Requires:  %{name}-templating          = %{version}-%{release}
-Requires:  %{name}-translation         = %{version}-%{release}
+Requires:  %{name}-common              = %{github_version}-%{release}
+Requires:  %{name}-config              = %{github_version}-%{release}
+Requires:  %{name}-dependencyinjection = %{github_version}-%{release}
+Requires:  %{name}-eventdispatcher     = %{github_version}-%{release}
+Requires:  %{name}-filesystem          = %{github_version}-%{release}
+Requires:  %{name}-httpkernel          = %{github_version}-%{release}
+Requires:  %{name}-routing             = %{github_version}-%{release}
+Requires:  %{name}-stopwatch           = %{github_version}-%{release}
+Requires:  %{name}-templating          = %{github_version}-%{release}
+Requires:  %{name}-translation         = %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # Optional
-Requires:  %{name}-console             = %{version}-%{release}
-Requires:  %{name}-finder              = %{version}-%{release}
-Requires:  %{name}-form                = %{version}-%{release}
-Requires:  %{name}-validator           = %{version}-%{release}
+Requires:  %{name}-console             = %{github_version}-%{release}
+Requires:  %{name}-finder              = %{github_version}-%{release}
+Requires:  %{name}-form                = %{github_version}-%{release}
+Requires:  %{name}-validator           = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-fileinfo
@@ -340,9 +359,9 @@ http://symfony.com/doc/current/reference/configuration/framework.html
 
 Summary:   Symfony2 Security Bundle
 
-Requires:  %{name}-common     = %{version}-%{release}
-Requires:  %{name}-httpkernel = %{version}-%{release}
-Requires:  %{name}-security   = %{version}-%{release}
+Requires:  %{name}-common     = %{github_version}-%{release}
+Requires:  %{name}-httpkernel = %{github_version}-%{release}
+Requires:  %{name}-security   = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
@@ -356,9 +375,9 @@ Requires:  php-spl
 
 Summary:   Symfony2 Twig Bundle
 
-Requires:  %{name}-common     = %{version}-%{release}
-Requires:  %{name}-httpkernel = %{version}-%{release}
-Requires:  %{name}-twigbridge = %{version}-%{release}
+Requires:  %{name}-common     = %{github_version}-%{release}
+Requires:  %{name}-httpkernel = %{github_version}-%{release}
+Requires:  %{name}-twigbridge = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-reflection
@@ -376,10 +395,10 @@ http://symfony.com/doc/current/reference/configuration/twig.html
 
 Summary:   Symfony2 WebProfiler Bundle
 
-Requires:  %{name}-common     = %{version}-%{release}
-Requires:  %{name}-httpkernel = %{version}-%{release}
-Requires:  %{name}-routing    = %{version}-%{release}
-Requires:  %{name}-twigbridge = %{version}-%{release}
+Requires:  %{name}-common     = %{github_version}-%{release}
+Requires:  %{name}-httpkernel = %{github_version}-%{release}
+Requires:  %{name}-routing    = %{github_version}-%{release}
+Requires:  %{name}-twigbridge = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-pcre
 Requires:  php-spl
@@ -396,20 +415,20 @@ http://symfony.com/doc/current/reference/configuration/web_profiler.html
 
 Summary:   Symfony2 BrowserKit Component
 
-Requires:  %{name}-common     = %{version}-%{release}
-Requires:  %{name}-domcrawler = %{version}-%{release}
+Requires:  %{name}-common     = %{github_version}-%{release}
+Requires:  %{name}-domcrawler = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-process    = %{version}-%{release}
+Requires:  %{name}-process    = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/BrowserKit) = %{version}
+Provides:  php-pear(%{pear_channel}/BrowserKit) = %{github_version}
 # Rename
-Obsoletes: %{name}-BrowserKit < %{version}
-Provides:  %{name}-BrowserKit = %{version}
+Obsoletes: %{name}-BrowserKit < %{github_version}
+Provides:  %{name}-BrowserKit = %{github_version}
 
 %description browserkit
 BrowserKit simulates the behavior of a web browser.
@@ -424,7 +443,7 @@ The component only provide an abstract client and does not provide any
 Summary:   Symfony2 ClassLoader Component
 URL:       http://symfony.com/doc/current/components/class_loader.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-pcre
 Requires:  php-reflection
@@ -432,10 +451,10 @@ Requires:  php-spl
 Requires:  php-tokenizer
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/ClassLoader) = %{version}
+Provides:  php-pear(%{pear_channel}/ClassLoader) = %{github_version}
 # Rename
-Obsoletes: %{name}-ClassLoader < %{version}
-Provides:  %{name}-ClassLoader = %{version}
+Obsoletes: %{name}-ClassLoader < %{github_version}
+Provides:  %{name}-ClassLoader = %{github_version}
 
 %description classloader
 The ClassLoader Component loads your project classes automatically if they
@@ -465,8 +484,8 @@ Optional: APC, XCache
 Summary:   Symfony2 Config Component
 URL:       http://symfony.com/doc/current/components/config/index.html
 
-Requires:  %{name}-common     = %{version}-%{release}
-Requires:  %{name}-filesystem = %{version}-%{release}
+Requires:  %{name}-common     = %{github_version}-%{release}
+Requires:  %{name}-filesystem = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-dom
@@ -476,10 +495,10 @@ Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Config) = %{version}
+Provides:  php-pear(%{pear_channel}/Config) = %{github_version}
 # Rename
-Obsoletes: %{name}-Config < %{version}
-Provides:  %{name}-Config = %{version}
+Obsoletes: %{name}-Config < %{github_version}
+Provides:  %{name}-Config = %{github_version}
 
 %description config
 The Config Component provides several classes to help you find, load, combine,
@@ -493,9 +512,9 @@ may be (Yaml, XML, INI files, or for instance a database).
 Summary:   Symfony2 Console Component
 URL:       http://symfony.com/doc/current/components/console/index.html
 
-Requires:  %{name}-common          = %{version}-%{release}
+Requires:  %{name}-common          = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-eventdispatcher = %{version}-%{release}
+Requires:  %{name}-eventdispatcher = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-dom
@@ -507,10 +526,10 @@ Requires:  php-readline
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Console) = %{version}
+Provides:  php-pear(%{pear_channel}/Console) = %{github_version}
 # Rename
-Obsoletes: %{name}-Console < %{version}
-Provides:  %{name}-Console = %{version}
+Obsoletes: %{name}-Console < %{github_version}
+Provides:  %{name}-Console = %{github_version}
 
 %description console
 The Console component eases the creation of beautiful and testable command line
@@ -527,16 +546,16 @@ other batch jobs.
 Summary:   Symfony2 CssSelector Component
 URL:       http://symfony.com/doc/current/components/css_selector.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-mbstring
 Requires:  php-pcre
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/CssSelector) = %{version}
+Provides:  php-pear(%{pear_channel}/CssSelector) = %{github_version}
 # Rename
-Obsoletes: %{name}-CssSelector < %{version}
-Provides:  %{name}-CssSelector = %{version}
+Obsoletes: %{name}-CssSelector < %{github_version}
+Provides:  %{name}-CssSelector = %{github_version}
 
 %description cssselector
 The CssSelector Component converts CSS selectors to XPath expressions.
@@ -550,17 +569,17 @@ The CssSelector Component converts CSS selectors to XPath expressions.
 Summary:   Symfony2 Debug Component
 URL:       http://symfony.com/doc/current/components/debug.html
 
-Requires:  %{name}-common         = %{version}-%{release}
+Requires:  %{name}-common         = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-classloader    = %{version}-%{release}
-Requires:  %{name}-httpfoundation = %{version}-%{release}
-Requires:  %{name}-httpkernel     = %{version}-%{release}
+Requires:  %{name}-classloader    = %{github_version}-%{release}
+Requires:  %{name}-httpfoundation = %{github_version}-%{release}
+Requires:  %{name}-httpkernel     = %{github_version}-%{release}
 # phpcompatinfo
 #Requires:  php-pecl(xdebug)
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Debug) = %{version}
+Provides:  php-pear(%{pear_channel}/Debug) = %{github_version}
 
 %description debug
 The Debug Component provides tools to ease debugging PHP code.
@@ -572,11 +591,11 @@ The Debug Component provides tools to ease debugging PHP code.
 Summary:   Symfony2 DependencyInjection Component
 URL:       http://symfony.com/doc/current/components/dependency_injection/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-config             = %{version}-%{release}
+Requires:  %{name}-config             = %{github_version}-%{release}
 #Requires:  %%{name}-proxymanagerbridge = %%{version}-%%{release}
-Requires:  %{name}-yaml               = %{version}-%{release}
+Requires:  %{name}-yaml               = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-dom
 Requires:  php-pcre
@@ -585,10 +604,10 @@ Requires:  php-simplexml
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/DependencyInjection) = %{version}
+Provides:  php-pear(%{pear_channel}/DependencyInjection) = %{github_version}
 # Rename
-Obsoletes: %{name}-DependencyInjection < %{version}
-Provides:  %{name}-DependencyInjection = %{version}
+Obsoletes: %{name}-DependencyInjection < %{github_version}
+Provides:  %{name}-DependencyInjection = %{github_version}
 
 %description dependencyinjection
 The Dependency Injection component allows you to standardize and centralize
@@ -601,9 +620,9 @@ the way objects are constructed in your application.
 Summary:   Symfony2 DomCrawler Component
 URL:       http://symfony.com/doc/current/components/dom_crawler.html
 
-Requires:  %{name}-common      = %{version}-%{release}
+Requires:  %{name}-common      = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-cssselector = %{version}-%{release}
+Requires:  %{name}-cssselector = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-dom
 Requires:  php-libxml
@@ -612,10 +631,10 @@ Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/DomCrawler) = %{version}
+Provides:  php-pear(%{pear_channel}/DomCrawler) = %{github_version}
 # Rename
-Obsoletes: %{name}-DomCrawler < %{version}
-Provides:  %{name}-DomCrawler = %{version}
+Obsoletes: %{name}-DomCrawler < %{github_version}
+Provides:  %{name}-DomCrawler = %{github_version}
 
 %description domcrawler
 The DomCrawler Component eases DOM navigation for HTML and XML documents.
@@ -627,18 +646,18 @@ The DomCrawler Component eases DOM navigation for HTML and XML documents.
 Summary:   Symfony2 EventDispatcher Component
 URL:       http://symfony.com/doc/current/components/event_dispatcher/index.html
 
-Requires:  %{name}-common              = %{version}-%{release}
+Requires:  %{name}-common              = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-dependencyinjection = %{version}-%{release}
-Requires:  %{name}-httpkernel          = %{version}-%{release}
+Requires:  %{name}-dependencyinjection = %{github_version}-%{release}
+Requires:  %{name}-httpkernel          = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/EventDispatcher) = %{version}
+Provides:  php-pear(%{pear_channel}/EventDispatcher) = %{github_version}
 # Rename
-Obsoletes: %{name}-EventDispatcher < %{version}
-Provides:  %{name}-EventDispatcher = %{version}
+Obsoletes: %{name}-EventDispatcher < %{github_version}
+Provides:  %{name}-EventDispatcher = %{github_version}
 
 %description eventdispatcher
 The Symfony2 Event Dispatcher component implements the Observer [1] pattern in
@@ -654,16 +673,16 @@ projects truly extensible.
 Summary:   Symfony2 Filesystem Component
 URL:       http://symfony.com/doc/current/components/filesystem.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Filesystem) = %{version}
+Provides:  php-pear(%{pear_channel}/Filesystem) = %{github_version}
 # Rename
-Obsoletes: %{name}-Filesystem < %{version}
-Provides:  %{name}-Filesystem = %{version}
+Obsoletes: %{name}-Filesystem < %{github_version}
+Provides:  %{name}-Filesystem = %{github_version}
 
 %description filesystem
 The Filesystem component provides basic utilities for the filesystem.
@@ -675,17 +694,17 @@ The Filesystem component provides basic utilities for the filesystem.
 Summary:   Symfony2 Finder Component
 URL:       http://symfony.com/doc/current/components/finder.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Finder) = %{version}
+Provides:  php-pear(%{pear_channel}/Finder) = %{github_version}
 # Rename
-Obsoletes: %{name}-Finder < %{version}
-Provides:  %{name}-Finder = %{version}
+Obsoletes: %{name}-Finder < %{github_version}
+Provides:  %{name}-Finder = %{github_version}
 
 %description finder
 The Finder Component finds files and directories via an intuitive fluent
@@ -697,14 +716,14 @@ interface.
 
 Summary:   Symfony2 Form Component
 
-Requires:  %{name}-common          = %{version}-%{release}
-Requires:  %{name}-eventdispatcher = %{version}-%{release}
-Requires:  %{name}-intl            = %{version}-%{release}
-Requires:  %{name}-optionsresolver = %{version}-%{release}
-Requires:  %{name}-propertyaccess  = %{version}-%{release}
+Requires:  %{name}-common          = %{github_version}-%{release}
+Requires:  %{name}-eventdispatcher = %{github_version}-%{release}
+Requires:  %{name}-intl            = %{github_version}-%{release}
+Requires:  %{name}-optionsresolver = %{github_version}-%{release}
+Requires:  %{name}-propertyaccess  = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-httpfoundation  = %{version}-%{release}
-Requires:  %{name}-validator       = %{version}-%{release}
+Requires:  %{name}-httpfoundation  = %{github_version}-%{release}
+Requires:  %{name}-validator       = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-date
@@ -716,10 +735,10 @@ Requires:  php-session
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Form) = %{version}
+Provides:  php-pear(%{pear_channel}/Form) = %{github_version}
 # Rename
-Obsoletes: %{name}-Form < %{version}
-Provides:  %{name}-Form = %{version}
+Obsoletes: %{name}-Form < %{github_version}
+Provides:  %{name}-Form = %{github_version}
 
 %description form
 Form provides tools for defining forms, rendering and mapping request data
@@ -733,7 +752,7 @@ component.
 Summary:   Symfony2 HttpFoundation Component
 URL:       http://symfony.com/doc/current/components/http_foundation/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-fileinfo
@@ -746,10 +765,10 @@ Requires:  php-sockets
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/HttpFoundation) = %{version}
+Provides:  php-pear(%{pear_channel}/HttpFoundation) = %{github_version}
 # Rename
-Obsoletes: %{name}-HttpFoundation < %{version}
-Provides:  %{name}-HttpFoundation = %{version}
+Obsoletes: %{name}-HttpFoundation < %{github_version}
+Provides:  %{name}-HttpFoundation = %{github_version}
 
 %description httpfoundation
 The HttpFoundation Component defines an object-oriented layer for the HTTP
@@ -771,19 +790,19 @@ Optional: memcache, memcached, mongo
 Summary:   Symfony2 HttpKernel Component
 URL:       http://symfony.com/doc/current/components/http_kernel/index.html
 
-Requires:  %{name}-common              =  %{version}-%{release}
-Requires:  %{name}-debug               =  %{version}-%{release}
-Requires:  %{name}-eventdispatcher     =  %{version}-%{release}
-Requires:  %{name}-httpfoundation      =  %{version}-%{release}
+Requires:  %{name}-common              =  %{github_version}-%{release}
+Requires:  %{name}-debug               =  %{github_version}-%{release}
+Requires:  %{name}-eventdispatcher     =  %{github_version}-%{release}
+Requires:  %{name}-httpfoundation      =  %{github_version}-%{release}
 Requires:  php-PsrLog                  >= %{psrlog_min_ver}
 Requires:  php-PsrLog                  <  %{psrlog_max_ver}
 # Optional
-Requires:  %{name}-browserkit          =  %{version}-%{release}
-Requires:  %{name}-classloader         =  %{version}-%{release}
-Requires:  %{name}-config              =  %{version}-%{release}
-Requires:  %{name}-console             =  %{version}-%{release}
-Requires:  %{name}-dependencyinjection =  %{version}-%{release}
-Requires:  %{name}-finder              =  %{version}-%{release}
+Requires:  %{name}-browserkit          =  %{github_version}-%{release}
+Requires:  %{name}-classloader         =  %{github_version}-%{release}
+Requires:  %{name}-config              =  %{github_version}-%{release}
+Requires:  %{name}-console             =  %{github_version}-%{release}
+Requires:  %{name}-dependencyinjection =  %{github_version}-%{release}
+Requires:  %{name}-finder              =  %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-hash
@@ -796,10 +815,10 @@ Requires:  php-sqlite3
 Requires:  php-tokenizer
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/HttpKernel) = %{version}
+Provides:  php-pear(%{pear_channel}/HttpKernel) = %{github_version}
 # Rename
-Obsoletes: %{name}-HttpKernel < %{version}
-Provides:  %{name}-HttpKernel = %{version}
+Obsoletes: %{name}-HttpKernel < %{github_version}
+Provides:  %{name}-HttpKernel = %{github_version}
 
 %description httpkernel
 The HttpKernel Component provides a structured process for converting a Request
@@ -816,7 +835,11 @@ Optional: memcache, memcached, redis, Zend OPcache
 
 %package   icu
 
-Version:   %{icu_github_version}
+%if %{libicu_gte_4_4}
+Version:  %{icu_github_version}
+%else
+Version:  %{icu_github_version_libicu_lt_4_4}
+%endif
 Summary:   Symfony2 Icu Component
 URL:       https://github.com/symfony/Icu
 
@@ -833,16 +856,15 @@ Requires:  php-spl
 %description icu
 Contains data of the ICU library.
 
-The bundled resource files have the resource bundle format version 2.* [1],
-which can be read using ICU 4.4 and later. Compatibility can be tested with
-the test-compat.php script bundled in the Intl component:
-
-%{_bindir}/php %{symfony_dir}/Component/Intl/Resources/bin/test-compat.php
-
 You should not directly use this component. Use it through the API of the Intl
 component instead.
 
+%if %{libicu_gte_4_4}
+The bundled resource files have the resource bundle format version 2.* [1],
+which can be read using ICU 4.4 and later.
+
 [1] http://site.icu-project.org/design/data/res2
+%endif
 
 # ------------------------------------------------------------------------------
 
@@ -851,8 +873,12 @@ component instead.
 Summary:   Symfony2 Intl Component
 URL:       http://symfony.com/doc/current/components/intl.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
+%if %{libicu_gte_4_4}
 Requires:  %{name}-icu    = %{icu_github_version}-%{release}
+%else
+Requires:  %{name}-icu    = %{icu_github_version_libicu_lt_4_4}-%{release}
+%endif
 # phpcompatinfo
 Requires:  php-date
 Requires:  php-intl
@@ -862,10 +888,10 @@ Requires:  php-simplexml
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Intl) = %{version}
+Provides:  php-pear(%{pear_channel}/Intl) = %{github_version}
 # Rename
-Obsoletes: %{name}-Intl < %{version}
-Provides:  %{name}-Intl = %{version}
+Obsoletes: %{name}-Intl < %{github_version}
+Provides:  %{name}-Intl = %{github_version}
 
 %description intl
 A PHP replacement layer for the C intl extension [1] that also provides access
@@ -880,16 +906,16 @@ to the localization data of the ICU library [2].
 
 Summary:   Symfony2 Locale Component
 
-Requires:  %{name}-common = %{version}-%{release}
-Requires:  %{name}-intl   = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
+Requires:  %{name}-intl   = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-intl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Locale) = %{version}
+Provides:  php-pear(%{pear_channel}/Locale) = %{github_version}
 # Rename
-Obsoletes: %{name}-Locale < %{version}
-Provides:  %{name}-Locale = %{version}
+Obsoletes: %{name}-Locale < %{github_version}
+Provides:  %{name}-Locale = %{github_version}
 
 %description locale
 Locale provides fallback code to handle cases when the intl extension is
@@ -905,16 +931,16 @@ Symfony 3.0. You should use the more capable Intl component instead.
 Summary:   Symfony2 OptionsResolver Component
 URL:       http://symfony.com/doc/current/components/options_resolver.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-reflection
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/OptionsResolver) = %{version}
+Provides:  php-pear(%{pear_channel}/OptionsResolver) = %{github_version}
 # Rename
-Obsoletes: %{name}-OptionsResolver < %{version}
-Provides:  %{name}-OptionsResolver = %{version}
+Obsoletes: %{name}-OptionsResolver < %{github_version}
+Provides:  %{name}-OptionsResolver = %{github_version}
 
 %description optionsresolver
 The OptionsResolver Component helps you configure objects with option arrays.
@@ -927,17 +953,17 @@ It supports default values, option constraints and lazy options.
 Summary:   Symfony2 Process Component
 URL:       http://symfony.com/doc/current/components/process.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-pcntl
 Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Process) = %{version}
+Provides:  php-pear(%{pear_channel}/Process) = %{github_version}
 # Rename
-Obsoletes: %{name}-Process < %{version}
-Provides:  %{name}-Process = %{version}
+Obsoletes: %{name}-Process < %{github_version}
+Provides:  %{name}-Process = %{github_version}
 
 %description process
 The Process Component executes commands in sub-processes.
@@ -949,7 +975,7 @@ The Process Component executes commands in sub-processes.
 Summary:   Symfony2 PropertyAccess Component
 URL:       http://symfony.com/doc/current/components/property_access/introduction.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-pcre
@@ -957,10 +983,10 @@ Requires:  php-reflection
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/PropertyAccess) = %{version}
+Provides:  php-pear(%{pear_channel}/PropertyAccess) = %{github_version}
 # Rename
-Obsoletes: %{name}-PropertyAccess < %{version}
-Provides:  %{name}-PropertyAccess = %{version}
+Obsoletes: %{name}-PropertyAccess < %{github_version}
+Provides:  %{name}-PropertyAccess = %{github_version}
 
 %description propertyaccess
 The PropertyAccess component provides function to read and write from/to an
@@ -973,10 +999,10 @@ object or array using a simple string notation.
 Summary:   Symfony2 Routing Component
 URL:       http://symfony.com/doc/current/components/routing/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-config = %{version}-%{release}
-Requires:  %{name}-yaml   = %{version}-%{release}
+Requires:  %{name}-config = %{github_version}-%{release}
+Requires:  %{name}-yaml   = %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_common_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_common_max_ver}
 # phpcompatinfo
@@ -987,10 +1013,10 @@ Requires:  php-spl
 Requires:  php-tokenizer
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Routing) = %{version}
+Provides:  php-pear(%{pear_channel}/Routing) = %{github_version}
 # Rename
-Obsoletes: %{name}-Routing < %{version}
-Provides:  %{name}-Routing = %{version}
+Obsoletes: %{name}-Routing < %{github_version}
+Provides:  %{name}-Routing = %{github_version}
 
 %description routing
 The Routing Component maps an HTTP request to a set of configuration variables.
@@ -1002,20 +1028,20 @@ The Routing Component maps an HTTP request to a set of configuration variables.
 Summary:   Symfony2 Security Component
 URL:       http://symfony.com/doc/current/components/security/index.html
 
-Requires:  %{name}-common          = %{version}-%{release}
-Requires:  %{name}-eventdispatcher = %{version}-%{release}
-Requires:  %{name}-httpfoundation  = %{version}-%{release}
-Requires:  %{name}-httpkernel      = %{version}-%{release}
-#%%if 0%%{?el6}
-#Requires:   php-password-compat    >= %%{password_compat_min_ver}
-#Requires:   php-password-compat    <  %%{password_compat_max_ver}
-#%%endif
+Requires:  %{name}-common          =  %{github_version}-%{release}
+Requires:  %{name}-eventdispatcher =  %{github_version}-%{release}
+Requires:  %{name}-httpfoundation  =  %{github_version}-%{release}
+Requires:  %{name}-httpkernel      =  %{github_version}-%{release}
+%if 0%{?el6}
+Requires:   php-password-compat    >= %{password_compat_min_ver}
+Requires:   php-password-compat    <  %{password_compat_max_ver}
+%endif
 # Optional
-Requires:  %{name}-classloader     = %{version}-%{release}
-Requires:  %{name}-finder          = %{version}-%{release}
-Requires:  %{name}-form            = %{version}-%{release}
-Requires:  %{name}-routing         = %{version}-%{release}
-Requires:  %{name}-validator       = %{version}-%{release}
+Requires:  %{name}-classloader     =  %{github_version}-%{release}
+Requires:  %{name}-finder          =  %{github_version}-%{release}
+Requires:  %{name}-form            =  %{github_version}-%{release}
+Requires:  %{name}-routing         =  %{github_version}-%{release}
+Requires:  %{name}-validator       =  %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) >= %{doctrine_dbal_min_ver}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineDBAL) <  %{doctrine_dbal_max_ver}
 # phpcompatinfo
@@ -1028,10 +1054,10 @@ Requires:  php-reflection
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Security) = %{version}
+Provides:  php-pear(%{pear_channel}/Security) = %{github_version}
 # Rename
-Obsoletes: %{name}-Security < %{version}
-Provides:  %{name}-Security = %{version}
+Obsoletes: %{name}-Security < %{github_version}
+Provides:  %{name}-Security = %{github_version}
 
 %description security
 The Security Component provides a complete security system for your web
@@ -1048,7 +1074,7 @@ based on their roles, and it contains an advanced ACL system.
 Summary:   Symfony2 Serializer Component
 URL:       http://symfony.com/doc/current/components/serializer.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-dom
@@ -1060,10 +1086,10 @@ Requires:  php-simplexml
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Serializer) = %{version}
+Provides:  php-pear(%{pear_channel}/Serializer) = %{github_version}
 # Rename
-Obsoletes: %{name}-Serializer < %{version}
-Provides:  %{name}-Serializer = %{version}
+Obsoletes: %{name}-Serializer < %{github_version}
+Provides:  %{name}-Serializer = %{github_version}
 
 %description serializer
 The Serializer Component is meant to be used to turn objects into a specific
@@ -1076,12 +1102,12 @@ format (XML, JSON, Yaml, ...) and the other way around.
 Summary:   Symfony2 Stopwatch Component
 URL:       http://symfony.com/doc/current/components/stopwatch.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Stopwatch) = %{version}
+Provides:  php-pear(%{pear_channel}/Stopwatch) = %{github_version}
 
 %description stopwatch
 Stopwatch component provides a way to profile code.
@@ -1093,7 +1119,7 @@ Stopwatch component provides a way to profile code.
 Summary:   Symfony2 Templating Component
 URL:       http://symfony.com/doc/current/components/templating.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-iconv
@@ -1102,10 +1128,10 @@ Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Templating) = %{version}
+Provides:  php-pear(%{pear_channel}/Templating) = %{github_version}
 # Rename
-Obsoletes: %{name}-Templating < %{version}
-Provides:  %{name}-Templating = %{version}
+Obsoletes: %{name}-Templating < %{github_version}
+Provides:  %{name}-Templating = %{github_version}
 
 %description templating
 Templating provides all the tools needed to build any kind of template system.
@@ -1121,10 +1147,10 @@ blocks and layouts.
 
 Summary:   Symfony2 Translation Component
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-config = %{version}-%{release}
-Requires:  %{name}-yaml   = %{version}-%{release}
+Requires:  %{name}-config = %{github_version}-%{release}
+Requires:  %{name}-yaml   = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-dom
 Requires:  php-iconv
@@ -1136,10 +1162,10 @@ Requires:  php-simplexml
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Translation) = %{version}
+Provides:  php-pear(%{pear_channel}/Translation) = %{github_version}
 # Rename
-Obsoletes: %{name}-Translation < %{version}
-Provides:  %{name}-Translation = %{version}
+Obsoletes: %{name}-Translation < %{github_version}
+Provides:  %{name}-Translation = %{github_version}
 
 %description translation
 Translation provides tools for loading translation files and generating
@@ -1151,13 +1177,13 @@ translated strings from these including support for pluralization.
 
 Summary:   Symfony2 Validator Component
 
-Requires:  %{name}-common         = %{version}-%{release}
-Requires:  %{name}-translation    = %{version}-%{release}
+Requires:  %{name}-common         = %{github_version}-%{release}
+Requires:  %{name}-translation    = %{github_version}-%{release}
 # Optional
-Requires:  %{name}-config         = %{version}-%{release}
-Requires:  %{name}-httpfoundation = %{version}-%{release}
-Requires:  %{name}-intl           = %{version}-%{release}
-Requires:  %{name}-yaml           = %{version}-%{release}
+Requires:  %{name}-config         = %{github_version}-%{release}
+Requires:  %{name}-httpfoundation = %{github_version}-%{release}
+Requires:  %{name}-intl           = %{github_version}-%{release}
+Requires:  %{name}-yaml           = %{github_version}-%{release}
 Requires:  php-pear(pear.doctrine-project.org/DoctrineCommon)
 # phpcompatinfo
 Requires:  php-ctype
@@ -1171,10 +1197,10 @@ Requires:  php-simplexml
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Validator) = %{version}
+Provides:  php-pear(%{pear_channel}/Validator) = %{github_version}
 # Rename
-Obsoletes: %{name}-Validator < %{version}
-Provides:  %{name}-Validator = %{version}
+Obsoletes: %{name}-Validator < %{github_version}
+Provides:  %{name}-Validator = %{github_version}
 
 %description validator
 This component is based on the JSR-303 Bean Validation specification and
@@ -1190,7 +1216,7 @@ Optional: APC
 Summary:   Symfony2 Yaml Component
 URL:       http://symfony.com/doc/current/components/yaml/index.html
 
-Requires:  %{name}-common = %{version}-%{release}
+Requires:  %{name}-common = %{github_version}-%{release}
 # phpcompatinfo
 Requires:  php-ctype
 Requires:  php-date
@@ -1201,10 +1227,10 @@ Requires:  php-pcre
 Requires:  php-spl
 
 # PEAR
-Provides:  php-pear(%{pear_channel}/Yaml) = %{version}
+Provides:  php-pear(%{pear_channel}/Yaml) = %{github_version}
 # Rename
-Obsoletes: %{name}-Yaml < %{version}
-Provides:  %{name}-Yaml = %{version}
+Obsoletes: %{name}-Yaml < %{github_version}
+Provides:  %{name}-Yaml = %{github_version}
 
 %description yaml
 The YAML Component loads and dumps YAML files.
@@ -1218,7 +1244,11 @@ The YAML Component loads and dumps YAML files.
 # Setup Icu component
 mkdir -p -m 755 src/Symfony/Component/Icu
 pushd src/Symfony/Component/Icu
-  tar xzf %{SOURCE1} --strip-components 1
+%if %{libicu_gte_4_4}
+    tar xzf %{SOURCE1} --strip-components 1
+%else
+    tar xzf %{SOURCE2} --strip-components 1
+%endif
 popd
 
 # Remove unnecessary files
@@ -1259,7 +1289,7 @@ sed -i "s#%{buildroot}##" %{name}-icu.lang
 
 
 %check
-# Create autoloader
+# Create tests' autoloader
 mkdir vendor
 ( cat <<'AUTOLOADER'
 <?php
@@ -1290,13 +1320,6 @@ cat phpunit.xml.dist \
 sed -i \
     's/function testNonSeekableStream/function SKIP_testNonSeekableStream/' \
     src/Symfony/Component/Finder/Tests/FinderTest.php
-
-# Package "php-password-compat" is not available in EPEL so the Security
-# Component's BCryptPasswordEncoderTest fails
-# https://bugzilla.redhat.com/show_bug.cgi?id=1023544
-%if 0%{?el6}
-rm -f src/Symfony/Component/Security/Tests/Core/Encoder/BCryptPasswordEncoderTest.php
-%endif
 
 # Temporarily skip tests that are known to fail
 %if 0%{?el6}
@@ -1944,6 +1967,13 @@ done
 # ##############################################################################
 
 %changelog
+* Sun Nov 17 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.7-3
+- Updated to 2.3.7
+- Removed conditional ICU source (SRPM now contains both)
+- Added libicu_gte_4_4 macro for conditonal tests
+- Added php-password-compat requires for el6 (PHP < 5.5.0)
+- Use of github_version instead of version throughout spec because of icu pkg
+
 * Wed Nov 06 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
 - Updated tests' autoloader
 - Individual pkg tests instead of one
