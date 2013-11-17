@@ -152,7 +152,7 @@ Requires:      %{name}-validator           = %{github_version}-%{release}
 Requires:      %{name}-yaml                = %{github_version}-%{release}
 
 %if %{libicu_gte_4_4}
-Requires:      %{name}-icu                 = %{icu_github_version_libicu}-%{release}
+Requires:      %{name}-icu                 = %{icu_github_version}-%{release}
 %else
 Requires:      %{name}-icu                 = %{icu_github_version_libicu_lt_4_4}-%{release}
 %endif
