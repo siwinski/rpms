@@ -423,7 +423,7 @@ The component only provide an abstract client and does not provide any
 %package   classloader
 
 Summary:   Symfony2 ClassLoader Component
-URL:       http://symfony.com/doc/current/components/class_loader.html
+URL:       http://symfony.com/doc/current/components/class_loader/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo
@@ -1851,6 +1851,7 @@ done
 - Separated icu pkg
 - Added php-password-compat requires for el6 (PHP < 5.5.0)
 - common sub-pkg now owns %%{symfony_dir}/{Bridge,Bundle,Component}
+- Fixed classloader URL
 
 * Wed Nov 06 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.6-2
 - Updated tests' autoloader
