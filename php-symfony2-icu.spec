@@ -74,9 +74,19 @@ pkg-config icu%{!?el6:-i18n} --atleast-version=%{libicu_min_ver} || exit 1
 # version is available
 
 
-%files
+%files -f %{name}.lang
 %doc LICENSE *.md composer.json
-%{symfony_dir}/Component/Icu
+%doc Resources/data/*.txt
+
+%dir %{symfony_dir}/Component/Icu
+     %{symfony_dir}/Component/Icu/*.php
+%dir %{symfony_dir}/Component/Icu/Resources
+%dir %{symfony_dir}/Component/Icu/Resources/data
+%dir %{symfony_dir}/Component/Icu/Resources/data/curr
+%dir %{symfony_dir}/Component/Icu/Resources/data/lang
+%dir %{symfony_dir}/Component/Icu/Resources/data/locales
+%dir %{symfony_dir}/Component/Icu/Resources/data/region
+%exclude %{symfony_dir}/Component/Icu/Resources/data/*.txt
 
 
 %changelog
