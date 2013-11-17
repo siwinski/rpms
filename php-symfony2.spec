@@ -12,7 +12,7 @@
 %global icu_github_commit_libicu_lt_4_4  b4081efff21a8a85c57789a39f454fed244f8e46
 
 # libicu >= 4.4?
-%global libicu_gte_4_4                   0%(pkg-config icu-i18n --atleast-version=4.4 && echo 1)
+%global libicu_gte_4_4                   0%(pkg-config icu%{!?el6:-i18n} --atleast-version=4.4 && echo 1)
 
 %global php_min_ver             5.3.3
 # "doctrine/common": "~2.2" (composer.json)
@@ -59,7 +59,7 @@ Source2:       https://github.com/%{icu_github_owner}/%{icu_github_name}/archive
 
 BuildArch:     noarch
 # For testing libicu version
-BuildRequires: pkgconfig(icu-i18n)
+BuildRequires: pkgconfig(icu%{!?el6:-i18n})
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-Monolog   >= %{monolog_min_ver}
@@ -1306,6 +1306,10 @@ $loader->register();
 if (version_compare(PHP_VERSION, '5.4.0', '<')) {
     require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
 }
+
+%if 0%{?el6}
+require '%{_datadir}/php/password_compat/password.php';
+%endif
 
 return $loader;
 AUTOLOADER
