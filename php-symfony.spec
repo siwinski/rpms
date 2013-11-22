@@ -37,7 +37,7 @@
 
 Name:          php-symfony
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{dist}
 Summary:       PHP full-stack web framework
 
 Group:         Development/Libraries
