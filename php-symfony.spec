@@ -38,7 +38,7 @@
 Name:          php-symfony
 Version:       %{github_version}
 Release:       2%{dist}
-Summary:       PHP full-stack web framework
+Summary:       PHP framework for web projects
 
 Group:         Development/Libraries
 License:       MIT
@@ -1825,6 +1825,7 @@ done
 %changelog
 * Fri Nov 22 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.3.7-2
 - Renamed from "php-symfony2" to "php-symfony"
+- Updated main pkg summary
 - Removed dependency on common sub-pkg for sub-pkgs that require other sub-pkgs
 - Common sub-pkg obsoletes php-channel-symfony2
 - Fixed swiftmailerbridge sub-pkg dependency
