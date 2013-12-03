@@ -15,10 +15,10 @@ Source1:       %{name}-RPM-README.txt
 
 BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: drupal7-rpmbuild >= 7.22-5
+BuildRequires: drupal7-rpmbuild >= 7.23-3
 
-# phpci
-Requires:      php-
+# phpcompatinfo
+#Requires:      php-
 
 %description
 __DESCRIPTION__
