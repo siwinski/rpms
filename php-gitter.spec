@@ -1,0 +1,99 @@
+%global github_owner    klaussilveira
+%global github_name     gitter
+%global github_version  0.2.0
+%global github_commit   910a3d324caf53d8d21b55fb80a9a6735974a80c
+
+%global lib_name        Gitter
+
+%global php_min_ver     5.3.0
+# "phpunit/phpunit": ">=3.7.1"
+%global phpunit_min_ver 3.7.1
+# "symfony/*": ">=2.2"
+%global symfony_min_ver 2.2
+
+Name:          php-%{github_name}
+Version:       %{github_version}
+Release:       1%{dist}
+Summary:       PHP library that allows object oriented interaction with Git repositories
+
+Group:         Development/Libraries
+License:       BSD
+URL:           https://github.com/%{github_owner}/%{github_name}
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+# Add detached HEAD detection for "* (detached from "
+# https://github.com/klaussilveira/gitter/pull/27
+# https://github.com/klaussilveira/gitter/pull/27.patch
+Patch0:        %{name}-detached-head-detection-fix.patch
+
+BuildArch:     noarch
+# For tests
+BuildRequires: git
+BuildRequires: php(language)          >= %{php_min_ver}
+BuildRequires: php-symfony-process    >= %{symfony_min_ver}
+BuildRequires: php-symfony-filesystem >= %{symfony_min_ver}
+BuildRequires: php-pear(pear.phpunit.de/PHPUnit) >= %{phpunit_min_ver}
+# For tests: phpcompatinfo
+BuildRequires: php-date
+BuildRequires: php-pcre
+BuildRequires: php-spl
+
+Requires:      git
+Requires:      php(language)       >= %{php_min_ver}
+Requires:      php-symfony-process >= %{symfony_min_ver}
+# phpcompatinfo
+Requires:      php-date
+Requires:      php-pcre
+Requires:      php-spl
+
+%description
+Gitter allows you to interact in an object oriented manner with Git repositories
+via PHP. The main goal of the library is not to replace the system git command,
+but provide a coherent, stable and performatic object oriented interface.
+
+Most commands are sent to the system's git command, parsed and then interpreted
+by Gitter. Everything is transparent to you, so you don't have to worry about a
+thing.
+
+
+%prep
+%setup -q -n %{github_name}-%{github_commit}
+%patch0 -p1
+
+
+%build
+# Empty build section, nothing required
+
+
+%install
+mkdir -p %{buildroot}/%{_datadir}/php
+cp -rp lib/%{lib_name} %{buildroot}/%{_datadir}/php/
+
+
+%check
+# Create tests' bootstrap
+mkdir vendor
+( cat <<'AUTOLOAD'
+<?php
+spl_autoload_register(function ($class) {
+    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
+    @include_once $src;
+});
+AUTOLOAD
+) > vendor/autoload.php
+
+# Create PHPUnit config w/ colors turned off
+cat phpunit.xml.dist \
+    | sed 's/colors="true"/colors="false"/' \
+    > phpunit.xml
+
+%{_bindir}/phpunit --include-path ./lib:./test -d date.timezone="UTC"
+
+
+%files
+%doc LICENSE README.md composer.json
+%{_datadir}/php/%{lib_name}
+
+
+%changelog
+* Thu Dec 05 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.2.0-1
+- Initial package
