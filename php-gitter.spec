@@ -1,7 +1,9 @@
 %global github_owner    klaussilveira
 %global github_name     gitter
 %global github_version  0.2.0
-%global github_commit   910a3d324caf53d8d21b55fb80a9a6735974a80c
+%global github_commit   786e86a54121d1bb3c768e6bc93e37e431aa6264
+# There are commits after the 0.2.0 version tag
+%global github_release  20131206git%(c=%{github_commit}; echo ${c:0:7})
 
 %global lib_name        Gitter
 
@@ -13,17 +15,13 @@
 
 Name:          php-%{github_name}
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       1.%{github_release}%{dist}
 Summary:       PHP library that allows object oriented interaction with Git repositories
 
 Group:         Development/Libraries
 License:       BSD
 URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
-# Add detached HEAD detection for "* (detached from "
-# https://github.com/klaussilveira/gitter/pull/27
-# https://github.com/klaussilveira/gitter/pull/27.patch
-Patch0:        %{name}-detached-head-detection-fix.patch
 
 BuildArch:     noarch
 # For tests
@@ -57,7 +55,6 @@ thing.
 
 %prep
 %setup -q -n %{github_name}-%{github_commit}
-%patch0 -p1
 
 
 %build
@@ -95,5 +92,5 @@ cat phpunit.xml.dist \
 
 
 %changelog
-* Thu Dec 05 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.2.0-1
+* Fri Dec 06 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.2.0-1.20131206git786e86a
 - Initial package
