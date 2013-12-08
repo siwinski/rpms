@@ -172,14 +172,11 @@ cat phpunit.xml.dist \
 
 # Skip tests known to fail
 rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
-%if 0%{?el6}
-sed 's/function\s+testRegister/function SKIP_testRegister/' \
-    -i tests/Silex/Tests/Provider/SessionServiceProviderTest.php
-%endif
 
 %{_bindir}/phpunit \
     --include-path ./src:./tests:%{pear_phpdir}/Swift:%{_datadir}/php/Pimple \
-    -d date.timezone="UTC"
+    -d date.timezone="UTC" \
+    -d session.save_path="%{_tmppath}"
 
 
 %files
@@ -188,5 +185,5 @@ sed 's/function\s+testRegister/function SKIP_testRegister/' \
 
 
 %changelog
-* Mon Dec 02 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-1
+* Sat Dec 07 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-1
 - Initial package
