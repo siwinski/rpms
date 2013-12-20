@@ -19,12 +19,6 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-# For tests
-BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from git commit f12a5f74e5f4a9e3f558f3288504e121edfad891)
-BuildRequires: php-pcre
-BuildRequires: php-reflection
 
 Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from git commit f12a5f74e5f4a9e3f558f3288504e121edfad891)
