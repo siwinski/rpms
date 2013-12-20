@@ -15,8 +15,8 @@ Summary:       Common string manipulations with regard to casing and singular/pl
 
 Group:         Development/Libraries
 License:       MIT
-URL:           http://www.doctrine-project.org
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+URL:           https://github.com/%{github_owner}/%{github_name}
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # For tests
