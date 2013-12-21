@@ -47,7 +47,7 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 
 %check
-# Create tests' bootstrap
+# Create tests' autoload
 mkdir vendor
 ( cat <<'AUTOLOAD'
 <?php
