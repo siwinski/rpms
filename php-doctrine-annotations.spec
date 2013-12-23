@@ -32,7 +32,7 @@ BuildRequires: php-doctrine-cache <  %{cache_max_ver}
 BuildRequires: php-doctrine-lexer >= %{lexer_min_ver}
 BuildRequires: php-doctrine-lexer <  %{lexer_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from git commit a11349d39d85bef75a71bd69bd604ac4fb993f03)
+# For tests: phpcompatinfo (computed from v1.1.2 git commit a11349d39d85bef75a71bd69bd604ac4fb993f03)
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-json
@@ -44,7 +44,7 @@ BuildRequires: php-tokenizer
 Requires:      php(language)      >= %{php_min_ver}
 Requires:      php-doctrine-lexer >= %{lexer_min_ver}
 Requires:      php-doctrine-lexer <  %{lexer_max_ver}
-# phpcompatinfo (computed from git commit a11349d39d85bef75a71bd69bd604ac4fb993f03)
+# phpcompatinfo (computed from v1.1.2 git commit a11349d39d85bef75a71bd69bd604ac4fb993f03)
 Requires:      php-ctype
 Requires:      php-date
 Requires:      php-json
