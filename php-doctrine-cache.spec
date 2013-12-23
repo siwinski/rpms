@@ -148,7 +148,7 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Create tests' init
-( cat <<'AUTOLOAD'
+( cat <<'TESTINIT'
 <?php
 namespace Doctrine\Tests;
 
@@ -156,7 +156,7 @@ spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
-AUTOLOAD
+TESTINIT
 ) > tests/Doctrine/Tests/TestInit.php
 
 # Create PHPUnit config w/ colors turned off
@@ -218,5 +218,5 @@ rm -f tests/Doctrine/Tests/Common/Cache/MongoDBCacheTest.php
 # ##############################################################################
 
 %changelog
-* Fri Dec 20 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-1
+* Mon 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-1
 - Initial package
