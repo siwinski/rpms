@@ -21,7 +21,7 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 BuildArch:     noarch
 
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from git commit f12a5f74e5f4a9e3f558f3288504e121edfad891)
+# phpcompatinfo (computed from v1.0 git commit f12a5f74e5f4a9e3f558f3288504e121edfad891)
 Requires:      php-pcre
 Requires:      php-reflection
 
@@ -57,5 +57,5 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 
 %changelog
-* Fri Dec 20 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131220gitf12a5f7
+* Sat Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131220gitf12a5f7
 - Initial package
