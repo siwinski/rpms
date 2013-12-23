@@ -43,7 +43,7 @@ Conflicts:     php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4
 %description
 Cache component extracted from the Doctrine Common project.
 
-Additional handlers:
+Optional handlers:
 * APC:       %{name}-apc
 * Couchbase: http://pecl.php.net/package/couchbase
 * Memcache:  %{name}-memcache
