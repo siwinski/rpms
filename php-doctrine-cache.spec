@@ -218,5 +218,5 @@ rm -f tests/Doctrine/Tests/Common/Cache/MongoDBCacheTest.php
 # ##############################################################################
 
 %changelog
-* Mon 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-1
+* Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-1
 - Initial package
