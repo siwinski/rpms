@@ -72,9 +72,10 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Create tests' init
-mkdir vendor
-( cat <<'AUTOLOAD'
+( cat <<'TESTINIT'
 <?php
+namespace Doctrine\Tests;
+
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
@@ -83,7 +84,7 @@ spl_autoload_register(function ($class) {
 \Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
     'Doctrine\Tests\Common\Annotations\Fixtures', __DIR__ . '/../../'
 );
-AUTOLOAD
+TESTINIT
 ) > tests/Doctrine/Tests/TestInit.php
 
 # Create PHPUnit config w/ colors turned off
@@ -100,5 +101,5 @@ cat phpunit.xml.dist \
 
 
 %changelog
-* Sat Dec 21 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-1.20131220gita11349d
+* Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-1.20131220gita11349d
 - Initial package
