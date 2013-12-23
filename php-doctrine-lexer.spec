@@ -57,5 +57,5 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 
 %changelog
-* Sat Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131220gitf12a5f7
+* Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131220gitf12a5f7
 - Initial package
