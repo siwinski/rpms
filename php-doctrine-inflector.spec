@@ -1,9 +1,9 @@
 %global github_owner   doctrine
 %global github_name    inflector
 %global github_version 1.0
-%global github_commit  acd7665c4636cc5c795d4859e0605d95fa86efd4
+%global github_commit  a81c334f2764b09e2f13a55cfd8fe3233946f728
 # Additional commits after v1.0 tag
-%global github_release 20131220git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release 20131221git%(c=%{github_commit}; echo ${c:0:7})
 
 # "php": ">=5.3.2"
 %global php_min_ver    5.3.2
@@ -22,12 +22,12 @@ BuildArch:     noarch
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from git commit acd7665c4636cc5c795d4859e0605d95fa86efd4)
+# For tests: phpcompatinfo (computed from v1.0 git commit a81c334f2764b09e2f13a55cfd8fe3233946f728)
 BuildRequires: php-pcre
 BuildRequires: php-spl
 
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from git commit acd7665c4636cc5c795d4859e0605d95fa86efd4)
+# phpcompatinfo (computed from v1.0 git commit a81c334f2764b09e2f13a55cfd8fe3233946f728)
 Requires:      php-pcre
 
 %description
@@ -65,5 +65,5 @@ cat phpunit.xml.dist \
 
 
 %changelog
-* Fri Dec 20 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131220gitacd7665
+* Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0-1.20131221gita81c334
 - Initial package
