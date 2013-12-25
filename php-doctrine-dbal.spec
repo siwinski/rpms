@@ -15,7 +15,7 @@
 Name:      php-%{github_owner}-%{github_name}
 Version:   %{github_version}
 Release:   1%{dist}
-Summary:   Doctrine Database Abstraction Layer
+Summary:   Doctrine Database Abstraction Layer (DBAL)
 
 Group:     Development/Libraries
 License:   MIT
