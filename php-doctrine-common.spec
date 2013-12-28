@@ -58,10 +58,11 @@ Requires:      php-spl
 Requires:      php-tokenizer
 
 # PEAR
-Provides:  php-pear(pear.doctrine-project.org/DoctrineCommon) = %{version}
+Obsoletes:     php-channel-doctrine
+Provides:      php-pear(pear.doctrine-project.org/DoctrineCommon) = %{version}
 # Rename
-Obsoletes: php-doctrine-DoctrineCommon < %{version}
-Provides:  php-doctrine-DoctrineCommon = %{version}
+Obsoletes:     php-doctrine-DoctrineCommon < %{version}
+Provides:      php-doctrine-DoctrineCommon = %{version}
 
 %description
 The Doctrine Common project is a library that provides extensions to core PHP
@@ -116,5 +117,5 @@ cat phpunit.xml.dist \
 
 
 %changelog
-* Tue Dec 24 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
+* Fri Dec 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
