@@ -96,5 +96,5 @@ cp -p bin/doctrine-dbal %{buildroot}/%{_bindir}/
 
 
 %changelog
-* Tue Dec 24 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
+* Fri Dec 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
