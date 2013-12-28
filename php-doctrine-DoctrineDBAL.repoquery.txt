@@ -1,0 +1,67 @@
+################################################################################
+##### rawhide
+################################################################################
+
+$ cat /etc/fedora-release
+Fedora release 21 (Rawhide)
+
+$ for PKG in `repoquery --whatrequires php-doctrine-DoctrineDBAL`; do echo ">>>>>>>>>> $PKG"; repoquery --requires "$PKG" | grep -i DoctrineDBAL; done
+>>>>>>>>>> owncloud-0:6.0.0a-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL)
+>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.3.0
+>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+>>>>>>>>>> php-symfony-security-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+
+
+
+################################################################################
+##### f20
+################################################################################
+
+$ cat /etc/fedora-release
+Fedora release 20 (Heisenbug)
+
+$ for PKG in `repoquery --enablerepo=updates-testing --whatrequires php-doctrine-DoctrineDBAL`; do echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> $PKG"; repoquery --enablerepo=updates-testing --requires "$PKG" | grep -i DoctrineDBAL; done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.3.0
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-security-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-security-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+
+
+
+################################################################################
+##### el6
+################################################################################
+
+$ cat /etc/redhat-release
+Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+
+$ for PKG in `repoquery --enablerepo=epel-testing --whatrequires php-doctrine-DoctrineDBAL`; do echo ">>>>>>>>>> $PKG"; repoquery --enablerepo=epel-testing --requires "$PKG" | grep -i DoctrineDBAL; done
+>>>>>>>>>> php-doctrine-DoctrineDBAL-0:2.3.4-4.el6.noarch
+>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-1.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.3.0
+>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+>>>>>>>>>> php-symfony-security-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineDBAL) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineDBAL) >= 2.2
+

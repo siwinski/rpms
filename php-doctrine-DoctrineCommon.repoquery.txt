@@ -1,0 +1,105 @@
+################################################################################
+##### rawhide
+################################################################################
+
+$ cat /etc/fedora-release
+Fedora release 21 (Rawhide)
+
+$ for PKG in `repoquery --whatrequires php-doctrine-DoctrineCommon`; do echo ">>>>>>>>>> $PKG"; repoquery --requires "$PKG" | grep -i DoctrineCommon; done>>>>>>>>>> php-Faker-0:1.2.0-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+>>>>>>>>>> php-ZendFramework2-Code-0:2.2.5-2.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
+>>>>>>>>>> php-doctrine-DoctrineDBAL-0:2.3.4-4.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.5.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-frameworkbundle-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-routing-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-validator-0:2.3.8-1.fc21.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+
+
+
+################################################################################
+##### f20
+################################################################################
+
+$ cat /etc/fedora-release
+Fedora release 20 (Heisenbug)
+
+$ for PKG in `repoquery --enablerepo=updates-testing --whatrequires php-doctrine-DoctrineCommon`; do echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> $PKG"; repoquery --enablerepo=updates-testing --requires "$PKG" | grep -i DoctrineCommon; done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-Faker-0:1.2.0-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-ZendFramework2-Code-0:2.2.5-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-doctrine-DoctrineDBAL-0:2.3.4-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.5.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-2.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-frameworkbundle-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-frameworkbundle-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-routing-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-routing-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-validator-0:2.3.7-3.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> php-symfony-validator-0:2.3.7-4.fc20.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+
+
+
+################################################################################
+##### el6
+################################################################################
+
+$ cat /etc/redhat-release
+Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+
+$ for PKG in `repoquery --enablerepo=epel-testing --whatrequires php-doctrine-DoctrineCommon`; do echo ">>>>>>>>>> $PKG"; repoquery --enablerepo=epel-testing --requires "$PKG" | grep -i DoctrineCommon; done
+>>>>>>>>>> php-doctrine-DoctrineCommon-0:2.3.0-2.el6.noarch
+>>>>>>>>>> php-Faker-0:1.2.0-1.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+>>>>>>>>>> php-ZendFramework2-Code-0:2.2.5-2.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.1
+>>>>>>>>>> php-doctrine-DoctrineDBAL-0:2.3.4-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.5.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>> php-doctrine-DoctrineORM-0:2.3.3-1.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.3.0
+>>>>>>>>>> php-symfony-doctrinebridge-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-frameworkbundle-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-routing-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon) < 3.0
+php-pear(pear.doctrine-project.org/DoctrineCommon) >= 2.2
+>>>>>>>>>> php-symfony-validator-0:2.3.7-4.el6.noarch
+php-pear(pear.doctrine-project.org/DoctrineCommon)
+
