@@ -1,0 +1,31 @@
+From 69b377bbbf61ec97163579e7c28ea47521fc1fad Mon Sep 17 00:00:00 2001
+From: Bart Visscher <bartv@thisnet.nl>
+Date: Wed, 17 Jul 2013 21:32:18 +0200
+Subject: [PATCH] Add primary key to 'ALTER TABLE' in MySql
+
+This is at least needed when adding a autoincrement column
+---
+ lib/Doctrine/DBAL/Platforms/MySqlPlatform.php      |  6 ++++++
+ .../Tests/DBAL/Platforms/MySqlPlatformTest.php     | 23 ++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php b/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
+index 5676b4b..a48ac46 100644
+--- a/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
++++ b/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
+@@ -572,6 +572,12 @@ public function getAlterTableSQL(TableDiff $diff)
+                     . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnArray);
+         }
+ 
++        if (isset($diff->addedIndexes['primary'])) {
++            $keyColumns = array_unique(array_values($diff->addedIndexes['primary']->getColumns()));
++            $queryParts[] = 'ADD PRIMARY KEY (' . implode(', ', $keyColumns) . ')';
++            unset($diff->addedIndexes['primary']);
++        }
++
+         $sql = array();
+         $tableSql = array();
+ 
+-- 
+1.8.5.1
+

@@ -1,0 +1,34 @@
+From 075c68b7518e27d46d7f700a1d42ebf43f6ebdfd Mon Sep 17 00:00:00 2001
+From: Bart Visscher <bartv@thisnet.nl>
+Date: Thu, 18 Jul 2013 20:19:32 +0200
+Subject: [PATCH] When changing from a non-primary index to a primary index,
+ the dropped index isn't named PRIMARY
+
+---
+ lib/Doctrine/DBAL/Platforms/MySqlPlatform.php             |  9 +++++++++
+ tests/Doctrine/Tests/DBAL/Platforms/MySqlPlatformTest.php | 13 +++++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php b/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
+index a48ac46..7337cb1 100644
+--- a/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
++++ b/lib/Doctrine/DBAL/Platforms/MySqlPlatform.php
+@@ -642,6 +642,15 @@ protected function getPreAlterTableIndexForeignKeySQL(TableDiff $diff)
+                 }
+             }
+         }
++        foreach ($diff->changedIndexes as $changedKey => $changedIndex) {
++            if ($changedIndex->isPrimary() && $changedKey != 'PRIMARY') {
++                $index = $diff->changedIndexes[$changedKey];
++                $index = new Index($changedKey, $index->getColumns(), $index->isUnique(), false);
++                $diff->removedIndexes[$changedKey] = $index;
++                $diff->addedIndexes['PRIMARY'] = $diff->changedIndexes[$changedKey];
++                unset($diff->changedIndexes[$changedKey]);
++            }
++        }
+ 
+         $sql = array_merge($sql, parent::getPreAlterTableIndexForeignKeySQL($diff));
+ 
+-- 
+1.8.5.1
+

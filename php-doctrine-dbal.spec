@@ -22,6 +22,20 @@ License:   MIT
 URL:       http://www.doctrine-project.org/projects/dbal.html
 Source0:   https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
+# Patches required for OwnCloud 6.0.0a.
+#
+# Changes to test files have been removed because they are not provided in source.
+#
+# "Don't add 'NOT NULL' to the 'ALTER TABLE' when that hasn't changed"
+# https://github.com/doctrine/dbal/commit/eee502c9ef34322c12607dafb4e1ef1ee8ea8daa
+Patch0:    %{name}-eee502c9ef34322c12607dafb4e1ef1ee8ea8daa.patch
+# "Add primary key to 'ALTER TABLE' in MySql"
+# https://github.com/doctrine/dbal/commit/69b377bbbf61ec97163579e7c28ea47521fc1fad
+Patch1:    %{name}-69b377bbbf61ec97163579e7c28ea47521fc1fad.patch
+# "When changing from a non-primary index to a primary index, the droppe..."
+# https://github.com/doctrine/dbal/commit/075c68b7518e27d46d7f700a1d42ebf43f6ebdfd
+Patch2:    %{name}-075c68b7518e27d46d7f700a1d42ebf43f6ebdfd.patch
+
 BuildArch: noarch
 
 Requires:  php(language)       >= %{php_min_ver}
@@ -56,6 +70,11 @@ extension under the hood.
 
 %prep
 %setup -q -n %{github_name}-%{github_commit}
+
+# Apply patches
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 # Make a single executable
 echo '#!%{_bindir}/php' > bin/doctrine-dbal
@@ -96,5 +115,5 @@ cp -p bin/doctrine-dbal %{buildroot}/%{_bindir}/
 
 
 %changelog
-* Fri Dec 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
+* Sun Dec 29 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
