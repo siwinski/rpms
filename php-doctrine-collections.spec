@@ -3,14 +3,14 @@
 %global github_version 1.1
 %global github_commit  819871759a4d41dab244d358507bd27d0e8b1e33
 # Additional commits after v1.1 tag
-%global github_release 20131221git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release .20131221git%(c=%{github_commit}; echo ${c:0:7})
 
 # "php": ">=5.3.2"
 %global php_min_ver    5.3.2
 
 Name:          php-%{github_owner}-%{github_name}
 Version:       %{github_version}
-Release:       1.%{github_release}%{dist}
+Release:       2%{github_release}%{?dist}
 Summary:       Collections abstraction library
 
 Group:         Development/Libraries
@@ -28,6 +28,9 @@ BuildRequires: php-spl
 Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from v1.1 git commit 819871759a4d41dab244d358507bd27d0e8b1e33)
 Requires:      php-spl
+
+# Extracted from Doctrine Common as of version 2.4
+Conflicts:     php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4
 
 %description
 %{summary}.
@@ -49,14 +52,13 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 %check
 # Create tests' autoload
 mkdir vendor
-( cat <<'AUTOLOAD'
+cat > vendor/autoload.php <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
 AUTOLOAD
-) > vendor/autoload.php
 
 # Create PHPUnit config w/ colors turned off
 cat phpunit.xml.dist \
@@ -74,5 +76,9 @@ cat phpunit.xml.dist \
 
 
 %changelog
+* Fri Jan 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-2.20131221git8198717
+- Conditional %%{?dist}
+- Added conflict w/ PEAR-based DoctrineCommon pkg (version < 2.4)
+
 * Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1-1.20131221git8198717
 - Initial package
