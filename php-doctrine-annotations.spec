@@ -3,7 +3,7 @@
 %global github_version 1.1.2
 %global github_commit  a11349d39d85bef75a71bd69bd604ac4fb993f03
 # Additional commits after v1.1.2 tag
-%global github_release 20131220git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release .20131220git%(c=%{github_commit}; echo ${c:0:7})
 
 # "php": ">=5.3.2"
 %global php_min_ver    5.3.2
@@ -16,7 +16,7 @@
 
 Name:          php-%{github_owner}-%{github_name}
 Version:       %{github_version}
-Release:       1.%{github_release}%{dist}
+Release:       2%{github_release}%{?dist}
 Summary:       PHP docblock annotations parser library
 
 Group:         Development/Libraries
@@ -53,6 +53,9 @@ Requires:      php-reflection
 Requires:      php-spl
 Requires:      php-tokenizer
 
+# Extracted from Doctrine Common as of version 2.4
+Conflicts:     php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4
+
 %description
 %{summary} (extracted from Doctrine Common).
 
@@ -72,7 +75,7 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Create tests' init
-( cat <<'TESTINIT'
+cat > tests/Doctrine/Tests/TestInit.php <<'TESTINIT'
 <?php
 namespace Doctrine\Tests;
 
@@ -85,7 +88,6 @@ spl_autoload_register(function ($class) {
     'Doctrine\Tests\Common\Annotations\Fixtures', __DIR__ . '/../../'
 );
 TESTINIT
-) > tests/Doctrine/Tests/TestInit.php
 
 # Create PHPUnit config w/ colors turned off
 cat phpunit.xml.dist \
@@ -101,5 +103,9 @@ cat phpunit.xml.dist \
 
 
 %changelog
+* Fri Jan 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-2.20131220gita11349d
+- Conditional %%{?dist}
+- Added conflict w/ PEAR-based DoctrineCommon pkg (version < 2.4)
+
 * Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.1.2-1.20131220gita11349d
 - Initial package
