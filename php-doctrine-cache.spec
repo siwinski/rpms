@@ -12,7 +12,7 @@
 
 Name:          php-%{github_owner}-%{github_name}
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{?dist}
 Summary:       %{summary_base}
 
 Group:         Development/Libraries
@@ -38,95 +38,21 @@ Requires:      php-hash
 Requires:      php-pcre
 Requires:      php-spl
 
+# Extracted from Doctrine Common as of version 2.4
 Conflicts:     php-pear(pear.doctrine-project.org/DoctrineCommon) < 2.4
 
 %description
 Cache component extracted from the Doctrine Common project.
 
-Optional handlers:
-* APC:       %{name}-apc
-* Couchbase: http://pecl.php.net/package/couchbase
-* Memcache:  %{name}-memcache
-* Memcached: %{name}-memcached
-* MongoDB:   %{name}-mongo
-* Redis:     %{name}-redis
-* Riak:      http://pecl.php.net/package/riak
-* XCache:    %{name}-xcache
-
-# ------------------------------------------------------------------------------
-
-%package  apc
-
-Summary:  %{summary_base} - APC handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-pecl(APC)
-
-%description apc
-%{summary_base} - APC handler
-
-# ------------------------------------------------------------------------------
-
-%package  memcache
-
-Summary:  %{summary_base} - Memcache handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-pecl(memcache)
-
-%description memcache
-%{summary_base} - Memcache handle
-
-# ------------------------------------------------------------------------------
-
-%package  memcached
-
-Summary:  %{summary_base} - Memcached handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-pecl(memcached)
-
-%description memcached
-%{summary_base} - Memcached handler
-
-# ------------------------------------------------------------------------------
-
-%package  mongo
-
-Summary:  %{summary_base} - MongoDB handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-pecl(mongo)
-
-%description mongo
-%{summary_base} - MongoDB handler
-
-# ------------------------------------------------------------------------------
-
-%package  redis
-
-Summary:  %{summary_base} - Redis handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-pecl(redis)
-
-%description redis
-%{summary_base} - Redis handler
-
-# ------------------------------------------------------------------------------
-
-%package  xcache
-
-Summary:  %{summary_base} - XCache handler
-
-Requires: %{name} = %{version}-%{release}
-Requires: php-xcache
-
-%description xcache
-%{summary_base} - XCache handler
-
-
-# ##############################################################################
+Optional:
+* APC (php-pecl-apc)
+* Couchbase (http://pecl.php.net/package/couchbase)
+* Memcache (php-pecl-memcache)
+* Memcached (php-pecl-memcached)
+* MongoDB (php-pecl-mongo)
+* Redis (php-pecl-redis)
+* Riak (http://pecl.php.net/package/riak)
+* XCache (php-xcache)
 
 
 %prep
@@ -148,7 +74,7 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Create tests' init
-( cat <<'TESTINIT'
+cat > tests/Doctrine/Tests/TestInit.php <<'TESTINIT'
 <?php
 namespace Doctrine\Tests;
 
@@ -157,20 +83,19 @@ spl_autoload_register(function ($class) {
     @include_once $src;
 });
 TESTINIT
-) > tests/Doctrine/Tests/TestInit.php
 
 # Create PHPUnit config w/ colors turned off
 cat phpunit.xml.dist \
     | sed 's/colors="true"/colors="false"/' \
     > phpunit.xml
 
-# Skip tests known to fail
-rm -f tests/Doctrine/Tests/Common/Cache/MongoDBCacheTest.php
+# Skip tests requiring a server to connect to
+rm -f \
+    tests/Doctrine/Tests/Common/Cache/CouchbaseCacheTest.php \
+    tests/Doctrine/Tests/Common/Cache/MongoDBCacheTest.php \
+    tests/Doctrine/Tests/Common/Cache/RiakCacheTest.php
 
 %{_bindir}/phpunit --include-path ./lib:./tests -d date.timezone="UTC"
-
-
-# ##############################################################################
 
 
 %files
@@ -178,45 +103,13 @@ rm -f tests/Doctrine/Tests/Common/Cache/MongoDBCacheTest.php
 %dir %{_datadir}/php/Doctrine
 %dir %{_datadir}/php/Doctrine/Common
      %{_datadir}/php/Doctrine/Common/Cache
-%exclude %{_datadir}/php/Doctrine/Common/Cache/ApcCache.php
-%exclude %{_datadir}/php/Doctrine/Common/Cache/MemcacheCache.php
-%exclude %{_datadir}/php/Doctrine/Common/Cache/MemcachedCache.php
-%exclude %{_datadir}/php/Doctrine/Common/Cache/MongoDBCache.php
-%exclude %{_datadir}/php/Doctrine/Common/Cache/RedisCache.php
-%exclude %{_datadir}/php/Doctrine/Common/Cache/XcacheCache.php
 
-# ------------------------------------------------------------------------------
-
-%files apc
-%{_datadir}/php/Doctrine/Common/Cache/ApcCache.php
-
-# ------------------------------------------------------------------------------
-
-%files memcache
-%{_datadir}/php/Doctrine/Common/Cache/MemcacheCache.php
-
-# ------------------------------------------------------------------------------
-
-%files memcached
-%{_datadir}/php/Doctrine/Common/Cache/MemcachedCache.php
-
-# ------------------------------------------------------------------------------
-
-%files mongo
-%{_datadir}/php/Doctrine/Common/Cache/MongoDBCache.php
-
-# ------------------------------------------------------------------------------
-
-%files redis
-%{_datadir}/php/Doctrine/Common/Cache/RedisCache.php
-
-# ------------------------------------------------------------------------------
-
-%files xcache
-%{_datadir}/php/Doctrine/Common/Cache/XcacheCache.php
-
-# ##############################################################################
 
 %changelog
+* Fri Jan 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-2
+- Conditional %%{?dist}
+- Removed sub-packages
+- Skip all tests requiring a server to connect to
+
 * Mon Dec 23 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.3.0-1
 - Initial package
