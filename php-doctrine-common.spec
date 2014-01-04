@@ -11,7 +11,7 @@
 
 Name:          php-%{github_owner}-%{github_name}
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{?dist}
 Summary:       Common library for Doctrine projects
 
 Group:         Development/Libraries
@@ -58,7 +58,6 @@ Requires:      php-spl
 Requires:      php-tokenizer
 
 # PEAR
-Obsoletes:     php-channel-doctrine
 Provides:      php-pear(pear.doctrine-project.org/DoctrineCommon) = %{version}
 # Rename
 Obsoletes:     php-doctrine-DoctrineCommon < %{version}
@@ -84,7 +83,7 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Create tests' init
-( cat <<'TESTINIT'
+cat > tests/Doctrine/Tests/TestInit.php <<'TESTINIT'
 <?php
 namespace Doctrine\Tests;
 
@@ -97,12 +96,9 @@ spl_autoload_register(function ($class) {
     'Doctrine\Tests\Common\Annotations\Fixtures', __DIR__ . '/../../'
 );
 TESTINIT
-) > tests/Doctrine/Tests/TestInit.php
 
 # Create PHPUnit config w/ colors turned off
-cat phpunit.xml.dist \
-    | sed 's/colors="true"/colors="false"/' \
-    > phpunit.xml
+sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{_bindir}/phpunit --include-path ./lib:./tests -d date.timezone="UTC"
 
@@ -117,5 +113,9 @@ cat phpunit.xml.dist \
 
 
 %changelog
+* Sat Jan 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-2
+- Conditional %%{?dist}
+- Removed php-channel-doctrine obsolete
+
 * Fri Dec 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
