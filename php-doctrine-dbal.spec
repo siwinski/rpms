@@ -1,9 +1,7 @@
 %global github_owner   doctrine
 %global github_name    dbal
-%global github_version 2.4.1
-%global github_commit  d08b11c7eaab4b0509752638b7d60d4b97bd94d4
-# Additional commits after v2.4.1 tag
-%global github_release .20131231git%(c=%{github_commit}; echo ${c:0:7})
+%global github_version 2.4.2
+%global github_commit  fec965d330c958e175c39e61c3f6751955af32d0
 
 # "php": ">=5.3.2"
 %global php_min_ver             5.3.2
@@ -16,7 +14,7 @@
 
 Name:      php-%{github_owner}-%{github_name}
 Version:   %{github_version}
-Release:   2%{?github_release}%{dist}
+Release:   1%{?github_release}%{?dist}
 Summary:   Doctrine Database Abstraction Layer (DBAL)
 
 Group:     Development/Libraries
@@ -31,7 +29,7 @@ Requires:  php-doctrine-common >= %{doctrine_common_min_ver}
 Requires:  php-doctrine-common <  %{doctrine_common_max_ver}
 Requires:  php-symfony-console >= %{symfony_console_min_ver}
 Requires:  php-symfony-console <  %{symfony_console_max_ver}
-# phpcompatinfo (computed from v2.4.1)
+# phpcompatinfo (computed from v2.4.2)
 Requires:  php-date
 Requires:  php-json
 Requires:  php-pcre
@@ -64,7 +62,6 @@ echo '#!%{_bindir}/php' > bin/doctrine-dbal
 cat bin/doctrine-dbal.php \
     |  sed 's#Doctrine/Common/ClassLoader.php#%{_datadir}/php/Doctrine/Common/ClassLoader.php#' \
     >> bin/doctrine-dbal
-chmod +x bin/doctrine-dbal
 
 # Remove empty file
 rm -f lib/Doctrine/DBAL/README.markdown
@@ -84,7 +81,7 @@ mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp lib/Doctrine %{buildroot}/%{_datadir}/php/
 
 mkdir -p %{buildroot}/%{_bindir}
-cp -p bin/doctrine-dbal %{buildroot}/%{_bindir}/
+install -pm 755 bin/doctrine-dbal %{buildroot}/%{_bindir}/
 
 
 %check
@@ -98,6 +95,10 @@ cp -p bin/doctrine-dbal %{buildroot}/%{_bindir}/
 
 
 %changelog
+* Sat Jan 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.2-1
+- Updated to 2.4.2
+- Conditional %%{?dist}
+
 * Tue Dec 31 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-2.20131231gitd08b11c
 - Updated to latest snapshot
 - Removed patches (pulled into latest snapshot)
