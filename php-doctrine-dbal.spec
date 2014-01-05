@@ -59,9 +59,8 @@ extension under the hood.
 
 # Make a single executable
 echo '#!%{_bindir}/php' > bin/doctrine-dbal
-cat bin/doctrine-dbal.php \
-    |  sed 's#Doctrine/Common/ClassLoader.php#%{_datadir}/php/Doctrine/Common/ClassLoader.php#' \
-    >> bin/doctrine-dbal
+sed 's#Doctrine/Common/ClassLoader.php#%{_datadir}/php/Doctrine/Common/ClassLoader.php#' \
+    bin/doctrine-dbal.php >> bin/doctrine-dbal
 
 # Remove empty file
 rm -f lib/Doctrine/DBAL/README.markdown
