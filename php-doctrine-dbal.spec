@@ -81,7 +81,7 @@ mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp lib/Doctrine %{buildroot}/%{_datadir}/php/
 
 mkdir -p %{buildroot}/%{_bindir}
-install -pm 755 bin/doctrine-dbal %{buildroot}/%{_bindir}/
+install -pm 0755 bin/doctrine-dbal %{buildroot}/%{_bindir}/
 
 
 %check
