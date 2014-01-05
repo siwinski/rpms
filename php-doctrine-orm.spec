@@ -18,13 +18,17 @@
 
 Name:      php-%{github_owner}-orm
 Version:   %{github_version}
-Release:   1%{dist}
+Release:   2%{?dist}
 Summary:   Doctrine Object-Relational-Mapper (ORM)
 
 Group:     Development/Libraries
 License:   MIT
 URL:       http://www.doctrine-project.org/projects/orm.html
 Source0:   https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+# Update bin script:
+# 1) Add she-bang
+# 2) Auto-load using Doctrine\Common\ClassLoader
+Patch0:    %{name}-bin.patch
 
 BuildArch: noarch
 
@@ -62,21 +66,18 @@ with a powerful alternative to SQL that maintains flexibility without requiring
 unnecessary code duplication.
 
 Optional caches (see Doctrine\ORM\Tools\Setup::createConfiguration()):
-* php-doctrine-cache-apc
-* php-doctrine-cache-memcache
-* php-doctrine-cache-redis
-* php-doctrine-cache-xcache
+* APC (php-pecl-apc)
+* Memcache (php-pecl-memcache)
+* Redis (php-pecl-redis)
+* XCache (php-xcache)
 
 
 %prep
 %setup -q -n %{github_name}-%{github_commit}
 
-# Make a single executable
-echo '#!%{_bindir}/php' > bin/doctrine
-cat bin/doctrine.php \
-    |  sed "/autoload.php/s#.*#spl_autoload_register(function (\$class) {\n    \$src = str_replace('\\\\\\\', '/', \$class).'.php';\n    @include_once \$src;\n});#" \
-    >> bin/doctrine
-chmod +x bin/doctrine
+# Patch bin script
+%patch0 -p1
+
 
 %build
 # Empty build section, nothing required
@@ -87,7 +88,7 @@ mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp lib/Doctrine %{buildroot}/%{_datadir}/php/
 
 mkdir -p %{buildroot}/%{_bindir}
-cp -p bin/doctrine %{buildroot}/%{_bindir}/
+install -pm 0755 bin/doctrine.php %{buildroot}/%{_bindir}/doctrine
 
 
 %check
@@ -101,5 +102,10 @@ cp -p bin/doctrine %{buildroot}/%{_bindir}/
 
 
 %changelog
+* Sat Jan 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-2
+- Conditional %%{?dist}
+- Updated optional cache information in %%description
+- Bin script patch instead of inline update and use Doctrine Common classloader
+
 * Sat Dec 28 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
