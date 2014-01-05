@@ -11,33 +11,33 @@
 
 Name:          php-doctrine-datafixtures
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{?dist}
 Summary:       Data Fixtures for all Doctrine Object Managers
 
 Group:         Development/Libraries
 License:       MIT
-URL:           http://www.doctrine-project.org
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+URL:           https://github.com/%{github_owner}/%{github_name}
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # For tests
-BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_min_ver}
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_max_ver}
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_min_ver}
-BuildRequires: php-pear(pear.doctrine-project.org/DoctrineORM)    <  %{doctrine_max_ver}
+BuildRequires: php(language)       >= %{php_min_ver}
+BuildRequires: php-doctrine-common >= %{doctrine_min_ver}
+BuildRequires: php-doctrine-common <  %{doctrine_max_ver}
+BuildRequires: php-doctrine-orm    >= %{doctrine_min_ver}
+BuildRequires: php-doctrine-orm    <  %{doctrine_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 # For tests: phpcompatinfo (computed from v1.0.0)
 BuildRequires: php-json
 BuildRequires: php-reflection
 BuildRequires: php-spl
 
-Requires:      php(language) >= %{php_min_ver}
-Requires:      php-pear(pear.doctrine-project.org/DoctrineCommon) >= %{doctrine_min_ver}
-Requires:      php-pear(pear.doctrine-project.org/DoctrineCommon) <  %{doctrine_max_ver}
+Requires:      php(language)       >= %{php_min_ver}
+Requires:      php-doctrine-common >= %{doctrine_min_ver}
+Requires:      php-doctrine-common <  %{doctrine_max_ver}
 # Optional
-Requires:      php-pear(pear.doctrine-project.org/DoctrineORM)    >= %{doctrine_min_ver}
-Requires:      php-pear(pear.doctrine-project.org/DoctrineORM)    <  %{doctrine_max_ver}
+Requires:      php-doctrine-orm    >= %{doctrine_min_ver}
+Requires:      php-doctrine-orm    <  %{doctrine_max_ver}
 # phpcompatinfo (computed from v1.0.0)
 Requires:      php-json
 Requires:      php-reflection
@@ -63,14 +63,13 @@ cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 %check
 # Rewrite tests' bootstrap
-( cat <<'AUTOLOAD'
+cat > tests/bootstrap.php <<'BOOTSTRAP'
 <?php
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
     @include_once $src;
 });
-AUTOLOAD
-) > tests/bootstrap.php
+BOOTSTRAP
 
 # Skip tests known to fail
 sed -e 's#function test_orderFixturesByDependencies_circularReferencesMakeMethodThrowCircularReferenceException#function SKIP_test_orderFixturesByDependencies_circularReferencesMakeMethodThrowCircularReferenceException#' \
@@ -81,21 +80,20 @@ sed 's#function testReferenceReconstruction#function SKIP_testReferenceReconstru
     -i tests/Doctrine/Tests/Common/DataFixtures/ProxyReferenceRepositoryTest.php
 
 # Create PHPUnit config w/ colors turned off
-cat phpunit.xml.dist \
-    | sed 's/colors="true"/colors="false"/' \
-    > phpunit.xml
+sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{_bindir}/phpunit --include-path ./lib:./tests -d date.timezone="UTC"
 
 
 %files
 %doc LICENSE *.md UPGRADE composer.json
-# DoctrineCommon is in the PEAR directory so need to own these directories
-%dir %{_datadir}/php/Doctrine
-%dir %{_datadir}/php/Doctrine/Common
-     %{_datadir}/php/Doctrine/Common/DataFixtures
+%{_datadir}/php/Doctrine/Common/DataFixtures
 
 
 %changelog
+* Sun Jan 05 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-2
+- Use non-PEAR Doctrine pkgs
+- Conditional %%{?dist}
+
 * Fri Dec 20 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1
 - Initial package
