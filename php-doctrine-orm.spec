@@ -79,7 +79,7 @@ Optional caches (see Doctrine\ORM\Tools\Setup::createConfiguration()):
 %patch0 -p1
 
 # Remove empty file
-rm -f lib/Doctrine/DBAL/README.markdown
+rm -f lib/Doctrine/ORM/README.markdown
 
 # Remove unnecessary executable bit
 chmod a-x lib/Doctrine/ORM/Tools/Pagination/Paginator.php
