@@ -78,6 +78,12 @@ Optional caches (see Doctrine\ORM\Tools\Setup::createConfiguration()):
 # Patch bin script
 %patch0 -p1
 
+# Remove empty file
+rm -f lib/Doctrine/DBAL/README.markdown
+
+# Remove unnecessary executable bit
+chmod a-x lib/Doctrine/ORM/Tools/Pagination/Paginator.php
+
 
 %build
 # Empty build section, nothing required
@@ -104,8 +110,10 @@ install -pm 0755 bin/doctrine.php %{buildroot}/%{_bindir}/doctrine
 %changelog
 * Sat Jan 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-2
 - Conditional %%{?dist}
-- Updated optional cache information in %%description
 - Bin script patch instead of inline update and use Doctrine Common classloader
+- Updated optional cache information in %%description
+- Removed empty file
+- Removed unnecessary executable bit
 
 * Sat Dec 28 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 2.4.1-1
 - Initial package
