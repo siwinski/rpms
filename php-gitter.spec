@@ -3,7 +3,7 @@
 %global github_version  0.2.0
 %global github_commit   786e86a54121d1bb3c768e6bc93e37e431aa6264
 # There are commits after the 0.2.0 version tag
-%global github_release  20131206git%(c=%{github_commit}; echo ${c:0:7})
+%global github_release  .20131206git%(c=%{github_commit}; echo ${c:0:7})
 
 %global lib_name        Gitter
 
@@ -15,8 +15,8 @@
 
 Name:          php-%{github_name}
 Version:       %{github_version}
-Release:       1.%{github_release}%{dist}
-Summary:       PHP library that allows object oriented interaction with Git repositories
+Release:       1%{?github_release}%{dist}
+Summary:       Object oriented interaction with Git repositories
 
 Group:         Development/Libraries
 License:       BSD
@@ -30,7 +30,7 @@ BuildRequires: php(language)          >= %{php_min_ver}
 BuildRequires: php-symfony-process    >= %{symfony_min_ver}
 BuildRequires: php-symfony-filesystem >= %{symfony_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit) >= %{phpunit_min_ver}
-# For tests: phpcompatinfo
+# For tests: phpcompatinfo (computed from version 0.2.0 commit 786e86a54121d1bb3c768e6bc93e37e431aa6264)
 BuildRequires: php-date
 BuildRequires: php-pcre
 BuildRequires: php-spl
@@ -38,7 +38,7 @@ BuildRequires: php-spl
 Requires:      git
 Requires:      php(language)       >= %{php_min_ver}
 Requires:      php-symfony-process >= %{symfony_min_ver}
-# phpcompatinfo
+# phpcompatinfo (computed from version 0.2.0 commit 786e86a54121d1bb3c768e6bc93e37e431aa6264)
 Requires:      php-date
 Requires:      php-pcre
 Requires:      php-spl
@@ -54,7 +54,7 @@ thing.
 
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%setup -qn %{github_name}-%{github_commit}
 
 
 %build
@@ -79,11 +79,9 @@ AUTOLOAD
 ) > vendor/autoload.php
 
 # Create PHPUnit config w/ colors turned off
-cat phpunit.xml.dist \
-    | sed 's/colors="true"/colors="false"/' \
-    > phpunit.xml
+sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
-%{_bindir}/phpunit --include-path ./lib:./test -d date.timezone="UTC"
+%{_bindir}/phpunit --include-path="./lib:./tests" -d date.timezone="UTC"
 
 
 %files
@@ -92,5 +90,5 @@ cat phpunit.xml.dist \
 
 
 %changelog
-* Fri Dec 06 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 0.2.0-1.20131206git786e86a
+* Mon Jan 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 0.2.0-1.20131206git786e86a
 - Initial package
