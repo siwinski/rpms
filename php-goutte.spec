@@ -1,21 +1,23 @@
 %global github_owner    fabpot
 %global github_name     Goutte
 %global github_version  1.0.3
-%global github_commit   75c9f23c4122caf4ea3e87a42a00b471366e707f
+%global github_commit   e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0
+# There are commits after the 1.0.3 version tag
+%global github_release  .20140118git%(c=%{github_commit}; echo ${c:0:7})
 
 # "php": ">=5.3.0"
 %global php_min_ver     5.3.0
-# "guzzle/*": ">=3.0.5,<3.8-dev"
+# "guzzle/*": ">=3.0.5,<3.9-dev"
 %global guzzle_min_ver  3.0.5
-%global guzzle_max_ver  3.8
+%global guzzle_max_ver  3.9
 # "symfony/*": "~2.1"
 %global symfony_min_ver 2.1
 %global symfony_max_ver 3.0
 
 Name:          php-goutte
 Version:       %{github_version}
-Release:       1%{dist}
-Summary:       A simple PHP Web Scraper
+Release:       1%{?github_release}%{dist}
+Summary:       A simple PHP web scraper
 
 Group:         Development/Libraries
 License:       MIT
@@ -38,9 +40,8 @@ BuildRequires: php-symfony-process     <  %{symfony_max_ver}
 BuildRequires: php-pear(guzzlephp.org/pear/Guzzle) >= %{guzzle_min_ver}
 BuildRequires: php-pear(guzzlephp.org/pear/Guzzle) <  %{guzzle_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from v1.0.3)
+# For tests: phpcompatinfo (computed from v1.0.3 commit e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0)
 BuildRequires: php-curl
-BuildRequires: php-spl
 
 Requires:      php(language)           >= %{php_min_ver}
 Requires:      php-symfony-browserkit  >= %{symfony_min_ver}
@@ -55,7 +56,7 @@ Requires:      php-symfony-process     >= %{symfony_min_ver}
 Requires:      php-symfony-process     <  %{symfony_max_ver}
 Requires:      php-pear(guzzlephp.org/pear/Guzzle) >= %{guzzle_min_ver}
 Requires:      php-pear(guzzlephp.org/pear/Guzzle) <  %{guzzle_max_ver}
-# phpcompatinfo (computed from v1.0.3)
+# phpcompatinfo (computed from v1.0.3 commit e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0)
 Requires:      php-curl
 
 %description
@@ -66,7 +67,7 @@ from the HTML/XML responses.
 
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%setup -qn %{github_name}-%{github_commit}
 
 
 %build
@@ -81,28 +82,25 @@ cp -p %{github_name}/Client.php %{buildroot}/%{_datadir}/php/%{github_name}/
 %check
 # Create tests' bootstrap
 mkdir vendor
-( cat <<'AUTOLOAD'
+cat > vendor/autoload.php <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
+    $src = str_replace(array('\\', '_'), '/', $class).'.php';
     @include_once $src;
 });
 AUTOLOAD
-) > vendor/autoload.php
 
 # Create PHPUnit config w/ colors turned off
-cat phpunit.xml.dist \
-    | sed 's/colors="true"/colors="false"/' \
-    > phpunit.xml
+sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{_bindir}/phpunit -d date.timezone="UTC"
 
 
 %files
-%doc LICENSE *.md CHANGELOG composer.json
+%doc LICENSE CHANGELOG README.rst composer.json
 %{_datadir}/php/%{github_name}/Client.php
 
 
 %changelog
-* Fri Dec 27 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-1
+* Mon Jan 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-1.20140118gite83f8f9
 - Initial package
