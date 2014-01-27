@@ -1,16 +1,16 @@
 %global github_owner   google
 %global github_name    google-api-php-client
-%global github_version 1.0.0
-%global github_commit  889aa1e32d8d4ca5c747154aef5d9e8649ff1d0a
-%global github_release alpha
+%global github_version 1.0.2
+%global github_commit  792e5eccd0490dc9da8237d32ec0473a2c782961
+%global github_release .beta
 
 # "php": ">=5.2.1"
 %global php_min_ver    5.2.1
 
-Name:          php-google
+Name:          php-google-api
 Version:       %{github_version}
-Release:       1.%{github_release}%{dist}
-Summary:       Google APIs Client Library for PHP
+Release:       0.1%{?github_release}%{dist}
+Summary:       Client library for Google APIs
 
 Group:         Development/Libraries
 License:       ASL 2.0
@@ -21,20 +21,20 @@ BuildArch:     noarch
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from v1.0.0-alpha)
+# For tests: phpcompatinfo (computed from 1.0.2-beta)
 BuildRequires: php-date
-BuildRequires: php-filter
 BuildRequires: php-json
 BuildRequires: php-openssl
-BuildRequires: php-session
+BuildRequires: php-reflection
 BuildRequires: php-spl
 
 Requires:      php(language) >= %{php_min_ver}
 Requires:      ca-certificates
-# phpcompatinfo (computed from v1.0.0-alpha)
+# phpcompatinfo (computed from 1.0.2-beta)
 Requires:      php-date
 Requires:      php-json
 Requires:      php-openssl
+Requires:      php-reflection
 Requires:      php-spl
 
 %description
@@ -42,9 +42,14 @@ Google APIs Client Library for PHP provides access to many Google APIs.
 It is designed for PHP client-application developers and offers simple,
 flexible, powerful API access.
 
+Optional:
+* php-pecl-apcu
+* php-pecl-memcache
+* php-pecl-memcached
+
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%setup -qn %{github_name}-%{github_commit}
 
 # Remove bundled CA cert
 rm -f src/Google/IO/cacerts.pem
@@ -63,11 +68,11 @@ cp -rp src/* %{buildroot}%{_datadir}/php/
 
 %check
 # Turn off PHPUnit colors
-sed 's/colors="true"/colors="false"/' \
-    -i tests/phpunit.xml
+sed 's/colors="true"/colors="false"/' -i tests/phpunit.xml
 
 # Skip tests requiring network access
-sed 's/function testBatchRequest/function SKIP_testBatchRequest/' \
+sed -e 's/function testBatchRequest/function SKIP_testBatchRequest/' \
+    -e 's/function testInvalidBatchRequest/function SKIP_testInvalidBatchRequest/' \
     -i tests/general/ApiBatchRequestTest.php
 sed 's/function testPageSpeed/function SKIP_testPageSpeed/' \
     -i tests/pagespeed/PageSpeedTest.php
@@ -89,5 +94,5 @@ grep '%{_sysconfdir}/pki/tls/cert.pem' --quiet \
 
 
 %changelog
-* Mon Dec 30 2013 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.0-1.alpha
+* Mon Jan 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.2-0.1.beta
 - Initial package
