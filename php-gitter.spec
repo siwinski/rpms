@@ -69,14 +69,13 @@ cp -rp lib/%{lib_name} %{buildroot}/%{_datadir}/php/
 %check
 # Create tests' bootstrap
 mkdir vendor
-( cat <<'AUTOLOAD'
+cat > vendor/autoload.php <<'AUTOLOAD'
 <?php
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', str_replace('_', '/', $class)).'.php';
+    $src = str_replace(array('\\', '_'), '/', $class).'.php';
     @include_once $src;
 });
 AUTOLOAD
-) > vendor/autoload.php
 
 # Create PHPUnit config w/ colors turned off
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
