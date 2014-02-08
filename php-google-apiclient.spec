@@ -7,7 +7,7 @@
 # "php": ">=5.2.1"
 %global php_min_ver    5.2.1
 
-Name:          php-google-api
+Name:          php-google-apiclient
 Version:       %{github_version}
 Release:       0.1%{?github_release}%{dist}
 Summary:       Client library for Google APIs
