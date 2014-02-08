@@ -1,7 +1,7 @@
 %global github_owner   google
 %global github_name    google-api-php-client
-%global github_version 1.0.2
-%global github_commit  792e5eccd0490dc9da8237d32ec0473a2c782961
+%global github_version 1.0.3
+%global github_commit  2b3b475e3ee52e92fc7b649138ef4f9da3d4f9b9
 %global github_release .beta
 
 # "php": ">=5.2.1"
@@ -21,7 +21,7 @@ BuildArch:     noarch
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from 1.0.2-beta)
+# For tests: phpcompatinfo (computed from 1.0.3-beta)
 BuildRequires: php-date
 BuildRequires: php-json
 BuildRequires: php-openssl
@@ -30,7 +30,7 @@ BuildRequires: php-spl
 
 Requires:      php(language) >= %{php_min_ver}
 Requires:      ca-certificates
-# phpcompatinfo (computed from 1.0.2-beta)
+# phpcompatinfo (computed from 1.0.3-beta)
 Requires:      php-date
 Requires:      php-json
 Requires:      php-openssl
@@ -79,6 +79,8 @@ sed 's/function testPageSpeed/function SKIP_testPageSpeed/' \
 sed -e 's/function testGetPerson/function SKIP_testGetPerson/' \
     -e 's/function testListActivities/function SKIP_testListActivities/' \
     -i tests/plus/PlusTest.php
+sed 's/function testMissingFieldsAreNull/function SKIP_testMissingFieldsAreNull/' \
+    -i tests/youtube/YouTubeTest.php
 
 cd tests
 %{_bindir}/phpunit -d date.timezone="UTC" .
@@ -94,5 +96,5 @@ grep '%{_sysconfdir}/pki/tls/cert.pem' --quiet \
 
 
 %changelog
-* Mon Jan 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.2-0.1.beta
+* Sat Feb 08 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-0.1.beta
 - Initial package
