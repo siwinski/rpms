@@ -1,22 +1,20 @@
 %global github_owner    fabpot
 %global github_name     Goutte
-%global github_version  1.0.3
-%global github_commit   e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0
-# There are commits after the 1.0.3 version tag
-%global github_release  .20140118git%(c=%{github_commit}; echo ${c:0:7})
+%global github_version  1.0.5
+%global github_commit   a30e84e28fbaf14909d2d007249c24cd0ecd425e
 
 # "php": ">=5.3.0"
 %global php_min_ver     5.3.0
-# "guzzle/*": ">=3.0.5,<3.9-dev"
-%global guzzle_min_ver  3.0.5
-%global guzzle_max_ver  3.9
+# "guzzle/*": "~3.1"
+%global guzzle_min_ver  3.1
+%global guzzle_max_ver  4.0
 # "symfony/*": "~2.1"
 %global symfony_min_ver 2.1
 %global symfony_max_ver 3.0
 
 Name:          php-goutte
 Version:       %{github_version}
-Release:       1%{?github_release}%{dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       A simple PHP web scraper
 
 Group:         Development/Libraries
@@ -40,7 +38,7 @@ BuildRequires: php-symfony-process     <  %{symfony_max_ver}
 BuildRequires: php-pear(guzzlephp.org/pear/Guzzle) >= %{guzzle_min_ver}
 BuildRequires: php-pear(guzzlephp.org/pear/Guzzle) <  %{guzzle_max_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
-# For tests: phpcompatinfo (computed from v1.0.3 commit e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0)
+# For tests: phpcompatinfo (computed from v1.0.5)
 BuildRequires: php-curl
 
 Requires:      php(language)           >= %{php_min_ver}
@@ -56,7 +54,7 @@ Requires:      php-symfony-process     >= %{symfony_min_ver}
 Requires:      php-symfony-process     <  %{symfony_max_ver}
 Requires:      php-pear(guzzlephp.org/pear/Guzzle) >= %{guzzle_min_ver}
 Requires:      php-pear(guzzlephp.org/pear/Guzzle) <  %{guzzle_max_ver}
-# phpcompatinfo (computed from v1.0.3 commit e83f8f9d133dbf9b0254c2874f9c5c6287a3a8e0)
+# phpcompatinfo (computed from v1.0.5)
 Requires:      php-curl
 
 %description
@@ -75,7 +73,7 @@ from the HTML/XML responses.
 
 
 %install
-mkdir -p %{buildroot}/%{_datadir}/php/%{github_name}
+mkdir -pm 0755 %{buildroot}/%{_datadir}/php/%{github_name}
 cp -p %{github_name}/Client.php %{buildroot}/%{_datadir}/php/%{github_name}/
 
 
@@ -97,10 +95,15 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %files
-%doc LICENSE CHANGELOG README.rst composer.json
-%{_datadir}/php/%{github_name}/Client.php
+%doc LICENSE README.rst composer.json
+%{_datadir}/php/%{github_name}
 
 
 %changelog
+* Wed Feb 19 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.5-1
+- Updated to 1.0.5
+- Conditional release dist
+- Fixed %%files
+
 * Mon Jan 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-1.20140118gite83f8f9
 - Initial package
