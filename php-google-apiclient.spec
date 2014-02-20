@@ -9,13 +9,18 @@
 
 Name:          php-google-apiclient
 Version:       %{github_version}
-Release:       0.1%{?github_release}%{dist}
+Release:       0.2%{?github_release}%{?dist}
 Summary:       Client library for Google APIs
 
 Group:         Development/Libraries
 License:       ASL 2.0
 URL:           https://developers.google.com/api-client-library/php/
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+
+# Explicitly set '&' as separator value for http_build_query
+# https://github.com/google/google-api-php-client/commit/c6949531d2399f81a5e15caf256f156dd68e00e9
+# (Note: Backported from source control master branch for OwnCloud)
+Patch0:        https://github.com/%{github_owner}/%{github_name}/commit/c6949531d2399f81a5e15caf256f156dd68e00e9.patch
 
 BuildArch:     noarch
 # For tests
@@ -47,14 +52,31 @@ Optional:
 * php-pecl-memcache
 * php-pecl-memcached
 
+Examples available in the %{name}-examples package.
+
+
+%package examples
+
+Summary:  Client library for Google APIs: Examples
+Requires: %{name} = %{version}-%{release}
+
+%description examples
+%{summary}
+
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+
+# Apply patch
+%patch0 -p1
 
 # Remove bundled CA cert
 rm -f src/Google/IO/cacerts.pem
 sed "s#dirname(__FILE__)\s*.\s*'/cacerts.pem'#'%{_sysconfdir}/pki/tls/cert.pem'#" \
     -i src/Google/IO/Stream.php
+
+# Update examples' include path
+sed -i 's#../src#%{_datadir}/php#' examples/*.php
 
 
 %build
@@ -91,10 +113,17 @@ grep '%{_sysconfdir}/pki/tls/cert.pem' --quiet \
 
 
 %files
-%doc LICENSE *.md composer.json examples
+%doc LICENSE *.md composer.json
 %{_datadir}/php/Google
+
+%files examples
+%doc examples/*
 
 
 %changelog
+* Wed Feb 19 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-0.2.beta
+- Backported commit c6949531d2399f81a5e15caf256f156dd68e00e9 for OwnCloud
+- Sub-packaged examples
+
 * Sat Feb 08 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.0.3-0.1.beta
 - Initial package
