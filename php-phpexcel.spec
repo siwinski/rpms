@@ -12,7 +12,8 @@ Release:       1%{dist}
 Summary:       A pure PHP library for reading and writing spreadsheet files
 
 Group:         Development/Libraries
-# Everything is LGPLv2 except PHPExcel/Shared/OLE which is PHP
+# Everything is LGPLv2 except for certain PHPExcel/Shared OLE files which are PHP
+# See https://github.com/PHPOffice/PHPExcel/issues/364
 License:       LGPLv2 and PHP
 URL:           http://phpexcel.codeplex.com
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
