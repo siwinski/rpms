@@ -3,7 +3,7 @@
 %global github_version 1.8.0
 %global github_commit  e69a5e4d0ffa7fb6f171859e0a04346e580df30b
 
-# php": ">=5.2.0"
+# php": ">=5.2.0" (composer.json)
 %global php_min_ver    5.2.0
 
 Name:          php-phpexcel
@@ -15,7 +15,7 @@ Group:         Development/Libraries
 # Everything is LGPLv2 except for certain PHPExcel/Shared OLE files which are PHP
 # See https://github.com/PHPOffice/PHPExcel/issues/364
 License:       LGPLv2 and PHP
-URL:           http://phpexcel.codeplex.com
+URL:           http://phpoffice.github.io/phpexcel_features.html
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
