@@ -12,7 +12,8 @@ Release:       1%{dist}
 Summary:       A pure PHP library for reading and writing spreadsheet files
 
 Group:         Development/Libraries
-License:       LGPLv2
+# Everything is LGPLv2 except PHPExcel/Shared/OLE which is PHP
+License:       LGPLv2 and PHP
 URL:           http://phpexcel.codeplex.com
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
@@ -156,5 +157,5 @@ sed -i 's/colors="true"/colors="false"/' phpunit.xml
 
 
 %changelog
-* Thu May 01 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.8.0-1
+* Fri May 02 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.8.0-1
 - Initial package
