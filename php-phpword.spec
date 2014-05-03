@@ -15,8 +15,8 @@
 
 Name:          php-phpword
 Version:       %{github_version}
-Release:       1%{dist}
-Summary:       A set of classes to write to and read from different document file formats
+Release:       1%{?github_release}%{dist}
+Summary:       A pure PHP library for reading and writing word processing documents
 
 Group:         Development/Libraries
 # See https://github.com/PHPOffice/PHPWord/issues/211
@@ -137,5 +137,5 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Fri May 02 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 0.9.1-1
+* Sat May 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.9.1-1
 - Initial package
