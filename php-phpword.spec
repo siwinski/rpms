@@ -92,8 +92,8 @@ sed -i 's/\r$//' README.md
 
 
 %install
-mkdir -p %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
+mkdir -p %{buildroot}%{_datadir}/php
+cp -rp src/* %{buildroot}%{_datadir}/php/
 
 
 %check
