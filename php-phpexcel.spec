@@ -6,9 +6,12 @@
 # php": ">=5.2.0" (composer.json)
 %global php_min_ver    5.2.0
 
+# To disable tests use "--without tests"
+%global with_tests      %{?_without_tests:0}%{!?_without_tests:1}
+
 Name:          php-phpexcel
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       1%{?github_release}%{dist}
 Summary:       A pure PHP library for reading and writing spreadsheet files
 
 Group:         Development/Libraries
@@ -19,6 +22,7 @@ URL:           http://phpoffice.github.io/phpexcel_features.html
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+%if %{with_tests}
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
@@ -42,6 +46,7 @@ BuildRequires: php-spl
 BuildRequires: php-sqlite3
 BuildRequires: php-xmlreader
 BuildRequires: php-zlib
+%endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
@@ -90,7 +95,7 @@ find Examples -type f -exec sed -i 's/\r$//' {} \;
 # Remove unneeded files
 find . -name '\.git*' | xargs rm -f
 
-# Removed bundled pclzip (license = LGPLv2)
+# Remove bundled pclzip (license = LGPLv2)
 rm -rf Classes/PHPExcel/Shared/PCLZip
 
 
@@ -99,21 +104,22 @@ rm -rf Classes/PHPExcel/Shared/PCLZip
 
 
 %install
-mkdir -p %{buildroot}/%{_datadir}/php
-cp -rp Classes/* %{buildroot}/%{_datadir}/php/
+mkdir -p %{buildroot}%{_datadir}/php
+cp -rp Classes/* %{buildroot}%{_datadir}/php/
 
 # Symlink pclzip
-ln -s %{_datadir}/php/pclzip %{buildroot}/%{_datadir}/php/PHPExcel/Shared/PCLZip
+ln -s %{_datadir}/php/pclzip %{buildroot}%{_datadir}/php/PHPExcel/Shared/PCLZip
 
 # Locales
-for LOCALE in %{buildroot}/%{_datadir}/php/PHPExcel/locale/*
+for LOCALE in %{buildroot}%{_datadir}/php/PHPExcel/locale/*
 do
     LANG=$(basename $LOCALE)
     echo "%%lang(${LANG%_*}) $LOCALE"
-done | sed 's#%{buildroot}/##' | tee %{name}.lang
+done | sed 's#%{buildroot}##' | tee %{name}.lang
 
 
 %check
+%if %{with_tests}
 cd unitTests
 
 # Remove tests known to fail
@@ -136,6 +142,9 @@ rm -f \
 sed -i 's/colors="true"/colors="false"/' phpunit.xml
 
 %{_bindir}/phpunit -d date.timezone="UTC"
+%else
+: Tests skipped
+%endif
 
 
 %files -f %{name}.lang
@@ -158,5 +167,5 @@ sed -i 's/colors="true"/colors="false"/' phpunit.xml
 
 
 %changelog
-* Fri May 02 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.8.0-1
+* Sat May 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8.0-1
 - Initial package
