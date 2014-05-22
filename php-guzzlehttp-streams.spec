@@ -60,7 +60,7 @@ cp -pr src/* %{buildroot}%{_datadir}/php/GuzzleHttp/Stream/
 
 
 %check
-# Create tests' bootstrap
+# Create autoloader
 mkdir vendor
 cat > vendor/autoload.php <<'AUTOLOAD'
 <?php
@@ -68,9 +68,12 @@ cat > vendor/autoload.php <<'AUTOLOAD'
 require_once __DIR__ . '/../src/functions.php';
 
 spl_autoload_register(function ($class) {
-    $psr4_class = preg_replace('#^GuzzleHttp\\\Stream\\\?#', '', $class);
-    $src = str_replace(array('\\', '_'), '/', $psr4_class).'.php';
-    @include_once $src;
+    $src = str_replace(array('\\', '_'), '/', $class).'.php';
+    if (!@include_once $src) {
+        $psr4_class = preg_replace('#^GuzzleHttp\\\Stream\\\?#', '', $class);
+        $psr4_src = str_replace(array('\\', '_'), '/', $psr4_class).'.php';
+        @include_once $psr4_src;
+    }
 });
 AUTOLOAD
 
