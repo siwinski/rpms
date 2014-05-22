@@ -8,9 +8,6 @@
 
 # "php": ">=5.4.0"
 %global php_min_ver      5.4.0
-# "phpunit/phpunit": "~4.0"
-#     Note: Max version not checked on purpose
-%global phpunit_min_ver  4.0
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -24,8 +21,8 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 
 BuildArch:     noarch
 # For tests
-BuildRequires: php(language)       >= %{php_min_ver}
-BuildRequires: php-phpunit-PHPUnit >= %{phpunit_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-phpunit-PHPUnit
 # For tests: phpcompatinfo (computed from v1.1.0)
 BuildRequires: php-hash
 BuildRequires: php-spl
@@ -58,7 +55,7 @@ PSR-7 stream interface [1].
 
 %install
 mkdir -pm 0755 %{buildroot}%{_datadir}/php/GuzzleHttp/Stream
-cp -p src/* %{buildroot}%{_datadir}/php/GuzzleHttp/Stream/
+cp -pr src/* %{buildroot}%{_datadir}/php/GuzzleHttp/Stream/
 
 
 %check
@@ -89,5 +86,5 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Wed May 21 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
+* Thu May 22 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
 - Initial package
