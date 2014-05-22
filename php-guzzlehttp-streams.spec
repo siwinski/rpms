@@ -20,15 +20,16 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-# For tests
+# For tests: composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-phpunit-PHPUnit
-# For tests: phpcompatinfo (computed from v1.1.0)
+# For tests: phpcompatinfo (computed from version 1.1.0)
 BuildRequires: php-hash
 BuildRequires: php-spl
 
+# composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from v1.1.0)
+# phpcompatinfo (computed from version 1.1.0)
 Requires:      php-hash
 Requires:      php-spl
 
