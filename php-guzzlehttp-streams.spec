@@ -33,9 +33,9 @@ Requires:      php(language) >= %{php_min_ver}
 Requires:      php-hash
 Requires:      php-spl
 
-# TODO: Only provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
-Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-Provides:      php-packagist(%{composer_vendor}/%{composer_project}) = %{version}
+# TODO: Provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
+#Provides:      php-composer(%%{composer_vendor}/%%{composer_project}) = %%{version}
+#Provides:      php-packagist(%%{composer_vendor}/%%{composer_project}) = %%{version}
 
 %description
 Provides a simple abstraction over streams of data.
@@ -90,5 +90,5 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Thu May 22 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
+* Fri May 23 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
 - Initial package
