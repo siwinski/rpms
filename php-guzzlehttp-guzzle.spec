@@ -24,8 +24,8 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 
 BuildArch:     noarch
 # For tests: composer.json
-# TODO: Require php-composer(xxx) or php-packagist(xxx) instead
 BuildRequires: php(language)          >= %{php_min_ver}
+# TODO: Require php-composer(guzzlehttp/streams) or php-packagist(guzzlehttp/streams) instead
 BuildRequires: php-guzzlehttp-streams >= %{streams_min_ver}
 BuildRequires: php-guzzlehttp-streams <  %{streams_max_ver}
 BuildRequires: php-phpunit-PHPUnit
@@ -39,9 +39,10 @@ BuildRequires: php-pcre
 BuildRequires: php-simplexml
 BuildRequires: php-spl
 
+Requires:      ca-certificates
 # composer.json
 Requires:      php(language)          >= %{php_min_ver}
-# TODO: Require php-composer(xxx) or php-packagist(xxx) instead
+# TODO: Require php-composer(guzzlehttp/streams) or php-packagist(guzzlehttp/streams) instead
 Requires:      php-guzzlehttp-streams >= %{streams_min_ver}
 Requires:      php-guzzlehttp-streams <  %{streams_max_ver}
 # phpcompatinfo (computed from version 4.0.2)
@@ -54,9 +55,9 @@ Requires:      php-pcre
 Requires:      php-simplexml
 Requires:      php-spl
 
-# TODO: Only provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
-Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-Provides:      php-packagist(%{composer_vendor}/%{composer_project}) = %{version}
+# TODO: Provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
+#Provides:      php-composer(%%{composer_vendor}/%%{composer_project}) = %%{version}
+#Provides:      php-packagist(%%{composer_vendor}/%%{composer_project}) = %%{version}
 
 %description
 Guzzle is a PHP HTTP client that makes it easy to work with HTTP/1.1 and takes
@@ -77,7 +78,15 @@ the pain out of consuming web services.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-##### TODO: Replace cacert.pem
+# Remove bundled cert
+rm -f src/cacert.pem
+sed "s#__DIR__ . '/cacert.pem'#'%{_sysconfdir}/pki/tls/cert.pem'#" \
+    -i src/Client.php
+sed "s#cacert.pem#%{_sysconfdir}/pki/tls/cert.pem#" \
+    -i tests/ClientTest.php
+sed "s#__DIR__ . '/../../src/cacert.pem'#'%{_sysconfdir}/pki/tls/cert.pem'#" \
+    -i tests/Adapter/StreamAdapterTest.php
+
 
 
 %build
@@ -90,6 +99,13 @@ cp -pr src/* %{buildroot}%{_datadir}/php/GuzzleHttp/
 
 
 %check
+# Ensure no bundled cert
+for DIR in src tests
+do
+    find $DIR | grep 'cacert.pem' && exit 1
+    grep -r 'cacert.pem' $DIR && exit 1
+done
+
 # Create autoloader
 mkdir vendor
 cat > vendor/autoload.php <<'AUTOLOAD'
@@ -120,5 +136,5 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Thu May 22 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.0.2-1
+* Fri May 23 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.0.2-1
 - Initial package
