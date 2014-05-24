@@ -9,9 +9,12 @@
 # "php": ">=5.4.0"
 %global php_min_ver      5.4.0
 
+# Build using "--without tests" to disable tests
+%global with_tests       %{?_without_tests:0}%{!?_without_tests:1}
+
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Provides a simple abstraction over streams of data
 
 Group:         Development/Libraries
@@ -20,12 +23,14 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+%if %{with_tests}
 # For tests: composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-phpunit-PHPUnit
 # For tests: phpcompatinfo (computed from version 1.1.0)
 BuildRequires: php-hash
 BuildRequires: php-spl
+%endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
@@ -60,6 +65,7 @@ cp -pr src/* %{buildroot}%{_datadir}/php/GuzzleHttp/Stream/
 
 
 %check
+%if %{with_tests}
 # Create autoloader
 mkdir vendor
 cat > vendor/autoload.php <<'AUTOLOAD'
@@ -81,6 +87,7 @@ AUTOLOAD
 sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{_bindir}/phpunit --include-path="./src:./tests" -d date.timezone="UTC"
+%endif
 
 
 %files
@@ -90,5 +97,8 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
+* Sat May 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-2
+- Added option to build without tests
+
 * Fri May 23 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
 - Initial package
