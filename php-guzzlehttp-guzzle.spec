@@ -12,9 +12,12 @@
 %global streams_min_ver  1.0
 %global streams_max_ver  2.0
 
+# Build using "--without tests" to disable tests
+%global with_tests       %{?_without_tests:0}%{!?_without_tests:1}
+
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       PHP HTTP client and webservice framework
 
 Group:         Development/Libraries
@@ -23,6 +26,7 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+%if %{with_tests}
 # For tests: composer.json
 BuildRequires: php(language)          >= %{php_min_ver}
 # TODO: Require php-composer(guzzlehttp/streams) or php-packagist(guzzlehttp/streams) instead
@@ -38,6 +42,7 @@ BuildRequires: php-libxml
 BuildRequires: php-pcre
 BuildRequires: php-simplexml
 BuildRequires: php-spl
+%endif
 
 Requires:      ca-certificates
 # composer.json
@@ -99,6 +104,7 @@ cp -pr src/* %{buildroot}%{_datadir}/php/GuzzleHttp/
 
 
 %check
+%if %{with_tests}
 # Ensure no bundled cert
 for DIR in src tests
 do
@@ -128,6 +134,7 @@ AUTOLOAD
 sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{_bindir}/phpunit --include-path="./src:./tests" -d date.timezone="UTC"
+%endif
 
 
 %files
@@ -136,5 +143,8 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
+* Sat May 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-2
+- Added option to build without tests
+
 * Fri May 23 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.0.2-1
 - Initial package
