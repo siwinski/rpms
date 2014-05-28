@@ -1,7 +1,8 @@
 %global github_owner   PHPOffice
 %global github_name    PHPExcel
 %global github_version 1.8.0
-%global github_commit  e69a5e4d0ffa7fb6f171859e0a04346e580df30b
+%global github_commit  4ab61ad35a9ed36f4bb9e651be5fb16428cba206
+%global github_release  .20140528git%(c=%{github_commit}; echo ${c:0:7})
 
 # php": ">=5.2.0" (composer.json)
 %global php_min_ver    5.2.0
