@@ -62,5 +62,5 @@ cp -p *.php %{buildroot}/%{_datadir}/php/%{libname}/
 
 
 %changelog
-* Thu May 01 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 2.8.2-1
+* Thu May 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.8.2-1
 - Initial package
