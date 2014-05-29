@@ -1,16 +1,20 @@
-%global github_owner   PHPOffice
-%global github_name    PHPExcel
-%global github_version 1.8.0
-%global github_commit  4ab61ad35a9ed36f4bb9e651be5fb16428cba206
-%global github_release  .20140528git%(c=%{github_commit}; echo ${c:0:7})
+%global github_owner     PHPOffice
+%global github_name      PHPExcel
+%global github_version   1.8.0
+%global github_commit    4ab61ad35a9ed36f4bb9e651be5fb16428cba206
+# Commits after 1.8.0 tag
+%global github_release   .20140526git%(c=%{github_commit}; echo ${c:0:7})
+
+%global composer_vendor  phpoffice
+%global composer_project phpexcel
 
 # php": ">=5.2.0" (composer.json)
-%global php_min_ver    5.2.0
+%global php_min_ver      5.2.0
 
-# To disable tests use "--without tests"
-%global with_tests      %{?_without_tests:0}%{!?_without_tests:1}
+# Build using "--without tests" to disable tests
+%global with_tests       %{?_without_tests:0}%{!?_without_tests:1}
 
-Name:          php-phpexcel
+Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
 Release:       1%{?github_release}%{dist}
 Summary:       A pure PHP library for reading and writing spreadsheet files
@@ -25,13 +29,14 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 BuildArch:     noarch
 %if %{with_tests}
 # For tests
+BuildRequires: php-phpunit-PHPUnit
+# For tests: composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires: php-gd
 BuildRequires: php-xml
 BuildRequires: php-xmlwriter
 BuildRequires: php-zip
-# For tests: phpcompatinfo (computed from version 1.8.0)
+# For tests: phpcompatinfo (computed from version 1.8.0 commit 4ab61ad35a9ed36f4bb9e651be5fb16428cba206)
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-dom
@@ -56,7 +61,7 @@ Requires:      php-xmlwriter
 # composer.json (optional)
 Requires:      php-gd
 Requires:      php-zip
-# phpcompatinfo (computed from version 1.8.0)
+# phpcompatinfo (computed from version 1.8.0 commit 4ab61ad35a9ed36f4bb9e651be5fb16428cba206)
 Requires:      php-ctype
 Requires:      php-date
 Requires:      php-dom
@@ -74,6 +79,10 @@ Requires:      php-xmlreader
 Requires:      php-zlib
 # Unbundled
 Requires:      php-pclzip
+
+# TODO: Provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
+#Provides:      php-composer(%%{composer_vendor}/%%{composer_project}) = %%{version}
+#Provides:      php-packagist(%%{composer_vendor}/%%{composer_project}) = %%{version}
 
 %description
 Project providing a set of classes for the PHP programming language, which
@@ -108,7 +117,7 @@ rm -rf Classes/PHPExcel/Shared/PCLZip
 mkdir -p %{buildroot}%{_datadir}/php
 cp -rp Classes/* %{buildroot}%{_datadir}/php/
 
-# Symlink pclzip
+# Symlink to system pclzip (i.e. unbundled)
 ln -s %{_datadir}/php/pclzip %{buildroot}%{_datadir}/php/PHPExcel/Shared/PCLZip
 
 # Locales
@@ -149,7 +158,7 @@ sed -i 's/colors="true"/colors="false"/' phpunit.xml
 
 
 %files -f %{name}.lang
-%doc *.txt *.md Examples
+%doc *.txt *.md Examples composer.json
      %{_datadir}/php/PHPExcel.php
 %dir %{_datadir}/php/PHPExcel
 %dir %{_datadir}/php/PHPExcel/locale
@@ -168,5 +177,5 @@ sed -i 's/colors="true"/colors="false"/' phpunit.xml
 
 
 %changelog
-* Sat May 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8.0-1
+* Thu May 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8.0-1.20140526git4ab61ad
 - Initial package
