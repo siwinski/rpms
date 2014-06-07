@@ -1,7 +1,7 @@
 %global github_owner     guzzle
 %global github_name      guzzle
-%global github_version   4.0.2
-%global github_commit    40db53833aaea528347994acd4578d7b9b2211ee
+%global github_version   4.1.0
+%global github_commit    85a0ba7de064493c928a8bcdc5eef01e0bde9953
 
 %global composer_vendor  guzzlehttp
 %global composer_project guzzle
@@ -11,58 +11,62 @@
 # "guzzlehttp/streams": "~1.0"
 %global streams_min_ver  1.0
 %global streams_max_ver  2.0
+# "psr/log": "~1.0"
+%global psr_log_min_ver  1.0
+%global psr_log_max_ver  2.0
 
 # Build using "--without tests" to disable tests
 %global with_tests       %{?_without_tests:0}%{!?_without_tests:1}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       PHP HTTP client and webservice framework
 
 Group:         Development/Libraries
 License:       MIT
-URL:           https://github.com/%{github_owner}/%{github_name}
-Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+URL:           http://guzzlephp.org
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 %if %{with_tests}
+# For tests
+BuildRequires: nodejs
 # For tests: composer.json
-BuildRequires: php(language)          >= %{php_min_ver}
-# TODO: Require php-composer(guzzlehttp/streams) or php-packagist(guzzlehttp/streams) instead
-BuildRequires: php-guzzlehttp-streams >= %{streams_min_ver}
-BuildRequires: php-guzzlehttp-streams <  %{streams_max_ver}
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(guzzlehttp/streams) >= %{streams_min_ver}
+BuildRequires: php-composer(guzzlehttp/streams) <  %{streams_max_ver}
+BuildRequires: php-PsrLog >= %{psr_log_min_ver}
+BuildRequires: php-PsrLog <  %{psr_log_max_ver}
 BuildRequires: php-phpunit-PHPUnit
-# For tests: phpcompatinfo (computed from version 4.0.2)
 BuildRequires: php-curl
+BuildRequires: php-json
+# For tests: phpcompatinfo (computed from version 4.1.0)
 BuildRequires: php-date
 BuildRequires: php-filter
-BuildRequires: php-json
 BuildRequires: php-libxml
 BuildRequires: php-pcre
+BuildRequires: php-reflection
 BuildRequires: php-simplexml
 BuildRequires: php-spl
 %endif
 
 Requires:      ca-certificates
 # composer.json
-Requires:      php(language)          >= %{php_min_ver}
-# TODO: Require php-composer(guzzlehttp/streams) or php-packagist(guzzlehttp/streams) instead
-Requires:      php-guzzlehttp-streams >= %{streams_min_ver}
-Requires:      php-guzzlehttp-streams <  %{streams_max_ver}
-# phpcompatinfo (computed from version 4.0.2)
+Requires:      php(language) >= %{php_min_ver}
+Requires:      php-composer(guzzlehttp/streams) >= %{streams_min_ver}
+Requires:      php-composer(guzzlehttp/streams) <  %{streams_max_ver}
+Requires:      php-json
+# phpcompatinfo (computed from version 4.1.0)
 Requires:      php-curl
 Requires:      php-date
 Requires:      php-filter
-Requires:      php-json
 Requires:      php-libxml
 Requires:      php-pcre
 Requires:      php-simplexml
 Requires:      php-spl
 
-# TODO: Provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
-#Provides:      php-composer(%%{composer_vendor}/%%{composer_project}) = %%{version}
-#Provides:      php-packagist(%%{composer_vendor}/%%{composer_project}) = %%{version}
+Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 Guzzle is a PHP HTTP client that makes it easy to work with HTTP/1.1 and takes
@@ -143,7 +147,11 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Sat May 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-2
+* Fri Jun 06 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.1.0-1
+- Updated to 4.1.0
+- Require php-composer virtual provides instead of direct pkgs
+- Added php-PsrLog and nodejs build requires
+- Added php-composer(%%{composer_vendor}/%%{composer_project}) virtual provide
 - Added option to build without tests
 
 * Fri May 23 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.0.2-1
