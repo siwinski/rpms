@@ -1,7 +1,7 @@
 %global github_owner     guzzle
 %global github_name      guzzle
-%global github_version   4.1.0
-%global github_commit    85a0ba7de064493c928a8bcdc5eef01e0bde9953
+%global github_version   4.1.2
+%global github_commit    095cf4db559bebc78d967890eb93280d8ceb5a08
 
 %global composer_vendor  guzzlehttp
 %global composer_project guzzle
@@ -36,12 +36,12 @@ BuildRequires: nodejs
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(guzzlehttp/streams) >= %{streams_min_ver}
 BuildRequires: php-composer(guzzlehttp/streams) <  %{streams_max_ver}
-BuildRequires: php-PsrLog >= %{psr_log_min_ver}
-BuildRequires: php-PsrLog <  %{psr_log_max_ver}
+BuildRequires: php-composer(psr/log) >= %{psr_log_min_ver}
+BuildRequires: php-composer(psr/log) <  %{psr_log_max_ver}
 BuildRequires: php-phpunit-PHPUnit
 BuildRequires: php-curl
 BuildRequires: php-json
-# For tests: phpcompatinfo (computed from version 4.1.0)
+# For tests: phpcompatinfo (computed from version 4.1.2)
 BuildRequires: php-date
 BuildRequires: php-filter
 BuildRequires: php-libxml
@@ -57,7 +57,7 @@ Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(guzzlehttp/streams) >= %{streams_min_ver}
 Requires:      php-composer(guzzlehttp/streams) <  %{streams_max_ver}
 Requires:      php-json
-# phpcompatinfo (computed from version 4.1.0)
+# phpcompatinfo (computed from version 4.1.2)
 Requires:      php-curl
 Requires:      php-date
 Requires:      php-filter
@@ -147,6 +147,9 @@ sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
+* Sun Jun 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.1.2-1
+- Updated to 4.1.2
+
 * Fri Jun 06 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 4.1.0-1
 - Updated to 4.1.0
 - Require php-composer virtual provides instead of direct pkgs
