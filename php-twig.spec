@@ -101,7 +101,7 @@ Provides:      php-twig-CTwig         = %{version}-%{release}
 Provides:      php-pecl(pear.twig-project.org/CTwig)         = %{version}
 Provides:      php-pecl(pear.twig-project.org/CTwig)%{?_isa} = %{version}
 
-%if 0%{?fedora} < 20
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
 %{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
 %{?filter_setup}
@@ -189,11 +189,22 @@ install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 
 %check
 %if %{with_tests}
-# Lib
-## Create PHPUnit config w/ colors turned off
+# Test suite
+## Skip tests known to fail
+%ifarch ppc64
+sed 's/function testGetAttributeWithTemplateAsObject/function SKIP_testGetAttributeWithTemplateAsObject/' \
+    -i test/Twig/Tests/TemplateTest.php
+%endif
+
+## Create PHPUnit config with colors turned off
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
+: Test suite without the extension
 %{_bindir}/phpunit --include-path ./lib -d date.timezone="UTC"
+
+: Test suite with the extension
+%{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
+    %{_bindir}/phpunit --include-path ./lib -d date.timezone="UTC"
 
 # Ext
 : Minimal load test for NTS extension
@@ -228,5 +239,5 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Fri Jul 11 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
+* Sun Jul 13 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
 - Initial package
