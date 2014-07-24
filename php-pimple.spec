@@ -11,8 +11,8 @@
 
 %global github_owner     fabpot
 %global github_name      Pimple
-%global github_version   2.1.0
-%global github_commit    90b4710f115766d12e1a579b816c0974887b87a7
+%global github_version   2.1.1
+%global github_commit    ea22fb2880faf7b7b0e17c9809c6fe25b071fd76
 
 # Lib
 %global composer_vendor  pimple
@@ -35,6 +35,7 @@
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 %{!?__php:      %global __php      %{_bindir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
@@ -50,7 +51,7 @@ BuildRequires: php-devel >= %{php_min_ver}
 %if %{with_tests}
 # For tests
 BuildRequires: php-phpunit-PHPUnit
-# For tests: phpcompatinfo (computed from version 2.1.0)
+# For tests: phpcompatinfo (computed from version 2.1.1)
 BuildRequires: php-reflection
 BuildRequires: php-spl
 %endif
@@ -58,11 +59,12 @@ BuildRequires: php-spl
 # Lib
 ## composer.json
 Requires:      php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 2.1.0)
+## phpcompatinfo (computed from version 2.1.1)
 Requires:      php-spl
 # Ext
 Requires:      php(zend-abi) = %{php_zend_api}
 Requires:      php(api)      = %{php_core_api}
+
 
 # Lib
 ## Composer
@@ -161,24 +163,33 @@ AUTOLOAD
 ## Create PHPUnit config with colors turned off
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
-: Test suite without the extension
-%{_bindir}/phpunit --include-path ./src:./tests -d date.timezone="UTC"
+: Library test suite without extension
+%{__phpunit} --include-path ./src:./tests -d date.timezone="UTC"
 
-: Test suite with the extension
+: Library test suite with extension
 %{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
-    %{_bindir}/phpunit --include-path ./src:./tests -d date.timezone="UTC"
+    %{__phpunit} --include-path ./src:./tests -d date.timezone="UTC"
 
-# Ext
-: Minimal load test for NTS extension
+: Extension NTS minimal load test
 %{__php} --no-php-ini \
     --define extension=ext/NTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
 
+: Extension NTS test suite
+pushd ext/NTS > /dev/null
+    echo "n" | make test
+popd > /dev/null
+
 %if %{with_zts}
-: Minimal load test for ZTS extension
+: Extension ZTS minimal load test
 %{__ztsphp} --no-php-ini \
     --define extension=ext/ZTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
+
+: Extension ZTS test suite
+pushd ext/ZTS > /dev/null
+    echo "n" | make test
+popd > /dev/null
 %endif
 %else
 : Tests skipped
@@ -202,5 +213,5 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Fri Jul 18 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.0-1
+* Thu Jul 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
 - Initial package
