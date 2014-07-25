@@ -32,10 +32,11 @@
 %global php_min_ver 5.2.4
 
 # Build using "--without tests" to disable tests
-%global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+%global with_tests %{?_without_tests:0}%{!?_without_tests:1}
 
 %{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
 %{!?__php:      %global __php      %{_bindir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
@@ -132,14 +133,11 @@ mv LICENSE LICENSE-lib
 mv ext/twig/LICENSE LICENSE-ext
 
 # Ext
-cd ext
-
 ## NTS
-mv %{ext_name} NTS
-
+mv ext/%{ext_name} ext/NTS
 ## ZTS
 %if %{with_zts}
-cp -pr NTS ZTS
+cp -pr ext/NTS ext/ZTS
 %endif
 
 ## Create configuration file
@@ -174,15 +172,12 @@ mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp lib/* %{buildroot}/%{_datadir}/php/
 
 # Ext
-cd ext
-
 ## NTS
-make -C NTS install INSTALL_ROOT=%{buildroot}
+make -C ext/NTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
-
 ## ZTS
 %if %{with_zts}
-make -C ZTS install INSTALL_ROOT=%{buildroot}
+make -C ext/ZTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
@@ -199,12 +194,12 @@ sed 's/function testGetAttributeWithTemplateAsObject/function SKIP_testGetAttrib
 ## Create PHPUnit config with colors turned off
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
-: Test suite without the extension
-%{_bindir}/phpunit --include-path ./lib -d date.timezone="UTC"
+: Test suite without extension
+%{__phpunit} --include-path ./lib -d date.timezone="UTC"
 
-: Test suite with the extension
+: Test suite with extension
 %{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
-    %{_bindir}/phpunit --include-path ./lib -d date.timezone="UTC"
+    %{__phpunit} --include-path ./lib -d date.timezone="UTC"
 
 # Ext
 : Minimal load test for NTS extension
@@ -224,7 +219,9 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %files
-%doc LICENSE* CHANGELOG README.rst composer.json
+%{!?_licensedir:%global license %%doc}
+%license LICENSE*
+%doc CHANGELOG README.rst composer.json
 # Lib
 %{_datadir}/php/Twig
 # Ext
@@ -239,5 +236,5 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Sun Jul 13 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
+* Thu Jul 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
 - Initial package
