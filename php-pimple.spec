@@ -197,7 +197,9 @@ popd > /dev/null
 
 
 %files
-%doc LICENSE CHANGELOG README.rst composer.json
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
+%doc CHANGELOG README.rst composer.json
 # Lib
 %{_datadir}/php/Pimple.php
 %{_datadir}/php/Pimple
@@ -213,5 +215,5 @@ popd > /dev/null
 
 
 %changelog
-* Thu Jul 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
+* Fri Jul 25 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
 - Initial package
