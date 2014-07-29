@@ -149,20 +149,20 @@ INI
 
 %build
 # Ext
-cd ext
-
 ## NTS
-cd NTS
+pushd ext/NTS
 %{_bindir}/phpize
 %configure --with-php-config=%{_bindir}/php-config
 make %{?_smp_mflags}
+popd
 
 ## ZTS
 %if %{with_zts}
-cd ../ZTS
+pushd ext/ZTS
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
 make %{?_smp_mflags}
+popd
 %endif
 
 
@@ -202,13 +202,13 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
     %{__phpunit} --include-path ./lib -d date.timezone="UTC"
 
 # Ext
-: Minimal load test for NTS extension
+: Extension NTS minimal load test
 %{__php} --no-php-ini \
     --define extension=ext/NTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
 
 %if %{with_zts}
-: Minimal load test for ZTS extension
+: Extension ZTS minimal load test
 %{__ztsphp} --no-php-ini \
     --define extension=ext/ZTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
@@ -236,5 +236,5 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Thu Jul 24 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
+* Fri Jul 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
 - Initial package
