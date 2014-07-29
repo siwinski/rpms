@@ -104,18 +104,18 @@ INI
 %build
 # Ext
 ## NTS
-pushd ext/NTS > /dev/null
+pushd ext/NTS
 %{_bindir}/phpize
 %configure --with-php-config=%{_bindir}/php-config
 make %{?_smp_mflags}
-popd > /dev/null
+popd
 ## ZTS
 %if %{with_zts}
-pushd ext/ZTS > /dev/null
+pushd ext/ZTS
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
 make %{?_smp_mflags}
-popd > /dev/null
+popd
 %endif
 
 
@@ -172,9 +172,9 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
     --modules | grep %{ext_name}
 
 : Extension NTS test suite
-pushd ext/NTS > /dev/null
+pushd ext/NTS
 echo "n" | make test
-popd > /dev/null
+popd
 
 %if %{with_zts}
 : Extension ZTS minimal load test
@@ -183,9 +183,9 @@ popd > /dev/null
     --modules | grep %{ext_name}
 
 : Extension ZTS test suite
-pushd ext/ZTS > /dev/null
+pushd ext/ZTS
 echo "n" | make test
-popd > /dev/null
+popd
 %endif
 %else
 : Tests skipped
