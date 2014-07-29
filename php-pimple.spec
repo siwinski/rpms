@@ -111,7 +111,7 @@ make %{?_smp_mflags}
 popd > /dev/null
 ## ZTS
 %if %{with_zts}
-pushd ext/NTS > /dev/null
+pushd ext/ZTS > /dev/null
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
 make %{?_smp_mflags}
