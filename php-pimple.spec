@@ -87,14 +87,11 @@ Provides:      php-Pimple = %{version}-%{release}
 %setup -qn %{github_name}-%{github_commit}
 
 # Ext
-cd ext
-
 ## NTS
-mv %{ext_name} NTS
-
+mv ext/%{ext_name} ext/NTS
 ## ZTS
 %if %{with_zts}
-cp -pr NTS ZTS
+cp -pr ext/NTS ext/ZTS
 %endif
 
 ## Create configuration file
@@ -106,20 +103,19 @@ INI
 
 %build
 # Ext
-cd ext
-
 ## NTS
-cd NTS
+pushd ext/NTS > /dev/null
 %{_bindir}/phpize
 %configure --with-php-config=%{_bindir}/php-config
 make %{?_smp_mflags}
-
+popd > /dev/null
 ## ZTS
 %if %{with_zts}
-cd ../ZTS
+pushd ext/NTS > /dev/null
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
 make %{?_smp_mflags}
+popd > /dev/null
 %endif
 
 
@@ -128,23 +124,23 @@ make %{?_smp_mflags}
 mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp src/* %{buildroot}/%{_datadir}/php/
 
+## php-Pimple (version < 2) compat
+ln -s ../Pimple.php %{buildroot}/%{_datadir}/php/Pimple/Pimple.php
+
 # Ext
-cd ext
-
 ## NTS
-make -C NTS install INSTALL_ROOT=%{buildroot}
+make -C ext/NTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
-
 ## ZTS
 %if %{with_zts}
-make -C ZTS install INSTALL_ROOT=%{buildroot}
+make -C ext/ZTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
 
 %check
 %if %{with_tests}
-# Test suite
+# Library test suite
 ## Create autoloader
 mkdir vendor
 cat > vendor/autoload.php <<'AUTOLOAD'
@@ -177,7 +173,7 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 : Extension NTS test suite
 pushd ext/NTS > /dev/null
-    echo "n" | make test
+echo "n" | make test
 popd > /dev/null
 
 %if %{with_zts}
@@ -188,7 +184,7 @@ popd > /dev/null
 
 : Extension ZTS test suite
 pushd ext/ZTS > /dev/null
-    echo "n" | make test
+echo "n" | make test
 popd > /dev/null
 %endif
 %else
@@ -215,5 +211,5 @@ popd > /dev/null
 
 
 %changelog
-* Fri Jul 25 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
+* Tue Jul 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
 - Initial package
