@@ -11,8 +11,8 @@
 
 %global github_owner     fabpot
 %global github_name      Pimple
-%global github_version   2.1.1
-%global github_commit    ea22fb2880faf7b7b0e17c9809c6fe25b071fd76
+%global github_version   3.0.0
+%global github_commit    876bf0899d01feacd2a2e83f04641e51350099ef
 
 # Lib
 %global composer_vendor  pimple
@@ -51,7 +51,7 @@ BuildRequires: php-devel >= %{php_min_ver}
 %if %{with_tests}
 # For tests
 BuildRequires: php-phpunit-PHPUnit
-# For tests: phpcompatinfo (computed from version 2.1.1)
+# For tests: phpcompatinfo (computed from version 3.0.0)
 BuildRequires: php-reflection
 BuildRequires: php-spl
 %endif
@@ -59,7 +59,7 @@ BuildRequires: php-spl
 # Lib
 ## composer.json
 Requires:      php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 2.1.1)
+## phpcompatinfo (computed from version 3.0.0)
 Requires:      php-spl
 # Ext
 Requires:      php(zend-abi) = %{php_zend_api}
@@ -82,9 +82,28 @@ Provides:      php-Pimple = %{version}-%{release}
 %description
 %{summary}.
 
+WARNING: %{_datadir}/php/Pimple.php is only provided for compatibility with
+the obsoleted php-Pimple RPM package (i.e. Pimple v1 package) and will be
+removed in a future release..  Please use the 'Pimple\Container' class instead.
+
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+
+# Lib
+## php-Pimple (i.e. Pimple v1 package) compat
+cat > src/Pimple/Pimple.php <<'PHP_PIMPLE_V1_COMPAT'
+<?php
+/**
+ * This file is only provided for compatibility with the obsoleted php-Pimple
+ * RPM package (i.e. Pimple v1 package).  Please use the 'Pimple\Container'
+ * class instead.
+ *
+ * WARNING: This file will be removed in a future release.
+ */
+
+class_alias('Pimple\Container', 'Pimple');
+PHP_PIMPLE_V1_COMPAT
 
 # Ext
 ## NTS
@@ -123,9 +142,6 @@ popd
 # Lib
 mkdir -p %{buildroot}/%{_datadir}/php
 cp -rp src/* %{buildroot}/%{_datadir}/php/
-
-## php-Pimple (version < 2) compat
-ln -s ../Pimple.php %{buildroot}/%{_datadir}/php/Pimple/Pimple.php
 
 # Ext
 ## NTS
@@ -197,8 +213,8 @@ popd
 %license LICENSE
 %doc CHANGELOG README.rst composer.json
 # Lib
-%{_datadir}/php/Pimple.php
-%{_datadir}/php/Pimple
+         %{_datadir}/php/Pimple
+%exclude %{_datadir}/php/Pimple/Tests
 # Ext
 ## NTS
 %config(noreplace) %{php_inidir}/%{ini_name}
@@ -211,5 +227,9 @@ popd
 
 
 %changelog
+* Thu Jul 31 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-1
+- Updated to 3.0.0
+- Added custom compat file for obsoleted php-Pimple
+
 * Tue Jul 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
 - Initial package
