@@ -39,7 +39,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A simple dependency injection container for PHP
 
 Group:         Development/Libraries
@@ -82,9 +82,9 @@ Provides:      php-Pimple = %{version}-%{release}
 %description
 %{summary}.
 
-WARNING: %{_datadir}/php/Pimple.php is only provided for compatibility with
-the obsoleted php-Pimple RPM package (i.e. Pimple v1 package) and will be
-removed in a future release..  Please use the 'Pimple\Container' class instead.
+WARNING: %{_datadir}/php/Pimple/Pimple.php is only provided for compatibility
+with the obsoleted php-Pimple RPM package (i.e. Pimple v1 package) and will be
+removed in a future release. Please use the 'Pimple\Container' class instead.
 
 
 %prep
@@ -103,6 +103,7 @@ cat > src/Pimple/Pimple.php <<'PHP_PIMPLE_V1_COMPAT'
  */
 
 class_alias('Pimple\Container', 'Pimple');
+include __DIR__ . '/Container.php';
 PHP_PIMPLE_V1_COMPAT
 
 # Ext
@@ -155,6 +156,18 @@ install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 
 
 %check
+: Extension NTS minimal load test
+%{__php} --no-php-ini \
+    --define extension=ext/NTS/modules/%{ext_name}.so \
+    --modules | grep %{ext_name}
+
+%if %{with_zts}
+: Extension ZTS minimal load test
+%{__ztsphp} --no-php-ini \
+    --define extension=ext/ZTS/modules/%{ext_name}.so \
+    --modules | grep %{ext_name}
+%endif
+
 %if %{with_tests}
 # Library test suite
 ## Create autoloader
@@ -164,11 +177,7 @@ cat > vendor/autoload.php <<'AUTOLOAD'
 
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', $class).'.php';
-    if (!@include_once $src) {
-        $psr4_class = preg_replace('#^Pimple(\\\Tests)?\\\?#', '', $class);
-        $psr4_src = str_replace('\\', '/', $psr4_class).'.php';
-        @include_once $psr4_src;
-    }
+    @include_once $src;
 });
 AUTOLOAD
 
@@ -176,31 +185,21 @@ AUTOLOAD
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 : Library test suite without extension
-%{__phpunit} --include-path ./src:./tests -d date.timezone="UTC"
+%{__phpunit} --include-path %{buildroot}%{_datadir}/php -d date.timezone="UTC"
 
 : Library test suite with extension
 %{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
-    %{__phpunit} --include-path ./src:./tests -d date.timezone="UTC"
-
-: Extension NTS minimal load test
-%{__php} --no-php-ini \
-    --define extension=ext/NTS/modules/%{ext_name}.so \
-    --modules | grep %{ext_name}
+    %{__phpunit} --include-path %{buildroot}%{_datadir}/php -d date.timezone="UTC"
 
 : Extension NTS test suite
 pushd ext/NTS
-echo "n" | make test
+make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
 
 %if %{with_zts}
-: Extension ZTS minimal load test
-%{__ztsphp} --no-php-ini \
-    --define extension=ext/ZTS/modules/%{ext_name}.so \
-    --modules | grep %{ext_name}
-
 : Extension ZTS test suite
 pushd ext/ZTS
-echo "n" | make test
+make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
 %endif
 %else
@@ -227,6 +226,13 @@ popd
 
 
 %changelog
+* Mon Aug 25 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-2
+- Fixed compat file location in description
+- Included real class in compat file
+- Always run extension minimal load test
+- Fixed test suite with previous installed version
+- "make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1" instead of "echo "n" | make test"
+
 * Thu Jul 31 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-1
 - Updated to 3.0.0
 - Added custom compat file for obsoleted php-Pimple
