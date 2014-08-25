@@ -40,7 +40,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       The flexible, fast, and secure template engine for PHP
 
 Group:         Development/Libraries
@@ -96,11 +96,12 @@ Provides:      php-pear(pear.twig-project.org/Twig) = %{version}
 Obsoletes:     php-twig-ctwig         < %{version}-%{release}
 Provides:      php-twig-ctwig         = %{version}-%{release}
 Provides:      php-twig-ctwig%{?_isa} = %{version}-%{release}
-Obsoletes:     php-twig-CTwig         < %{version}-%{release}
-Provides:      php-twig-CTwig         = %{version}-%{release}
 ## PECL
 Provides:      php-pecl(pear.twig-project.org/CTwig)         = %{version}
 Provides:      php-pecl(pear.twig-project.org/CTwig)%{?_isa} = %{version}
+
+# This pkg was the only one in this channel so the channel is no longer needed
+Obsoletes:     php-channel-twig
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
@@ -121,8 +122,6 @@ Provides:      php-pecl(pear.twig-project.org/CTwig)%{?_isa} = %{version}
 * Flexible: Twig is powered by a flexible lexer and parser. This allows the
   developer to define its own custom tags and filters, and create its own
   DSL.
-
-Optional dependency: Xdebug (php-pecl-xdebug)
 
 
 %prep
@@ -183,6 +182,19 @@ install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 
 
 %check
+# Ext
+: Extension NTS minimal load test
+%{__php} --no-php-ini \
+    --define extension=ext/NTS/modules/%{ext_name}.so \
+    --modules | grep %{ext_name}
+
+%if %{with_zts}
+: Extension ZTS minimal load test
+%{__ztsphp} --no-php-ini \
+    --define extension=ext/ZTS/modules/%{ext_name}.so \
+    --modules | grep %{ext_name}
+%endif
+
 %if %{with_tests}
 # Test suite
 ## Skip tests known to fail
@@ -200,19 +212,6 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 : Test suite with extension
 %{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
     %{__phpunit} --include-path ./lib -d date.timezone="UTC"
-
-# Ext
-: Extension NTS minimal load test
-%{__php} --no-php-ini \
-    --define extension=ext/NTS/modules/%{ext_name}.so \
-    --modules | grep %{ext_name}
-
-%if %{with_zts}
-: Extension ZTS minimal load test
-%{__ztsphp} --no-php-ini \
-    --define extension=ext/ZTS/modules/%{ext_name}.so \
-    --modules | grep %{ext_name}
-%endif
 %else
 : Tests skipped
 %endif
@@ -236,5 +235,11 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Fri Jul 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
+* Mon Aug 25 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-2
+- Removed obsolete and provide of php-twig-CTwig (never imported into Fedora/EPEL)
+- Obsolete php-channel-twig
+- Removed comment about optional Xdebug in description (does not provide any new feature)
+- Always run extension minimal load test
+
+* Tue Jul 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.16.0-1
 - Initial package
