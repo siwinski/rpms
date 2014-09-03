@@ -39,8 +39,8 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?dist}
-Summary:       A simple dependency injection container for PHP
+Release:       3%{?dist}
+Summary:       A simple dependency injection container for PHP (extension)
 
 Group:         Development/Libraries
 License:       MIT
@@ -56,22 +56,11 @@ BuildRequires: php-reflection
 BuildRequires: php-spl
 %endif
 
-# Lib
-## composer.json
-Requires:      php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 3.0.0)
-Requires:      php-spl
-# Ext
 Requires:      php(zend-abi) = %{php_zend_api}
 Requires:      php(api)      = %{php_core_api}
 
-
-# Lib
-## Composer
-Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-## Rename
-Obsoletes:     php-Pimple < %{version}-%{release}
-Provides:      php-Pimple = %{version}-%{release}
+# Extension *or* library
+Conflicts: %{name}-lib
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
@@ -82,10 +71,40 @@ Provides:      php-Pimple = %{version}-%{release}
 %description
 %{summary}.
 
+NOTE: This package installs the Pimple EXTENSION. If you would like the LIBRARY,
+install "%{name}-lib" instead.  Only one or the other may be installed.
+
+# ------------------------------------------------------------------------------
+
+%package lib
+
+Summary:   A simple dependency injection container for PHP (library)
+
+# composer.json
+Requires:  php(language) >= %{php_min_ver}
+# phpcompatinfo (computed from version 3.0.0)
+Requires:  php-spl
+
+# Library *or* extension
+Conflicts: %{name}
+
+# Composer
+Provides:  php-composer(%{composer_vendor}/%{composer_project}) = %{version}
+# Rename
+Obsoletes: php-Pimple < %{version}-%{release}
+Provides:  php-Pimple = %{version}-%{release}
+
+%description lib
+%{summary}.
+
+NOTE: This package installs the Pimple LIBRARY. If you would like the EXTENSION,
+install "%{name}" instead. Only one or the other may be installed.
+
 WARNING: %{_datadir}/php/Pimple/Pimple.php is only provided for compatibility
 with the obsoleted php-Pimple RPM package (i.e. Pimple v1 package) and will be
 removed in a future release. Please use the 'Pimple\Container' class instead.
 
+# ------------------------------------------------------------------------------
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
@@ -102,8 +121,8 @@ cat > src/Pimple/Pimple.php <<'PHP_PIMPLE_V1_COMPAT'
  * WARNING: This file will be removed in a future release.
  */
 
+include_once __DIR__ . '/Container.php';
 class_alias('Pimple\Container', 'Pimple');
-include __DIR__ . '/Container.php';
 PHP_PIMPLE_V1_COMPAT
 
 # Ext
@@ -156,6 +175,11 @@ install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 
 
 %check
+: Lib compat test
+php -r "require '%{buildroot}%{_datadir}/php/Pimple/Pimple.php'; \
+    echo ('Pimple\Container' == get_class(new Pimple)) ? 'PASS' : 'FAIL';" \
+    | grep PASS > /dev/null
+
 : Extension NTS minimal load test
 %{__php} --no-php-ini \
     --define extension=ext/NTS/modules/%{ext_name}.so \
@@ -207,25 +231,31 @@ popd
 %endif
 
 
-%files
 %{!?_licensedir:%global license %%doc}
+
+%files
 %license LICENSE
-%doc CHANGELOG README.rst composer.json
-# Lib
-         %{_datadir}/php/Pimple
-%exclude %{_datadir}/php/Pimple/Tests
-# Ext
-## NTS
+%doc CHANGELOG README.rst
+# NTS
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{ext_name}.so
-## ZTS
+# ZTS
 %if %{with_zts}
 %config(noreplace) %{php_ztsinidir}/%{ini_name}
 %{php_ztsextdir}/%{ext_name}.so
 %endif
 
+%files lib
+%license LICENSE
+%doc CHANGELOG README.rst composer.json
+         %{_datadir}/php/Pimple
+%exclude %{_datadir}/php/Pimple/Tests
+
 
 %changelog
+* Wed Sep 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-3
+- Separate extension and library (i.e. sub-package library)
+
 * Mon Aug 25 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-2
 - Fixed compat file location in description
 - Included real class in compat file
