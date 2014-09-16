@@ -43,10 +43,9 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 
 BuildArch:     noarch
 %if %{with_tests}
-# For tests
-BuildRequires: php-phpunit-PHPUnit >= %{phpunit_min_ver}
 # For tests: composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-phpunit-PHPUnit >= %{phpunit_min_ver}
 BuildRequires: php-composer(nikic/php-parser) >= %{php_parser_min_ver}
 BuildRequires: php-composer(nikic/php-parser) <  %{php_parser_max_ver}
 # For tests: phpcompatinfo (computed from version 0.3.0)
