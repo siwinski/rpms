@@ -92,7 +92,7 @@ cat > autoload.php <<'AUTOLOAD'
 <?php
 
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
+    $src = str_replace('\\', '/', rtrim($class, '_')).'.php';
     @include_once $src;
 });
 AUTOLOAD
@@ -117,5 +117,5 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
-* Mon Sep 15 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.3.0-1
+* Tue Sep 16 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.3.0-1
 - Initial package
