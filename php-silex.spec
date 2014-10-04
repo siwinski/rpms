@@ -184,6 +184,14 @@ cp -rp src/* %{buildroot}/%{_datadir}/php/
 # Create custom bootstrap
 cat > bootstrap.php <<'BOOTSTRAP'
 <?php
+
+// Add non-standard Pimple and Swift paths to include path
+set_include_path(
+    get_include_path()
+    . PATH_SEPARATOR . '%{_datadir}/php/Pimple'
+    . PATH_SEPARATOR . '%{_datadir}/php/Swift'
+);
+
 spl_autoload_register(function ($class) {
     $src = str_replace(array('\\', '_'), '/',  $class) . '.php';
     @include_once $src;
@@ -198,7 +206,7 @@ rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
 
 %{__phpunit} \
     --bootstrap ./bootstrap.php \
-    --include-path %{buildroot}%{_datadir}/php:./tests:%{_datadir}/php/Pimple:%{_datadir}/pear/Swift \
+    --include-path %{buildroot}%{_datadir}/php:./tests \
     -d date.timezone="UTC"
 %else
 : Tests skipped
