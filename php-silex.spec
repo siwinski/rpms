@@ -206,7 +206,9 @@ rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
 
 
 %files
-%doc LICENSE README.rst composer.json doc
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
+%doc README.rst composer.json doc
 %{_datadir}/php/Silex
 
 
