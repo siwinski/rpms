@@ -20,9 +20,6 @@
 # "php": "~5.4"
 #     NOTE: Max version ignored on purpose
 %global php_min_ver 5.4
-# "phpunit/phpunit": "~4.0"
-#     NOTE: Max vrsion ignored on purpose
-%global phpunit_min_ver 4.0
 # "nikic/php-parser": "1.0.*"
 %global php_parser_min_ver 1.0.0
 %global php_parser_max_ver 1.1.0
@@ -33,10 +30,11 @@
 %global zf_stdlib_min_ver 2.3
 %global zf_stdlib_max_ver 3.0
 
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
-
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+
+%{!?phpdir:     %global phpdir     %{_datadir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -50,16 +48,16 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 
 BuildArch:     noarch
 %if %{with_tests}
-# For tests: composer.json
+# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-phpunit-PHPUnit >= %{phpunit_min_ver}
 BuildRequires: php-composer(nikic/php-parser) >= %{php_parser_min_ver}
 BuildRequires: php-composer(nikic/php-parser) <  %{php_parser_max_ver}
 BuildRequires: php-composer(ocramius/code-generator-utils) >= %{ocramius_cgu_min_ver}
 BuildRequires: php-composer(ocramius/code-generator-utils) <  %{ocramius_cgu_max_ver}
 BuildRequires: php-composer(zendframework/zend-stdlib) >= %{zf_stdlib_min_ver}
 BuildRequires: php-composer(zendframework/zend-stdlib) <  %{zf_stdlib_max_ver}
-# For tests: phpcompatinfo (computed from version 1.1.0)
+BuildRequires: php-phpunit-PHPUnit
+# phpcompatinfo (computed from version 1.1.0)
 BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-spl
@@ -94,8 +92,8 @@ arrays to objects and from objects to arrays.
 
 
 %install
-mkdir -pm 0755 %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
+mkdir -pm 0755 %{buildroot}%{phpdir}
+cp -rp src/* %{buildroot}%{phpdir}/
 
 
 %check
@@ -105,7 +103,7 @@ cat > autoload.php <<'AUTOLOAD'
 <?php
 
 spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', rtrim($class, '_')).'.php';
+    $src = str_replace('\\', '/', $class).'.php';
     @include_once $src;
 });
 AUTOLOAD
@@ -115,7 +113,7 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 %{__phpunit} \
     --bootstrap autoload.php \
-    --include-path %{buildroot}%{_datadir}/php:./tests \
+    --include-path %{buildroot}%{phpdir}:./tests \
     -d date.timezone="UTC"
 %else
 : Tests skipped
@@ -126,9 +124,9 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *.md composer.json
-%{_datadir}/php/GeneratedHydrator
+%{phpdir}/GeneratedHydrator
 
 
 %changelog
-* Tue Sep 16 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
+* Mon Oct 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
 - Initial package
