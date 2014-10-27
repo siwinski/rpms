@@ -11,8 +11,8 @@
 
 %global github_owner     egulias
 %global github_name      EmailValidator
-%global github_version   1.2.2
-%global github_commit    39b451bb2bb0655d83d82a38a0bba7189298cfc5
+%global github_version   1.2.3
+%global github_commit    49494c3189b7f07d7262c53057de3569b57605b4
 
 %global composer_vendor  egulias
 %global composer_project email-validator
@@ -23,10 +23,11 @@
 %global doctrine_lexer_min_ver 1.0
 %global doctrine_lexer_max_ver 2.0
 
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
-
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+
+%{!?phpdir:     %global phpdir     %{_datadir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -40,13 +41,12 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 
 BuildArch:     noarch
 %if %{with_tests}
-# For tests
 BuildRequires: php-phpunit-PHPUnit
-# For tests: composer.json
+# composer.json
 BuildRequires: php(language)                >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/lexer) >= %{doctrine_lexer_min_ver}
 BuildRequires: php-composer(doctrine/lexer) <  %{doctrine_lexer_max_ver}
-# For tests: phpcompatinfo (computed from version 1.2.2)
+# phpcompatinfo (computed from version 1.2.3)
 BuildRequires: php-filter
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -57,7 +57,7 @@ BuildRequires: php-spl
 Requires:      php(language)                >= %{php_min_ver}
 Requires:      php-composer(doctrine/lexer) >= %{doctrine_lexer_min_ver}
 Requires:      php-composer(doctrine/lexer) <  %{doctrine_lexer_max_ver}
-# phpcompatinfo (computed from version 1.2.2)
+# phpcompatinfo (computed from version 1.2.3)
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-spl
@@ -81,8 +81,8 @@ sed -i 's/\r$//' README.md
 
 
 %install
-mkdir -pm 0755 %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
+mkdir -pm 0755 %{buildroot}%{phpdir}
+cp -rp src/* %{buildroot}%{phpdir}/
 
 
 %check
@@ -101,7 +101,7 @@ AUTOLOAD
 # Create PHPUnit config with colors turned off
 sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
-%{__phpunit} --include-path %{buildroot}%{_datadir}/php -d date.timezone="UTC"
+%{__phpunit} --include-path %{buildroot}%{phpdir} -d date.timezone="UTC"
 %else
 : Tests skipped
 %endif
@@ -111,10 +111,13 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc README.md composer.json
-%dir %{_datadir}/php/Egulias
-     %{_datadir}/php/Egulias/EmailValidator
+%dir %{phpdir}/Egulias
+     %{phpdir}/Egulias/EmailValidator
 
 
 %changelog
+* Mon Oct 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.3-1
+- Updated to 1.2.3
+
 * Wed Sep 10 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.2-1
 - Initial package
