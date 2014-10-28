@@ -11,8 +11,8 @@
 
 %global github_owner     reactphp
 %global github_name      promise
-%global github_version   2.0.0
-%global github_commit    58129a9cb9da88f2055309a805e2696b06928bb0
+%global github_version   2.1.0
+%global github_commit    937b04f1b0ee8f6d180e75a0830aac778ca4bcd6
 
 %global composer_vendor  react
 %global composer_project promise
@@ -41,13 +41,13 @@ BuildArch:     noarch
 BuildRequires: php-phpunit-PHPUnit
 # composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 2.0.0)
+# phpcompatinfo (computed from version 2.1.0)
 BuildRequires: php-spl
 %endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 2.0.0)
+# phpcompatinfo (computed from version 2.1.0)
 Requires:      php-spl
 
 # Composer
@@ -68,8 +68,8 @@ A lightweight implementation of CommonJS Promises/A [1] for PHP.
 
 
 %install
-mkdir -pm 0755 %{buildroot}%{phpdir}
-cp -rp src/* %{buildroot}%{phpdir}/
+mkdir -pm 0755 %{buildroot}%{phpdir}/React/Promise
+cp -rp src/* %{buildroot}%{phpdir}/React/Promise/
 
 
 %check
@@ -80,7 +80,13 @@ cat > bootstrap.php <<'BOOTSTRAP'
 
 spl_autoload_register(function ($class) {
     $src = str_replace('\\', '/', $class).'.php';
-    @include_once $src;
+
+    if (!@include_once $src) {
+        $psr4_class = str_replace('React\\Promise\\', '', $class);
+        $psr4_src = str_replace('\\', '/', $psr4_class).'.php';
+
+        @include_once $psr4_src;
+    }
 });
 
 require_once '%{buildroot}%{phpdir}/React/Promise/functions.php';
@@ -107,5 +113,8 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
+* Mon Oct 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.0-1
+- Updated to 2.1.0
+
 * Wed Oct 15 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.0.0-1
 - Initial package
