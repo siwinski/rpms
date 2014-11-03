@@ -11,8 +11,8 @@
 
 %global github_owner     egulias
 %global github_name      EmailValidator
-%global github_version   1.2.3
-%global github_commit    49494c3189b7f07d7262c53057de3569b57605b4
+%global github_version   1.2.4
+%global github_commit    5c3a79217cbb98c975d7d23f12749e6f0be5cace
 
 %global composer_vendor  egulias
 %global composer_project email-validator
@@ -46,7 +46,7 @@ BuildRequires: php-phpunit-PHPUnit
 BuildRequires: php(language)                >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/lexer) >= %{doctrine_lexer_min_ver}
 BuildRequires: php-composer(doctrine/lexer) <  %{doctrine_lexer_max_ver}
-# phpcompatinfo (computed from version 1.2.3)
+# phpcompatinfo (computed from version 1.2.4)
 BuildRequires: php-filter
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -57,7 +57,7 @@ BuildRequires: php-spl
 Requires:      php(language)                >= %{php_min_ver}
 Requires:      php-composer(doctrine/lexer) >= %{doctrine_lexer_min_ver}
 Requires:      php-composer(doctrine/lexer) <  %{doctrine_lexer_max_ver}
-# phpcompatinfo (computed from version 1.2.3)
+# phpcompatinfo (computed from version 1.2.4)
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-spl
@@ -116,6 +116,9 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 
 %changelog
+* Mon Nov 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-1
+- Updated to 1.2.4
+
 * Mon Oct 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.3-1
 - Updated to 1.2.3
 
