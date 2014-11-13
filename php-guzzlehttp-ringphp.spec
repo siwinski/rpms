@@ -11,8 +11,8 @@
 
 %global github_owner     guzzle
 %global github_name      RingPHP
-%global github_version   1.0.1
-%global github_commit    9e44b565d726d9614cd970319e6eea70ee15bff3
+%global github_version   1.0.3
+%global github_commit    e7c28f96c5ac12ab0e63412cfc15989756fcb964
 
 %global composer_vendor  guzzlehttp
 %global composer_project ringphp
@@ -40,7 +40,7 @@ Summary:       Simple handler system used to power clients and servers in PHP
 Group:         Development/Libraries
 License:       MIT
 URL:           http://ringphp.readthedocs.org
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}.tar.gz
 
 BuildArch:     noarch
 %if %{with_tests}
@@ -53,7 +53,7 @@ BuildRequires: php-composer(guzzlehttp/streams) <  %{streams_max_ver}
 BuildRequires: php-composer(react/promise)      >= %{promise_min_ver}
 BuildRequires: php-composer(react/promise)      <  %{promise_max_ver}
 BuildRequires: php-curl
-# phpcompatinfo (computed from version 1.0.1)
+# phpcompatinfo (computed from version 1.0.3)
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -69,7 +69,7 @@ Requires:      php-composer(react/promise)      >= %{promise_min_ver}
 Requires:      php-composer(react/promise)      <  %{promise_max_ver}
 # composer.json: optional
 Requires:      php-curl
-# phpcompatinfo (computed from version 1.0.1)
+# phpcompatinfo (computed from version 1.0.3)
 Requires:      php-spl
 
 # Composer
@@ -122,10 +122,7 @@ spl_autoload_register(function ($class) {
 require_once '%{phpdir}/React/Promise/functions.php';
 AUTOLOAD
 
-# Create PHPUnit config with colors turned off
-sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
-
-%{__phpunit} --include-path %{buildroot}%{phpdir}:./tests -d date.timezone="UTC"
+%{__phpunit} --include-path %{buildroot}%{phpdir}:./tests
 %else
 : Tests skipped
 %endif
@@ -134,10 +131,14 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
-%doc *.rst composer.json
+%doc *.rst *.md composer.json
 %{phpdir}/GuzzleHttp/Ring
 
 
 %changelog
+* Thu Nov 13 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.3-1
+- Updated to 1.0.3
+- Removed color turn off and default timezone for phpunit
+
 * Mon Oct 27 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-1
 - Initial package
