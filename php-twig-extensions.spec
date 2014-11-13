@@ -32,7 +32,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{?dist}
 Summary:       Twig extensions
 
 Group:         Development/Libraries
@@ -100,10 +100,7 @@ spl_autoload_register(function ($class) {
 });
 AUTOLOAD
 
-# Create PHPUnit config w/ colors turned off
-sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
-
-%{__phpunit} --include-path %{buildroot}%{phpdir} -d date.timezone="UTC"
+%{__phpunit} --include-path %{buildroot}%{phpdir}
 %else
 : Tests skipped
 %endif
@@ -113,10 +110,14 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc README.rst composer.json doc
-%dir %{phpdir}/Twig
-     %{phpdir}/Twig/Extensions
+%{phpdir}/Twig/Extensions
 
 
 %changelog
-* Sun Nov 02 2014 Shawn Iwinski <shawn.iwinski@gmail.com> 1.2.0-1
+* Thu Nov 13 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.0-2
+- Conditional %%{?dist}
+- Removed color turn off and default timezone for phpunit
+- Removed "%%dir %%{phpdir}/Twig" from %%files
+
+* Sun Nov 02 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.0-1
 - Initial package
