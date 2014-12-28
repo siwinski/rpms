@@ -11,8 +11,8 @@
 
 %global github_owner     guzzle
 %global github_name      RingPHP
-%global github_version   1.0.3
-%global github_commit    e7c28f96c5ac12ab0e63412cfc15989756fcb964
+%global github_version   1.0.5
+%global github_commit    a903f51b692427318bc813217c0e6505287e79a4
 
 %global composer_vendor  guzzlehttp
 %global composer_project ringphp
@@ -53,7 +53,7 @@ BuildRequires: php-composer(guzzlehttp/streams) <  %{streams_max_ver}
 BuildRequires: php-composer(react/promise)      >= %{promise_min_ver}
 BuildRequires: php-composer(react/promise)      <  %{promise_max_ver}
 BuildRequires: php-curl
-# phpcompatinfo (computed from version 1.0.3)
+# phpcompatinfo (computed from version 1.0.5)
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -69,7 +69,7 @@ Requires:      php-composer(react/promise)      >= %{promise_min_ver}
 Requires:      php-composer(react/promise)      <  %{promise_max_ver}
 # composer.json: optional
 Requires:      php-curl
-# phpcompatinfo (computed from version 1.0.3)
+# phpcompatinfo (computed from version 1.0.5)
 Requires:      php-spl
 
 # Composer
@@ -136,6 +136,9 @@ AUTOLOAD
 
 
 %changelog
+* Sun Dec 28 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.5-1
+- Updated to 1.0.5
+
 * Thu Nov 13 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.3-1
 - Updated to 1.0.3
 - Removed color turn off and default timezone for phpunit
