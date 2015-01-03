@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   2.3.20
-%global github_commit    5ef0ea8414fd61df090f6aa60a3d78bfb4d8bd1c
+%global github_version   2.3.23
+%global github_commit    daf150374dfb61cf68650f893fd3d726edc21318
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -32,9 +32,9 @@
 # "doctrine/orm": "~2.2,>=2.2.3"
 %global doctrine_orm_min_ver 2.2.3
 %global doctrine_orm_max_ver 3.0
-# "ircmaxell/password-compat": "1.0.*"
-%global password_compat_min_ver 1.0.0
-%global password_compat_max_ver 1.1.0
+# "ircmaxell/password-compat": "~1.0"
+%global password_compat_min_ver 1.0
+%global password_compat_max_ver 2.0
 # "monolog/monolog": "~1.3"
 %global monolog_min_ver 1.3
 %global monolog_max_ver 2.0
@@ -45,9 +45,9 @@
 %global swift_min_ver 4.2.0
 %global swift_max_ver 6.0.0
 # "symfony/icu": "~1.0"
-%global symfony_icu_min_ver 1.0
-%global symfony_icu_max_ver 2.0
-# "twig/twig": "~1.12"s
+#%global symfony_icu_min_ver 1.0
+#%global symfony_icu_max_ver 2.0
+# "twig/twig": "~1.12"
 %global twig_min_ver 1.12
 %global twig_max_ver 2.0
 
@@ -56,6 +56,9 @@
 
 # Build using "--without tests" to disable tests
 %global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+
+%{!?phpdir:     %global phpdir     %{_datadir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_project}2.3
 Version:       %{github_version}
@@ -71,15 +74,13 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 # and retrieve files missing from github archive
 #
 # NOTE: PEAR channel deprecated after 2.3.13
-Source1:       getautoloader.sh
-Source2:       autoloader-2.3.13.tgz
+Source2:       %{name}-pear-autoloader.sh
+Source3:       %{name}-pear-autoloader-2.3.13.tgz
 
 BuildArch:     noarch
 %if %{with_tests}
 # composer.json
 BuildRequires: php(language)                        >= %{php_min_ver}
-BuildRequires: php-composer(%{composer_vendor}/icu) >= %{symfony_icu_min_ver}
-BuildRequires: php-composer(%{composer_vendor}/icu) <  %{symfony_icu_max_ver}
 BuildRequires: php-composer(doctrine/common)        >= %{doctrine_common_min_ver}
 BuildRequires: php-composer(doctrine/common)        <  %{doctrine_common_max_ver}
 BuildRequires: php-composer(doctrine/data-fixtures) >= %{doctrine_datafixtures_min_ver}
@@ -92,16 +93,16 @@ BuildRequires: php-composer(monolog/monolog)        >= %{monolog_min_ver}
 BuildRequires: php-composer(monolog/monolog)        <  %{monolog_max_ver}
 BuildRequires: php-composer(psr/log)                >= %{psrlog_min_ver}
 BuildRequires: php-composer(psr/log)                <  %{psrlog_max_ver}
+BuildRequires: php-composer(twig/twig)              >= %{twig_min_ver}
+BuildRequires: php-composer(twig/twig)              <  %{twig_max_ver}
 BuildRequires: php-phpunit-PHPUnit
-BuildRequires: php-twig-Twig                        >= %{twig_min_ver}
-BuildRequires: php-twig-Twig                        <  %{twig_max_ver}
 %if "%{php_version}" < "5.5"
 BuildRequires: php-password-compat                  >= %{password_compat_min_ver}
 BuildRequires: php-password-compat                  <  %{password_compat_max_ver}
 %endif
 ## TODO: "propel/propel1"
 ## TODO: "ocramius/proxy-manager"
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-dom
@@ -325,8 +326,8 @@ instead.
 Summary:  Symfony Twig Bridge
 
 # composer.json
-Requires: php-twig-Twig >= %{twig_min_ver}
-Requires: php-twig-Twig <  %{twig_max_ver}
+Requires: php-composer(twig/twig) >= %{twig_min_ver}
+Requires: php-composer(twig/twig) <  %{twig_max_ver}
 # composer.json: optional
 Requires: php-composer(%{composer_vendor}/form)        = %{version}
 Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
@@ -958,8 +959,8 @@ URL:       http://symfony.com/doc/2.3/components/intl.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # composer.json
-Requires:  php-composer(%{composer_vendor}/icu) >= %{symfony_icu_min_ver}
-Requires:  php-composer(%{composer_vendor}/icu) <  %{symfony_icu_max_ver}
+#Requires:  php-composer(%{composer_vendor}/icu) >= %{symfony_icu_min_ver}
+#Requires:  php-composer(%{composer_vendor}/icu) <  %{symfony_icu_max_ver}
 # composer.json: optional
 Requires:  php-intl
 # phpcompatinfo (computed from version 2.3.20)
@@ -2046,44 +2047,8 @@ exit $RET
 # ##############################################################################
 
 %changelog
-* Mon Sep 29 2014 Remi Collet <remi@fedoraproject.org> - 2.5.5-1
-- update to 2.5.5
-- hack PHPUnit autoloader to not use old system symfony
-- don't skip any Yaml test
-
-* Wed Sep 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.5.4-1
-- Updated to 2.5.4 (CVE-2014-6072, CVE-2014-5245, CVE-2014-4931, CVE-2014-6061,
-  CVE-2014-5244, BZ #1138285)
-- Removed test files from PropertyAccess and Stopwatch components
-- Updated skipped tests
-
-* Tue Aug 12 2014 Remi Collet <remi@fedoraproject.org> - 2.5.3-1
-- update to 2.5.3
-- fix test bootstrap for PHPUnit 4.2
-
-* Sat Jul 19 2014 Remi Collet <remi@fedoraproject.org> - 2.5.2-2
-- fix license handling
-
-* Fri Jul 18 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.5.2-1
-- Updated to 2.5.2 (BZ #1100720)
-- Added php-composer() virtual provides
-- Updated most dependencies to use available php-composer virtual provides
-- php-password-compat conditional changed from "0%%{?el6}%%{?el7}" to
-  ""%%{php_version}" < "5.5""
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.4-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Wed Apr 30 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.4.4-1
-- Updated to 2.4.4 (BZ #1038134)
-- Updated Doctrine dependencies
-- Sub-pkg phpcompatinfo without Tests directory since they are not pkged
-
-* Mon Feb 17 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.4.2-1
-- Updated to 2.4.2 (BZ #1038134)
-- Re-enabled tests
-- Added expressionlanguage component sub-pkg
-- Added provides for security component composer sub-pkgs
+* Sun Jan 04 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.3.23-0
+- Updated to 2.3.23
 
 * Mon Jan 13 2014 Remi Collet <remi@fedoraproject.org> - 2.3.9-0
 - EPEL-7 bootstrap build
