@@ -51,14 +51,14 @@
 %global twig_min_ver 1.12
 %global twig_max_ver 2.0
 
-%global symfony_dir  %{_datadir}/php/Symfony
+%{!?phpdir:     %global phpdir     %{_datadir}/php}
+%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
+
+%global symfony_dir  %{phpdir}/Symfony
 %global pear_channel pear.symfony.com
 
 # Build using "--without tests" to disable tests
 %global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
-
-%{!?phpdir:     %global phpdir     %{_datadir}/php}
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
 
 Name:          php-%{composer_project}2.3
 Version:       %{github_version}
@@ -96,7 +96,7 @@ BuildRequires: php-composer(psr/log)                <  %{psrlog_max_ver}
 BuildRequires: php-composer(twig/twig)              >= %{twig_min_ver}
 BuildRequires: php-composer(twig/twig)              <  %{twig_max_ver}
 BuildRequires: php-phpunit-PHPUnit
-%if "%{php_version}" < "5.5"
+%if 0%{?el6}%{?el7}
 BuildRequires: php-password-compat                  >= %{password_compat_min_ver}
 BuildRequires: php-password-compat                  <  %{password_compat_max_ver}
 %endif
@@ -187,35 +187,39 @@ Requires:  php(language) >= %{php_min_ver}
 
 Obsoletes: php-channel-symfony2
 
+Conflicts: %{name}-common >= 2.4.0
+
 %description common
 %{summary}
 
 # ------------------------------------------------------------------------------
 
-%package  doctrine-bridge
+%package   doctrine-bridge
 
-Summary:  Symfony Doctrine Bridge
+Summary:   Symfony Doctrine Bridge
 
 # composer.json
-Requires: php-composer(doctrine/common)              >= %{doctrine_common_min_ver}
-Requires: php-composer(doctrine/common)              <  %{doctrine_common_max_ver}
+Requires:  php-composer(doctrine/common)              >= %{doctrine_common_min_ver}
+Requires:  php-composer(doctrine/common)              <  %{doctrine_common_max_ver}
 # composer.json: optional
-Requires: php-composer(%{composer_vendor}/form)      =  %{version}
-Requires: php-composer(%{composer_vendor}/validator) =  %{version}
-Requires: php-composer(doctrine/data-fixtures)       >= %{doctrine_datafixtures_min_ver}
-Requires: php-composer(doctrine/data-fixtures)       <  %{doctrine_datafixtures_max_ver}
-Requires: php-composer(doctrine/dbal)                >= %{doctrine_dbal_min_ver}
-Requires: php-composer(doctrine/dbal)                <  %{doctrine_dbal_max_ver}
-Requires: php-composer(doctrine/orm)                 >= %{doctrine_orm_min_ver}
-Requires: php-composer(doctrine/orm)                 <  %{doctrine_orm_max_ver}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-date
-Requires: php-json
-Requires: php-mbstring
-Requires: php-pcre
-Requires: php-reflection
-Requires: php-session
-Requires: php-spl
+Requires:  php-composer(%{composer_vendor}/form)      =  %{version}
+Requires:  php-composer(%{composer_vendor}/validator) =  %{version}
+Requires:  php-composer(doctrine/data-fixtures)       >= %{doctrine_datafixtures_min_ver}
+Requires:  php-composer(doctrine/data-fixtures)       <  %{doctrine_datafixtures_max_ver}
+Requires:  php-composer(doctrine/dbal)                >= %{doctrine_dbal_min_ver}
+Requires:  php-composer(doctrine/dbal)                <  %{doctrine_dbal_max_ver}
+Requires:  php-composer(doctrine/orm)                 >= %{doctrine_orm_min_ver}
+Requires:  php-composer(doctrine/orm)                 <  %{doctrine_orm_max_ver}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-date
+Requires:  php-json
+Requires:  php-mbstring
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-session
+Requires:  php-spl
+
+Conflicts: %{name}-doctrine-bridge >= 2.4.0
 
 # Composer
 Provides: php-composer(%{composer_vendor}/doctrine-bridge) = %{version}
@@ -229,24 +233,26 @@ http://symfony.com/doc/2.3/reference/configuration/doctrine.html
 
 # ------------------------------------------------------------------------------
 
-%package  monolog-bridge
+%package   monolog-bridge
 
-Summary:  Symfony Monolog Bridge
+Summary:   Symfony Monolog Bridge
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel) =  %{version}
-Requires: php-composer(monolog/monolog)                >= %{monolog_min_ver}
-Requires: php-composer(monolog/monolog)                <  %{monolog_max_ver}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-pcre
+Requires:  php-composer(%{composer_vendor}/http-kernel) =  %{version}
+Requires:  php-composer(monolog/monolog)                >= %{monolog_min_ver}
+Requires:  php-composer(monolog/monolog)                <  %{monolog_max_ver}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-pcre
 
 # Composer
-Provides: php-composer(%{composer_vendor}/monolog-bridge) = %{version}
+Provides:  php-composer(%{composer_vendor}/monolog-bridge) = %{version}
 # PEAR
-Provides: php-pear(%{pear_channel}/MonologBridge) = %{version}
+Provides:  php-pear(%{pear_channel}/MonologBridge) = %{version}
 # Rename
 Obsoletes: %{name}-monologbridge < %{version}
 Provides:  %{name}-monologbridge = %{version}
+
+Conflicts: %{name}-monolog-bridge >= 2.4.0
 
 %description monolog-bridge
 Provides integration for Monolog (https://github.com/Seldaek/monolog) with
@@ -269,6 +275,8 @@ http://symfony.com/doc/2.3/reference/configuration/monolog.html
 # Composer
 #Provides: php-composer(%%{composer_vendor}/propel1-bridge) = %%{version}
 
+#Conflicts: %%{name}-propel1-bridge >= 2.4.0
+
 #%%description propel1-bridge
 #Provides integration for Propel 1 (http://propelorm.org/) with various
 #Symfony components.
@@ -285,29 +293,33 @@ http://symfony.com/doc/2.3/reference/configuration/monolog.html
 # Composer
 #Provides: php-composer(%%{composer_vendor}/proxy-manager-bridge) = %%{version}
 
+#Conflicts: %%{name}-proxy-manage-bridge >= 2.4.0
+
 #%%description proxy-manager-bridge
 #Provides integration for ProxyManager (https://github.com/Ocramius/ProxyManager)
 #with various Symfony components.
 
 # ------------------------------------------------------------------------------
 
-%package  swiftmailer-bridge
+%package   swiftmailer-bridge
 
-Summary:  Symfony Swiftmailer Bridge
+Summary:   Symfony Swiftmailer Bridge
 
 # composer.json
-Requires: php-swift-Swift >= %{swift_min_ver}
-Requires: php-swift-Swift <  %{swift_max_ver}
+Requires:  php-swift-Swift >= %{swift_min_ver}
+Requires:  php-swift-Swift <  %{swift_max_ver}
 # composer.json: optional
-Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+# phpcompatinfo (computed from version 2.3.23)
 # <none>
 
 # Composer
-Provides: php-composer(%{composer_vendor}/swiftmailer-bridge) = %{version}
+Provides:  php-composer(%{composer_vendor}/swiftmailer-bridge) = %{version}
 # Rename
 Obsoletes: %{name}-swiftmailerbridge < %{version}
 Provides:  %{name}-swiftmailerbridge = %{version}
+
+Conflicts: %{name}-swiftmailer-bridge >= 2.4.0
 
 %description swiftmailer-bridge
 Provides integration for Swift Mailer (http://swiftmailer.org/) with various
@@ -321,33 +333,35 @@ instead.
 
 # ------------------------------------------------------------------------------
 
-%package  twig-bridge
+%package   twig-bridge
 
-Summary:  Symfony Twig Bridge
+Summary:   Symfony Twig Bridge
 
 # composer.json
-Requires: php-composer(twig/twig) >= %{twig_min_ver}
-Requires: php-composer(twig/twig) <  %{twig_max_ver}
+Requires:  php-composer(twig/twig) >= %{twig_min_ver}
+Requires:  php-composer(twig/twig) <  %{twig_max_ver}
 # composer.json: optional
-Requires: php-composer(%{composer_vendor}/form)        = %{version}
-Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/routing)     = %{version}
-Requires: php-composer(%{composer_vendor}/security)    = %{version}
-Requires: php-composer(%{composer_vendor}/stopwatch)   = %{version}
-Requires: php-composer(%{composer_vendor}/templating)  = %{version}
-Requires: php-composer(%{composer_vendor}/translation) = %{version}
-Requires: php-composer(%{composer_vendor}/yaml)        = %{version}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-pcre
-Requires: php-spl
+Requires:  php-composer(%{composer_vendor}/finder)      = %{version}
+Requires:  php-composer(%{composer_vendor}/form)        = %{version}
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:  php-composer(%{composer_vendor}/routing)     = %{version}
+Requires:  php-composer(%{composer_vendor}/security)    = %{version}
+Requires:  php-composer(%{composer_vendor}/templating)  = %{version}
+Requires:  php-composer(%{composer_vendor}/translation) = %{version}
+Requires:  php-composer(%{composer_vendor}/yaml)        = %{version}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-pcre
+Requires:  php-spl
 
 # Composer
-Provides: php-composer(%{composer_vendor}/twig-bridge) = %{version}
+Provides:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
 # PEAR
-Provides: php-pear(%{pear_channel}/TwigBridge) = %{version}
+Provides:  php-pear(%{pear_channel}/TwigBridge) = %{version}
 # Rename
 Obsoletes: %{name}-twigbridge < %{version}
 Provides:  %{name}-twigbridge = %{version}
+
+Conflicts: %{name}-twig-bridge >= 2.4.0
 
 %description twig-bridge
 Provides integration for Twig (http://twig.sensiolabs.org/) with various
@@ -355,43 +369,45 @@ Symfony components.
 
 # ------------------------------------------------------------------------------
 
-%package  framework-bundle
+%package   framework-bundle
 
-Summary:  Symfony Framework Bundle
+Summary:   Symfony Framework Bundle
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/config)               =  %{version}
-Requires: php-composer(%{composer_vendor}/dependency-injection) =  %{version}
-Requires: php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
-Requires: php-composer(%{composer_vendor}/filesystem)           =  %{version}
-Requires: php-composer(%{composer_vendor}/http-kernel)          =  %{version}
-Requires: php-composer(%{composer_vendor}/routing)              =  %{version}
-Requires: php-composer(%{composer_vendor}/stopwatch)            =  %{version}
-Requires: php-composer(%{composer_vendor}/templating)           =  %{version}
-Requires: php-composer(%{composer_vendor}/translation)          =  %{version}
-Requires: php-composer(doctrine/common)                         >= %{doctrine_common_min_ver}
-Requires: php-composer(doctrine/common)                         <  %{doctrine_common_max_ver}
+Requires:  php-composer(%{composer_vendor}/config)               =  %{version}
+Requires:  php-composer(%{composer_vendor}/dependency-injection) =  %{version}
+Requires:  php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
+Requires:  php-composer(%{composer_vendor}/filesystem)           =  %{version}
+Requires:  php-composer(%{composer_vendor}/http-kernel)          =  %{version}
+Requires:  php-composer(%{composer_vendor}/routing)              =  %{version}
+Requires:  php-composer(%{composer_vendor}/stopwatch)            =  %{version}
+Requires:  php-composer(%{composer_vendor}/templating)           =  %{version}
+Requires:  php-composer(%{composer_vendor}/translation)          =  %{version}
+Requires:  php-composer(doctrine/common)                         >= %{doctrine_common_min_ver}
+Requires:  php-composer(doctrine/common)                         <  %{doctrine_common_max_ver}
 # composer.json: optional
-Requires: php-composer(%{composer_vendor}/console)              =  %{version}
-Requires: php-composer(%{composer_vendor}/finder)               =  %{version}
-Requires: php-composer(%{composer_vendor}/form)                 =  %{version}
-Requires: php-composer(%{composer_vendor}/validator)            =  %{version}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-date
-Requires: php-fileinfo
-Requires: php-filter
-Requires: php-json
-Requires: php-pcre
-Requires: php-reflection
-Requires: php-session
-Requires: php-spl
-Requires: php-tokenizer
+Requires:  php-composer(%{composer_vendor}/console)              =  %{version}
+Requires:  php-composer(%{composer_vendor}/finder)               =  %{version}
+Requires:  php-composer(%{composer_vendor}/form)                 =  %{version}
+Requires:  php-composer(%{composer_vendor}/validator)            =  %{version}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-date
+Requires:  php-fileinfo
+Requires:  php-filter
+Requires:  php-json
+Requires:  php-pcre
+Requires:  php-reflection
+Requires:  php-session
+Requires:  php-spl
+Requires:  php-tokenizer
 
 # Composer
-Provides: php-composer(%{composer_vendor}/framework-bundle) = %{version}
+Provides:  php-composer(%{composer_vendor}/framework-bundle) = %{version}
 # Rename
 Obsoletes: %{name}-frameworkbundle < %{version}
 Provides:  %{name}-frameworkbundle = %{version}
+
+Conflicts: %{name}-framework-bundle >= 2.4.0
 
 %description framework-bundle
 The FrameworkBundle contains most of the "base" framework functionality and can
@@ -404,45 +420,49 @@ http://symfony.com/doc/2.3/reference/configuration/framework.html
 
 # ------------------------------------------------------------------------------
 
-%package  security-bundle
+%package   security-bundle
 
-Summary:  Symfony Security Bundle
+Summary:   Symfony Security Bundle
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/security)    = %{version}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-pcre
-Requires: php-spl
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:  php-composer(%{composer_vendor}/security)    = %{version}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-pcre
+Requires:  php-spl
 
 # Composer
-Provides: php-composer(%{composer_vendor}/security-bundle) = %{version}
+Provides:  php-composer(%{composer_vendor}/security-bundle) = %{version}
 # Rename
 Obsoletes: %{name}-securitybundle < %{version}
 Provides:  %{name}-securitybundle = %{version}
+
+Conflicts: %{name}-security-bundle >= 2.4.0
 
 %description security-bundle
 %{summary}
 
 # ------------------------------------------------------------------------------
 
-%package  twig-bundle
+%package   twig-bundle
 
-Summary:  Symfony Twig Bundle
+Summary:   Symfony Twig Bundle
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-ctype
-Requires: php-reflection
-Requires: php-spl
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-ctype
+Requires:  php-reflection
+Requires:  php-spl
 
 # Composer
-Provides: php-composer(%{composer_vendor}/twig-bundle) = %{version}
+Provides:  php-composer(%{composer_vendor}/twig-bundle) = %{version}
 # Rename
 Obsoletes: %{name}-twigbundle < %{version}
 Provides:  %{name}-twigbundle = %{version}
+
+Conflicts: %{name}-twig-bundle >= 2.4.0
 
 %description twig-bundle
 %{summary}
@@ -452,23 +472,25 @@ http://symfony.com/doc/2.3/reference/configuration/twig.html
 
 # ------------------------------------------------------------------------------
 
-%package  web-profiler-bundle
+%package   web-profiler-bundle
 
-Summary:  Symfony WebProfiler Bundle
+Summary:   Symfony WebProfiler Bundle
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/routing)     = %{version}
-Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
-Requires: php-pcre
-Requires: php-spl
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:  php-composer(%{composer_vendor}/routing)     = %{version}
+Requires:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-pcre
+Requires:  php-spl
 
 # Composer
-Provides: php-composer(%{composer_vendor}/web-profiler-bundle) = %{version}
+Provides:  php-composer(%{composer_vendor}/web-profiler-bundle) = %{version}
 # Rename
 Obsoletes: %{name}-webprofilerbundle < %{version}
 Provides:  %{name}-webprofilerbundle = %{version}
+
+Conflicts: %{name}-web-profiler-bundle >= 2.4.0
 
 %description web-profiler-bundle
 %{summary}
@@ -486,7 +508,7 @@ Summary:   Symfony BrowserKit Component
 Requires:  php-composer(%{composer_vendor}/dom-crawler) = %{version}
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/process)     = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -500,6 +522,8 @@ Obsoletes: %{name}2-BrowserKit < %{version}
 Provides:  %{name}2-BrowserKit = %{version}
 Obsoletes: %{name}-browserkit  < %{version}
 Provides:  %{name}-browserkit  = %{version}
+
+Conflicts: %{name}-browser-kit >= 2.4.0
 
 %description browser-kit
 BrowserKit simulates the behavior of a web browser.
@@ -515,7 +539,7 @@ Summary:   Symfony ClassLoader Component
 URL:       http://symfony.com/doc/2.3/components/class_loader/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -530,6 +554,8 @@ Obsoletes: %{name}2-ClassLoader < %{version}
 Provides:  %{name}2-ClassLoader = %{version}
 Obsoletes: %{name}-classloader  < %{version}
 Provides:  %{name}-classloader  = %{version}
+
+Conflicts: %{name}-class-loader >= 2.4.0
 
 %description class-loader
 The ClassLoader Component loads your project classes automatically if they
@@ -563,7 +589,7 @@ URL:       http://symfony.com/doc/2.3/components/config/index.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/filesystem) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -579,6 +605,8 @@ Provides:  php-pear(%{pear_channel}/Config) = %{version}
 Obsoletes: %{name}2-Config < %{version}
 Provides:  %{name}2-Config = %{version}
 
+Conflicts: %{name}-config >= 2.4.0
+
 %description config
 The Config Component provides several classes to help you find, load, combine,
 autofill and validate configuration values of any kind, whatever their source
@@ -593,7 +621,7 @@ URL:       http://symfony.com/doc/2.3/components/console/index.html
 
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-dom
 Requires:  php-json
@@ -611,6 +639,8 @@ Provides:  php-pear(%{pear_channel}/Console) = %{version}
 Obsoletes: %{name}2-Console < %{version}
 Provides:  %{name}2-Console = %{version}
 
+Conflicts: %{name}-console >= 2.4.0
+
 %description console
 The Console component eases the creation of beautiful and testable command line
 interfaces.
@@ -627,7 +657,7 @@ Summary:   Symfony CssSelector Component
 URL:       http://symfony.com/doc/2.3/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-pcre
 
 # Composer
@@ -639,6 +669,8 @@ Obsoletes: %{name}2-CssSelector < %{version}
 Provides:  %{name}2-CssSelector = %{version}
 Obsoletes: %{name}-cssselector  < %{version}
 Provides:  %{name}-cssselector  = %{version}
+
+Conflicts: %{name}-css-selector >= 2.4.0
 
 %description css-selector
 The CssSelector Component converts CSS selectors to XPath expressions.
@@ -654,13 +686,15 @@ URL:      http://symfony.com/doc/2.3/components/debug/index.html
 Requires: php-composer(%{composer_vendor}/class-loader)    = %{version}
 Requires: php-composer(%{composer_vendor}/http-foundation) = %{version}
 Requires: php-composer(%{composer_vendor}/http-kernel)     = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires: php-spl
 
 # Composer
 Provides: php-composer(%{composer_vendor}/debug) = %{version}
 # PEAR
 Provides: php-pear(%{pear_channel}/Debug) = %{version}
+
+Conflicts: %{name}-debug >= 2.4.0
 
 %description debug
 The Debug Component provides tools to ease debugging PHP code.
@@ -679,7 +713,7 @@ URL:       http://symfony.com/doc/2.3/components/dependency_injection/index.html
 Requires:  php-composer(%{composer_vendor}/config) = %{version}
 #Requires:  php-composer(%%{composer_vendor}/proxy-manager-bridge) = %%{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -696,6 +730,8 @@ Provides:  %{name}2-DependencyInjection = %{version}
 Obsoletes: %{name}-dependencyinjection  < %{version}
 Provides:  %{name}-dependencyinjection  = %{version}
 
+Conflicts: %{name}-dependency-injection >= 2.4.0
+
 %description dependency-injection
 The Dependency Injection component allows you to standardize and centralize
 the way objects are constructed in your application.
@@ -709,7 +745,7 @@ URL:       http://symfony.com/doc/2.3/components/dom_crawler.html
 
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/css-selector) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-dom
 Requires:  php-libxml
 Requires:  php-mbstring
@@ -726,6 +762,8 @@ Provides:  %{name}2-DomCrawler = %{version}
 Obsoletes: %{name}-domcrawler  < %{version}
 Provides:  %{name}-domcrawler  = %{version}
 
+Conflicts: %{name}-dom-crawler >= 2.4.0
+
 %description dom-crawler
 The DomCrawler Component eases DOM navigation for HTML and XML documents.
 
@@ -739,7 +777,7 @@ URL:       http://symfony.com/doc/2.3/components/event_dispatcher/index.html
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
 Requires:  php-composer(%{composer_vendor}/http-kernel)          = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-spl
 
 # Composer
@@ -751,6 +789,8 @@ Obsoletes: %{name}2-EventDispatcher < %{version}
 Provides:  %{name}2-EventDispatcher = %{version}
 Obsoletes: %{name}-eventdispatcher  < %{version}
 Provides:  %{name}-eventdispatcher  = %{version}
+
+Conflicts: %{name}-event-dispatcher >= 2.4.0
 
 %description event-dispatcher
 The Symfony Event Dispatcher component implements the Observer [1] pattern in
@@ -767,7 +807,7 @@ Summary:   Symfony Filesystem Component
 URL:       http://symfony.com/doc/2.3/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-spl
 
@@ -778,6 +818,8 @@ Provides:  php-pear(%{pear_channel}/Filesystem) = %{version}
 # Rename
 Obsoletes: %{name}2-Filesystem < %{version}
 Provides:  %{name}2-Filesystem = %{version}
+
+Conflicts: %{name}-filesystem >= 2.4.0
 
 %description filesystem
 The Filesystem component provides basic utilities for the filesystem.
@@ -790,7 +832,7 @@ Summary:   Symfony Finder Component
 URL:       http://symfony.com/doc/2.3/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -802,6 +844,8 @@ Provides:  php-pear(%{pear_channel}/Finder) = %{version}
 # Rename
 Obsoletes: %{name}2-Finder < %{version}
 Provides:  %{name}2-Finder = %{version}
+
+Conflicts: %{name}-finder >= 2.4.0
 
 %description finder
 The Finder Component finds files and directories via an intuitive fluent
@@ -821,7 +865,7 @@ Requires:  php-composer(%{composer_vendor}/property-access)  = %{version}
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/http-foundation)  = %{version}
 Requires:  php-composer(%{composer_vendor}/validator)        = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-hash
@@ -839,6 +883,8 @@ Provides:  php-pear(%{pear_channel}/Form) = %{version}
 Obsoletes: %{name}2-Form < %{version}
 Provides:  %{name}2-Form = %{version}
 
+Conflicts: %{name}-form >= 2.4.0
+
 %description form
 Form provides tools for defining forms, rendering and mapping request data
 to related models. Furthermore it provides integration with the Validation
@@ -852,7 +898,7 @@ Summary:   Symfony HttpFoundation Component
 URL:       http://symfony.com/doc/2.3/components/http_foundation/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
@@ -872,6 +918,8 @@ Obsoletes: %{name}2-HttpFoundation < %{version}
 Provides:  %{name}2-HttpFoundation = %{version}
 Obsoletes: %{name}-httpfoundation  < %{version}
 Provides:  %{name}-httpfoundation  = %{version}
+
+Conflicts: %{name}-http-foundation >= 2.4.0
 
 %description http-foundation
 The HttpFoundation Component defines an object-oriented layer for the HTTP
@@ -897,19 +945,19 @@ Summary:   Symfony HttpKernel Component
 URL:       http://symfony.com/doc/2.3/components/http_kernel/index.html
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/debug)                = %{version}
-Requires:  php-composer(%{composer_vendor}/event-dispatcher)     = %{version}
-Requires:  php-composer(%{composer_vendor}/http-foundation)      = %{version}
-Requires:  php-composer(psr/log) >= %{psrlog_min_ver}
-Requires:  php-composer(psr/log) <  %{psrlog_max_ver}
+Requires:  php-composer(%{composer_vendor}/debug)                =  %{version}
+Requires:  php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
+Requires:  php-composer(%{composer_vendor}/http-foundation)      =  %{version}
+Requires:  php-composer(psr/log)                                 >= %{psrlog_min_ver}
+Requires:  php-composer(psr/log)                                 <  %{psrlog_max_ver}
 # composer.json: optional
-Requires:  php-composer(%{composer_vendor}/browser-kit)          = %{version}
-Requires:  php-composer(%{composer_vendor}/class-loader)         = %{version}
-Requires:  php-composer(%{composer_vendor}/config)               = %{version}
-Requires:  php-composer(%{composer_vendor}/console)              = %{version}
-Requires:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
-Requires:  php-composer(%{composer_vendor}/finder)               = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+Requires:  php-composer(%{composer_vendor}/browser-kit)          =  %{version}
+Requires:  php-composer(%{composer_vendor}/class-loader)         =  %{version}
+Requires:  php-composer(%{composer_vendor}/config)               =  %{version}
+Requires:  php-composer(%{composer_vendor}/console)              =  %{version}
+Requires:  php-composer(%{composer_vendor}/dependency-injection) =  %{version}
+Requires:  php-composer(%{composer_vendor}/finder)               =  %{version}
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -929,6 +977,8 @@ Obsoletes: %{name}2-HttpKernel < %{version}
 Provides:  %{name}2-HttpKernel = %{version}
 Obsoletes: %{name}-httpkernel  < %{version}
 Provides:  %{name}-httpkernel  = %{version}
+
+Conflicts: %{name}-http-kernel >= 2.4.0
 
 %description http-kernel
 The HttpKernel Component provides a structured process for converting a Request
@@ -958,14 +1008,13 @@ Summary:   Symfony Intl Component
 URL:       http://symfony.com/doc/2.3/components/intl.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# composer.json
-#Requires:  php-composer(%{composer_vendor}/icu) >= %{symfony_icu_min_ver}
-#Requires:  php-composer(%{composer_vendor}/icu) <  %{symfony_icu_max_ver}
 # composer.json: optional
 Requires:  php-intl
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
+Requires:  php-ctype
 Requires:  php-date
 Requires:  php-intl
+Requires:  php-json
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-simplexml
@@ -978,6 +1027,8 @@ Provides:  php-pear(%{pear_channel}/Intl) = %{version}
 # Rename
 Obsoletes: %{name}2-Intl < %{version}
 Provides:  %{name}2-Intl = %{version}
+
+Conflicts: %{name}-intl >= 2.4.0
 
 %description intl
 A PHP replacement layer for the C intl extension [1] that also provides access
@@ -994,7 +1045,7 @@ Summary:   Symfony Locale Component
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/intl) = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-intl
 
 # Composer
@@ -1004,6 +1055,8 @@ Provides:  php-pear(%{pear_channel}/Locale) = %{version}
 # Rename
 Obsoletes: %{name}2-Locale < %{version}
 Provides:  %{name}2-Locale = %{version}
+
+Conflicts: %{name}-locale >= 2.4.0
 
 %description locale
 Locale provides fallback code to handle cases when the intl extension is
@@ -1020,7 +1073,7 @@ Summary:   Symfony OptionsResolver Component
 URL:       http://symfony.com/doc/2.3/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -1034,6 +1087,8 @@ Provides:  %{name}2-OptionsResolver = %{version}
 Obsoletes: %{name}-optionsresolver  < %{version}
 Provides:  %{name}-optionsresolver  = %{version}
 
+Conflicts: %{name}-options-resolver >= 2.4.0
+
 %description options-resolver
 The OptionsResolver Component helps you configure objects with option arrays.
 It supports default values, option constraints and lazy options.
@@ -1046,7 +1101,7 @@ Summary:   Symfony Process Component
 URL:       http://symfony.com/doc/2.3/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-pcntl
 Requires:  php-pcre
 Requires:  php-spl
@@ -1059,6 +1114,8 @@ Provides:  php-pear(%{pear_channel}/Process) = %{version}
 Obsoletes: %{name}2-Process < %{version}
 Provides:  %{name}2-Process = %{version}
 
+Conflicts: %{name}-process >= 2.4.0
+
 %description process
 The Process component executes commands in sub-processes.
 
@@ -1070,7 +1127,7 @@ Summary:   Symfony PropertyAccess Component
 URL:       http://symfony.com/doc/2.3/components/property_access/introduction.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-pcre
 Requires:  php-reflection
@@ -1086,6 +1143,8 @@ Provides:  %{name}2-PropertyAccess = %{version}
 Obsoletes: %{name}-propertyaccess  < %{version}
 Provides:  %{name}-propertyaccess  = %{version}
 
+Conflicts: %{name}-property-access >= 2.4.0
+
 %description property-access
 The PropertyAccess component provides function to read and write from/to an
 object or array using a simple string notation.
@@ -1100,9 +1159,9 @@ URL:       http://symfony.com/doc/2.3/components/routing/index.html
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/config) =  %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   =  %{version}
-Requires:  php-composer(doctrine/common)           >= %{doctrine_annotations_min_ver}
-Requires:  php-composer(doctrine/common)           <  %{doctrine_annotations_max_ver}
-# phpcompatinfo (computed from version 2.3.20)
+Requires:  php-composer(doctrine/common)           >= %{doctrine_common_min_ver}
+Requires:  php-composer(doctrine/common)           <  %{doctrine_common_max_ver}
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -1117,6 +1176,8 @@ Provides:  php-pear(%{pear_channel}/Routing) = %{version}
 Obsoletes: %{name}2-Routing < %{version}
 Provides:  %{name}2-Routing = %{version}
 
+Conflicts: %{name}-routing >= 2.4.0
+
 %description routing
 The Routing Component maps an HTTP request to a set of configuration variables.
 
@@ -1128,22 +1189,22 @@ Summary:   Symfony Security Component
 URL:       http://symfony.com/doc/2.3/components/security/index.html
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/event-dispatcher)    = %{version}
-Requires:  php-composer(%{composer_vendor}/http-foundation)     = %{version}
-Requires:  php-composer(%{composer_vendor}/http-kernel)         = %{version}
+Requires:  php-composer(%{composer_vendor}/event-dispatcher)    =  %{version}
+Requires:  php-composer(%{composer_vendor}/http-foundation)     =  %{version}
+Requires:  php-composer(%{composer_vendor}/http-kernel)         =  %{version}
 # composer.json: optional
-Requires:  php-composer(%{composer_vendor}/class-loader)        = %{version}
-Requires:  php-composer(%{composer_vendor}/finder)              = %{version}
-Requires:  php-composer(%{composer_vendor}/form)                = %{version}
-Requires:  php-composer(%{composer_vendor}/routing)             = %{version}
-Requires:  php-composer(%{composer_vendor}/validator)           = %{version}
-Requires:  php-composer(doctrine/dbal) >= %{doctrine_dbal_min_ver}
-Requires:  php-composer(doctrine/dbal) <  %{doctrine_dbal_max_ver}
+Requires:  php-composer(%{composer_vendor}/class-loader)        =  %{version}
+Requires:  php-composer(%{composer_vendor}/finder)              =  %{version}
+Requires:  php-composer(%{composer_vendor}/form)                =  %{version}
+Requires:  php-composer(%{composer_vendor}/routing)             =  %{version}
+Requires:  php-composer(%{composer_vendor}/validator)           =  %{version}
+Requires:  php-composer(doctrine/dbal)                          >= %{doctrine_dbal_min_ver}
+Requires:  php-composer(doctrine/dbal)                          <  %{doctrine_dbal_max_ver}
 %if 0%{?el6}%{?el7}
-Requires:  php-password-compat >= %{password_compat_min_ver}
-Requires:  php-password-compat <  %{password_compat_max_ver}
+Requires:  php-password-compat                                  >= %{password_compat_min_ver}
+Requires:  php-password-compat                                  <  %{password_compat_max_ver}
 %endif
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -1161,6 +1222,8 @@ Provides:  php-pear(%{pear_channel}/Security) = %{version}
 Obsoletes: %{name}2-Security < %{version}
 Provides:  %{name}2-Security = %{version}
 
+Conflicts: %{name}-security >= 2.4.0
+
 %description security
 The Security Component provides a complete security system for your web
 application. It ships with facilities for authenticating using HTTP basic
@@ -1177,7 +1240,7 @@ Summary:   Symfony Serializer Component
 URL:       http://symfony.com/doc/2.3/components/serializer.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -1195,6 +1258,8 @@ Provides:  php-pear(%{pear_channel}/Serializer) = %{version}
 Obsoletes: %{name}2-Serializer < %{version}
 Provides:  %{name}2-Serializer = %{version}
 
+Conflicts: %{name}-serializer >= 2.4.0
+
 %description serializer
 The Serializer Component is meant to be used to turn objects into a specific
 format (XML, JSON, Yaml, ...) and the other way around.
@@ -1207,13 +1272,15 @@ Summary:  Symfony Stopwatch Component
 URL:      http://symfony.com/doc/2.3/components/stopwatch.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires: php-spl
 
 # Composer
 Provides: php-composer(%{composer_vendor}/stopwatch) = %{version}
 # PEAR
 Provides: php-pear(%{pear_channel}/Stopwatch) = %{version}
+
+Conflicts: %{name}-stopwatch >= 2.4.0
 
 %description stopwatch
 Stopwatch component provides a way to profile code.
@@ -1226,7 +1293,7 @@ Summary:   Symfony Templating Component
 URL:       http://symfony.com/doc/2.3/components/templating.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-iconv
 Requires:  php-mbstring
@@ -1240,6 +1307,8 @@ Provides:  php-pear(%{pear_channel}/Templating) = %{version}
 # Rename
 Obsoletes: %{name}2-Templating < %{version}
 Provides:  %{name}2-Templating = %{version}
+
+Conflicts: %{name}-templating >= 2.4.0
 
 %description templating
 Templating provides all the tools needed to build any kind of template system.
@@ -1258,7 +1327,7 @@ Summary:   Symfony Translation Component
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/config) = %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   = %{version}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-dom
 Requires:  php-iconv
 Requires:  php-intl
@@ -1276,6 +1345,8 @@ Provides:  php-pear(%{pear_channel}/Translation) = %{version}
 Obsoletes: %{name}2-Translation < %{version}
 Provides:  %{name}2-Translation = %{version}
 
+Conflicts: %{name}-translation >= 2.4.0
+
 %description translation
 Translation provides tools for loading translation files and generating
 translated strings from these including support for pluralization.
@@ -1287,15 +1358,15 @@ translated strings from these including support for pluralization.
 Summary:   Symfony Validator Component
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/translation)     = %{version}
+Requires:  php-composer(%{composer_vendor}/translation)     =  %{version}
 # composer.json: optional
-Requires:  php-composer(%{composer_vendor}/config)          = %{version}
-Requires:  php-composer(%{composer_vendor}/http-foundation) = %{version}
-Requires:  php-composer(%{composer_vendor}/intl)            = %{version}
-Requires:  php-composer(%{composer_vendor}/yaml)            = %{version}
+Requires:  php-composer(%{composer_vendor}/config)          =  %{version}
+Requires:  php-composer(%{composer_vendor}/http-foundation) =  %{version}
+Requires:  php-composer(%{composer_vendor}/intl)            =  %{version}
+Requires:  php-composer(%{composer_vendor}/yaml)            =  %{version}
 Requires:  php-composer(doctrine/common)                    >= %{doctrine_common_min_ver}
 Requires:  php-composer(doctrine/common)                    <  %{doctrine_common_max_ver}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-filter
@@ -1314,6 +1385,8 @@ Provides:  php-pear(%{pear_channel}/Validator) = %{version}
 Obsoletes: %{name}2-Validator < %{version}
 Provides:  %{name}2-Validator = %{version}
 
+Conflicts: %{name}-validator >= 2.4.0
+
 %description validator
 This component is based on the JSR-303 Bean Validation specification and
 enables specifying validation rules for classes using XML, YAML, PHP or
@@ -1330,7 +1403,7 @@ Summary:   Symfony Yaml Component
 URL:       http://symfony.com/doc/2.3/components/yaml/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.20)
+# phpcompatinfo (computed from version 2.3.23)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-json
@@ -1345,6 +1418,8 @@ Provides:  php-pear(%{pear_channel}/Yaml) = %{version}
 # Rename
 Obsoletes: %{name}2-Yaml < %{version}
 Provides:  %{name}2-Yaml = %{version}
+
+Conflicts: %{name}-yaml >= 2.4.0
 
 %description yaml
 The YAML Component loads and dumps YAML files.
@@ -1361,7 +1436,7 @@ rm -rf src/Symfony/Bridge/{Propel1,ProxyManager}
 
 # Add missing files for PEAR compatibility
 cd src
-tar -xf %{SOURCE2}
+tar -xf %{SOURCE3}
 
 
 %build
@@ -1400,26 +1475,23 @@ $loader->useIncludePath(true);
 $loader->register();
 
 if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-    require __DIR__.'/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
+    require __DIR__ . '/../src/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
 }
 
-if (file_exists('%{_datadir}/php/password_compat/password.php')) {
-    require '%{_datadir}/php/password_compat/password.php';
+if (file_exists('%{phpdir}/password_compat/password.php')) {
+    require '%{phpdir}/password_compat/password.php';
 }
 
 return $loader;
 AUTOLOADER
 
 # Hack PHPUnit Autoloader (use current symfony instead of system one)
-if [ -d /usr/share/php/PHPUnit ]; then
+if [ -d %{phpdir}/PHPUnit ]; then
   mkdir PHPUnit
   sed -e '/Symfony/s:\$vendorDir:"./src/":' \
-      -e 's:path = dirname(__FILE__):path = "/usr/share/php/PHPUnit":' \
-      /usr/share/php/PHPUnit/Autoload.php >PHPUnit/Autoload.php
+      -e 's:path = dirname(__FILE__):path = "%{phpdir}/PHPUnit":' \
+      %{phpdir}/PHPUnit/Autoload.php > PHPUnit/Autoload.php
 fi
-
-# Create PHPUnit config w/ colors turned off
-sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 
 # Skip tests that rely on external resources
 rm -f src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/MongoDbSessionHandlerTest.php
@@ -1453,10 +1525,9 @@ rm -f src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NativeF
 RET=0
 for PKG in src/Symfony/*/*; do
     echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
-    %{_bindir}/phpunit \
+    %{__phpunit} \
         --include-path ./src \
         --exclude-group tty,benchmark \
-        -d date.timezone="UTC" \
         $PKG || RET=1
 done
 exit $RET
