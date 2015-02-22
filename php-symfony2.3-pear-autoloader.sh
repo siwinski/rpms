@@ -8,7 +8,7 @@ ARCHIVE=${RPM_SOURCEDIR}/php-symfony2.3-pear-autoloader-${VERSION}.tgz
 
 if [ -e $ARCHIVE ]
 then
-    echo -e "## ARCHIVE: $ARCHIVE"
+    echo "## ARCHIVE: $ARCHIVE"
     exit 0
 fi
 

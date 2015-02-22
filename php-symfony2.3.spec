@@ -1,8 +1,8 @@
 #
 # RPM spec file for php-symfony2.3
 #
-# Copyright (c) 2014 Shawn Iwinski <shawn.iwinski@gmail.com>
-#                    Remi Collet <remi@fedoraproject.org>
+# Copyright (c) 2014-2015 Shawn Iwinski <shawn.iwinski@gmail.com>
+#                         Remi Collet <remi@fedoraproject.org>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   2.3.23
-%global github_commit    daf150374dfb61cf68650f893fd3d726edc21318
+%global github_version   2.3.25
+%global github_commit    959733dc4b1da99b9e93a1762f4217eee20fc933
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -47,8 +47,8 @@
 # "symfony/icu": "~1.0"
 #%global symfony_icu_min_ver 1.0
 #%global symfony_icu_max_ver 2.0
-# "twig/twig": "~1.12"
-%global twig_min_ver 1.12
+# "twig/twig": "~1.12,>=1.12.3"
+%global twig_min_ver 1.12.3
 %global twig_max_ver 2.0
 
 %{!?phpdir:     %global phpdir     %{_datadir}/php}
@@ -102,7 +102,7 @@ BuildRequires: php-password-compat                  <  %{password_compat_max_ver
 %endif
 ## TODO: "propel/propel1"
 ## TODO: "ocramius/proxy-manager"
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-dom
@@ -210,7 +210,7 @@ Requires:  php-composer(doctrine/dbal)                >= %{doctrine_dbal_min_ver
 Requires:  php-composer(doctrine/dbal)                <  %{doctrine_dbal_max_ver}
 Requires:  php-composer(doctrine/orm)                 >= %{doctrine_orm_min_ver}
 Requires:  php-composer(doctrine/orm)                 <  %{doctrine_orm_max_ver}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-json
 Requires:  php-mbstring
@@ -241,7 +241,7 @@ Summary:   Symfony Monolog Bridge
 Requires:  php-composer(%{composer_vendor}/http-kernel) =  %{version}
 Requires:  php-composer(monolog/monolog)                >= %{monolog_min_ver}
 Requires:  php-composer(monolog/monolog)                <  %{monolog_max_ver}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 
 # Composer
@@ -310,7 +310,7 @@ Requires:  php-swift-Swift >= %{swift_min_ver}
 Requires:  php-swift-Swift <  %{swift_max_ver}
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 # <none>
 
 # Composer
@@ -349,7 +349,7 @@ Requires:  php-composer(%{composer_vendor}/security)    = %{version}
 Requires:  php-composer(%{composer_vendor}/templating)  = %{version}
 Requires:  php-composer(%{composer_vendor}/translation) = %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)        = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -390,7 +390,7 @@ Requires:  php-composer(%{composer_vendor}/console)              =  %{version}
 Requires:  php-composer(%{composer_vendor}/finder)               =  %{version}
 Requires:  php-composer(%{composer_vendor}/form)                 =  %{version}
 Requires:  php-composer(%{composer_vendor}/validator)            =  %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
@@ -427,7 +427,7 @@ Summary:   Symfony Security Bundle
 # composer.json
 Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
 Requires:  php-composer(%{composer_vendor}/security)    = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -451,7 +451,7 @@ Summary:   Symfony Twig Bundle
 # composer.json
 Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
 Requires:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-reflection
 Requires:  php-spl
@@ -480,7 +480,7 @@ Summary:   Symfony WebProfiler Bundle
 Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
 Requires:  php-composer(%{composer_vendor}/routing)     = %{version}
 Requires:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 Requires:  php-spl
 
@@ -508,7 +508,7 @@ Summary:   Symfony BrowserKit Component
 Requires:  php-composer(%{composer_vendor}/dom-crawler) = %{version}
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/process)     = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -539,7 +539,7 @@ Summary:   Symfony ClassLoader Component
 URL:       http://symfony.com/doc/2.3/components/class_loader/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -589,7 +589,7 @@ URL:       http://symfony.com/doc/2.3/components/config/index.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/filesystem) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -621,7 +621,7 @@ URL:       http://symfony.com/doc/2.3/components/console/index.html
 
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-dom
 Requires:  php-json
@@ -657,7 +657,7 @@ Summary:   Symfony CssSelector Component
 URL:       http://symfony.com/doc/2.3/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcre
 
 # Composer
@@ -686,7 +686,7 @@ URL:      http://symfony.com/doc/2.3/components/debug/index.html
 Requires: php-composer(%{composer_vendor}/class-loader)    = %{version}
 Requires: php-composer(%{composer_vendor}/http-foundation) = %{version}
 Requires: php-composer(%{composer_vendor}/http-kernel)     = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires: php-spl
 
 # Composer
@@ -713,7 +713,7 @@ URL:       http://symfony.com/doc/2.3/components/dependency_injection/index.html
 Requires:  php-composer(%{composer_vendor}/config) = %{version}
 #Requires:  php-composer(%%{composer_vendor}/proxy-manager-bridge) = %%{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -745,7 +745,7 @@ URL:       http://symfony.com/doc/2.3/components/dom_crawler.html
 
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/css-selector) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-dom
 Requires:  php-libxml
 Requires:  php-mbstring
@@ -777,7 +777,7 @@ URL:       http://symfony.com/doc/2.3/components/event_dispatcher/index.html
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
 Requires:  php-composer(%{composer_vendor}/http-kernel)          = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-spl
 
 # Composer
@@ -807,7 +807,7 @@ Summary:   Symfony Filesystem Component
 URL:       http://symfony.com/doc/2.3/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-spl
 
@@ -832,7 +832,7 @@ Summary:   Symfony Finder Component
 URL:       http://symfony.com/doc/2.3/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -865,7 +865,7 @@ Requires:  php-composer(%{composer_vendor}/property-access)  = %{version}
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/http-foundation)  = %{version}
 Requires:  php-composer(%{composer_vendor}/validator)        = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-hash
@@ -898,7 +898,7 @@ Summary:   Symfony HttpFoundation Component
 URL:       http://symfony.com/doc/2.3/components/http_foundation/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
@@ -957,7 +957,7 @@ Requires:  php-composer(%{composer_vendor}/config)               =  %{version}
 Requires:  php-composer(%{composer_vendor}/console)              =  %{version}
 Requires:  php-composer(%{composer_vendor}/dependency-injection) =  %{version}
 Requires:  php-composer(%{composer_vendor}/finder)               =  %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -1010,7 +1010,7 @@ URL:       http://symfony.com/doc/2.3/components/intl.html
 Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
 Requires:  php-intl
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-intl
@@ -1045,7 +1045,7 @@ Summary:   Symfony Locale Component
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/intl) = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-intl
 
 # Composer
@@ -1073,7 +1073,7 @@ Summary:   Symfony OptionsResolver Component
 URL:       http://symfony.com/doc/2.3/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -1101,7 +1101,7 @@ Summary:   Symfony Process Component
 URL:       http://symfony.com/doc/2.3/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-pcntl
 Requires:  php-pcre
 Requires:  php-spl
@@ -1127,7 +1127,7 @@ Summary:   Symfony PropertyAccess Component
 URL:       http://symfony.com/doc/2.3/components/property_access/introduction.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-pcre
 Requires:  php-reflection
@@ -1161,7 +1161,7 @@ Requires:  php-composer(%{composer_vendor}/config) =  %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   =  %{version}
 Requires:  php-composer(doctrine/common)           >= %{doctrine_common_min_ver}
 Requires:  php-composer(doctrine/common)           <  %{doctrine_common_max_ver}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-dom
 Requires:  php-pcre
 Requires:  php-reflection
@@ -1204,7 +1204,7 @@ Requires:  php-composer(doctrine/dbal)                          <  %{doctrine_db
 Requires:  php-password-compat                                  >= %{password_compat_min_ver}
 Requires:  php-password-compat                                  <  %{password_compat_max_ver}
 %endif
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
@@ -1240,7 +1240,7 @@ Summary:   Symfony Serializer Component
 URL:       http://symfony.com/doc/2.3/components/serializer.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -1272,7 +1272,7 @@ Summary:  Symfony Stopwatch Component
 URL:      http://symfony.com/doc/2.3/components/stopwatch.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires: php-spl
 
 # Composer
@@ -1293,7 +1293,7 @@ Summary:   Symfony Templating Component
 URL:       http://symfony.com/doc/2.3/components/templating.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-iconv
 Requires:  php-mbstring
@@ -1327,7 +1327,7 @@ Summary:   Symfony Translation Component
 # composer.json: optional
 Requires:  php-composer(%{composer_vendor}/config) = %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)   = %{version}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-dom
 Requires:  php-iconv
 Requires:  php-intl
@@ -1366,7 +1366,7 @@ Requires:  php-composer(%{composer_vendor}/intl)            =  %{version}
 Requires:  php-composer(%{composer_vendor}/yaml)            =  %{version}
 Requires:  php-composer(doctrine/common)                    >= %{doctrine_common_min_ver}
 Requires:  php-composer(doctrine/common)                    <  %{doctrine_common_max_ver}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-filter
@@ -1403,7 +1403,7 @@ Summary:   Symfony Yaml Component
 URL:       http://symfony.com/doc/2.3/components/yaml/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 2.3.23)
+# phpcompatinfo (computed from version 2.3.25)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-json
@@ -1550,7 +1550,8 @@ exit $RET
 
 %files common
 
-%doc *.md composer.json
+%doc *.md
+%doc composer.json
 %license LICENSE
 
 %dir %{symfony_dir}
@@ -2118,7 +2119,10 @@ exit $RET
 # ##############################################################################
 
 %changelog
-* Sun Jan 04 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.3.23-0
+* Sat Feb 21 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.3.25-1
+- Updated to 2.3.25
+
+* Sun Jan 04 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.3.23-1
 - Updated to 2.3.23
 
 * Mon Jan 13 2014 Remi Collet <remi@fedoraproject.org> - 2.3.9-0
