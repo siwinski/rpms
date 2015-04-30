@@ -63,6 +63,7 @@ pushd $TEMP_DIR
 
     [ -e $TAR_FILE ] && rm -f $TAR_FILE
     tar --exclude-vcs -czf $TAR_FILE $TAR_DIR
+    chmod 0644 $TAR_FILE
 popd
 
 rm -rf $TEMP_DIR
