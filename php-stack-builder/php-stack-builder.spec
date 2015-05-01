@@ -1,7 +1,7 @@
 #
 # RPM spec file for php-stack-builder
 #
-# Copyright (c) 2014 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     stackphp
 %global github_name      builder
-%global github_version   1.0.2
-%global github_commit    b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7
+%global github_version   1.0.3
+%global github_commit    c1f8a4693b55c563405024f708a76ef576c3b276
 
 %global composer_vendor  stack
 %global composer_project builder
@@ -22,14 +22,14 @@
 # "silex/silex": "~1.0"
 %global silex_min_ver    1.0
 %global silex_max_ver    2.0
-# "symfony/http-kernel": "~2.1"
+# "symfony/*": "~2.1"
 %global symfony_min_ver  2.1
 %global symfony_max_ver  3.0
 
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
-
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+
+%{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -42,15 +42,18 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+# For autoload generation
+BuildRequires: %{_bindir}/phpab
+# For tests
 %if %{with_tests}
-BuildRequires: php-phpunit-PHPUnit
-# composer.json
+BuildRequires: %{_bindir}/phpunit
+## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(symfony/http-foundation) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/http-foundation) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/http-kernel)     >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/http-kernel)     <  %{symfony_max_ver}
-# phpcompatinfo (computed from version 1.0.2)
+## phpcompatinfo (computed from version 1.0.3)
 BuildRequires: php-reflection
 BuildRequires: php-spl
 %endif
@@ -61,7 +64,7 @@ Requires:      php-composer(symfony/http-foundation) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/http-foundation) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/http-kernel)     >= %{symfony_min_ver}
 Requires:      php-composer(symfony/http-kernel)     <  %{symfony_max_ver}
-# phpcompatinfo (computed from version 1.0.2)
+# phpcompatinfo (computed from version 1.0.3)
 Requires:      php-reflection
 Requires:      php-spl
 
@@ -80,12 +83,24 @@ HttpKernelInterface decorator tree. It models it as a stack of middlewares.
 
 
 %build
-# Empty build section, nothing required
+: Generate autoloader
+%{_bindir}/phpab --nolower --output src/Stack/autoload-builder.php src/Stack
+
+cat >> src/Stack/autoload-builder.php <<'AUTOLOAD'
+
+// TODO: Add Symfony autoloaders from their packages when they are available
+spl_autoload_register(function ($class) {
+    if (0 === strpos($class, 'Symfony\\')) {
+        $src = str_replace('\\', '/',  $class) . '.php';
+        @include_once $src;
+    }
+});
+AUTOLOAD
 
 
 %install
-mkdir -pm 0755 %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
+mkdir -pm 0755 %{buildroot}%{phpdir}
+cp -rp src/* %{buildroot}%{phpdir}/
 
 
 %check
@@ -93,23 +108,11 @@ cp -rp src/* %{buildroot}/%{_datadir}/php/
 # Create bootstrap
 cat > bootstrap.php <<'BOOTSTRAP'
 <?php
-
-// Add non-standard Pimple path to include path
-set_include_path(get_include_path() . PATH_SEPARATOR . '%{_datadir}/php/Pimple');
-
-spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
-    @include_once $src;
-});
+require '%{buildroot}%{phpdir}/Stack/autoload-builder.php';
+require '%{phpdir}/Silex/autoload.php';
 BOOTSTRAP
 
-# Create PHPUnit config with colors turned off
-sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
-
-%{__phpunit} \
-    --bootstrap ./bootstrap.php \
-    --include-path %{buildroot}%{_datadir}/php \
-    -d date.timezone="UTC"
+%{_bindir}/phpunit --bootstrap="bootstrap.php"
 %else
 : Tests skipped
 %endif
@@ -118,12 +121,14 @@ sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
-%doc *.md composer.json
+%doc *.md
+%doc composer.json
 %dir %{_datadir}/php/Stack
      %{_datadir}/php/Stack/Builder.php
      %{_datadir}/php/Stack/StackedHttpKernel.php
+     %{_datadir}/php/Stack/autoload-builder.php
 
 
 %changelog
-* Sat Oct 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.2-1
+* Fri May 01 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.3-1
 - Initial package
