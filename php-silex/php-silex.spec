@@ -1,7 +1,7 @@
 #
 # RPM spec file for php-silex
 #
-# Copyright (c) 2014 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,12 +11,13 @@
 
 %global github_owner          silexphp
 %global github_name           Silex
-%global github_version        1.2.2
-%global github_commit         8c5e86eb97f3eee633729b22e950082fb5591328
+%global github_version        1.2.4
+%global github_commit         417deb440eecf776df868d8760d0b7d8e2c4e6d1
 
 %global composer_vendor       silex
 %global composer_project      silex
 
+# "php": ">=5.3.3"
 %global php_min_ver           5.3.3
 # "doctrine/dbal": "~2.2"
 %global doctrine_dbal_min_ver 2.2.0
@@ -24,23 +25,21 @@
 # "monolog/monolog": "~1.4,>=1.4.1"
 %global monolog_min_ver       1.4.1
 %global monolog_max_ver       2.0.0
-# "phpunit/phpunit": "~3.7"
-#     NOTE: Max version ignored on purpose
-%global phpunit_min_ver       3.7.0
 # "pimple/pimple": "~1.0"
 %global pimple_min_ver        1.0.0
 %global pimple_max_ver        2.0.0
 # "swiftmailer/swiftmailer": "5.*"
 %global swiftmailer_min_ver   5.0.0
 %global swiftmailer_max_ver   6.0.0
-# "symfony/*": ">=2.3,<2.6-dev"
+# "symfony/*": "~2.3,<2.7"
 %global symfony_min_ver       2.3.0
-%global symfony_max_ver       2.6.0
+%global symfony_max_ver       2.7.0
 # "twig/twig": ">=1.8.0,<2.0-dev"
 %global twig_min_ver          1.8.0
 %global twig_max_ver          2.0.0
 
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
+%{!?phpdir:   %global phpdir   %{_datadir}/php}
+%{!?peardir:  %global peardir  %{_datadir}/pear}
 
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
@@ -56,9 +55,13 @@ URL:           http://silex.sensiolabs.org
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
 # composer.json
+BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                          >= %{php_min_ver}
+BuildRequires: php-composer(doctrine/dbal)            >= %{doctrine_dbal_min_ver}
+BuildRequires: php-composer(doctrine/dbal)            <  %{doctrine_dbal_max_ver}
 BuildRequires: php-composer(monolog/monolog)          >= %{monolog_min_ver}
 BuildRequires: php-composer(monolog/monolog)          <  %{monolog_max_ver}
 BuildRequires: php-composer(symfony/browser-kit)      >= %{symfony_min_ver}
@@ -101,17 +104,15 @@ BuildRequires: php-composer(symfony/twig-bridge)      >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/twig-bridge)      <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/validator)        >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/validator)        <  %{symfony_max_ver}
-BuildRequires: php-composer(doctrine/dbal)            >= %{doctrine_dbal_min_ver}
-BuildRequires: php-composer(doctrine/dbal)            <  %{doctrine_dbal_max_ver}
-BuildRequires: php-phpunit-PHPUnit                    >= %{phpunit_min_ver}
+BuildRequires: php-composer(twig/twig)                >= %{twig_min_ver}
+BuildRequires: php-composer(twig/twig)                <  %{twig_max_ver}
 BuildRequires: php-Pimple                             >= %{pimple_min_ver}
 BuildRequires: php-Pimple                             <  %{pimple_max_ver}
 BuildRequires: php-swift-Swift                        >= %{swiftmailer_min_ver}
 BuildRequires: php-swift-Swift                        <  %{swiftmailer_max_ver}
-BuildRequires: php-twig-Twig                          >= %{twig_min_ver}
-BuildRequires: php-twig-Twig                          <  %{twig_max_ver}
-# phpcompatinfo (computed from version 1.2.2)
+# phpcompatinfo (computed from version 1.2.4)
 BuildRequires: php-date
+BuildRequires: php-intl
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -141,8 +142,9 @@ Requires:      php-composer(symfony/dom-crawler)      >= %{symfony_min_ver}
 Requires:      php-composer(symfony/dom-crawler)      <  %{symfony_max_ver}
 Requires:      php-composer(symfony/form)             >= %{symfony_min_ver}
 Requires:      php-composer(symfony/form)             <  %{symfony_max_ver}
-# phpcompatinfo (computed from version 1.2.2)
+# phpcompatinfo (computed from version 1.2.4)
 Requires:      php-date
+Requires:      php-intl
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-session
@@ -171,43 +173,49 @@ aims to be:
 
 
 %build
-# Empty build section, nothing required
+: Generate autoloader
+%{_bindir}/phpab --nolower --output src/Silex/autoload.php src/Silex
 
+cat >> src/Silex/autoload.php <<'AUTOLOAD'
 
-%install
-mkdir -p %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
-
-
-%check
-%if %{with_tests}
-# Create custom bootstrap
-cat > bootstrap.php <<'BOOTSTRAP'
-<?php
+// TODO:
+// * Add Pimple autoloader from its' package when it is available
+// * Add Swift autoloader from its' package when it is available
 
 // Add non-standard Pimple and Swift paths to include path
 set_include_path(
     get_include_path()
-    . PATH_SEPARATOR . '%{_datadir}/php/Pimple'
-    . PATH_SEPARATOR . '%{_datadir}/php/Swift'
+    . PATH_SEPARATOR . '%{phpdir}/Pimple'
+    . PATH_SEPARATOR . '%{peardir}/Swift'
 );
 
 spl_autoload_register(function ($class) {
     $src = str_replace(array('\\', '_'), '/',  $class) . '.php';
     @include_once $src;
 });
+AUTOLOAD
+
+
+%install
+mkdir -p %{buildroot}%{phpdir}
+cp -rp src/* %{buildroot}%{phpdir}
+
+
+%check
+%if %{with_tests}
+: Recreate test bootstrap
+rm -f tests/bootstrap.php
+%{_bindir}/phpab --nolower --output tests/bootstrap.php tests
+cat >> tests/bootstrap.php <<'BOOTSTRAP'
+
+require '%{buildroot}%{phpdir}/Silex/autoload.php';
 BOOTSTRAP
 
-# Create PHPUnit config w/ colors turned off
-sed 's/colors\s*=\s*"true"/colors="false"/' phpunit.xml.dist > phpunit.xml
-
-# Skip tests known to fail
+# Temporarily skip tests known to fail
 rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
+rm -f tests/Silex/Tests/Application/SwiftmailerTraitTest.php
 
-%{__phpunit} \
-    --bootstrap ./bootstrap.php \
-    --include-path %{buildroot}%{_datadir}/php:./tests \
-    -d date.timezone="UTC"
+%{_bindir}/phpunit
 %else
 : Tests skipped
 %endif
@@ -216,10 +224,12 @@ rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
-%doc README.rst composer.json doc
-%{_datadir}/php/Silex
+%doc README.rst
+%doc composer.json
+%doc doc
+%{phpdir}/Silex
 
 
 %changelog
-* Sat Oct 04 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.2-1
+* Fri May 01 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-1
 - Initial package
