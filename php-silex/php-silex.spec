@@ -46,7 +46,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       1%{dist}
+Release:       2%{dist}
 Summary:       PHP micro-framework based on the Symfony components
 
 Group:         Development/Libraries
@@ -66,6 +66,8 @@ BuildRequires: php-composer(doctrine/dbal)            >= %{doctrine_dbal_min_ver
 BuildRequires: php-composer(doctrine/dbal)            <  %{doctrine_dbal_max_ver}
 BuildRequires: php-composer(monolog/monolog)          >= %{monolog_min_ver}
 BuildRequires: php-composer(monolog/monolog)          <  %{monolog_max_ver}
+BuildRequires: php-composer(pimple/pimple)            >= %{pimple_min_ver}
+BuildRequires: php-composer(pimple/pimple)            <  %{pimple_max_ver}
 BuildRequires: php-composer(symfony/browser-kit)      >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/browser-kit)      <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/config)           >= %{symfony_min_ver}
@@ -108,8 +110,6 @@ BuildRequires: php-composer(symfony/validator)        >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/validator)        <  %{symfony_max_ver}
 BuildRequires: php-composer(twig/twig)                >= %{twig_min_ver}
 BuildRequires: php-composer(twig/twig)                <  %{twig_max_ver}
-BuildRequires: php-Pimple                             >= %{pimple_min_ver}
-BuildRequires: php-Pimple                             <  %{pimple_max_ver}
 BuildRequires: php-swift-Swift                        >= %{swiftmailer_min_ver}
 BuildRequires: php-swift-Swift                        <  %{swiftmailer_max_ver}
 ## phpcompatinfo (computed from version 1.2.4)
@@ -125,6 +125,8 @@ BuildRequires: php-tokenizer
 
 # composer.json
 Requires:      php(language)                          >= %{php_min_ver}
+Requires:      php-composer(pimple/pimple)            >= %{pimple_min_ver}
+Requires:      php-composer(pimple/pimple)            <  %{pimple_max_ver}
 Requires:      php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/event-dispatcher) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/http-foundation)  >= %{symfony_min_ver}
@@ -133,8 +135,6 @@ Requires:      php-composer(symfony/http-kernel)      >= %{symfony_min_ver}
 Requires:      php-composer(symfony/http-kernel)      <  %{symfony_max_ver}
 Requires:      php-composer(symfony/routing)          >= %{symfony_min_ver}
 Requires:      php-composer(symfony/routing)          <  %{symfony_max_ver}
-Requires:      php-Pimple                             >= %{pimple_min_ver}
-Requires:      php-Pimple                             <  %{pimple_max_ver}
 # composer.json: Optional
 Requires:      php-composer(symfony/browser-kit)      >= %{symfony_min_ver}
 Requires:      php-composer(symfony/browser-kit)      <  %{symfony_max_ver}
@@ -180,14 +180,13 @@ aims to be:
 
 cat >> src/Silex/autoload.php <<'AUTOLOAD'
 
-// TODO:
-// * Add Pimple autoloader from its' package when it is available
-// * Add Swift autoloader from its' package when it is available
+require '%{phpdir}/Pimple/autoload.php';
 
-// Add non-standard Pimple and Swift paths to include path
+// TODO: Add other pkg autoloaders when they are available
+
+// Add non-standard Swift path to include path
 set_include_path(
     get_include_path()
-    . PATH_SEPARATOR . '%{phpdir}/Pimple'
     . PATH_SEPARATOR . '%{peardir}/Swift'
 );
 
@@ -218,6 +217,7 @@ rm -f \
     tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php \
     tests/Silex/Tests/Application/SwiftmailerTraitTest.php
 
+: Run tests
 %{_bindir}/phpunit
 %else
 : Tests skipped
@@ -234,5 +234,8 @@ rm -f \
 
 
 %changelog
+* Sun May 17 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-2
+- Fix php-composer(pimple/pimple) dependency
+
 * Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-1
 - Initial package
