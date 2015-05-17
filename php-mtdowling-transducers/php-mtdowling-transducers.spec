@@ -41,10 +41,11 @@ Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 %if %{with_tests}
+# For tests
+## composer.json
 BuildRequires: %{_bindir}/phpunit
-# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 0.3.0)
+## phpcompatinfo (computed from version 0.3.0)
 BuildRequires: php-ereg
 BuildRequires: php-json
 BuildRequires: php-spl
@@ -102,7 +103,8 @@ sed -e 's/function testToTraversableReturnsStreamsIter/function SKIP_testToTrave
     -e 's/function testCanStepInClosing/function SKIP_testCanStepInClosing/' \
     -i tests/transducersTest.php
 
-%{_bindir}/phpunit --bootstrap="%{buildroot}%{phpdir}/%{composer_project}/autoload.php"
+%{_bindir}/phpunit \
+    --bootstrap %{buildroot}%{phpdir}/%{composer_project}/autoload.php
 %else
 : Tests skipped
 %endif
@@ -118,5 +120,5 @@ sed -e 's/function testToTraversableReturnsStreamsIter/function SKIP_testToTrave
 
 
 %changelog
-* Thu Apr 30 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.3.0-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.3.0-1
 - Initial package
