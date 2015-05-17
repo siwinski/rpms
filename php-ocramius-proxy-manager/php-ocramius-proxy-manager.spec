@@ -23,8 +23,14 @@
 %global zf_min_ver  2.2.5
 %global zf_max_ver  3.0
 
+# Skip tests for EPEL 6 b/c PHPUnit < 4
+# TODO: Get tests running on EPEL 6!
+%if 0%{?el6}
+%global with_tests 0
+%else
 # Build using "--without tests" to disable tests
 %global with_tests %{?_without_tests:0}%{!?_without_tests:1}
+%endif
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -137,5 +143,5 @@ AUTOLOAD
 
 
 %changelog
-* Sat May 02 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
 - Initial package
