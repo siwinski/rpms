@@ -48,7 +48,9 @@ BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
 BuildRequires: %{_bindir}/phpunit
 ## composer.json
-BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php(language)                         >= %{php_min_ver}
+BuildRequires: php-composer(silex/silex)             >= %{silex_min_ver}
+BuildRequires: php-composer(silex/silex)             <  %{silex_max_ver}
 BuildRequires: php-composer(symfony/http-foundation) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/http-foundation) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/http-kernel)     >= %{symfony_min_ver}
@@ -59,7 +61,7 @@ BuildRequires: php-spl
 %endif
 
 # composer.json
-Requires:      php(language) >= %{php_min_ver}
+Requires:      php(language)                         >= %{php_min_ver}
 Requires:      php-composer(symfony/http-foundation) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/http-foundation) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/http-kernel)     >= %{symfony_min_ver}
@@ -99,7 +101,7 @@ AUTOLOAD
 
 
 %install
-mkdir -pm 0755 %{buildroot}%{phpdir}
+mkdir -p %{buildroot}%{phpdir}
 cp -rp src/* %{buildroot}%{phpdir}/
 
 
@@ -112,7 +114,7 @@ require '%{buildroot}%{phpdir}/Stack/autoload-builder.php';
 require '%{phpdir}/Silex/autoload.php';
 BOOTSTRAP
 
-%{_bindir}/phpunit --bootstrap="bootstrap.php"
+%{_bindir}/phpunit --bootstrap bootstrap.php
 %else
 : Tests skipped
 %endif
@@ -130,5 +132,5 @@ BOOTSTRAP
 
 
 %changelog
-* Fri May 01 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.3-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.3-1
 - Initial package
