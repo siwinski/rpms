@@ -36,12 +36,14 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+# For autoload generation
 BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
+# For tests
+## composer.json
 BuildRequires: %{_bindir}/phpunit
-# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 1.0.0)
+## phpcompatinfo (computed from version 1.0.0)
 BuildRequires: php-openssl
 %endif
 
@@ -54,7 +56,7 @@ Requires:      php-openssl
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-a tested, referenced, documented, and packaged implementation of Apache's APR1
+A tested, referenced, documented, and packaged implementation of Apache's APR1
 MD5 Hashing Algorithm in pure PHP.
 
 
@@ -74,7 +76,8 @@ cp -rp src/* %{buildroot}%{phpdir}/WhiteHat101/Crypt/
 
 %check
 %if %{with_tests}
-%{_bindir}/phpunit --bootstrap="%{buildroot}%{phpdir}/WhiteHat101/Crypt/autoload.php"
+%{_bindir}/phpunit \
+    --bootstrap %{buildroot}%{phpdir}/WhiteHat101/Crypt/autoload.php
 %else
 : Tests skipped
 %endif
@@ -90,5 +93,5 @@ cp -rp src/* %{buildroot}%{phpdir}/WhiteHat101/Crypt/
 
 
 %changelog
-* Thu Apr 30 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
 - Initial package
