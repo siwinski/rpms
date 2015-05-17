@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_project}1
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A simple dependency injection container for PHP
 
 Group:         Development/Libraries
@@ -36,6 +36,8 @@ URL:           https://github.com/%{github_owner}/%{github_name}/tree/1.1
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+# For autoload generation
+BuildRequires: %{_bindir}/phpab
 # For tests
 BuildRequires: %{_bindir}/phpunit
 ## composer.json
@@ -101,5 +103,8 @@ BOOTSTRAP
 
 
 %changelog
+* Sun May 17 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.1-2
+- Add missing %%{_bindir}/phpab build dependency
+
 * Sun May 17 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.1-1
 - Rename of php-Pimple version 1 to php-pimple1
