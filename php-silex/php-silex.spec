@@ -38,11 +38,11 @@
 %global twig_min_ver          1.8.0
 %global twig_max_ver          2.0.0
 
-%{!?phpdir:   %global phpdir   %{_datadir}/php}
-%{!?peardir:  %global peardir  %{_datadir}/pear}
-
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+
+%{!?phpdir:   %global phpdir   %{_datadir}/php}
+%{!?peardir:  %global peardir  %{_datadir}/pear}
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
@@ -55,9 +55,11 @@ URL:           http://silex.sensiolabs.org
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+# For autoload generation
 BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
-# composer.json
+# For tests
+## composer.json
 BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                          >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/dbal)            >= %{doctrine_dbal_min_ver}
@@ -110,7 +112,7 @@ BuildRequires: php-Pimple                             >= %{pimple_min_ver}
 BuildRequires: php-Pimple                             <  %{pimple_max_ver}
 BuildRequires: php-swift-Swift                        >= %{swiftmailer_min_ver}
 BuildRequires: php-swift-Swift                        <  %{swiftmailer_max_ver}
-# phpcompatinfo (computed from version 1.2.4)
+## phpcompatinfo (computed from version 1.2.4)
 BuildRequires: php-date
 BuildRequires: php-intl
 BuildRequires: php-json
@@ -169,7 +171,7 @@ aims to be:
 
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%setup -qn %{github_name}-%{github_commit}
 
 
 %build
@@ -212,8 +214,9 @@ require '%{buildroot}%{phpdir}/Silex/autoload.php';
 BOOTSTRAP
 
 # Temporarily skip tests known to fail
-rm -f tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php
-rm -f tests/Silex/Tests/Application/SwiftmailerTraitTest.php
+rm -f \
+    tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php \
+    tests/Silex/Tests/Application/SwiftmailerTraitTest.php
 
 %{_bindir}/phpunit
 %else
@@ -231,5 +234,5 @@ rm -f tests/Silex/Tests/Application/SwiftmailerTraitTest.php
 
 
 %changelog
-* Fri May 01 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-1
 - Initial package
