@@ -36,10 +36,12 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
+# For autoload generation
 BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
+# For tests
+## composer.json
 BuildRequires: %{_bindir}/phpunit
-# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from version 2.1.0)
 BuildRequires: php-json
@@ -112,5 +114,5 @@ install -pm 0755 bin/jp.php %{buildroot}%{_bindir}/
 
 
 %changelog
-* Wed Apr 29 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.0-1
+* Sat May 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.0-1
 - Initial package
