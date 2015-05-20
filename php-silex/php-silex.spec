@@ -46,7 +46,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       2%{dist}
+Release:       3%{dist}
 Summary:       PHP micro-framework based on the Symfony components
 
 Group:         Development/Libraries
@@ -180,7 +180,7 @@ aims to be:
 
 cat >> src/Silex/autoload.php <<'AUTOLOAD'
 
-require '%{phpdir}/Pimple/autoload.php';
+require '%{phpdir}/Pimple1/autoload.php';
 
 // TODO: Add other pkg autoloaders when they are available
 
@@ -212,7 +212,7 @@ cat >> tests/bootstrap.php <<'BOOTSTRAP'
 require '%{buildroot}%{phpdir}/Silex/autoload.php';
 BOOTSTRAP
 
-# Temporarily skip tests known to fail
+: Temporarily skip tests known to fail
 rm -f \
     tests/Silex/Tests/Provider/SwiftmailerServiceProviderTest.php \
     tests/Silex/Tests/Application/SwiftmailerTraitTest.php
@@ -234,6 +234,9 @@ rm -f \
 
 
 %changelog
+* Wed May 20 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-3
+- "%%{phpdir}/Pimple" => "%%{phpdir}/Pimple1"
+
 * Sun May 17 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.4-2
 - Fix php-composer(pimple/pimple) dependency
 
