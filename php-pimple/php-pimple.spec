@@ -1,7 +1,7 @@
 #
 # RPM spec file for php-pimple
 #
-# Copyright (c) 2014 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -9,7 +9,7 @@
 # Please preserve changelog entries
 #
 
-%global github_owner     fabpot
+%global github_owner     silexphp
 %global github_name      Pimple
 %global github_version   3.0.0
 %global github_commit    876bf0899d01feacd2a2e83f04641e51350099ef
@@ -33,13 +33,12 @@
 # Build using "--without tests" to disable tests
 %global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
 
-%{!?php_inidir: %global php_inidir %{_sysconfdir}/php.d}
-%{!?__php:      %global __php      %{_bindir}/php}
-%{!?__phpunit:  %global __phpunit  %{_bindir}/phpunit}
+%{!?php_inidir:  %global php_inidir  %{_sysconfdir}/php.d}
+%{!?phpdir:      %global phpdir      %{_datadir}/php}
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       A simple dependency injection container for PHP (extension)
 
 Group:         Development/Libraries
@@ -48,10 +47,13 @@ URL:           http://pimple.sensiolabs.org
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildRequires: php-devel >= %{php_min_ver}
+# For autoload generation
+BuildRequires: %{_bindir}/phpab
 %if %{with_tests}
 # For tests
-BuildRequires: php-phpunit-PHPUnit
-# For tests: phpcompatinfo (computed from version 3.0.0)
+## composer.json
+BuildRequires: %{_bindir}/phpunit
+## phpcompatinfo (computed from version 3.0.0)
 BuildRequires: php-reflection
 BuildRequires: php-spl
 %endif
@@ -60,7 +62,7 @@ Requires:      php(zend-abi) = %{php_zend_api}
 Requires:      php(api)      = %{php_core_api}
 
 # Extension *or* library
-Conflicts: %{name}-lib
+Conflicts:     %{name}-lib
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
@@ -79,6 +81,8 @@ install "%{name}-lib" instead.  Only one or the other may be installed.
 %package lib
 
 Summary:   A simple dependency injection container for PHP (library)
+
+BuildArch: noarch
 
 # composer.json
 Requires:  php(language) >= %{php_min_ver}
@@ -100,30 +104,15 @@ Provides:  php-Pimple = %{version}-%{release}
 NOTE: This package installs the Pimple LIBRARY. If you would like the EXTENSION,
 install "%{name}" instead. Only one or the other may be installed.
 
-WARNING: %{_datadir}/php/Pimple/Pimple.php is only provided for compatibility
-with the obsoleted php-Pimple RPM package (i.e. Pimple v1 package) and will be
-removed in a future release. Please use the 'Pimple\Container' class instead.
-
 # ------------------------------------------------------------------------------
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
 # Lib
-## php-Pimple (i.e. Pimple v1 package) compat
-cat > src/Pimple/Pimple.php <<'PHP_PIMPLE_V1_COMPAT'
-<?php
-/**
- * This file is only provided for compatibility with the obsoleted php-Pimple
- * RPM package (i.e. Pimple v1 package).  Please use the 'Pimple\Container'
- * class instead.
- *
- * WARNING: This file will be removed in a future release.
- */
-
-include_once __DIR__ . '/Container.php';
-class_alias('Pimple\Container', 'Pimple');
-PHP_PIMPLE_V1_COMPAT
+## Move tests out of src directory
+mkdir -p tests/Pimple
+mv src/Pimple/Tests tests/Pimple/
 
 # Ext
 ## NTS
@@ -141,27 +130,30 @@ INI
 
 
 %build
+# Lib
+%{_bindir}/phpab --nolower --output src/Pimple/autoload.php src/Pimple
+
 # Ext
 ## NTS
 pushd ext/NTS
-%{_bindir}/phpize
-%configure --with-php-config=%{_bindir}/php-config
-make %{?_smp_mflags}
+    %{_bindir}/phpize
+    %configure --with-php-config=%{_bindir}/php-config
+    make %{?_smp_mflags}
 popd
 ## ZTS
 %if %{with_zts}
 pushd ext/ZTS
-%{_bindir}/zts-phpize
-%configure --with-php-config=%{_bindir}/zts-php-config
-make %{?_smp_mflags}
+    %{_bindir}/zts-phpize
+    %configure --with-php-config=%{_bindir}/zts-php-config
+    make %{?_smp_mflags}
 popd
 %endif
 
 
 %install
 # Lib
-mkdir -p %{buildroot}/%{_datadir}/php
-cp -rp src/* %{buildroot}/%{_datadir}/php/
+mkdir -p %{buildroot}/%{phpdir}/
+cp -rp src/* %{buildroot}/%{phpdir}/
 
 # Ext
 ## NTS
@@ -175,11 +167,6 @@ install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 
 
 %check
-: Lib compat test
-php -r "require '%{buildroot}%{_datadir}/php/Pimple/Pimple.php'; \
-    echo ('Pimple\Container' == get_class(new Pimple)) ? 'PASS' : 'FAIL';" \
-    | grep PASS > /dev/null
-
 : Extension NTS minimal load test
 %{__php} --no-php-ini \
     --define extension=ext/NTS/modules/%{ext_name}.so \
@@ -193,37 +180,22 @@ php -r "require '%{buildroot}%{_datadir}/php/Pimple/Pimple.php'; \
 %endif
 
 %if %{with_tests}
-# Library test suite
-## Create autoloader
-mkdir vendor
-cat > vendor/autoload.php <<'AUTOLOAD'
-<?php
-
-spl_autoload_register(function ($class) {
-    $src = str_replace('\\', '/', $class).'.php';
-    @include_once $src;
-});
-AUTOLOAD
-
-## Create PHPUnit config with colors turned off
-sed 's/colors="true"/colors="false"/' phpunit.xml.dist > phpunit.xml
-
 : Library test suite without extension
-%{__phpunit} --include-path %{buildroot}%{_datadir}/php -d date.timezone="UTC"
+%{_bindir}/phpunit --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
 
 : Library test suite with extension
-%{__php} --define extension=ext/NTS/modules/%{ext_name}.so \
-    %{__phpunit} --include-path %{buildroot}%{_datadir}/php -d date.timezone="UTC"
+%{_bindir}/php --define extension=ext/NTS/modules/%{ext_name}.so \
+    %{_bindir}/phpunit --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
 
 : Extension NTS test suite
 pushd ext/NTS
-make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
+    make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
 
 %if %{with_zts}
 : Extension ZTS test suite
 pushd ext/ZTS
-make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
+    make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
 %endif
 %else
@@ -235,7 +207,8 @@ popd
 
 %files
 %license LICENSE
-%doc CHANGELOG README.rst
+%doc CHANGELOG
+%doc README.rst
 # NTS
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{ext_name}.so
@@ -247,12 +220,17 @@ popd
 
 %files lib
 %license LICENSE
-%doc CHANGELOG README.rst composer.json
-         %{_datadir}/php/Pimple
-%exclude %{_datadir}/php/Pimple/Tests
+%doc CHANGELOG
+%doc README.rst
+%doc composer.json
+%{phpdir}/Pimple
 
 
 %changelog
+* Thu May 21 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-4
+- Add library autoloader
+- Spec cleanup
+
 * Wed Sep 03 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-3
 - Separate extension and library (i.e. sub-package library)
 
