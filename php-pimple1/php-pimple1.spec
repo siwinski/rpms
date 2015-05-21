@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_project}1
 Version:       %{github_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       A simple dependency injection container for PHP
 
 Group:         Development/Libraries
@@ -38,12 +38,14 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 BuildArch:     noarch
 # For autoload generation
 BuildRequires: %{_bindir}/phpab
+%if %{with_tests}
 # For tests
 BuildRequires: %{_bindir}/phpunit
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 ## phpcompatinfo (computed from version 1.1.1)
 BuildRequires: php-spl
+%endif
 
 Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from version 1.1.1)
@@ -97,6 +99,9 @@ BOOTSTRAP
 
 
 %changelog
+* Thu May 21 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.1-4
+- Wrap tests' build requires in "%%if %%{with_tests}"
+
 * Wed May 20 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.1-3
 - No rename and no conflict because the lib directory was changed from
   "%%{phpdir}/Pimple" to "%%{phpdir}/Pimple1".  This is possible because
