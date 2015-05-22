@@ -33,7 +33,7 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-# For autoload generation
+# Autoload generation
 BuildRequires: %{_bindir}/phpab
 
 # composer.json
@@ -104,5 +104,5 @@ install -pm 0755 bin/boris %{buildroot}%{_bindir}/
 
 
 %changelog
-* Thu May 21 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.10-1
+* Fri May 22 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.10-1
 - Initial package
