@@ -36,9 +36,10 @@ URL:           http://masterminds.github.io/html5-php
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-# For autoload generation
+# Autoload generation
 BuildRequires: %{_bindir}/phpab
-# For tests
+# Tests
+%if %{with_tests}
 ## composer.json
 BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language) >= %{php_min_ver}
@@ -52,6 +53,7 @@ BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-spl
 BuildRequires: php-xml
+%endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
@@ -133,5 +135,5 @@ AUTOLOAD
 
 
 %changelog
-* Tue May 19 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
+* Fri May 22 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.1.1-1
 - Initial package
