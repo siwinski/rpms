@@ -104,7 +104,7 @@ cp -pr lib/* %{buildroot}%{libdir}/
 
 %check
 %if %{with_tests}
-%{_bindir}/phpunit --bootstrap %{buildroot}%{libdir}/autoload.php
+%{_bindir}/phpunit --bootstrap %{buildroot}%{libdir}/autoload.php -v
 %else
 : Tests skipped
 %endif
