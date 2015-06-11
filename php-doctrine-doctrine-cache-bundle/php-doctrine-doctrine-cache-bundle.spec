@@ -132,7 +132,7 @@ sed -e 's#\./#%{buildroot}%{phpdir}/Doctrine/Bundle/DoctrineCacheBundle/#g' \
     -e 's#>\.<#>%{buildroot}%{phpdir}/Doctrine/Bundle/DoctrineCacheBundle<#' \
     -i phpunit.xml.dist
 
-%{_bindir}/phpunit \
+%{_bindir}/phpunit -v \
     --bootstrap %{buildroot}%{phpdir}/Doctrine/Bundle/DoctrineCacheBundle/autoload.php
 %else
 : Tests skipped
