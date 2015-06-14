@@ -12,3 +12,6 @@ RPMS
 SOURCES
 SPECS
 SRPMS
+
+# Other
+koji-scratch-*.log

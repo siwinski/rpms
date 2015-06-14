@@ -1,0 +1,34 @@
+#!/bin/bash
+
+SELF=`basename "$0"`
+BUILD_LOG=${SELF}-build.log
+WATCH_LOG=${SELF}-watch.log
+
+rm -f $BUILD_LOG $WATCH_LOG
+
+for SRPM in "$@"
+do
+	if [ "${SRPM: -8}" != ".src.rpm" ]
+	then
+		echo -e "\e[0;31mERROR: \"$SRPM\" is not a source RPM (*.src.rpm)\e[0m" 1>&2
+		continue
+	fi
+
+	echo -e "\e[0;32m>>>>>>>>>> `basename $SRPM` <<<<<<<<<<\e[0m" | tee --append $BUILD_LOG
+
+
+	for DIST in rawhide f22 f21 epel7 dist-6E-epel
+	do
+		echo -e "\e[0;32m>>>>> $DIST\e[0m" | tee --append $BUILD_LOG
+		koji build --scratch --nowait $DIST $SRPM | tee --append $BUILD_LOG
+	done
+done
+
+if [ -e $BUILD_LOG ]
+then
+	echo
+	echo
+	echo
+	echo -e "\e[0;32m>>>>>>>>>> WATCH <<<<<<<<<<\e[0m"
+	grep '^Created task:' $BUILD_LOG | awk '{print $3}' | xargs koji watch-task | tee $WATCH_LOG
+fi
