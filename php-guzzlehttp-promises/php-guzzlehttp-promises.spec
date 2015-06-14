@@ -11,17 +11,17 @@
 
 %global github_owner     guzzle
 %global github_name      promises
-%global github_version   0.1.1
-%global github_commit    89e850a66126a06a1088b9d47bc1d5761461dafe
+%global github_version   1.0.0
+%global github_commit    01abc3232138f330d8a1eaa808fcbdf9b4292f47
 
 %global composer_vendor  guzzlehttp
 %global composer_project promises
 
-# "php": ">=5.4.0"
-%global php_min_ver 5.4.0
+# "php": ">=5.5.0"
+%global php_min_ver 5.5.0
 
 # Build using "--without tests" to disable tests
-%global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+%global with_tests 0%{!?_without_tests:1}
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -36,19 +36,19 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
-BuildRequires: %{_bindir}/phpab
+# Tests
 %if %{with_tests}
+## composer.json
 BuildRequires: %{_bindir}/phpunit
-# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 0.1.1)
+## phpcompatinfo (computed from version 1.0.0)
 BuildRequires: php-json
 BuildRequires: php-spl
 %endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 0.1.1)
+# phpcompatinfo (computed from version 1.0.0)
 Requires:      php-json
 Requires:      php-spl
 
@@ -57,8 +57,8 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 Promises/A+ [1] implementation that handles promise chaining and resolution
-iteratively, allowing for "infinite" promise chaining while keeping the stack
-size constant.
+interactively, allowing for "infinite" promise chaining while keeping the
+stack size constant.
 
 [1] https://promisesaplus.com/
 
@@ -66,28 +66,48 @@ size constant.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
+: Create autoloader
+(cat <<'AUTOLOAD'
+<?php
+/**
+ * Autoloader created by %{name}-%{version}-%{release}
+ *
+ * @return \Symfony\Component\ClassLoader\ClassLoader
+ */
+
+if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
+    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
+        require_once 'Symfony/Component/ClassLoader/ClassLoader.php';
+    }
+
+    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
+    $fedoraClassLoader->register();
+}
+
+$fedoraClassLoader->addPrefix('GuzzleHttp\\Promise', dirname(dirname(__DIR__)));
+
+require_once __DIR__ . '/functions.php';
+
+return $fedoraClassLoader;
+AUTOLOAD
+) | tee src/autoload.php
+
 
 %build
-: Generate autoloader
-%{_bindir}/phpab --nolower --output src/autoload.php src
-
-cat >> src/autoload.php <<'AUTOLOAD'
-
-require __DIR__ . '/functions.php';
-AUTOLOAD
+# Empty build section, nothing required
 
 
 %install
-mkdir -p %{buildroot}%{phpdir}/GuzzleHttp/Promises
-cp -rp src/* %{buildroot}%{phpdir}/GuzzleHttp/Promises/
+mkdir -p %{buildroot}%{phpdir}/GuzzleHttp/Promise
+cp -rp src/* %{buildroot}%{phpdir}/GuzzleHttp/Promise/
 
 
 %check
 %if %{with_tests}
-sed "s#.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promises/autoload.php';#" \
+sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promise/autoload.php';#" \
     -i tests/bootstrap.php
 
-%{_bindir}/phpunit
+%{_bindir}/phpunit -v
 %else
 : Tests skipped
 %endif
@@ -96,12 +116,12 @@ sed "s#.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promises/autoload.
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
-%doc CHANGELOG.md
-%doc README.md
+%doc *.md
 %doc composer.json
-%{phpdir}/GuzzleHttp/Promises
+%dir %{phpdir}/GuzzleHttp
+     %{phpdir}/GuzzleHttp/Promise
 
 
 %changelog
-* Wed Apr 29 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.1.1-1
+* Sun Jun 14 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
 - Initial package
