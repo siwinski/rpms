@@ -38,7 +38,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Symfony2 Bundle for Doctrine Cache
 
 Group:         Development/Libraries
@@ -54,9 +54,13 @@ BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                          >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/cache)           >= %{cache_min_ver}
 BuildRequires: php-composer(doctrine/inflector)       >= %{inflector_min_ver}
+BuildRequires: php-composer(symfony/console)          >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/doctrine-bridge)  >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/finder)           >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/framework-bundle) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/security)         >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/validator)        >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/yaml)             >= %{symfony_min_ver}
 ## phpcompatinfo (computed from version 1.0.1)
 BuildRequires: php-hash
 BuildRequires: php-reflection
@@ -66,7 +70,17 @@ BuildRequires: php-composer(symfony/class-loader)
 %endif
 
 # composer.json
-Requires:      php(language) >= %{php_min_ver}
+Requires:      php(language)                          >= %{php_min_ver}
+Requires:      php-composer(doctrine/cache)           >= %{cache_min_ver}
+Requires:      php-composer(doctrine/cache)           <  %{cache_max_ver}
+Requires:      php-composer(doctrine/inflector)       >= %{inflector_min_ver}
+Requires:      php-composer(doctrine/inflector)       <  %{inflector_max_ver}
+Requires:      php-composer(symfony/doctrine-bridge)  >= %{symfony_min_ver}
+Requires:      php-composer(symfony/doctrine-bridge)  <  %{symfony_max_ver}
+Requires:      php-composer(symfony/framework-bundle) >= %{symfony_min_ver}
+Requires:      php-composer(symfony/framework-bundle) <  %{symfony_max_ver}
+Requires:      php-composer(symfony/security)         >= %{symfony_min_ver}
+Requires:      php-composer(symfony/security)         <  %{symfony_max_ver}
 # phpcompatinfo (computed from version 1.0.1)
 Requires:      php-hash
 Requires:      php-reflection
@@ -150,5 +164,8 @@ sed -e 's#\./#%{buildroot}%{phpdir}/Doctrine/Bundle/DoctrineCacheBundle/#g' \
 
 
 %changelog
+* Tue Jun 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-2
+- Fix dependencies
+
 * Thu Jun 11 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-1
 - Initial package
