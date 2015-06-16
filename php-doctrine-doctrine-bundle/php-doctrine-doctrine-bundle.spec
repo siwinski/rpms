@@ -25,23 +25,31 @@
 # "doctrine/doctrine-cache-bundle": "~1.0"
 %global cache_bundle_min_ver 1.0
 %global cache_bundle_max_ver 2.0
+# "doctrine/orm": "~2.3"
+%global orm_min_ver 2.3
+%global orm_max_ver 3.0
 # "jdorn/sql-formatter": "~1.1"
 %global sql_formatter_min_ver 1.1
 %global sql_formatter_max_ver 2.0
 # "symfony/console": "~2.3"
 # "symfony/doctrine-bridge": "~2.2"
 # "symfony/framework-bundle": "~2.3"
+# "symfony/validator": "~2.2"
+# "symfony/yaml": "~2.2"
 %global symfony_min_ver 2.3
 %global symfony_max_ver 3.0
+# "twig/twig": "~1.10"
+%global twig_min_ver 1.10
+%global twig_max_ver 2.0
 
 # Build using "--without tests" to disable tests
-%global with_tests  %{?_without_tests:0}%{!?_without_tests:1}
+%global with_tests  0%{!?_without_tests:1}
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Symfony2 Bundle for Doctrine
 
 Group:         Development/Libraries
@@ -57,10 +65,14 @@ BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                                >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/dbal)                  >= %{dbal_min_ver}
 BuildRequires: php-composer(doctrine/doctrine-cache-bundle) >= %{cache_bundle_min_ver}
+BuildRequires: php-composer(doctrine/orm)                   >= %{orm_min_ver}
 BuildRequires: php-composer(jdorn/sql-formatter)            >= %{sql_formatter_min_ver}
 BuildRequires: php-composer(symfony/console)                >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/doctrine-bridge)        >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/framework-bundle)       >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/validator)              >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/yaml)                   >= %{symfony_min_ver}
+BuildRequires: php-composer(twig/twig)                      >= %{twig_min_ver}
 ## phpcompatinfo (computed from version 1.5.0)
 BuildRequires: php-dom
 BuildRequires: php-pcre
@@ -71,7 +83,19 @@ BuildRequires: php-composer(symfony/class-loader)
 %endif
 
 # composer.json
-Requires:      php(language) >= %{php_min_ver}
+Requires:      php(language)                                >= %{php_min_ver}
+Requires:      php-composer(doctrine/dbal)                  >= %{dbal_min_ver}
+Requires:      php-composer(doctrine/dbal)                  <  %{dbal_max_ver}
+Requires:      php-composer(doctrine/doctrine-cache-bundle) >= %{cache_bundle_min_ver}
+Requires:      php-composer(doctrine/doctrine-cache-bundle) <  %{cache_bundle_max_ver}
+Requires:      php-composer(jdorn/sql-formatter)            >= %{sql_formatter_min_ver}
+Requires:      php-composer(jdorn/sql-formatter)            <  %{sql_formatter_max_ver}
+Requires:      php-composer(symfony/console)                >= %{symfony_min_ver}
+Requires:      php-composer(symfony/console)                <  %{symfony_max_ver}
+Requires:      php-composer(symfony/doctrine-bridge)        >= %{symfony_min_ver}
+Requires:      php-composer(symfony/doctrine-bridge)        <  %{symfony_max_ver}
+Requires:      php-composer(symfony/framework-bundle)       >= %{symfony_min_ver}
+Requires:      php-composer(symfony/framework-bundle)       <  %{symfony_max_ver}
 # phpcompatinfo (computed from version 1.5.0)
 Requires:      php-pcre
 Requires:      php-reflection
@@ -82,13 +106,21 @@ Requires:      php-composer(symfony/class-loader)
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
+# Optional dependency version conflicts
+Conflicts:     php-composer(doctrine/orm)                <  %{orm_min_ver}
+Conflicts:     php-composer(doctrine/orm)                >= %{orm_max_ver}
+Conflicts:     php-composer(symfony/web-profiler-bundle) <  %{symfony_min_ver}
+Conflicts:     php-composer(symfony/web-profiler-bundle) >= %{symfony_max_ver}
+Conflicts:     php-composer(twig/twig)                   <  %{twig_min_ver}
+Conflicts:     php-composer(twig/twig)                   >= %{twig_max_ver}
+
 %description
 Doctrine DBAL & ORM Bundle for the Symfony Framework.
 
 Optional:
-* Doctrine ORM (php-doctrine-orm)
-* Symfony Web Profile Bundle (symfony/web-profiler-bundle)
-* Twig (php-twig)
+* Doctrine ORM (%{orm_min_ver} <= php-doctrine-orm < %{orm_max_ver})
+* Symfony Web Profile Bundle (%{symfony_min_ver} <= php-symfony-web-profiler-bundle < %{symfony_max_ver})
+* Twig (%{twig_min_ver} <= php-twig < %{twig_max_ver})
 
 
 %prep
@@ -152,5 +184,9 @@ cp -pr Command Controller DataCollector DependencyInjection Mapping Resources Te
 
 
 %changelog
+* Tue Jun 16 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.5.0-2
+- Fixed dependencies
+- Added optional dependency version conflicts
+
 * Thu Jun 11 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.5.0-1
 - Initial package
