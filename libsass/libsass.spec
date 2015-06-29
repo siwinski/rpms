@@ -30,6 +30,7 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: gcc >= 4.6
 BuildRequires: libtool
 # Tests
 %if %{with_tests}
