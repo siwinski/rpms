@@ -29,6 +29,8 @@ URL:           http://libsass.org/
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildRequires: autoconf
+BuildRequires: automake
+BuildRequires: libtool
 # Tests
 %if %{with_tests}
 %endif
