@@ -11,8 +11,8 @@
 
 %global github_owner     guzzle
 %global github_name      promises
-%global github_version   1.0.0
-%global github_commit    01abc3232138f330d8a1eaa808fcbdf9b4292f47
+%global github_version   1.0.1
+%global github_commit    2ee5bc7f1a92efecc90da7f6711a53a7be26b5b7
 
 %global composer_vendor  guzzlehttp
 %global composer_project promises
@@ -39,16 +39,16 @@ BuildArch:     noarch
 # Tests
 %if %{with_tests}
 ## composer.json
-BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 1.0.0)
+BuildRequires: php-composer(phpunit/phpunit)
+## phpcompatinfo (computed from version 1.0.1)
 BuildRequires: php-json
 BuildRequires: php-spl
 %endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 1.0.0)
+# phpcompatinfo (computed from version 1.0.1)
 Requires:      php-json
 Requires:      php-spl
 
@@ -70,7 +70,9 @@ stack size constant.
 (cat <<'AUTOLOAD'
 <?php
 /**
- * Autoloader created by %{name}-%{version}-%{release}
+ * Autoloader for %{name} and its' dependencies
+ *
+ * Created by %{name}-%{version}-%{release}
  *
  * @return \Symfony\Component\ClassLoader\ClassLoader
  */
@@ -107,7 +109,7 @@ cp -rp src/* %{buildroot}%{phpdir}/GuzzleHttp/Promise/
 sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promise/autoload.php';#" \
     -i tests/bootstrap.php
 
-%{_bindir}/phpunit -v
+%{_bindir}/phpunit --verbose
 %else
 : Tests skipped
 %endif
@@ -123,5 +125,5 @@ sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promise/aut
 
 
 %changelog
-* Sun Jun 14 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
+* Mon Jul 06 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-1
 - Initial package
