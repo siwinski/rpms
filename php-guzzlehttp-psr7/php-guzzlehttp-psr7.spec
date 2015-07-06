@@ -11,15 +11,15 @@
 
 %global github_owner     guzzle
 %global github_name      psr7
-%global github_version   1.0.0
-%global github_commit    19e510056d8d671d9d9e25dc16937b3dd3802ae6
+%global github_version   1.1.0
+%global github_commit    af0e1758de355eb113917ad79c3c0e3604bce4bd
 
 %global composer_vendor  guzzlehttp
 %global composer_project psr7
 
 # "php": ">=5.4.0"
 %global php_min_ver 5.4.0
-# "psr/http-message": "^1.0"
+# "psr/http-message": "~1.0"
 %global psr_http_message_min_ver 1.0
 %global psr_http_message_max_ver 2.0
 
@@ -42,10 +42,10 @@ BuildArch:     noarch
 # Tests
 %if %{with_tests}
 ## composer.json
-BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                  >= %{php_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(psr/http-message) >= %{psr_http_message_min_ver}
-## phpcompatinfo (computed from version 1.0.0)
+## phpcompatinfo (computed from version 1.1.0)
 BuildRequires: php-hash
 BuildRequires: php-pcre
 BuildRequires: php-spl
@@ -56,7 +56,7 @@ BuildRequires: php-zlib
 Requires:      php(language)                  >= %{php_min_ver}
 Requires:      php-composer(psr/http-message) >= %{psr_http_message_min_ver}
 Requires:      php-composer(psr/http-message) <  %{psr_http_message_max_ver}
-# phpcompatinfo (computed from version 1.0.0)
+# phpcompatinfo (computed from version 1.1.0)
 Requires:      php-hash
 Requires:      php-pcre
 Requires:      php-spl
@@ -77,7 +77,9 @@ functionality like query string parsing.
 (cat <<'AUTOLOAD'
 <?php
 /**
- * Autoloader created by %{name}-%{version}-%{release}
+ * Autoloader for %{name} and its' dependencies
+ *
+ * Created by %{name}-%{version}-%{release}
  *
  * @return \Symfony\Component\ClassLoader\ClassLoader
  */
@@ -115,7 +117,7 @@ cp -rp src/* %{buildroot}%{phpdir}/GuzzleHttp/Psr7/
 sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Psr7/autoload.php';#" \
     -i tests/bootstrap.php
 
-%{_bindir}/phpunit -v
+%{_bindir}/phpunit --verbose
 %else
 : Tests skipped
 %endif
@@ -131,5 +133,5 @@ sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Psr7/autolo
 
 
 %changelog
-* Sun Jun 14 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.0-1
+* Mon Jul 06 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.0-1
 - Initial package
