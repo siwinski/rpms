@@ -53,6 +53,8 @@ BuildRequires: php-composer(symfony/http-foundation) >= %{symfony_min_ver}
 BuildRequires: php-date
 BuildRequires: php-reflection
 BuildRequires: php-spl
+## Autoloader
+BuildRequires: php-composer(symfony/class-loader)
 %endif
 
 # composer.json
@@ -64,6 +66,8 @@ Requires:      php-composer(symfony/http-foundation) <  %{symfony_max_ver}
 # phpcompatinfo (computed from version 0.2)
 Requires:      php-date
 Requires:      php-spl
+# Autoloader
+Requires:      php-composer(symfony/class-loader)
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
