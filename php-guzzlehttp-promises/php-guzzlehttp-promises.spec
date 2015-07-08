@@ -1,5 +1,5 @@
 #
-# RPM spec file for php-guzzlehttp-promises
+# Fedora spec file for php-guzzlehttp-promises
 #
 # Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Guzzle promises library
 
 Group:         Development/Libraries
@@ -44,6 +44,8 @@ BuildRequires: php-composer(phpunit/phpunit)
 ## phpcompatinfo (computed from version 1.0.1)
 BuildRequires: php-json
 BuildRequires: php-spl
+## Autoloader
+BuildRequires: php-composer(symfony/class-loader)
 %endif
 
 # composer.json
@@ -51,6 +53,8 @@ Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from version 1.0.1)
 Requires:      php-json
 Requires:      php-spl
+# Autoloader
+Requires:      php-composer(symfony/class-loader)
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -86,7 +90,7 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 
-$fedoraClassLoader->addPrefix('GuzzleHttp\\Promise', dirname(dirname(__DIR__)));
+$fedoraClassLoader->addPrefix('GuzzleHttp\\Promise\\', dirname(dirname(__DIR__)));
 
 require_once __DIR__ . '/functions.php';
 
@@ -125,5 +129,9 @@ sed "s#require.*autoload.*#require '%{buildroot}%{phpdir}/GuzzleHttp/Promise/aut
 
 
 %changelog
+* Wed Jul 08 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-2
+- Add autoloader dependencies
+- Modify autoloader
+
 * Mon Jul 06 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0.1-1
 - Initial package
