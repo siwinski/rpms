@@ -11,7 +11,7 @@
 
 %global github_owner     zendframework
 %global github_name      zend-diactoros
-%global github_version   1.1.1
+%global github_version   1.1.2
 %global github_commit    eeedadd333b80bb5d93559e2285047463fe4fe33
 
 %global composer_vendor  zendframework
@@ -34,7 +34,7 @@ Release:       1%{?github_release}%{?dist}
 Summary:       PSR HTTP Message implementations
 
 Group:         Development/Libraries
-License:       MIT
+License:       BSD
 URL:           https://github.com/%{github_owner}/%{github_name}
 
 # GitHub export does not include tests.
@@ -49,7 +49,7 @@ BuildArch:     noarch
 BuildRequires: php(language)                  >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(psr/http-message) >= %{psr_http_message_min_ver}
-## phpcompatinfo (computed from version 1.1.1)
+## phpcompatinfo (computed from version 1.1.2)
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-spl
@@ -61,7 +61,7 @@ BuildRequires: php-composer(symfony/class-loader)
 Requires:      php(language)                  >= %{php_min_ver}
 Requires:      php-composer(psr/http-message) >= %{psr_http_message_min_ver}
 Requires:      php-composer(psr/http-message) <  %{psr_http_message_max_ver}
-# phpcompatinfo (computed from version 1.1.1)
+# phpcompatinfo (computed from version 1.1.2)
 Requires:      php-json
 Requires:      php-pcre
 Requires:      php-spl
@@ -70,14 +70,14 @@ Requires:      php-composer(symfony/class-loader)
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-Provides:      php-composer(psr/http-message-implementation)        = 1.0
+Provides:      php-composer(psr/http-message-implementation)        = 1.0.0
 
 %description
 A PHP package containing implementations of the accepted PSR-7 HTTP message
 interfaces [1], as well as a "server" implementation similar to node's
 http.Server [2].
 
-[1] https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md
+[1] http://www.php-fig.org/psr/psr-7/
 [2] http://nodejs.org/api/http.html
 
 
@@ -99,7 +99,7 @@ require_once '%{phpdir}/Psr/Http/Message/autoload.php';
 
 if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
     if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
-        require_once 'Symfony/Component/ClassLoader/ClassLoader.php';
+        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
     }
 
     $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
@@ -154,5 +154,11 @@ BOOTSTRAP
 
 
 %changelog
+* Wed Jul 15 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.2-1
+- Update to 1.1.2
+- Fix license
+- Update description
+- Use full path in autoloader
+
 * Wed Jul 08 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.1-1
 - Initial package
