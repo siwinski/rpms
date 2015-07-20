@@ -1,5 +1,5 @@
 #
-# RPM spec file for drush
+# Fedora spec file for drush
 #
 # Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
@@ -46,7 +46,7 @@ BuildArch:     noarch
 %if %{with_tests}
 BuildRequires: git >= %{git_min_ver}
 BuildRequires: patch
-BuildRequires: php-symfony-yaml
+BuildRequires: php-composer(symfony/yaml)
 # composer.json
 BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language) >= %{php_min_ver}
@@ -70,7 +70,7 @@ BuildRequires: php-spl
 
 Requires:      git >= %{git_min_ver}
 Requires:      patch
-Requires:      php-symfony-yaml
+Requires:      php-composer(symfony/yaml)
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from version 6.6.0)
@@ -117,16 +117,16 @@ and DB migrations, and misc utilities like run cron or clear cache.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-# Remove bundled Symfony YAML
+: Remove bundled Symfony YAML
 rm -rf lib/Yaml*
 sed -e "s#\$path\s*=\s*.*#\$path = '%{phpdir}/Symfony/Component/Yaml';#" \
     -e '/DRUSH_YAML_VERSION/d' \
     -i commands/core/outputformat/yaml.inc
 
-# Remove drush.bat
+: Remove drush.bat
 rm -f drush.bat
 
-# W: wrong-file-end-of-line-encoding /usr/share/doc/drush/examples/sandwich.txt
+: W: wrong-file-end-of-line-encoding /usr/share/doc/drush/examples/sandwich.txt
 sed -i 's/\r$//' examples/sandwich.txt
 
 
@@ -138,18 +138,18 @@ sed -i 's/\r$//' examples/sandwich.txt
 mkdir -p %{buildroot}%{drush_dir}
 cp -pr * %{buildroot}%{drush_dir}/
 
-# Bin
+: Bin
 mkdir -p %{buildroot}%{_bindir}
 ln -s %{drush_dir}/drush %{buildroot}%{_bindir}/drush
 
-# Completion
+: Completion
 mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d
 install -pm 0644 drush.complete.sh %{buildroot}%{_sysconfdir}/bash_completion.d/
 
 
 %check
 %if %{with_tests}
-%{_bindir}/phpunit -c tests/phpunit.xml.dist
+%{_bindir}/phpunit --verbose --configuration tests/phpunit.xml.dist
 %else
 : Tests skipped
 : Build using "--with tests" to enable tests
@@ -177,5 +177,5 @@ install -pm 0644 drush.complete.sh %{buildroot}%{_sysconfdir}/bash_completion.d/
 
 
 %changelog
-* Thu Apr 30 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 6.6.0-1
+* Sun Jul 19 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 6.6.0-1
 - Initial package obsoleting php-drush-drush
