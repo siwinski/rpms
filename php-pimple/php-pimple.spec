@@ -1,5 +1,5 @@
 #
-# RPM spec file for php-pimple
+# Fedora spec file for php-pimple
 #
 # Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
@@ -38,7 +38,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       A simple dependency injection container for PHP (extension)
 
 Group:         Development/Libraries
@@ -109,39 +109,54 @@ install "%{name}" instead. Only one or the other may be installed.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-# Lib
-## Move tests out of src directory
-mkdir -p tests/Pimple
-mv src/Pimple/Tests tests/Pimple/
+: Library: Create autoloader
+cat <<'AUTOLOAD' | tee src/Pimple/autoload.php
+<?php
+/**
+ * Autoloader for %{name}-lib and its' dependencies
+ *
+ * Created by %{name}-lib-%{version}-%{release}
+ *
+ * @return \Symfony\Component\ClassLoader\ClassLoader
+ */
 
-# Ext
-## NTS
+if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
+    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
+        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
+    }
+
+    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
+    $fedoraClassLoader->register();
+}
+
+$fedoraClassLoader->addPrefix('Pimple\\', dirname(__DIR__));
+
+return $fedoraClassLoader;
+AUTOLOAD
+
+: Extension: NTS
 mv ext/%{ext_name} ext/NTS
-## ZTS
 %if %{with_zts}
+: Extension: ZTS
 cp -pr ext/NTS ext/ZTS
 %endif
 
-## Create configuration file
-cat > %{ini_name} << 'INI'
+: Extension: Create configuration file
+cat << 'INI' | tee %{ini_name}
 ; Enable %{ext_name} extension
 extension=%{ext_name}.so
 INI
 
 
 %build
-# Lib
-%{_bindir}/phpab --nolower --output src/Pimple/autoload.php src/Pimple
-
-# Ext
-## NTS
+: Extension: NTS
 pushd ext/NTS
     %{_bindir}/phpize
     %configure --with-php-config=%{_bindir}/php-config
     make %{?_smp_mflags}
 popd
-## ZTS
 %if %{with_zts}
+: Extension: ZTS
 pushd ext/ZTS
     %{_bindir}/zts-phpize
     %configure --with-php-config=%{_bindir}/zts-php-config
@@ -151,49 +166,50 @@ popd
 
 
 %install
-# Lib
+: Library
 mkdir -p %{buildroot}/%{phpdir}/
 cp -rp src/* %{buildroot}/%{phpdir}/
 
-# Ext
-## NTS
+: Extension: NTS
 make -C ext/NTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
-## ZTS
 %if %{with_zts}
+: Extension: ZTS
 make -C ext/ZTS install INSTALL_ROOT=%{buildroot}
 install -D -m 0644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
 
 %check
-: Extension NTS minimal load test
+: Extension: NTS minimal load test
 %{__php} --no-php-ini \
     --define extension=ext/NTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
 
 %if %{with_zts}
-: Extension ZTS minimal load test
+: Extension: ZTS minimal load test
 %{__ztsphp} --no-php-ini \
     --define extension=ext/ZTS/modules/%{ext_name}.so \
     --modules | grep %{ext_name}
 %endif
 
 %if %{with_tests}
-: Library test suite without extension
-%{_bindir}/phpunit --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
+: Library: Test suite without extension
+%{_bindir}/phpunit --verbose \
+    --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
 
-: Library test suite with extension
+: Library: Test suite with extension
 %{_bindir}/php --define extension=ext/NTS/modules/%{ext_name}.so \
-    %{_bindir}/phpunit --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
+    %{_bindir}/phpunit --verbose \
+        --bootstrap %{buildroot}/%{phpdir}/Pimple/autoload.php
 
-: Extension NTS test suite
+: Extension: NTS test suite
 pushd ext/NTS
     make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
 
 %if %{with_zts}
-: Extension ZTS test suite
+: Extension: ZTS test suite
 pushd ext/ZTS
     make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
 popd
@@ -224,9 +240,13 @@ popd
 %doc README.rst
 %doc composer.json
 %{phpdir}/Pimple
+%exclude %{phpdir}/Pimple/Tests
 
 
 %changelog
+* Mon Jul 20 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-5
+- Autoloader changed to Symfony ClassLoader
+
 * Thu May 21 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-4
 - Add library autoloader
 - Spec cleanup
