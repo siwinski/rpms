@@ -11,8 +11,8 @@
 
 %global github_owner     silexphp
 %global github_name      Pimple
-%global github_version   3.0.0
-%global github_commit    876bf0899d01feacd2a2e83f04641e51350099ef
+%global github_version   3.0.1
+%global github_commit    3313af5935dbc560fab845b76a1ca351b47855af
 
 # Lib
 %global composer_vendor  pimple
@@ -38,7 +38,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       5%{?dist}
+Release:       1%{?dist}
 Summary:       A simple dependency injection container for PHP (extension)
 
 Group:         Development/Libraries
@@ -61,9 +61,6 @@ BuildRequires: php-spl
 Requires:      php(zend-abi) = %{php_zend_api}
 Requires:      php(api)      = %{php_core_api}
 
-# Extension *or* library
-Conflicts:     %{name}-lib
-
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter shared private
 %{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
@@ -73,8 +70,7 @@ Conflicts:     %{name}-lib
 %description
 %{summary}.
 
-NOTE: This package installs the Pimple EXTENSION. If you would like the LIBRARY,
-install "%{name}-lib" instead.  Only one or the other may be installed.
+NOTE: This package installs the Pimple EXTENSION.
 
 # ------------------------------------------------------------------------------
 
@@ -86,11 +82,8 @@ BuildArch: noarch
 
 # composer.json
 Requires:  php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.0.1)
 Requires:  php-spl
-
-# Library *or* extension
-Conflicts: %{name}
 
 # Composer
 Provides:  php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -101,8 +94,8 @@ Provides:  php-Pimple = %{version}-%{release}
 %description lib
 %{summary}.
 
-NOTE: This package installs the Pimple LIBRARY. If you would like the EXTENSION,
-install "%{name}" instead. Only one or the other may be installed.
+NOTE: This package installs the Pimple LIBRARY. If you would like the EXTENSION
+for improved speed, install "%{name}".
 
 # ------------------------------------------------------------------------------
 
@@ -244,6 +237,9 @@ popd
 
 
 %changelog
+* Sun Aug 02 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.1-1
+- Updated to 3.0.1
+
 * Mon Jul 20 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0.0-5
 - Autoloader changed to Symfony ClassLoader
 
