@@ -30,7 +30,7 @@ sources:
 		chmod 0755 $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
 	fi
 
-	@[ -e *.patch ] && cp *.patch $(SOURCES_DIR)/
+	@[ -e *.patch ] && cp *.patch $(SOURCES_DIR)/ || :
 
 
 
