@@ -85,10 +85,13 @@ Requires:      php-spl
 # Autoloader
 Requires:      php-composer(symfony/class-loader)
 
+# Rename
 Obsoletes:     php-%{composer_vendor}-%{composer_project} <= 5.3.0-3
-Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-
+Provides:      php-%{composer_vendor}-%{composer_project} =  %{version}-%{release}
 Conflicts:     php-composer(%{composer_vendor}/%{composer_project}) >= 6.0
+
+# Composer
+Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 Guzzle is a PHP HTTP client that makes it easy to work with HTTP/1.1 and takes
