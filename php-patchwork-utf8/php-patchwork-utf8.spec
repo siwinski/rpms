@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Portable and performant UTF-8, Unicode and Grapheme Clusters for PHP
 
 Group:         Development/Libraries
@@ -38,6 +38,10 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 # Run php-patchwork-utf8-get-source.sh to create full source.
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
+
+# Add license files
+# https://github.com/tchwork/utf8/pull/50
+Patch0:        %{name}-pull-50.patch
 
 BuildArch:     noarch
 # Relative paths
@@ -88,6 +92,8 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+
+%patch0 -p1
 
 : Create autoloader
 cat <<'AUTOLOAD' | tee src/Patchwork/autoload.php
@@ -155,6 +161,8 @@ ln -s \
 
 
 %files
+%{!?_licensedir:%global license %%doc}
+%license LICENSE*
 %doc *.md
 %doc composer.json
 %{phpdir}/Patchwork
@@ -164,5 +172,8 @@ ln -s \
 
 
 %changelog
+* Sat Sep 19 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.3-2
+- Add patch for license files
+
 * Fri Sep 11 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.2.3-1
 - Initial package
