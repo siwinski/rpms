@@ -1,18 +1,29 @@
+#
+# Fedora spec file for php-phpoffice-phpexcel
+#
+# Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
+#
+# License: MIT
+# http://opensource.org/licenses/MIT
+#
+# Please preserve changelog entries
+#
+
 %global github_owner     PHPOffice
 %global github_name      PHPExcel
-%global github_version   1.8.0
-%global github_commit    4ab61ad35a9ed36f4bb9e651be5fb16428cba206
-# Commits after 1.8.0 tag
-%global github_release   .20140526git%(c=%{github_commit}; echo ${c:0:7})
+%global github_version   1.8.1
+%global github_commit    372c7cbb695a6f6f1e62649381aeaa37e7e70b32
 
 %global composer_vendor  phpoffice
 %global composer_project phpexcel
 
-# php": ">=5.2.0" (composer.json)
+# php": ">=5.2.0"
 %global php_min_ver      5.2.0
 
 # Build using "--without tests" to disable tests
-%global with_tests       %{?_without_tests:0}%{!?_without_tests:1}
+%global with_tests       0%{!?_without_tests:1}
+
+%{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -20,29 +31,36 @@ Release:       1%{?github_release}%{dist}
 Summary:       A pure PHP library for reading and writing spreadsheet files
 
 Group:         Development/Libraries
-# Everything is LGPLv2 except for certain PHPExcel/Shared OLE files which are PHP
-# See https://github.com/PHPOffice/PHPExcel/issues/364
+# Everything is LGPLv2 except for PHPExcel/Shared/OLE* which are PHP
+# See:
+#     * https://github.com/PHPOffice/PHPExcel/issues/364
+#     * https://github.com/PHPOffice/PHPExcel/issues/407
 License:       LGPLv2 and PHP
 URL:           http://phpoffice.github.io/phpexcel_features.html
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
+# Fix test for PHP < 5.4
+# https://github.com/PHPOffice/PHPExcel/pull/695
+# NOTE: Custom patch for 1.8.1 because pull request patch does not apply cleanly
+Patch0:        %{name}-pr695-1-8-1-custom.patch
+
 BuildArch:     noarch
+# Tests
 %if %{with_tests}
-# For tests
-BuildRequires: php-phpunit-PHPUnit
-# For tests: composer.json
+BuildRequires: php-composer(phpunit/phpunit)
+# composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-gd
+BuildRequires: php-mbstring
+BuildRequires: php-pecl(zip)
 BuildRequires: php-xml
 BuildRequires: php-xmlwriter
-BuildRequires: php-zip
-# For tests: phpcompatinfo (computed from version 1.8.0 commit 4ab61ad35a9ed36f4bb9e651be5fb16428cba206)
+# phpcompatinfo (computed from version 1.8.1)
 BuildRequires: php-ctype
 BuildRequires: php-date
 BuildRequires: php-dom
 BuildRequires: php-iconv
 BuildRequires: php-libxml
-BuildRequires: php-mbstring
 BuildRequires: php-pcre
 BuildRequires: php-pecl(igbinary)
 BuildRequires: php-posix
@@ -56,18 +74,18 @@ BuildRequires: php-zlib
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+Requires:      php-mbstring
 Requires:      php-xml
 Requires:      php-xmlwriter
 # composer.json (optional)
 Requires:      php-gd
-Requires:      php-zip
-# phpcompatinfo (computed from version 1.8.0 commit 4ab61ad35a9ed36f4bb9e651be5fb16428cba206)
+Requires:      php-pecl(zip)
+# phpcompatinfo (computed from version 1.8.1)
 Requires:      php-ctype
 Requires:      php-date
 Requires:      php-dom
 Requires:      php-iconv
 Requires:      php-libxml
-Requires:      php-mbstring
 Requires:      php-pcre
 Requires:      php-pecl(igbinary)
 Requires:      php-posix
@@ -80,9 +98,16 @@ Requires:      php-zlib
 # Unbundled
 Requires:      php-pclzip
 
-# TODO: Provide whichever virtual provide that gets approved in Fedora PHP packaging guidelines
-#Provides:      php-composer(%%{composer_vendor}/%%{composer_project}) = %%{version}
-#Provides:      php-packagist(%%{composer_vendor}/%%{composer_project}) = %%{version}
+# Composer
+Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
+
+# Bundled
+#
+# https://pear.php.net/package/OLE
+# See:
+#     * https://github.com/PHPOffice/PHPExcel/issues/364
+#     * https://github.com/PHPOffice/PHPExcel/issues/407
+Provides:      bundled(php-pear-OLE)
 
 %description
 Project providing a set of classes for the PHP programming language, which
@@ -97,16 +122,20 @@ Optional:
 
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%setup -qn %{github_name}-%{github_commit}
 
-# Fix wrong-file-end-of-line-encoding
+%patch0 -p0
+
+: Fix wrong-file-end-of-line-encoding
 find Examples -type f -exec sed -i 's/\r$//' {} \;
 
-# Remove unneeded files
+: Remove unneeded files
 find . -name '\.git*' | xargs rm -f
 
-# Remove bundled pclzip (license = LGPLv2)
+: Remove bundled pclzip
 rm -rf Classes/PHPExcel/Shared/PCLZip
+
+
 
 
 %build
@@ -114,25 +143,28 @@ rm -rf Classes/PHPExcel/Shared/PCLZip
 
 
 %install
-mkdir -p %{buildroot}%{_datadir}/php
-cp -rp Classes/* %{buildroot}%{_datadir}/php/
+mkdir -p %{buildroot}%{phpdir}
+cp -rp Classes/* %{buildroot}%{phpdir}/
 
-# Symlink to system pclzip (i.e. unbundled)
-ln -s %{_datadir}/php/pclzip %{buildroot}%{_datadir}/php/PHPExcel/Shared/PCLZip
+: Symlink to system pclzip
+ln -s %{phpdir}/pclzip %{buildroot}%{phpdir}/PHPExcel/Shared/PCLZip
 
-# Locales
-for LOCALE in %{buildroot}%{_datadir}/php/PHPExcel/locale/*
+: Locales
+for LOCALE in %{buildroot}%{phpdir}/PHPExcel/locale/*
 do
-    LANG=$(basename $LOCALE)
-    echo "%%lang(${LANG%_*}) $LOCALE"
+    LOCALE_LANG=`basename $LOCALE`
+    echo "%%lang(${LOCALE_LANG}) $LOCALE"
 done | sed 's#%{buildroot}##' | tee %{name}.lang
+
+: Autoloader
+ln -s ../PHPExcel.php %{buildroot}%{phpdir}/PHPExcel/autoload.php
 
 
 %check
 %if %{with_tests}
 cd unitTests
 
-# Remove tests known to fail
+: Remove tests known to fail
 rm -f \
     Classes/PHPExcel/Calculation/DateTimeTest.php \
     Classes/PHPExcel/Calculation/EngineeringTest.php \
@@ -148,34 +180,40 @@ rm -f \
     Classes/PHPExcel/Worksheet/AutoFilter/Column/RuleTest.php \
     Classes/PHPExcel/Worksheet/CellCollectionTest.php
 
-# Turn off PHPUnit colors
-sed -i 's/colors="true"/colors="false"/' phpunit.xml
-
-%{_bindir}/phpunit -d date.timezone="UTC"
+%{_bindir}/phpunit
 %else
 : Tests skipped
 %endif
 
 
 %files -f %{name}.lang
-%doc *.txt *.md Examples composer.json
-     %{_datadir}/php/PHPExcel.php
-%dir %{_datadir}/php/PHPExcel
-%dir %{_datadir}/php/PHPExcel/locale
-     %{_datadir}/php/PHPExcel/*.php
-     %{_datadir}/php/PHPExcel/CachedObjectStorage
-     %{_datadir}/php/PHPExcel/CalcEngine
-     %{_datadir}/php/PHPExcel/Calculation
-     %{_datadir}/php/PHPExcel/Cell
-     %{_datadir}/php/PHPExcel/Chart
-     %{_datadir}/php/PHPExcel/Reader
-     %{_datadir}/php/PHPExcel/RichText
-     %{_datadir}/php/PHPExcel/Shared
-     %{_datadir}/php/PHPExcel/Style
-     %{_datadir}/php/PHPExcel/Worksheet
-     %{_datadir}/php/PHPExcel/Writer
+%{!?_licensedir:%global license %%doc}
+%license license.md
+%doc Examples
+%doc changelog.txt
+%doc composer.json
+     %{phpdir}/PHPExcel.php
+%dir %{phpdir}/PHPExcel
+%dir %{phpdir}/PHPExcel/locale
+     %{phpdir}/PHPExcel/*.php
+     %{phpdir}/PHPExcel/CachedObjectStorage
+     %{phpdir}/PHPExcel/CalcEngine
+     %{phpdir}/PHPExcel/Calculation
+     %{phpdir}/PHPExcel/Cell
+     %{phpdir}/PHPExcel/Chart
+     %{phpdir}/PHPExcel/Helper
+     %{phpdir}/PHPExcel/Reader
+     %{phpdir}/PHPExcel/RichText
+     %{phpdir}/PHPExcel/Shared
+     %{phpdir}/PHPExcel/Style
+     %{phpdir}/PHPExcel/Worksheet
+     %{phpdir}/PHPExcel/Writer
 
 
 %changelog
+* Sun Oct 11 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8.1-1
+- Updated to 1.8.1
+- Spec cleanup
+
 * Thu May 29 2014 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8.0-1.20140526git4ab61ad
 - Initial package
