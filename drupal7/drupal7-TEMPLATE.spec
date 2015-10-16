@@ -4,16 +4,16 @@
 
 Name:          drupal7-%{module}
 Version:       __VERSION__
-Release:       1%{?dist}
+Release:       1%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       __SUMMARY__
 
 Group:         Applications/Publishing
 License:       GPLv2+
 URL:           http://drupal.org/project/%{module}
-Source0:       http://ftp.drupal.org/files/projects/%{module}-7.x-%{version}.tar.gz
-Source1:       %{name}-RPM-README.txt
+Source0:       http://ftp.drupal.org/files/projects/%{module}-7.x-%{version}%{?pre_release:-%{pre_release}}.tar.gz
 
 BuildArch:     noarch
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild >= 7.23-3
 
 # phpcompatinfo (computed from version __VERSION__)
@@ -22,13 +22,12 @@ BuildRequires: drupal7-rpmbuild >= 7.23-3
 %description
 __DESCRIPTION__
 
-This package provides the following Drupal module(s):
+This package provides the following Drupal 7 modules:
 * %{module}
 
 
 %prep
 %setup -qn %{module}
-cp -p %{SOURCE1} .
 
 
 %build
@@ -36,16 +35,21 @@ cp -p %{SOURCE1} .
 
 
 %install
-mkdir -p -m 0755 %{buildroot}%{drupal7_modules}/%{module}
+mkdir -p %{buildroot}%{drupal7_modules}/%{module}
 cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
+%clean
+rm -rf %{buildroot}
+
+
 %files
-%doc *.txt
+%defattr(-,root,root,-)
+%{!?_licensedir:%global license %%doc}
+%license LICENSE.txt
+%doc README.txt
 %{drupal7_modules}/%{module}
 %exclude %{drupal7_modules}/%{module}/*.txt
 
 
 %changelog
-* ddd MMM DD YYYY Shawn Iwinski <shawn.iwinski@gmail.com> __VERSION__-1
-- Initial package
