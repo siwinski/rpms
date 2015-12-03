@@ -102,7 +102,7 @@ BuildArch:     noarch
 # Tests
 %if %{with_tests}
 ## composer.json
-# Force version to 4.8 for autoloader
+### Force version to 4.8 for autoloader
 BuildRequires: php-composer(phpunit/phpunit)          >= 4.8
 BuildRequires: php(language)                          >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/annotations)     >= %{doctrine_annotations_min_ver}
@@ -239,11 +239,10 @@ Requires: php-hash
 Requires: php-iconv
 Requires: php-json
 Requires: php-pcre
+Requires: php-pdo_sqlite
 Requires: php-reflection
 Requires: php-session
 Requires: php-spl
-# phpcompatinfo: optional
-Suggests: php-pdo_sqlite
 
 # Composer
 Provides: php-composer(%{composer_vendor}/doctrine-bridge) = %{version}
@@ -433,7 +432,6 @@ Requires: php-posix
 Requires: php-reflection
 Requires: php-spl
 Requires: php-tokenizer
-# phpcompatinfo: optional
 Suggests: php-pcntl
 
 # Composer
@@ -567,7 +565,6 @@ The component only provide an abstract client and does not provide any
 %package   class-loader
 
 Summary:   Symfony ClassLoader Component (version 3)
-URL:       http://symfony.com/doc/current/components/class_loader/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -576,7 +573,6 @@ Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
 Requires:  php-tokenizer
-# phpcompatinfo: optional
 Suggests:  php-pecl(apcu)
 Suggests:  php-xcache
 
@@ -607,7 +603,6 @@ need.
 %package   config
 
 Summary:   Symfony Config Component (version 3)
-URL:       http://symfony.com/doc/current/components/config/index.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/filesystem) = %{version}
@@ -632,7 +627,6 @@ may be (Yaml, XML, INI files, or for instance a database).
 %package   console
 
 Summary:   Symfony Console Component (version 3)
-URL:       http://symfony.com/doc/current/components/console/index.html
 
 Requires: %{name}-common                                     =  %{version}-%{release}
 # composer.json: optional
@@ -667,7 +661,6 @@ other batch jobs.
 %package   css-selector
 
 Summary:   Symfony CssSelector Component (version 3)
-URL:       http://symfony.com/doc/current/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -684,7 +677,6 @@ The CssSelector Component converts CSS selectors to XPath expressions.
 %package  debug
 
 Summary:  Symfony Debug Component (version 3)
-URL:      http://symfony.com/doc/current/components/debug/index.html
 
 Requires: %{name}-common                                   =  %{version}-%{release}
 # composer.json
@@ -707,7 +699,6 @@ The Debug Component provides tools to ease debugging PHP code.
 %package   dependency-injection
 
 Summary:   Symfony DependencyInjection Component (version 3)
-URL:       http://symfony.com/doc/current/components/dependency_injection/index.html
 
 Requires: %{name}-common                                         = %{version}-%{release}
 # composer.json: optional
@@ -733,7 +724,6 @@ the way objects are constructed in your application.
 %package   dom-crawler
 
 Summary:   Symfony DomCrawler Component (version 3)
-URL:       http://symfony.com/doc/current/components/dom_crawler.html
 
 Requires: %{name}-common                                 = %{version}-%{release}
 # composer.json: optional
@@ -756,7 +746,6 @@ The DomCrawler Component eases DOM navigation for HTML and XML documents.
 %package   event-dispatcher
 
 Summary:   Symfony EventDispatcher Component (version 3)
-URL:       http://symfony.com/doc/current/components/event_dispatcher/index.html
 
 Requires: %{name}-common                                         = %{version}-%{release}
 # composer.json: optional
@@ -782,7 +771,6 @@ projects truly extensible.
 %package   expression-language
 
 Summary:   Symfony ExpressionLanguage Component (version 3)
-URL:       http://symfony.com/doc/current/components/expression_language/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -803,7 +791,6 @@ evaluate expressions. An expression is a one-liner that returns a value
 %package   filesystem
 
 Summary:   Symfony Filesystem Component (version 3)
-URL:       http://symfony.com/doc/current/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -824,7 +811,6 @@ The Filesystem component provides basic utilities for the filesystem.
 %package   finder
 
 Summary:   Symfony Finder Component (version 3)
-URL:       http://symfony.com/doc/current/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -877,7 +863,6 @@ component.
 %package   http-foundation
 
 Summary:   Symfony HttpFoundation Component (version 3)
-URL:       http://symfony.com/doc/current/components/http_foundation/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -912,7 +897,6 @@ variables and functions by an Object-Oriented layer.
 %package   http-kernel
 
 Summary:   Symfony HttpKernel Component (version 3)
-URL:       http://symfony.com/doc/current/components/http_kernel/index.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/debug)                =  %{version}
@@ -963,7 +947,6 @@ http://symfony.com/doc/current/reference/configuration/kernel.html
 %package   intl
 
 Summary:   Symfony Intl Component (version 3)
-URL:       http://symfony.com/doc/current/components/intl.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
@@ -1013,7 +996,6 @@ Provides:  php-composer(%{composer_vendor}/ldap)     =  %{version}
 %package   options-resolver
 
 Summary:   Symfony OptionsResolver Component (version 3)
-URL:       http://symfony.com/doc/current/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -1032,7 +1014,6 @@ It supports default values, option constraints and lazy options.
 %package   process
 
 Summary:   Symfony Process Component (version 3)
-URL:       http://symfony.com/doc/current/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -1050,7 +1031,6 @@ The Process component executes commands in sub-processes.
 %package   property-access
 
 Summary:   Symfony PropertyAccess Component (version 3)
-URL:       http://symfony.com/doc/current/components/property_access/introduction.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -1094,7 +1074,6 @@ Provides:  php-composer(%{composer_vendor}/property-info) = %{version}
 %package   routing
 
 Summary:   Symfony Routing Component (version 3)
-URL:       http://symfony.com/doc/current/components/routing/index.html
 
 Requires:  %{name}-common                                        =  %{version}-%{release}
 # composer.json: optional
@@ -1121,7 +1100,6 @@ The Routing Component maps an HTTP request to a set of configuration variables.
 %package   security
 
 Summary:   Symfony Security Component (version 3)
-URL:       http://symfony.com/doc/current/components/security/index.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/event-dispatcher)    =  %{version}
@@ -1173,7 +1151,6 @@ based on their roles, and it contains an advanced ACL system.
 %package   serializer
 
 Summary:   Symfony Serializer Component (version 3)
-URL:       http://symfony.com/doc/current/components/serializer.html
 
 Requires:  %{name}-common                                   =  %{version}-%{release}
 # composer.json: optional
@@ -1206,7 +1183,6 @@ format (XML, JSON, Yaml, ...) and the other way around.
 %package  stopwatch
 
 Summary:  Symfony Stopwatch Component (version 3)
-URL:      http://symfony.com/doc/current/components/stopwatch.html
 
 Requires: %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -1223,7 +1199,6 @@ Stopwatch component provides a way to profile code.
 %package   templating
 
 Summary:   Symfony Templating Component (version 3)
-URL:       http://symfony.com/doc/current/components/templating.html
 
 Requires:  %{name}-common        =  %{version}-%{release}
 # composer.json: optional
@@ -1365,7 +1340,6 @@ output formats and methods.
 %package   yaml
 
 Summary:   Symfony Yaml Component (version 3)
-URL:       http://symfony.com/doc/current/components/yaml/index.html
 
 Requires:  %{name}-common = %{version}-%{release}
 # phpcompatinfo (computed from version 3.0.0)
@@ -1388,128 +1362,38 @@ The YAML Component loads and dumps YAML files.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-%patch0 -p1
-
 : Remove unnecessary files
 find src -name '.git*' -delete
 
-: Create autoloader
-cat << 'AUTOLOAD' | tee src/Symfony/autoload.php
-<?php
-/**
- * Autoloader for all Symfony bridges/bundles/components and their dependencies.
- *
- * Created by %{name}-%{version}-%{release}
- *
- * Note: This autoloader does not do any registration with the Doctrine
- * annotation registry (i.e. \Doctrine\Common\Annotations\AnnotationRegistry).
- *
- * @return \Symfony\Component\ClassLoader\ClassLoader
- */
-
-// Dependency autoloaders
-foreach (array(
-    '%{phpdir}/Doctrine/Bundle/DoctrineBundle/autoload.php',
-    '%{phpdir}/Doctrine/Common/Annotations/autoload.php',
-    '%{phpdir}/Doctrine/Common/Cache/autoload.php',
-    '%{phpdir}/Doctrine/Common/DataFixtures/autoload.php',
-    '%{phpdir}/Doctrine/Common/autoload.php',
-    '%{phpdir}/Doctrine/DBAL/autoload.php',
-    '%{phpdir}/Doctrine/ORM/autoload.php',
-    '%{phpdir}/Egulias/EmailValidator/autoload.php',
-    '%{phpdir}/Monolog/autoload.php',
-    '%{phpdir}/ProxyManager/autoload.php',
-    '%{phpdir}/Psr/Log/autoload.php',
-    '%{phpdir}/Twig/autoload.php',
-    '%{phpdir}/password_compat/password.php',
-) as $dependencyAutoloader) {
-    if (file_exists($dependencyAutoloader)) {
-        require_once $dependencyAutoloader;
-    }
-}
-
-if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
-    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
-        require_once __DIR__ . '/Component/ClassLoader/ClassLoader.php';
-    }
-
-    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
-    $fedoraClassLoader->register();
-}
-
-if (!array_key_exists('Symfony\\', $fedoraClassLoader->getPrefixes())) {
-    $fedoraClassLoader->addPrefix('Symfony\\', dirname(__DIR__));
-}
-
-if (!interface_exists('SessionHandlerInterface', false) && file_exists(__DIR__ . '/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php')) {
-    require_once __DIR__ . '/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php';
-}
-
-if (file_exists('%{pear_phpdir}/Swift') && !array_key_exists('Swift_', $fedoraClassLoader->getPrefixes())) {
-    $fedoraClassLoader->addPrefix('Swift_', '%{pear_phpdir}/Swift');
-}
-
-$fedoraClassLoader->setUseIncludePath(true);
-
-return $fedoraClassLoader;
-AUTOLOAD
-
-: Create autoloader softlinks for each bridge/bundle/component
-for PKG in src/Symfony/*/*
-do
-    ln -s ../../autoload.php $PKG/autoload.php
-    # PEAR compat
-    ln -s ../../autoload.php $PKG/autoloader.php
-done
-
-%if %{with_tests}
-: Skip tests known to fail
-sed -e 's#function testItUsesTheConfiguredEntryPointWhenUsingUnknownCredentials#function SKIP_testItUsesTheConfiguredEntryPointWhenUsingUnknownCredentials#' \
-    -i src/Symfony/Bundle/SecurityBundle/Tests/Functional/FirewallEntryPointTest.php
-sed -e 's#function testHandleClassNotFound#function SKIP_testHandleClassNotFound#' \
-    -e 's#function testLegacyHandleClassNotFound#function SKIP_testLegacyHandleClassNotFound#' \
-    -i src/Symfony/Component/Debug/Tests/FatalErrorHandler/ClassNotFoundFatalErrorHandlerTest.php
-sed -e 's#function testCopyForOriginUrlsAndExistingLocalFileDefaultsToNotCopy#function SKIP_testCopyForOriginUrlsAndExistingLocalFileDefaultsToNotCopy#' \
-    -i src/Symfony/Component/Filesystem/Tests/FilesystemTest.php
-sed -e 's#function getScript#function SKIP_getScript#' \
-    -i src/Symfony/Component/HttpKernel/Tests/Fixtures/TestClient.php
-sed -e 's#function testFormatWithTimezoneFromEnvironmentVariable#function SKIP_testFormatWithTimezoneFromEnvironmentVariable#' \
-    -i src/Symfony/Component/Intl/Tests/DateFormatter/Verification/IntlDateFormatterTest.php
-sed -e 's#function testTTYCommand#function SKIP_testTTYCommand#' \
-    -e 's#function testTTYCommandExitCode#function SKIP_testTTYCommandExitCode#' \
-    -i src/Symfony/Component/Process/Tests/AbstractProcessTest.php
-sed -e 's#function testTTYCommandExitCode#function SKIP_testTTYCommandExitCode#' \
-    -i src/Symfony/Component/Process/Tests/SigchildDisabledProcessTest.php
-sed -e 's#function testSpecialVars56#function SKIP_testSpecialVars56#' \
-    -e 's#function testGlobalsNoExt#function SKIP_testGlobalsNoExt#' \
-    -e 's#function testBuggyRefs#function SKIP_testBuggyRefs#' \
-    -i src/Symfony/Component/VarDumper/Tests/CliDumperTest.php
-rm  src/Symfony/Component/Finder/Tests/Iterator/RecursiveDirectoryIteratorTest.php \
-    src/Symfony/Bundle/FrameworkBundle/Tests/Functional/ProfilerTest.php \
-    src/Symfony/Bundle/SecurityBundle/Tests/Functional/CsrfFormLoginTest.php \
-    src/Symfony/Bundle/SecurityBundle/Tests/Functional/FormLoginTest.php \
-    src/Symfony/Bundle/SecurityBundle/Tests/Functional/LocalizedRoutesAsPathTest.php \
-    src/Symfony/Bundle/SecurityBundle/Tests/Functional/SecurityRoutingIntegrationTest.php \
-    src/Symfony/Bundle/SecurityBundle/Tests/Functional/SwitchUserTest.php \
-    src/Symfony/Component/Form/Tests/Extension/Csrf/CsrfProvider/LegacyDefaultCsrfProviderTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NativeFileSessionHandlerTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NativeSessionHandlerTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Handler/NullSessionHandlerTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/NativeSessionStorageTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/PhpBridgeSessionStorageTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Proxy/AbstractProxyTest.php \
-    src/Symfony/Component/HttpFoundation/Tests/Session/Storage/Proxy/SessionHandlerProxyTest.php \
-    src/Symfony/Component/Security/Csrf/Tests/TokenStorage/NativeSessionTokenStorageTest.php
-%if 0%{?el7}
-sed -e 's#function testCreateFromChoicesSameChoices#function SKIP_testCreateFromChoicesSameChoices#' \
-    -e 's#function testCreateFromFlippedChoicesSameChoices#function SKIP_testCreateFromFlippedChoicesSameChoices#' \
-    -i src/Symfony/Component/Form/Tests/ChoiceList/Factory/CachingFactoryDecoratorTest.php
-%endif
-%endif
-
 
 %build
-# Empty build section, nothing required
+: Create common autoloader
+cat <<'AUTOLOAD' | tee src/Symfony/autoload-common.php
+<?php
+/**
+ * Autoloader for %{name} and its' dependencies
+ * (created by %{name}-%{version}-%{release}).
+ */
+
+if (!isset($fedoraPsr4ClassLoader) || !($fedoraPsr4ClassLoader instanceof \Symfony\Component\ClassLoader\Psr4ClassLoader)) {
+    if (!class_exists('Symfony\\Component\\ClassLoader\\Psr4ClassLoader', false)) {
+        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
+    }
+
+    $fedoraPsr4ClassLoader = new \Symfony\Component\ClassLoader\Psr4ClassLoader();
+    $fedoraPsr4ClassLoader->register();
+}
+
+$fedoraPhpDir              = '%{phpdir}';
+$fedoraSymfonyDir          = __DIR__;
+$fedoraSymfonyBridgeDir    = $fedoraSymfonyRootDir.'/Bridge';
+$fedoraSymfonyBundleDir    = $fedoraSymfonyRootDir.'/Bundle';
+$fedoraSymfonyComponentDir = $fedoraSymfonyRootDir.'/Component';
+
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\', $fedoraSymfonyDir);
+AUTOLOAD
+
+: Create autoloaders
 
 
 %install
