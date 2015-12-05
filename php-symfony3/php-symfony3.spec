@@ -97,6 +97,7 @@ Group:         Development/Libraries
 License:       MIT
 URL:           http://symfony.com
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       %{name}-generate-autoloaders.php
 
 BuildArch:     noarch
 # Tests
@@ -117,7 +118,7 @@ BuildRequires: php-composer(monolog/monolog)          >= %{monolog_min_ver}
 BuildRequires: php-composer(ocramius/proxy-manager)   >= %{proxy_manager_min_ver}
 BuildRequires: php-composer(psr/log)                  >= %{psrlog_min_ver}
 BuildRequires: php-composer(symfony/polyfill)         >= %{symfony_polyfill_min_ver}
-BuildRequires: php-composer(symfony/security-acl)     >= %{symfony_security_acl_min_ver}
+#BuildRequires: php-composer(symfony/security-acl)     >= %{symfony_security_acl_min_ver}
 BuildRequires: php-composer(twig/twig)                >= %{twig_min_ver}
 ## phpcompatinfo (computed from version 3.0.0)
 BuildRequires: php-ctype
@@ -924,11 +925,11 @@ Suggests:  php-pecl(apcu)
 Suggests:  php-pecl(Xdebug)
 Suggests:  php-xcache
 # TODO!!!!!!!!!!!!!!
-%if 0%{?rhel} >= 6
-* Zend OPcache (php-pecl-zendopcache)
-%else
-* Zend OPcache (php-opcache)
-%endif
+#%%if 0%%{?rhel} >= 6
+#* Zend OPcache (php-pecl-zendopcache)
+#%%else
+#* Zend OPcache (php-opcache)
+#%%endif
 
 # Composer
 Provides:  php-composer(%{composer_vendor}/http-kernel) = %{version}
@@ -1361,6 +1362,7 @@ The YAML Component loads and dumps YAML files.
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+cp %{SOURCE1} .
 
 : Remove unnecessary files
 find src -name '.git*' -delete
@@ -1377,23 +1379,30 @@ cat <<'AUTOLOAD' | tee src/Symfony/autoload-common.php
 
 if (!isset($fedoraPsr4ClassLoader) || !($fedoraPsr4ClassLoader instanceof \Symfony\Component\ClassLoader\Psr4ClassLoader)) {
     if (!class_exists('Symfony\\Component\\ClassLoader\\Psr4ClassLoader', false)) {
-        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
+        require_once __DIR__.'/Component/ClassLoader/Psr4ClassLoader.php';
     }
 
     $fedoraPsr4ClassLoader = new \Symfony\Component\ClassLoader\Psr4ClassLoader();
     $fedoraPsr4ClassLoader->register();
 }
 
-$fedoraPhpDir              = '%{phpdir}';
-$fedoraSymfonyDir          = __DIR__;
-$fedoraSymfonyBridgeDir    = $fedoraSymfonyRootDir.'/Bridge';
-$fedoraSymfonyBundleDir    = $fedoraSymfonyRootDir.'/Bundle';
-$fedoraSymfonyComponentDir = $fedoraSymfonyRootDir.'/Component';
+$fedoraSymfony3PhpDir = '%{phpdir}';
+$fedoraSymfony3Dir    = __DIR__;
 
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\', $fedoraSymfonyDir);
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bridge\\',    $fedoraSymfony3Dir.'/Bridge'   );
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bundle\\',    $fedoraSymfony3Dir.'/Bundle'   );
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Component\\', $fedoraSymfony3Dir.'/Component');
 AUTOLOAD
 
 : Create autoloaders
+for AUTOLOADER in `./%{name}-generate-autoloaders.php`
+do
+    sed -e 's/__VERSION__/%{version}/' \
+        -e 's/__RELEASE__/%{release}/' \
+        -i $AUTOLOADER;
+
+    cat $AUTOLOADER
+done
 
 
 %install
@@ -1412,25 +1421,25 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 %check
 %if %{with_tests}
 : Modify PHPUnit config
-sed 's#./src#%{buildroot}%{phpdir}#' phpunit.xml.dist > phpunit.xml
-
-: Create tests bootstrap
-cat << 'BOOTSTRAP' | tee bootstrap.php
-<?php
-
-require_once '%{buildroot}%{phpdir}/Symfony/autoload.php';
-require_once '%{buildroot}%{phpdir}/Symfony/Bridge/PhpUnit/bootstrap.php';
-BOOTSTRAP
+sed -e 's#vendor/autoload\.php#bootstrap.php#' \
+    -e 's#\./src/Symfony/#%{buildroot}%{phpdir}/Symfony3/#' \
+    phpunit.xml.dist > phpunit.xml
 
 : Run tests
 RET=0
-for PKG in %{buildroot}%{phpdir}/Symfony/*/*; do
+for PKG in %{buildroot}%{phpdir}/Symfony3/*/*; do
     echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
+
+    : Create tests bootstrap
+    cat << BOOTSTRAP | tee bootstrap.php
+<?php
+
+require_once '${PKG}/autoload.php';
+require_once '%{buildroot}%{phpdir}/Symfony3/Bridge/PhpUnit/bootstrap.php';
+BOOTSTRAP
+
     %{_bindir}/php -d include_path=.:%{buildroot}%{phpdir}:%{phpdir} \
-    %{_bindir}/phpunit \
-        --exclude-group benchmark,intl-data,tty \
-        --bootstrap bootstrap.php \
-        $PKG || RET=1
+        %{_bindir}/phpunit --exclude-group benchmark $PKG || RET=1
 done
 exit $RET
 %else
@@ -2087,5 +2096,5 @@ exit $RET
 # ##############################################################################
 
 %changelog
-* Mon Nov 23 Shawn Iwinski <shawn@iwin.ski> - 3.0.0-0.1.beta1
+* Thu Dec 03 2015 Shawn Iwinski <shawn@iwin.ski> - 3.0.0-1
 - Initial package
