@@ -1,5 +1,5 @@
 #
-# Fedora spec file for php-guzzlehttp-guzzle5
+# Fedora spec file for php-guzzlehttp-guzzle6
 #
 # Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
@@ -11,20 +11,23 @@
 
 %global github_owner     guzzle
 %global github_name      guzzle
-%global github_version   5.3.0
-%global github_commit    f3c8c22471cb55475105c14769644a49c3262b93
+%global github_version   6.1.1
+%global github_commit    c6851d6e48f63b69357cbfa55bca116448140e0c
 
 %global composer_vendor  guzzlehttp
 %global composer_project guzzle
 
-# "php": ">=5.4.0"
-%global php_min_ver      5.4.0
-# "guzzlehttp/ringphp": "^1.1"
-#     Note: Min version not "1.1" because autoloader required
-%global ring_min_ver     1.1.0-3
-%global ring_max_ver     2.0
-# "psr/log": "^1.0"
-%global psr_log_min_ver  1.0
+# "php": ">=5.5.0"
+%global php_min_ver      5.5.0
+# "guzzlehttp/promises": "~1.0"
+%global promises_min_ver 1.0
+%global promises_max_ver 2.0
+# "guzzlehttp/psr7": "~1.1"
+%global psr7_min_ver     1.1
+%global psr7_max_ver     2.0
+# "psr/log": "~1.0"
+#     NOTE: Min version not 1.0 because autoloader required
+%global psr_log_min_ver  1.0.0-8
 %global psr_log_max_ver  2.0
 
 # Build using "--without tests" to disable tests
@@ -33,144 +36,131 @@
 %{!?phpdir:    %global phpdir    %{_datadir}/php}
 %{!?testsdir:  %global testsdir  %{_datadir}/tests}
 
-Name:          php-%{composer_vendor}-%{composer_project}5
+Name:          php-%{composer_vendor}-%{composer_project}6
 Version:       %{github_version}
-Release:       4%{?github_release}%{?dist}
-Summary:       PHP HTTP client and webservice framework
+Release:       1%{?github_release}%{?dist}
+Summary:       PHP HTTP client library
 
 Group:         Development/Libraries
 License:       MIT
 URL:           http://guzzlephp.org
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+
+# GitHub export does not include tests.
+# Run php-guzzlehttp-guzzle6.sh to create full source.
+Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
 BuildRequires: nodejs
-BuildRequires: %{_bindir}/phpunit
-BuildRequires: php-guzzlehttp-ringphp-tests
 ## composer.json
-BuildRequires: php(language)                    >= %{php_min_ver}
-#BuildRequires: php-composer(guzzlehttp/ringphp) >= %%{ring_min_ver}
-BuildRequires: php-guzzlehttp-ringphp           >= %{ring_min_ver}
-## phpcompatinfo (computed from version 5.3.0)
+BuildRequires: php(language)                     >= %{php_min_ver}
+BuildRequires: php-composer(guzzlehttp/promises) >= %{promises_min_ver}
+BuildRequires: php-composer(guzzlehttp/psr7)     >= %{psr7_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
+#BuildRequires: php-composer(psr/log)             >= %%{psr_log_min_ver}
+BuildRequires: php-PsrLog                        >= %{psr_log_min_ver}
+## phpcompatinfo (computed from version 6.1.1)
 BuildRequires: php-curl
 BuildRequires: php-date
 BuildRequires: php-filter
+BuildRequires: php-intl
 BuildRequires: php-json
-BuildRequires: php-libxml
 BuildRequires: php-pcre
 BuildRequires: php-reflection
-BuildRequires: php-simplexml
 BuildRequires: php-spl
-## Autoloader
+BuildRequires: php-zlib
+# Autoloader
 BuildRequires: php-composer(symfony/class-loader)
 %endif
 
 Requires:      ca-certificates
 # composer.json
-Requires:      php(language)                    >= %{php_min_ver}
-#Requires:      php-composer(guzzlehttp/ringphp) >= %%{ring_min_ver}
-Requires:      php-guzzlehttp-ringphp           >= %{ring_min_ver}
-Requires:      php-composer(guzzlehttp/ringphp) <  %{ring_max_ver}
-# phpcompatinfo (computed from version 5.3.0)
+Requires:      php(language)                     >= %{php_min_ver}
+Requires:      php-composer(guzzlehttp/promises) >= %{promises_min_ver}
+Requires:      php-composer(guzzlehttp/promises) <  %{promises_max_ver}
+Requires:      php-composer(guzzlehttp/psr7)     >= %{psr7_min_ver}
+Requires:      php-composer(guzzlehttp/psr7)     <  %{psr7_max_ver}
+#Requires:      php-composer(psr/log)             >= %%{psr_log_min_ver}
+Requires:      php-PsrLog                        >= %{psr_log_min_ver}
+Requires:      php-composer(psr/log)             <  %{psr_log_max_ver}
+# phpcompatinfo (computed from version 6.1.1)
 Requires:      php-curl
 Requires:      php-date
 Requires:      php-filter
 Requires:      php-json
-Requires:      php-libxml
 Requires:      php-pcre
-Requires:      php-simplexml
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(symfony/class-loader)
-
-# Rename
-Obsoletes:     php-%{composer_vendor}-%{composer_project} <= 5.3.0-3
-Provides:      php-%{composer_vendor}-%{composer_project} =  %{version}-%{release}
-Conflicts:     php-composer(%{composer_vendor}/%{composer_project}) >= 6.0
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-Guzzle is a PHP HTTP client that makes it easy to work with HTTP/1.1 and takes
-the pain out of consuming web services.
+Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial
+to integrate with web services.
 
-* Pluggable HTTP adapters that can send requests serially or in parallel
-* Doesn't require cURL, but uses cURL by default
-* Streams data for both uploads and downloads
-* Provides event hooks & plugins for cookies, caching, logging, OAuth, mocks,
-  etc
-* Keep-Alive & connection pooling
-* SSL Verification
-* Automatic decompression of response bodies
-* Streaming multipart file uploads
-* Connection timeouts
-
-**** NOTE: This is major version 5.x of php-guzzlehttp-guzzle.  If you need a
-****       newer major version, install php-guzzlehttp-guzzle instead.
+* Simple interface for building query strings, POST requests, streaming large
+  uploads, streaming large downloads, using HTTP cookies, uploading JSON data,
+  etc...
+* Can send both synchronous and asynchronous requests using the same interface.
+* Uses PSR-7 interfaces for requests, responses, and streams. This allows you
+  to utilize other PSR-7 compatible libraries with Guzzle.
+* Abstracts away the underlying HTTP transport, allowing you to write
+  environment and transport agnostic code; i.e., no hard dependency on cURL,
+  PHP streams, sockets, or non-blocking event loops.
+* Middleware system allows you to augment and compose client behavior.
 
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-: Create autoloader
+
+%build
+: Create common autoloader
 cat <<'AUTOLOAD' | tee src/autoload.php
 <?php
 /**
- * Autoloader created by %{name}-%{version}-%{release}
- *
- * @return \Symfony\Component\ClassLoader\ClassLoader
+ * Autoloader for %{name} and its' dependencies
+ * (created by %{name}-%{version}-%{release}).
  */
 
-require_once '%{phpdir}/GuzzleHttp/Ring/autoload.php';
-
-if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
-    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
-        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
+if (!isset($fedoraPsr4ClassLoader) || !($fedoraPsr4ClassLoader instanceof \Symfony\Component\ClassLoader\Psr4ClassLoader)) {
+    if (!class_exists('Symfony\\Component\\ClassLoader\\Psr4ClassLoader', false)) {
+        require_once '%{phpdir}/Symfony/Component/ClassLoader/Psr4ClassLoader.php';
     }
 
-    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
-    $fedoraClassLoader->register();
+    $fedoraPsr4ClassLoader = new \Symfony\Component\ClassLoader\Psr4ClassLoader();
+    $fedoraPsr4ClassLoader->register();
 }
 
-$fedoraClassLoader->addPrefix('GuzzleHttp\\', dirname(__DIR__));
+$fedoraPsr4ClassLoader->addPrefix('GuzzleHttp\\', __DIR__);
 
-return $fedoraClassLoader;
+require_once __DIR__ . '/functions_include.php';
+require_once '%{phpdir}/GuzzleHttp/Promise/autoload.php';
+require_once '%{phpdir}/GuzzleHttp/Psr7/autoload.php';
+require_once '%{phpdir}/Psr/Log/autoload.php';
 AUTOLOAD
 
 
-%build
-# Empty build section, nothing required
-
-
 %install
-mkdir -p %{buildroot}%{phpdir}/GuzzleHttp
-cp -pr src/* %{buildroot}%{phpdir}/GuzzleHttp/
+mkdir -p %{buildroot}%{phpdir}/GuzzleHttp6
+cp -pr src/* %{buildroot}%{phpdir}/GuzzleHttp6/
 
 
 %check
 %if %{with_tests}
-: Create tests autoloader
-cat <<'AUTOLOAD' | tee tests/autoload.php
+: Create mock Composer autolader
+mkdir vendor
+cat <<'AUTOLOAD' | tee vendor/autoload.php
 <?php
-
-require_once 'GuzzleHttp/autoload.php';
-
-$fedoraClassLoader->addPrefix('GuzzleHttp\\Tests', __DIR__);
+require_once '%{buildroot}%{phpdir}/GuzzleHttp6/autoload.php';
+$fedoraPsr4ClassLoader->addPrefix('GuzzleHttp\\Tests\\', __DIR__.'/tests');
 AUTOLOAD
 
-: Modify tests bootstrap
-sed -e "s#.*require.*autoload.*#require __DIR__ . '/autoload.php';#" \
-    -e "s#.*require.*Server.php.*#require '%{testsdir}/php-guzzlehttp-ringphp/autoload.php';#" \
-    -i tests/bootstrap.php
-
-: Mock tests PSR-0
-mkdir tests/GuzzleHttp
-ln -s .. tests/GuzzleHttp/Tests
-
-%{_bindir}/phpunit --include-path %{buildroot}%{phpdir} --verbose
+%{_bindir}/phpunit --verbose
 %else
 : Tests skipped
 %endif
@@ -181,12 +171,14 @@ ln -s .. tests/GuzzleHttp/Tests
 %license LICENSE
 %doc *.md
 %doc composer.json
-%{phpdir}/GuzzleHttp/*
+%{phpdir}/GuzzleHttp6/*
 
 
 %changelog
-* Sat Sep 19 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 5.3.0-4
-- Renamed from php-guzzlehttp-guzzle to php-guzzlehttp-guzzle5
+* Sun Dec 06 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 6.1.1-1
+- Renamed from php-guzzlehttp-guzzle to php-guzzlehttp-guzzle6 for
+  dual-install of version 5 and version 6
+- Updated to 6.1.1
 
 * Sun Jun 28 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 5.3.0-3
 - Autoloader updates
