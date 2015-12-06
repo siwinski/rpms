@@ -152,7 +152,7 @@ cp -pr src/* %{buildroot}%{phpdir}/GuzzleHttp6/
 
 %check
 %if %{with_tests}
-: Create mock Composer autolader
+: Create mock Composer autoloader
 mkdir vendor
 cat <<'AUTOLOAD' | tee vendor/autoload.php
 <?php
