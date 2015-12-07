@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       3%{?github_release}%{?dist}
 Summary:       Symfony polyfills backporting features to lower PHP versions
 
 Group:         Development/Libraries
@@ -85,12 +85,13 @@ Autoloader: %{phpdir}/Symfony/Polyfill/autoload.php
 %setup -qn %{github_name}-%{github_commit}
 
 : Docs
-mkdir -p docs/{Php54,Php55,Php56,Php70}
+mkdir -p docs/{Php54,Php55,Php56,Php70,Util}
 mv *.md composer.json docs/
 mv src/Php54/{*.md,composer.json} docs/Php54/
 mv src/Php55/{*.md,composer.json} docs/Php55/
 mv src/Php56/{*.md,composer.json} docs/Php56/
 mv src/Php70/{*.md,composer.json} docs/Php70/
+mv src/Util/{*.md,composer.json}  docs/Util/
 
 : Remove unneeded polyfills
 rm -rf {src,tests}/{Iconv,Intl,Mbstring,Xml}
@@ -149,11 +150,16 @@ cp -rp src/* %{buildroot}%{phpdir}/Symfony/Polyfill/
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc docs/*
-%{phpdir}/Symfony/Polyfill
+%dir %{phpdir}/Symfony
+     %{phpdir}/Symfony/Polyfill
 %exclude %{phpdir}/Symfony/Polyfill/*/LICENSE
 
 
 %changelog
+* Mon Dec 07 2015 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-3
+- Fixed Util docs
+- Added "%%dir %%{phpdir}/Symfony" to %%files
+
 * Sun Dec 06 2015 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-2
 - Always include ALL polyfills
 
