@@ -62,14 +62,14 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 %description
 %{summary}.
 
-Autoloader: %{phpdir}/phpDocumentor/Reflection/autoload.php
+Autoloader: %{phpdir}/phpDocumentor/Reflection/autoload-common.php
 
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
 : Create autoloader
-cat <<'AUTOLOAD' | tee src/autoload.php
+cat <<'AUTOLOAD' | tee src/autoload-common.php
 <?php
 /**
  * Autoloader for %{name} and its' dependencies
@@ -105,7 +105,7 @@ cp -rp src/* %{buildroot}%{phpdir}/phpDocumentor/Reflection/
 %check
 %if %{with_tests}
 %{_bindir}/phpunit --verbose \
-    --bootstrap %{buildroot}%{phpdir}/phpDocumentor/Reflection/autoload.php
+    --bootstrap %{buildroot}%{phpdir}/phpDocumentor/Reflection/autoload-common.php
 %else
 : Tests skipped
 %endif
