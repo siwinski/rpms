@@ -108,7 +108,7 @@ cat <<'AUTOLOAD' | tee src/autoload-type-resolver.php
 require_once __DIR__ . '/autoload-type-resolver.classmap.php';
 
 // Required dependency
-require_once '%{phpdir}/phpDocumentor/Reflection/autoload.php';
+require_once '%{phpdir}/phpDocumentor/Reflection/autoload-common.php';
 AUTOLOAD
 
 
