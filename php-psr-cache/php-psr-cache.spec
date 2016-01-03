@@ -51,6 +51,8 @@ Note that this is not a Cache implementation of its own. It is merely an
 interface that describes a Cache implementation. See the specification for
 more details.
 
+Autoloader: %{phpdir}/Psr/Cache/autoload.php
+
 [1] http://www.php-fig.org/psr/psr-6/
 
 
@@ -105,5 +107,5 @@ cp -rp src/* %{buildroot}%{phpdir}/Psr/Cache/
 
 
 %changelog
-* Fri Jan 01 2016 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
+* Sun Jan 03 2016 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
 - Initial package
