@@ -71,6 +71,8 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 %description
 %{summary}.
 
+Autoloader: %{phpdir}/PhpDocReader/autoload.php
+
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
