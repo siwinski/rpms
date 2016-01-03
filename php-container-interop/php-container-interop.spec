@@ -62,6 +62,8 @@ but it is being worked on by members of PHP-FIG and other good developers. We
 adhere to the spirit and ideals of PHP-FIG, and hope this project will pave the
 way for one or more future PSRs.
 
+Autoloader: %{phpdir}/Interop/Container/autoload.php
+
 [1] http://www.php-fig.org/
 
 
@@ -117,5 +119,5 @@ cp -rp src/* %{buildroot}%{phpdir}/
 
 
 %changelog
-* Fri Jan 01 2016 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
+* Sun Jan 03 2016 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
 - Initial package
