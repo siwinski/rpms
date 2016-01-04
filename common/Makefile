@@ -27,7 +27,7 @@ sources:
 	then \
 		$(COMMON_DIR)/get-source-github.sh $(SPEC); \
 		cp $(COMMON_DIR)/get-source-github.sh $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
-		chmod 0775 $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
+		chmod 0755 $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
 	fi
 
 	@[ -e *.patch ] && cp *.patch $(SOURCES_DIR)/ || :
