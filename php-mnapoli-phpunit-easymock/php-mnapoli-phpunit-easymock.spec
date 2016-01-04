@@ -11,17 +11,17 @@
 
 %global github_owner     mnapoli
 %global github_name      phpunit-easymock
-%global github_version   0.2.0
-%global github_commit    65431d92ec3f11dcafd1f4304e38612e12987d4e
+%global github_version   0.2.1
+%global github_commit    77d949eb6ecd9739b4300a26c85022975f653760
 
 %global composer_vendor  mnapoli
 %global composer_project phpunit-easymock
 
-# "php": ">=5.4.0"
-%global php_min_ver 5.4.0
-# "phpunit/phpunit-mock-objects": "~2.0"
+# "php": "~5.4|~7.0"
+%global php_min_ver 5.4
+# "phpunit/phpunit-mock-objects": "~2.0|~3.0"
 %global phpunit_mock_objects_min_ver 2.0
-%global phpunit_mock_objects_max_ver 3.0
+%global phpunit_mock_objects_max_ver 4.0
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -49,7 +49,7 @@ BuildArch:     noarch
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(phpunit/phpunit-mock-objects) >= %{phpunit_mock_objects_min_ver}
-## phpcompatinfo (computed from version 0.2.0)
+## phpcompatinfo (computed from version 0.2.1)
 BuildRequires: php-reflection
 ## Autoloader
 BuildRequires: php-composer(symfony/class-loader)
@@ -59,7 +59,7 @@ BuildRequires: php-composer(symfony/class-loader)
 Requires:      php(language)                              >= %{php_min_ver}
 Requires:      php-composer(phpunit/phpunit-mock-objects) >= %{phpunit_mock_objects_min_ver}
 Requires:      php-composer(phpunit/phpunit-mock-objects) <  %{phpunit_mock_objects_max_ver}
-# phpcompatinfo (computed from version 0.2.0)
+# phpcompatinfo (computed from version 0.2.1)
 #     <none>
 # Autoloader
 Requires:      php-composer(symfony/class-loader)
@@ -138,10 +138,13 @@ BOOTSTRAP
 %license LICENSE
 %doc *.md
 %doc composer.json
-%dir %{phpdir}/
-     %{phpdir}/
+%{phpdir}/EasyMock
 
 
 %changelog
+* Mon Jan 04 2016 Shawn Iwinski <shawn@iwin.ski> - 0.2.1-1
+- Updated to 0.2.1
+- Fixed directory ownsership in %%files
+
 * Sun Jan 03 2016 Shawn Iwinski <shawn@iwin.ski> - 0.2.0-1
 - Initial package
