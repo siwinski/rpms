@@ -1,0 +1,11 @@
+%drupal8_version      __DRUPAL8_VERSION__
+%drupal8_php_min_ver  __DRUPAL8_PHP_MIN_VER__
+
+%drupal8              __DRUPAL8__
+%drupal8_modules      %{drupal8}/modules/fedora_rpm
+%drupal8_profiles     %{drupal8}/profiles/fedora_rpm
+%drupal8_themes       %{drupal8}/themes/fedora_rpm
+%drupal8_libraries    %{drupal8}/libraries
+
+%drupal8_var          __DRUPAL8_VAR__
+%drupal8_conf         __DRUPAL8_CONF__
