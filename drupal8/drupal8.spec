@@ -125,8 +125,6 @@ Source5:   %{name}-find-requires.php
 Source6:   %{name}.conf
 
 BuildArch: noarch
-# Autoloader classmap
-BuildRequires: php-composer(theseer/autoload)
 
 Requires:  httpd
 Requires:  mod_php

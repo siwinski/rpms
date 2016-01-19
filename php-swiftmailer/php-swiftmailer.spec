@@ -102,6 +102,10 @@ features:
 : Replace Swift::VERSION
 sed 's/@SWIFT_VERSION_NUMBER@/%{version}/' -i lib/classes/Swift.php
 
+: Modify autoloader
+sed \
+    -i lib/swift_required.php
+
 : Remove uneeded files
 rm -f \
     lib/swift_required_pear.php \
