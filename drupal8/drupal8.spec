@@ -125,9 +125,14 @@ Source5:   %{name}-find-requires.php
 Source6:   %{name}.conf
 
 BuildArch: noarch
+# Version check
+BuildRequires: php-cli
 
-Requires:  httpd
-Requires:  mod_php
+# Webserver
+## Providers:
+## - drupal8-httpd
+## - drupal8-nginx (TODO)
+Requires:  %{name}-webserver
 
 # composer.json
 Requires:  php(language)                                 >= %{php_min_ver}
@@ -461,44 +466,43 @@ Provides:  bundled(js-picturefill) = 3.0.1
 ###     Upstream: https://github.com/jashkenas/underscore
 Provides:  bundled(js-underscore) = 1.8.3
 
-## core/composer.json (see composer.lock for versions)
-### vendor/behat/mink
-###     License:  MIT
-###     Upstream: https://github.com/minkphp/Mink
-Provides:  bundled(php-behat-mink) = 1.7.0
-### vendor/behat/mink-browserkit-driver
-###     License:  MIT
-###     Upstream: https://github.com/minkphp/MinkBrowserKitDriver
-Provides:  bundled(php-behat-mink-browserkit-driver) = 1.3.0
-### vendor/behat/mink-goutte-driver
-###     License:  MIT
-###     Upstream: https://github.com/minkphp/MinkGoutteDriver
-Provides:  bundled(php-behat-mink-goutte-driver) = 1.2.0
-### vendor/jcalderonzumba/gastonjs
-###     License:  MIT
-###     Upstream: https://github.com/jcalderonzumba/gastonjs
-Provides:  bundled(php-jcalderonzumba-gastonjs) = 1.0.1
-### vendor/jcalderonzumba/mink-phantomjs-driver
-###     License:  MIT
-###     Upstream: https://github.com/jcalderonzumba/MinkPhantomJSDriver
-Provides:  bundled(php-jcalderonzumba-mink-phantomjs-driver) = 0.3.0
-
 
 %description
 Drupal is an open source content management platform powering millions of
 websites and applications. It’s built, used, and supported by an active and
 diverse community of people around the world.
 
+#-------------------------------------------------------------------------------
+
+%package httpd
+
+Summary:    HTTPD integration for %{name}
+
+Requires:   %{name} = %{version}-%{release}
+Requires:   php(httpd)
+# php(httpd) providers
+Recommends: mod_php
+Suggests:   php-fpm
+
+Provides: %{name}-webserver = %{version}-%{release}
+
+%description httpd
+%{summary}.
+
+#-------------------------------------------------------------------------------
 
 %package rpmbuild
-Summary:  Rpmbuild files for %{name}
+Summary:  RPM build files for %{name}
 Group:    Development/Tools
-Requires: php-composer(symfony/console)
-Requires: php-composer(symfony/yaml)
+Requires: php-composer(symfony/console) >= 2.7.1
+Requires: php-composer(symfony/console) <  3.0.0
+Requires: php-composer(symfony/yaml)    >= 2.7.1
+Requires: php-composer(symfony/yaml)    <  3.0.0
 
 %description rpmbuild
 %{summary}.
 
+#-------------------------------------------------------------------------------
 
 %prep
 %setup -q -c
@@ -587,17 +591,23 @@ sed -e 's:__DRUPAL8_VERSION__:%{version}:' \
     -e 's:__DRUPAL8_CONF__:%{drupal8_conf}:' \
     -i macros.%{name}
 
+#-------------------------------------------------------------------------------
 
 %build
 pushd drupal-%{version}
     pushd core
         : Create Composer autoloader
         %{_bindir}/composer dump-autoload --optimize
+
+        : Some verbose output for logging...
+        find vendor
+        cat vendor/composer/autoload_files.php
     popd
 
     ln -s core/vendor vendor
 popd
 
+#-------------------------------------------------------------------------------
 
 %install
 pushd drupal-%{version}
@@ -624,7 +634,7 @@ ln -s %{_sysconfdir}/httpd/conf.d/%{name}.htaccess %{buildroot}%{drupal8}/.htacc
 
 popd
 
-# RPM AutoReqProv
+: RPM AutoReqProv
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
 install -pm 0644 macros.%{name} %{buildroot}%{_rpmconfigdir}/macros.d/
 mkdir -p %{buildroot}%{_rpmconfigdir}/fileattrs
@@ -632,12 +642,18 @@ install -pm 0644 %{name}.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 install -pm 0755 %{name}-find-provides.php %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 %{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
 
-# Apache HTTPD conf
+: Apache HTTPD conf
 install -pm 0644 %{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 
+#-------------------------------------------------------------------------------
 
 %check
-# Ensure RewriteBase
+: Version check
+%{_bindir}/php -r 'require_once "%{buildroot}%{drupal8}/vendor/autoload.php";
+    echo "\Drupal::VERSION = \"" . \Drupal::VERSION . "\"\n";
+    exit(version_compare("%{version}", \Drupal::VERSION, "=") ? 0 : 1);'
+
+: Ensure RewriteBase in HTTPD config
 grep \
 'RewriteBase /drupal8' \
         %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess \
@@ -646,39 +662,13 @@ grep \
 
 pushd drupal-%{version}
 
-# Ensure php bin updated
+: Ensure php bin updated
 grep -r '#!/bin/php' . && exit 1
 
 %if %{with_tests}
-# Unit tests
 pushd core
 
-# Skip certain tests that require the "willReturn" function in PHPUnit MockObject > 2
-#   Note: This is because of PHPUnit < 4.1
-#%if 0%{?fedora} < 21 && 0%{?rhel} < 7
-#sed 's/function testSetError/function SKIP_testSetError/' \
-#    -i tests/Drupal/Tests/Core/Form/FormStateTest.php
-#sed -e 's/function testRedirectWithResult/function SKIP_testRedirectWithResult/' \
-#    -e 's/function testRedirectWithRouteWithResult/function SKIP_testRedirectWithRouteWithResult/' \
-#    -e 's/function testRedirectWithResponseObject/function SKIP_testRedirectWithResponseObject/' \
-#    -e 's/function testRedirectWithoutResult/function SKIP_testRedirectWithoutResult/' \
-#    -i tests/Drupal/Tests/Core/Form/FormSubmitterTest.php
-#%endif
-
-# Skip tests with PHPUnit 4.2+ deprecated functions
-#   Note: This is because of PHPUnit > 4.1
-#   See:  https://www.drupal.org/node/2331685
-%if 0%{?fedora} >= 21 && 0%{?rhel} >= 7
-# assertTag
-rm -f tests/Drupal/Tests/Core/Utility/LinkGeneratorTest.php
-# assertSelectEquals
-sed 's/function testPrint/function SKIP_testPrint/' \
-    -i tests/Drupal/Tests/Core/Template/AttributeTest.php
-%endif
-
-# Symfony DependencyInjection pkg does not include test files so skip this test
-rm -f tests/Drupal/Tests/Core/DependencyInjection/ContainerBuilderTest.php
-
+: Unit tests
 %{_bindir}/phpunit
 
 popd
@@ -688,6 +678,7 @@ popd
 
 popd
 
+#-------------------------------------------------------------------------------
 
 %files
 # Core
@@ -723,9 +714,14 @@ popd
 %dir %attr(0775,root,apache) %{drupal8_var}/files/private/default
 %dir                         %{drupal8_var}/files/public
 %dir %attr(0775,root,apache) %{drupal8_var}/files/public/default
-# Apache
+
+#-------------------------------------------------------------------------------
+
+%files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
+
+#-------------------------------------------------------------------------------
 
 %files rpmbuild
 %{_rpmconfigdir}/macros.d/macros.%{name}
@@ -733,6 +729,7 @@ popd
 %{_rpmconfigdir}/%{name}-find-provides.php
 %{_rpmconfigdir}/%{name}-find-requires.php
 
+#-------------------------------------------------------------------------------
 
 %changelog
 * Tue Jan 19 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
@@ -743,6 +740,9 @@ popd
 - Added "drupal8_var" and "drupal8_conf" macros
 - "%%{_sysconfdir}/%%{name}/*" => "%%{_sysconfdir}/%%{name}/sites/*"
 - "%%{_localstatedir}/lib/%%{name}/*" => "%%{_localstatedir}/lib/%%{name}/files/*"
+- Separation of HTTPD web server configs into sub-package (%%{name}-httpd)
+- Added version check in %%check
+- Removed filesystem modifications in %%check
 
 * Sat Oct 10 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.0-0.14.rc1
 - Updated to 8.0.0-rc1
