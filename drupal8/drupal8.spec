@@ -23,7 +23,8 @@ AutoReqProv: no
 %global composer_semver_min_ver 1.0
 %global composer_semver_max_ver 2.0
 ## "doctrine/annotations": "1.2.*"
-%global doctrine_annotations_min_ver 1.2.0
+### NOTE: Min version not 1.2.0 because autoloader required
+%global doctrine_annotations_min_ver 1.2.6
 %global doctrine_annotations_max_ver 1.3.0
 ## "doctrine/common": "2.5.*"
 %global doctrine_common_min_ver 2.5.0
@@ -32,7 +33,8 @@ AutoReqProv: no
 %global easyrdf_min_ver 0.9.0
 %global easyrdf_max_ver 1.0.0
 ## "egulias/email-validator": "1.2.*"
-%global email_validator_min_ver 1.2.0
+### NOTE: Min version not 1.2.0 because autoloader required
+%global email_validator_min_ver 1.2.9
 %global email_validator_max_ver 1.3.0
 ## "guzzlehttp/guzzle": "~6.1"
 %global guzzle_min_ver 6.1
@@ -47,7 +49,8 @@ AutoReqProv: no
 %global masterminds_html5_min_ver 2.1
 %global masterminds_html5_max_ver 3.0
 ## "mikey179/vfsStream": "~1.2"
-%global vfsstream_min_ver 1.2
+### NOTE: Min version not 1.2 because autoloader required
+%global vfsstream_min_ver 1.6
 %global vfsstream_max_ver 2.0
 ## "phpunit/phpunit": "~4.8"
 %global phpunit_min_ver 4.8
@@ -71,7 +74,8 @@ AutoReqProv: no
 %global symfony_min_ver 2.7.1
 %global symfony_max_ver 2.8.0
 ## "symfony-cmf/routing": "1.3.*"
-%global symfony_cmf_routing_min_ver 1.3.0
+### NOTE: Min version not 1.3.0 because autoloader required
+%global symfony_cmf_routing_min_ver 1.3.0-4
 %global symfony_cmf_routing_max_ver 1.4.0
 ## "symfony/psr-http-message-bridge": "v0.2"
 %global symfony_psr_http_message_bridge_min_ver 0.2
@@ -80,7 +84,8 @@ AutoReqProv: no
 %global twig_min_ver 1.23.1
 %global twig_max_ver 2.0
 ## "zendframework/zend-feed": "~2.4"
-%global zend_feed_min_ver 2.4
+### NOTE: Min version not 2.4.0 because autoloader required
+%global zend_feed_min_ver 2.4.7
 %global zend_feed_max_ver 3.0
 ## "zendframework/zend-diactoros": "~1.1"
 %global zend_diactoros_min_ver 1.1
@@ -204,7 +209,8 @@ Requires:  php-composer(symfony/validator)               >= %{symfony_min_ver}
 Requires:  php-composer(symfony/validator)               <  %{symfony_max_ver}
 Requires:  php-composer(symfony/yaml)                    >= %{symfony_min_ver}
 Requires:  php-composer(symfony/yaml)                    <  %{symfony_max_ver}
-Requires:  php-composer(symfony-cmf/routing)             >= %{symfony_cmf_routing_min_ver}
+#Requires:  php-composer(symfony-cmf/routing)             >= %{symfony_cmf_routing_min_ver}
+Requires:  php-SymfonyCmfRouting                         >= %{symfony_cmf_routing_min_ver}
 Requires:  php-composer(symfony-cmf/routing)             <  %{symfony_cmf_routing_max_ver}
 Requires:  php-composer(twig/twig)                       >= %{twig_min_ver}
 Requires:  php-composer(twig/twig)                       <  %{twig_max_ver}
