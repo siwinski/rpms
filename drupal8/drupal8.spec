@@ -88,8 +88,7 @@ AutoReqProv: no
 
 # composer.json
 ## "composer/installers": "^1.0.21"
-%global composer_installers_min_ver 1.0.21
-%global composer_installers_max_ver 2.0.0
+### Note: No requirement because composer installs not supported
 ## "wikimedia/composer-merge-plugin": "~1.3"
 ### Note: No requirement because needs Composer hooks to work
 ### See: https://bugzilla.redhat.com/show_bug.cgi?id=1291081
@@ -111,7 +110,33 @@ Release:   1%{?dist}
 Summary:   An open source content management platform
 
 Group:     Applications/Publishing
-License:   GPLv2+
+
+# Licenses:
+# - GPLv2+
+#     - Drupal 8 itself
+#     - core/assets/vendor/ckeditor (bundled)
+#     - core/assets/vendor/farbtastic (bundled)
+#     - core/assets/vendor/html5shiv (bundled)
+#     - core/assets/vendor/jquery-form (bundled)
+#     - core/assets/vendor/jquery-once (bundled)
+#     - core/assets/vendor/jquery-ui-touch-punch (bundled)
+# - MIT
+#     - core/assets/vendor/backbone (bundled)
+#     - core/assets/vendor/domready (bundled)
+#     - core/assets/vendor/jquery (bundled)
+#     - core/assets/vendor/jquery-joyride (bundled)
+#     - core/assets/vendor/jquery.cookie (bundled)
+#     - core/assets/vendor/matchMedia (bundled)
+#     - core/assets/vendor/modernizr (bundled)
+#     - core/assets/vendor/normalize-css (bundled)
+#     - core/assets/vendor/picturefill (bundled)
+#     - core/assets/vendor/underscore (bundled)
+#     - core/vendor/composer (generated autoloader)
+# - Pubic Domain
+#     - core/assets/vendor/classList (bundled)
+#     - core/assets/vendor/jquery.ui (bundled)
+License:   GPLv2+ and MIT and Public Domain
+
 URL:       https://www.drupal.org/8
 Source0:   http://ftp.drupal.org/files/projects/drupal-%{version}.tar.gz
 # Modify core/composer.json
@@ -131,10 +156,10 @@ BuildRequires: php-cli
 # Webserver
 ## Providers:
 ## - drupal8-httpd
-## - drupal8-nginx (TODO)
+## - FUTURE PLANNED: drupal8-nginx
 Requires:  %{name}-webserver
 
-# composer.json
+# core/composer.json
 Requires:  php(language)                                 >= %{php_min_ver}
 Requires:  php-composer(phpunit/phpunit)                 >= %{phpunit_min_ver}
 Requires:  php-composer(composer/semver)                 >= %{composer_semver_min_ver}
@@ -299,97 +324,98 @@ Provides:  drupal8(views_ui)                     = %{version}
 
 # php-composer(*) virtual provides
 ## composer.json
-Provides:  php-composer(drupal/drupal)                = %{version}
+Provides:  php-composer(drupal/drupal)                    = %{version}
 ## core/composer.json
 ### name
-Provides:  php-composer(drupal/core)                  = %{version}
+Provides:  php-composer(drupal/core)                      = %{version}
 ### replace
-Provides:  php-composer(drupal/action)                = %{version}
-Provides:  php-composer(drupal/aggregator)            = %{version}
-Provides:  php-composer(drupal/automated_cron)        = %{version}
-Provides:  php-composer(drupal/ban)                   = %{version}
-Provides:  php-composer(drupal/bartik)                = %{version}
-Provides:  php-composer(drupal/basic_auth)            = %{version}
-Provides:  php-composer(drupal/block)                 = %{version}
-Provides:  php-composer(drupal/block_content)         = %{version}
-Provides:  php-composer(drupal/book)                  = %{version}
-Provides:  php-composer(drupal/breakpoint)            = %{version}
-Provides:  php-composer(drupal/ckeditor)              = %{version}
-Provides:  php-composer(drupal/classy)                = %{version}
-Provides:  php-composer(drupal/color)                 = %{version}
-Provides:  php-composer(drupal/comment)               = %{version}
-Provides:  php-composer(drupal/config)                = %{version}
-Provides:  php-composer(drupal/config_translation)    = %{version}
-Provides:  php-composer(drupal/contact)               = %{version}
-Provides:  php-composer(drupal/content_translation)   = %{version}
-Provides:  php-composer(drupal/contextual)            = %{version}
-Provides:  php-composer(drupal/core-annotation)       = %{version}
-Provides:  php-composer(drupal/core-bridge)           = %{version}
-Provides:  php-composer(drupal/core-datetime)         = %{version}
-Provides:  php-composer(drupal/core-diff)             = %{version}
-Provides:  php-composer(drupal/core-discovery)        = %{version}
-Provides:  php-composer(drupal/core-event-dispatcher) = %{version}
-Provides:  php-composer(drupal/core-file-cache)       = %{version}
-Provides:  php-composer(drupal/core-gettext)          = %{version}
-Provides:  php-composer(drupal/core-graph)            = %{version}
-Provides:  php-composer(drupal/core-php-storage)      = %{version}
-Provides:  php-composer(drupal/core-plugin)           = %{version}
-Provides:  php-composer(drupal/core-proxy-builder)    = %{version}
-Provides:  php-composer(drupal/core-serialization)    = %{version}
-Provides:  php-composer(drupal/core-transliteration)  = %{version}
-Provides:  php-composer(drupal/core-utility)          = %{version}
-Provides:  php-composer(drupal/core-uuid)             = %{version}
-Provides:  php-composer(drupal/datetime)              = %{version}
-Provides:  php-composer(drupal/dblog)                 = %{version}
-Provides:  php-composer(drupal/dynamic_page_cache)    = %{version}
-Provides:  php-composer(drupal/editor)                = %{version}
-Provides:  php-composer(drupal/entity_reference)      = %{version}
-Provides:  php-composer(drupal/field)                 = %{version}
-Provides:  php-composer(drupal/field_ui)              = %{version}
-Provides:  php-composer(drupal/file)                  = %{version}
-Provides:  php-composer(drupal/filter)                = %{version}
-Provides:  php-composer(drupal/forum)                 = %{version}
-Provides:  php-composer(drupal/hal)                   = %{version}
-Provides:  php-composer(drupal/help)                  = %{version}
-Provides:  php-composer(drupal/history)               = %{version}
-Provides:  php-composer(drupal/image)                 = %{version}
-Provides:  php-composer(drupal/inline_form_errors)    = %{version}
-Provides:  php-composer(drupal/language)              = %{version}
-Provides:  php-composer(drupal/link)                  = %{version}
-Provides:  php-composer(drupal/locale)                = %{version}
-Provides:  php-composer(drupal/menu_link_content)     = %{version}
-Provides:  php-composer(drupal/menu_ui)               = %{version}
-Provides:  php-composer(drupal/migrate)               = %{version}
-Provides:  php-composer(drupal/migrate_drupal)        = %{version}
-Provides:  php-composer(drupal/minimal)               = %{version}
-Provides:  php-composer(drupal/node)                  = %{version}
-Provides:  php-composer(drupal/options)               = %{version}
-Provides:  php-composer(drupal/page_cache)            = %{version}
-Provides:  php-composer(drupal/path)                  = %{version}
-Provides:  php-composer(drupal/quickedit)             = %{version}
-Provides:  php-composer(drupal/rdf)                   = %{version}
-Provides:  php-composer(drupal/responsive_image)      = %{version}
-Provides:  php-composer(drupal/rest)                  = %{version}
-Provides:  php-composer(drupal/search)                = %{version}
-Provides:  php-composer(drupal/serialization)         = %{version}
-Provides:  php-composer(drupal/seven)                 = %{version}
-Provides:  php-composer(drupal/shortcut)              = %{version}
-Provides:  php-composer(drupal/simpletest)            = %{version}
-Provides:  php-composer(drupal/standard)              = %{version}
-Provides:  php-composer(drupal/stark)                 = %{version}
-Provides:  php-composer(drupal/statistics)            = %{version}
-Provides:  php-composer(drupal/syslog)                = %{version}
-Provides:  php-composer(drupal/system)                = %{version}
-Provides:  php-composer(drupal/taxonomy)              = %{version}
-Provides:  php-composer(drupal/telephone)             = %{version}
-Provides:  php-composer(drupal/text)                  = %{version}
-Provides:  php-composer(drupal/toolbar)               = %{version}
-Provides:  php-composer(drupal/tour)                  = %{version}
-Provides:  php-composer(drupal/tracker)               = %{version}
-Provides:  php-composer(drupal/update)                = %{version}
-Provides:  php-composer(drupal/user)                  = %{version}
-Provides:  php-composer(drupal/views)                 = %{version}
-Provides:  php-composer(drupal/views_ui)              = %{version}
+Provides:  php-composer(drupal/action)                    = %{version}
+Provides:  php-composer(drupal/aggregator)                = %{version}
+Provides:  php-composer(drupal/automated_cron)            = %{version}
+Provides:  php-composer(drupal/ban)                       = %{version}
+Provides:  php-composer(drupal/bartik)                    = %{version}
+Provides:  php-composer(drupal/basic_auth)                = %{version}
+Provides:  php-composer(drupal/block)                     = %{version}
+Provides:  php-composer(drupal/block_content)             = %{version}
+Provides:  php-composer(drupal/book)                      = %{version}
+Provides:  php-composer(drupal/breakpoint)                = %{version}
+Provides:  php-composer(drupal/ckeditor)                  = %{version}
+Provides:  php-composer(drupal/classy)                    = %{version}
+Provides:  php-composer(drupal/color)                     = %{version}
+Provides:  php-composer(drupal/comment)                   = %{version}
+Provides:  php-composer(drupal/config)                    = %{version}
+Provides:  php-composer(drupal/config_translation)        = %{version}
+Provides:  php-composer(drupal/contact)                   = %{version}
+Provides:  php-composer(drupal/content_translation)       = %{version}
+Provides:  php-composer(drupal/contextual)                = %{version}
+Provides:  php-composer(drupal/core-annotation)           = %{version}
+Provides:  php-composer(drupal/core-bridge)               = %{version}
+Provides:  php-composer(drupal/core-datetime)             = %{version}
+Provides:  php-composer(drupal/core-dependency-injection) = %{version}
+Provides:  php-composer(drupal/core-diff)                 = %{version}
+Provides:  php-composer(drupal/core-discovery)            = %{version}
+Provides:  php-composer(drupal/core-event-dispatcher)     = %{version}
+Provides:  php-composer(drupal/core-file-cache)           = %{version}
+Provides:  php-composer(drupal/core-gettext)              = %{version}
+Provides:  php-composer(drupal/core-graph)                = %{version}
+Provides:  php-composer(drupal/core-php-storage)          = %{version}
+Provides:  php-composer(drupal/core-plugin)               = %{version}
+Provides:  php-composer(drupal/core-proxy-builder)        = %{version}
+Provides:  php-composer(drupal/core-serialization)        = %{version}
+Provides:  php-composer(drupal/core-transliteration)      = %{version}
+Provides:  php-composer(drupal/core-utility)              = %{version}
+Provides:  php-composer(drupal/core-uuid)                 = %{version}
+Provides:  php-composer(drupal/datetime)                  = %{version}
+Provides:  php-composer(drupal/dblog)                     = %{version}
+Provides:  php-composer(drupal/dynamic_page_cache)        = %{version}
+Provides:  php-composer(drupal/editor)                    = %{version}
+Provides:  php-composer(drupal/entity_reference)          = %{version}
+Provides:  php-composer(drupal/field)                     = %{version}
+Provides:  php-composer(drupal/field_ui)                  = %{version}
+Provides:  php-composer(drupal/file)                      = %{version}
+Provides:  php-composer(drupal/filter)                    = %{version}
+Provides:  php-composer(drupal/forum)                     = %{version}
+Provides:  php-composer(drupal/hal)                       = %{version}
+Provides:  php-composer(drupal/help)                      = %{version}
+Provides:  php-composer(drupal/history)                   = %{version}
+Provides:  php-composer(drupal/image)                     = %{version}
+Provides:  php-composer(drupal/inline_form_errors)        = %{version}
+Provides:  php-composer(drupal/language)                  = %{version}
+Provides:  php-composer(drupal/link)                      = %{version}
+Provides:  php-composer(drupal/locale)                    = %{version}
+Provides:  php-composer(drupal/menu_link_content)         = %{version}
+Provides:  php-composer(drupal/menu_ui)                   = %{version}
+Provides:  php-composer(drupal/migrate)                   = %{version}
+Provides:  php-composer(drupal/migrate_drupal)            = %{version}
+Provides:  php-composer(drupal/minimal)                   = %{version}
+Provides:  php-composer(drupal/node)                      = %{version}
+Provides:  php-composer(drupal/options)                   = %{version}
+Provides:  php-composer(drupal/page_cache)                = %{version}
+Provides:  php-composer(drupal/path)                      = %{version}
+Provides:  php-composer(drupal/quickedit)                 = %{version}
+Provides:  php-composer(drupal/rdf)                       = %{version}
+Provides:  php-composer(drupal/responsive_image)          = %{version}
+Provides:  php-composer(drupal/rest)                      = %{version}
+Provides:  php-composer(drupal/search)                    = %{version}
+Provides:  php-composer(drupal/serialization)             = %{version}
+Provides:  php-composer(drupal/seven)                     = %{version}
+Provides:  php-composer(drupal/shortcut)                  = %{version}
+Provides:  php-composer(drupal/simpletest)                = %{version}
+Provides:  php-composer(drupal/standard)                  = %{version}
+Provides:  php-composer(drupal/stark)                     = %{version}
+Provides:  php-composer(drupal/statistics)                = %{version}
+Provides:  php-composer(drupal/syslog)                    = %{version}
+Provides:  php-composer(drupal/system)                    = %{version}
+Provides:  php-composer(drupal/taxonomy)                  = %{version}
+Provides:  php-composer(drupal/telephone)                 = %{version}
+Provides:  php-composer(drupal/text)                      = %{version}
+Provides:  php-composer(drupal/toolbar)                   = %{version}
+Provides:  php-composer(drupal/tour)                      = %{version}
+Provides:  php-composer(drupal/tracker)                   = %{version}
+Provides:  php-composer(drupal/update)                    = %{version}
+Provides:  php-composer(drupal/user)                      = %{version}
+Provides:  php-composer(drupal/views)                     = %{version}
+Provides:  php-composer(drupal/views_ui)                  = %{version}
 
 # Bundled
 ## core/core.libraries.yml
@@ -484,7 +510,7 @@ Requires:   php(httpd)
 Recommends: mod_php
 Suggests:   php-fpm
 
-Provides: %{name}-webserver = %{version}-%{release}
+Provides:   %{name}-webserver = %{version}-%{release}
 
 %description httpd
 %{summary}.
@@ -492,8 +518,12 @@ Provides: %{name}-webserver = %{version}-%{release}
 #-------------------------------------------------------------------------------
 
 %package rpmbuild
+
 Summary:  RPM build files for %{name}
+
 Group:    Development/Tools
+License:  MIT
+
 Requires: php-composer(symfony/console) >= 2.7.1
 Requires: php-composer(symfony/console) <  3.0.0
 Requires: php-composer(symfony/yaml)    >= 2.7.1
@@ -510,10 +540,47 @@ Requires: php-composer(symfony/yaml)    <  3.0.0
 pushd drupal-%{version}
 
 : Remove unneeded files
-find . -name '*~' -delete
 find . -name '.git*' -delete
 find . -name 'web.config' -delete
 rm -rf vendor
+
+: Licenses
+mkdir ../licences
+for LICENSE_FILENAME in LICENSE COPYRIGHT
+do
+    for LICENSE in $(find . -iname "${LICENSE_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
+    do
+        DIR=$(dirname "$LICENSE")
+        mkdir -p ../licenses/${DIR}
+        mv $LICENSE ../licenses/${DIR}/
+    done
+done
+
+: Verbose output for logging...
+find ../licenses/ | sort
+
+: Docs
+mkdir ../docs
+for DOC_FILENAME in AUTHORS CHANGELOG CHANGES INSTALL MAINTAINERS README TESTING UPGRADE
+do
+    for DOC in $(find . -iname "${DOC_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
+    do
+        DIR=$(dirname "$DOC")
+        mkdir -p ../docs/${DIR}
+        mv $DOC ../docs/${DIR}/
+    done
+done
+for COMPOSER in $(find . -iname "composer.*" | grep -e '\.json$' -e '\.lock$' -e '\.txt$')
+do
+    DIR=$(dirname "$COMPOSER")
+    mkdir -p ../docs/${DIR}
+    mv $COMPOSER ../docs/${DIR}/
+done
+: Reposition core composer.json for autoloader creation in %%build
+mv ../docs/core/composer.json core/
+
+: Verbose output for logging...
+find ../docs/ | sort
 
 : Apache .htaccess
 sed 's!# RewriteBase /$!# RewriteBase /\n  RewriteBase /drupal8!' \
@@ -599,12 +666,20 @@ pushd drupal-%{version}
         : Create Composer autoloader
         %{_bindir}/composer dump-autoload --optimize
 
-        : Some verbose output for logging...
+        : Verbose output for logging...
         find vendor
         cat vendor/composer/autoload_files.php
     popd
 
+    : Symlink main vendor directory to core vendor directory
     ln -s core/vendor vendor
+
+    : Move composer files to docs
+    mv core/composer.* ../docs/core/
+
+    : Move autoloader license to licenses
+    mkdir -p ../licenses/core/vendor/composer
+    mv core/vendor/composer/LICENSE ../licenses/core/vendor/composer/
 popd
 
 #-------------------------------------------------------------------------------
@@ -681,28 +756,14 @@ popd
 #-------------------------------------------------------------------------------
 
 %files
-# Core
-%doc drupal-%{version}/README.txt
-%doc drupal-%{version}/composer.*
-%doc drupal-%{version}/core/*.txt
-%doc drupal-%{version}/example.*
-%dir %{drupal8}
-     %{drupal8}/.htaccess
-     %{drupal8}/*.*
-     %{drupal8}/core
-%dir %{drupal8}/modules
-     %{drupal8}/modules/README.txt
-%dir %{drupal8}/profiles
-     %{drupal8}/profiles/README.txt
-     %{drupal8}/sites
-%dir %{drupal8}/themes
-     %{drupal8}/themes/README.txt
-     %{drupal8}/vendor
+%{!?_licensedir:%global license %%doc}
+%license licenses/*
+%doc docs/*
+%{drupal8}
 # Sites
 %dir  %{drupal8_conf}
 %dir  %{drupal8_conf}/sites
       %{drupal8_conf}/sites/example.*
-      %{drupal8_conf}/sites/README.txt
 %config(noreplace) %{drupal8_conf}/sites/development.services.yml
 %dir  %{drupal8_conf}/sites/default
       %{drupal8_conf}/sites/default/default.*
@@ -732,8 +793,11 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
-* Tue Jan 19 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
+* Sat Jan 23 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
 - Updated to 8.0.2
+- Main package license changed from "GPLv2+" to "GPLv2+ and MIT and Public Domain"
+- "rpmbuild" sub-package "MIT" license added
+- Dynamic %%doc and %%license
 - Modified drupal8(*) virtual provides
 - Added php-composer(*) virtual provides
 - Added custom autoloader (and removed Composer autoload modifications)
