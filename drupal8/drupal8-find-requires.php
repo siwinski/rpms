@@ -73,7 +73,7 @@ class FindRequires extends Command
             );
 
             while ($file = trim(fgets(STDIN))) {
-                if (!preg_match('/' . preg_quote($drupalProjectFilename, '/') . '$/', $file)) {
+                if (!preg_match('/'.preg_quote($drupalProjectFilename, '/').'$/', $file)) {
                     continue;
                 }
 

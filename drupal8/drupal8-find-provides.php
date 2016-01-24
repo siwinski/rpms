@@ -69,7 +69,7 @@ class FindProvides extends Command
 
         foreach (array_unique($provides) as $p) {
             $output->write($p);
-            $output->writeln($specVersion ? ' = ' . $specVersion : '');
+            $output->writeln($specVersion ? ' = '.$specVersion : '');
         }
     }
 
@@ -78,15 +78,16 @@ class FindProvides extends Command
      *
      * @return string|null drupal8(*) virtual provide or null
      */
-    private function executeDrupal8($file) {
+    private function executeDrupal8($file)
+    {
         if (!preg_match('/\.info\.yml$/', $file)) {
-            return null;
+            return;
         }
 
         // Hidden?
         $info = Yaml::parse(file_get_contents($file));
         if (!empty($info['hidden'])) {
-            return null;
+            return;
         }
 
         return sprintf('drupal8(%s)', basename($file, '.info.yml'));
@@ -102,9 +103,10 @@ class FindProvides extends Command
      *
      * @return array|null php-composer(*) virtual provides or null
      */
-    private function executeComposer($file) {
+    private function executeComposer($file)
+    {
         if ('composer.json' != basename($file)) {
-            return null;
+            return;
         }
 
         $info = json_decode(file_get_contents($file), true);
