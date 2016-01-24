@@ -1,3 +1,3 @@
-%__drupal8_path      ^%{_datadir}/drupal8/(modules|profiles|themes)/rpm/
+%__drupal8_path      ^(%{_datadir}/drupal8/(modules|profiles|themes)/rpm/|%{_docdir}/%{name}/**/composer.json)
 %__drupal8_provides  %{_rpmconfigdir}/drupal8-find-provides.php find-provides --spec-version=%{version}
 %__drupal8_requires  %{_rpmconfigdir}/drupal8-find-requires.php find-requires --spec-name=%{name} %{?drupal_project:--drupal-project=%{drupal_project}}

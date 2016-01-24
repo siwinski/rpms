@@ -159,10 +159,12 @@ BuildArch: noarch
 BuildRequires: php-cli
 
 # Webserver
+Requires:   %{name}-webserver
 ## Providers:
 ## - drupal8-httpd
 ## - FUTURE PLANNED: drupal8-nginx
-Requires:  %{name}-webserver
+Recommends: %{name}-httpd
+#Suggests:   %%{name}-nginx
 
 # core/composer.json
 Requires:  php(language)                                 >= %{php_min_ver}
@@ -542,7 +544,7 @@ Requires: php-composer(symfony/yaml)    <  3.0.0
 #-------------------------------------------------------------------------------
 
 %prep
-%setup -q -n drupal-%{version}
+%setup -qn drupal-%{version}
 
 : Copy other sources into build dir
 mkdir .rpm
@@ -748,7 +750,6 @@ popd
 #-------------------------------------------------------------------------------
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license .rpm/licenses/*
 %doc .rpm/docs/*
 %{drupal8}
