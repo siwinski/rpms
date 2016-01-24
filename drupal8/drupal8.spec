@@ -542,15 +542,16 @@ Requires: php-composer(symfony/yaml)    <  3.0.0
 #-------------------------------------------------------------------------------
 
 %prep
-%setup -q -c
+%setup -q -n drupal-%{version}
 
 : Copy other sources into build dir
-cp -p %{SOURCE1} .
-cp -p %{SOURCE2} .
-cp -p %{SOURCE3} .
-cp -p %{SOURCE4} .
-cp -p %{SOURCE5} .
-cp -p %{SOURCE6} .
+mkdir .rpm
+cp -p %{SOURCE1} .rpm/
+cp -p %{SOURCE2} .rpm/
+cp -p %{SOURCE3} .rpm/
+cp -p %{SOURCE4} .rpm/
+cp -p %{SOURCE5} .rpm/
+cp -p %{SOURCE6} .rpm/
 
 : Update dynamic values in sources
 sed \
@@ -562,15 +563,10 @@ sed \
     -e 's:__PHPDIR__:%{phpdir}:' \
     -e 's:__SPEC_VERSION__:%{version}:' \
     -e 's:__SPEC_RELEASE__:%{release}:' \
-    -i %{name}-find-provides.php \
-    -i %{name}-find-requires.php \
-    -i %{name}-modify-core-composer-json.php \
-    -i macros.%{name}
+    -i .rpm/*
 
 : Modify core/composer.json
-./%{name}-modify-core-composer-json.php modify-core-composer-json --builddir=$(pwd)/drupal-%{version}
-
-pushd drupal-%{version}
+.rpm/%{name}-modify-core-composer-json.php modify-core-composer-json --builddir=$(pwd)
 
 : Remove unneeded files
 find . -name '.git*' -delete
@@ -578,42 +574,42 @@ find . -name 'web.config' -delete
 rm -rf vendor
 
 : Licenses
-mkdir ../licences
+mkdir .rpm/licences
 for LICENSE_FILENAME in LICENSE COPYRIGHT
 do
     for LICENSE in $(find . -iname "${LICENSE_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
     do
         DIR=$(dirname "$LICENSE")
-        mkdir -p ../licenses/${DIR}
-        mv $LICENSE ../licenses/${DIR}/
+        mkdir -p .rpm/licenses/${DIR}
+        mv $LICENSE .rpm/licenses/${DIR}/
     done
 done
 
 : Verbose output for logging...
-find ../licenses/ | sort
+find .rpm/licenses/ | sort
 
 : Docs
-mkdir ../docs
+mkdir .rpm/docs
 for DOC_FILENAME in AUTHORS CHANGELOG CHANGES INSTALL MAINTAINERS README TESTING UPGRADE
 do
     for DOC in $(find . -iname "${DOC_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
     do
         DIR=$(dirname "$DOC")
-        mkdir -p ../docs/${DIR}
-        mv $DOC ../docs/${DIR}/
+        mkdir -p .rpm/docs/${DIR}
+        mv $DOC .rpm/docs/${DIR}/
     done
 done
 for COMPOSER in $(find . -name "composer.*")
 do
     DIR=$(dirname "$COMPOSER")
-    mkdir -p ../docs/${DIR}
-    mv $COMPOSER ../docs/${DIR}/
+    mkdir -p .rpm/docs/${DIR}
+    mv $COMPOSER .rpm/docs/${DIR}/
 done
 : Reposition core composer.json for autoloader creation in %%build
-mv ../docs/core/composer.json core/
+cp .rpm/docs/core/composer.json core/
 
 : Verbose output for logging...
-find ../docs/ | sort
+find .rpm/docs/ | sort
 
 : Apache .htaccess
 sed 's!# RewriteBase /$!# RewriteBase /\n  RewriteBase /drupal8!' \
@@ -669,37 +665,28 @@ chmod -x \
     core/modules/views_ui/src/ParamConverter/ViewUIConverter.php \
     core/scripts/run-tests.sh
 
-popd
-
 #-------------------------------------------------------------------------------
 
 %build
-pushd drupal-%{version}
-    pushd core
-        : Create Composer autoloader
-        %{_bindir}/composer dump-autoload --optimize
+pushd core
+    : Create Composer autoloader
+    %{_bindir}/composer dump-autoload --optimize
 
-        : Verbose output for logging...
-        find vendor
-        cat vendor/composer/autoload_files.php
-    popd
-
-    : Symlink main vendor directory to core vendor directory
-    ln -s core/vendor vendor
-
-    : Move composer files to docs
-    mv core/composer.* ../docs/core/
-
-    : Move autoloader license to licenses
-    mkdir -p ../licenses/core/vendor/composer
-    mv core/vendor/composer/LICENSE ../licenses/core/vendor/composer/
+    : Verbose output for logging...
+    find vendor
+    cat vendor/composer/autoload_files.php
 popd
+
+: Symlink main vendor directory to core vendor directory
+ln -s core/vendor vendor
+
+: Move autoloader license to licenses
+mkdir -p .rpm/licenses/core/vendor/composer
+mv core/vendor/composer/LICENSE .rpm/licenses/core/vendor/composer/
 
 #-------------------------------------------------------------------------------
 
 %install
-pushd drupal-%{version}
-
 : Main
 mkdir -p %{buildroot}%{drupal8}
 cp -pr * %{buildroot}%{drupal8}/
@@ -715,23 +702,21 @@ mkdir -p %{buildroot}%{drupal8_var}/files/{public,private}/default
 ln -s %{drupal8_var}/files/public/default \
     %{buildroot}%{drupal8_conf}/sites/default/files
 
-# Apache .htaccess
+: Apache .htaccess
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 ln -s %{_sysconfdir}/httpd/conf.d/%{name}.htaccess %{buildroot}%{drupal8}/.htaccess
 
-popd
-
 : RPM AutoReqProv
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
-install -pm 0644 macros.%{name} %{buildroot}%{_rpmconfigdir}/macros.d/
+install -pm 0644 .rpm/macros.%{name} %{buildroot}%{_rpmconfigdir}/macros.d/
 mkdir -p %{buildroot}%{_rpmconfigdir}/fileattrs
-install -pm 0644 %{name}.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
-install -pm 0755 %{name}-find-provides.php %{buildroot}%{_rpmconfigdir}/
-install -pm 0755 %{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
+install -pm 0644 .rpm/%{name}.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
+install -pm 0755 .rpm/%{name}-find-provides.php %{buildroot}%{_rpmconfigdir}/
+install -pm 0755 .rpm/%{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
 
 : Apache HTTPD conf
-install -pm 0644 %{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
+install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 
 #-------------------------------------------------------------------------------
 
@@ -748,30 +733,24 @@ grep \
         --quiet \
     || exit 1
 
-pushd drupal-%{version}
-
 : Ensure php bin updated
 grep -r '#!/bin/php' . && exit 1
 
 %if %{with_tests}
 pushd core
-
-: Unit tests
-%{_bindir}/phpunit
-
+    : Unit tests
+    %{_bindir}/phpunit
 popd
 %else
 : Test suite skipped
 %endif
 
-popd
-
 #-------------------------------------------------------------------------------
 
 %files
 %{!?_licensedir:%global license %%doc}
-%license licenses/*
-%doc docs/*
+%license .rpm/licenses/*
+%doc .rpm/docs/*
 %{drupal8}
 # Sites
 %dir  %{drupal8_conf}
