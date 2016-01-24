@@ -6,7 +6,7 @@
  */
 namespace Drupal8Rpmbuild;
 
-require_once '/usr/share/php/Symfony/Component/Console/autoload.php';
+require_once '__PHPDIR__/Symfony/Component/Console/autoload.php';
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -28,13 +28,8 @@ class ModifyCoreComposerJson extends Command
                 'builddir',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'RPM build dir (RPM macro "%{_builddir}")'
-            )
-            ->addOption(
-                'phpdir',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'System PHP library directory'
+                'RPM build dir (RPM macro "%{_builddir}")',
+                __DIR__
             );
     }
 
@@ -45,40 +40,39 @@ class ModifyCoreComposerJson extends Command
         $composerJsonDecoded = $this->executeDecode($input, $output, $composerJsonFile);
 
         // Empty "require", "require-dev", and "scripts"
-        unset($composerJsonDecoded['require']);
-        unset($composerJsonDecoded['require-dev']);
-        unset($composerJsonDecoded['scripts']);
+        //unset($composerJsonDecoded['require']);
+        //unset($composerJsonDecoded['require-dev']);
+        //unset($composerJsonDecoded['scripts']);
 
         // Modify "autoload" "files" to include de-coupled libraries' autoloaders
-        $phpDir = $input->getOption('phpdir');
         $composerJsonDecoded['autoload']['files'] = array_merge(
             $composerJsonDecoded['autoload']['files'],
             array(
-                $phpDir.'/Composer/Semver/autoload.php',
-                $phpDir.'/Doctrine/Common/Annotations/autoload.php',
-                $phpDir.'/Doctrine/Common/autoload.php',
-                $phpDir.'/EasyRdf/autoload.php',
-                $phpDir.'/Egulias/EmailValidator/autoload.php',
-                $phpDir.'/GuzzleHttp6/autoload.php',
-                $phpDir.'/Masterminds/HTML5/autoload.php',
-                $phpDir.'/Stack/autoload-builder.php',
-                $phpDir.'/Symfony/Bridge/PsrHttpMessage/autoload.php',
-                $phpDir.'/Symfony/Cmf/Component/Routing/autoload.php',
-                $phpDir.'/Symfony/Component/ClassLoader/autoload.php',
-                $phpDir.'/Symfony/Component/Console/autoload.php',
-                $phpDir.'/Symfony/Component/DependencyInjection/autoload.php',
-                $phpDir.'/Symfony/Component/EventDispatcher/autoload.php',
-                $phpDir.'/Symfony/Component/HttpFoundation/autoload.php',
-                $phpDir.'/Symfony/Component/HttpKernel/autoload.php',
-                $phpDir.'/Symfony/Component/Process/autoload.php',
-                $phpDir.'/Symfony/Component/Routing/autoload.php',
-                $phpDir.'/Symfony/Component/Serializer/autoload.php',
-                $phpDir.'/Symfony/Component/Translation/autoload.php',
-                $phpDir.'/Symfony/Component/Validator/autoload.php',
-                $phpDir.'/Symfony/Component/Yaml/autoload.php',
-                $phpDir.'/Twig/autoload.php',
-                $phpDir.'/Zend/autoload.php',
-                $phpDir.'/Zend/Diactoros/autoload.php',
+                '__PHPDIR__/Composer/Semver/autoload.php',
+                '__PHPDIR__/Doctrine/Common/Annotations/autoload.php',
+                '__PHPDIR__/Doctrine/Common/autoload.php',
+                '__PHPDIR__/EasyRdf/autoload.php',
+                '__PHPDIR__/Egulias/EmailValidator/autoload.php',
+                '__PHPDIR__/GuzzleHttp6/autoload.php',
+                '__PHPDIR__/Masterminds/HTML5/autoload.php',
+                '__PHPDIR__/Stack/autoload-builder.php',
+                '__PHPDIR__/Symfony/Bridge/PsrHttpMessage/autoload.php',
+                '__PHPDIR__/Symfony/Cmf/Component/Routing/autoload.php',
+                '__PHPDIR__/Symfony/Component/ClassLoader/autoload.php',
+                '__PHPDIR__/Symfony/Component/Console/autoload.php',
+                '__PHPDIR__/Symfony/Component/DependencyInjection/autoload.php',
+                '__PHPDIR__/Symfony/Component/EventDispatcher/autoload.php',
+                '__PHPDIR__/Symfony/Component/HttpFoundation/autoload.php',
+                '__PHPDIR__/Symfony/Component/HttpKernel/autoload.php',
+                '__PHPDIR__/Symfony/Component/Process/autoload.php',
+                '__PHPDIR__/Symfony/Component/Routing/autoload.php',
+                '__PHPDIR__/Symfony/Component/Serializer/autoload.php',
+                '__PHPDIR__/Symfony/Component/Translation/autoload.php',
+                '__PHPDIR__/Symfony/Component/Validator/autoload.php',
+                '__PHPDIR__/Symfony/Component/Yaml/autoload.php',
+                '__PHPDIR__/Twig/autoload.php',
+                '__PHPDIR__/Zend/autoload.php',
+                '__PHPDIR__/Zend/Diactoros/autoload.php',
             )
         );
 
@@ -142,6 +136,7 @@ class ModifyCoreComposerJson extends Command
     }
 }
 
-$application = new Application();
+// Create application, add command, and run
+$application = new Application('Drupal 8 RPM Modify Core\'s composer.json', '__SPEC_VERSION__-__SPEC_RELEASE__');
 $application->add(new ModifyCoreComposerJson());
 $application->run();

@@ -209,7 +209,7 @@ Requires:  php-composer(symfony/validator)               >= %{symfony_min_ver}
 Requires:  php-composer(symfony/validator)               <  %{symfony_max_ver}
 Requires:  php-composer(symfony/yaml)                    >= %{symfony_min_ver}
 Requires:  php-composer(symfony/yaml)                    <  %{symfony_max_ver}
-#Requires:  php-composer(symfony-cmf/routing)             >= %{symfony_cmf_routing_min_ver}
+#Requires:  php-composer(symfony-cmf/routing)             >= %%{symfony_cmf_routing_min_ver}
 Requires:  php-SymfonyCmfRouting                         >= %{symfony_cmf_routing_min_ver}
 Requires:  php-composer(symfony-cmf/routing)             <  %{symfony_cmf_routing_max_ver}
 Requires:  php-composer(twig/twig)                       >= %{twig_min_ver}
@@ -530,6 +530,7 @@ Summary:  RPM build files for %{name}
 Group:    Development/Tools
 License:  MIT
 
+Requires: php(language)                 >= 5.4.0
 Requires: php-composer(symfony/console) >= 2.7.1
 Requires: php-composer(symfony/console) <  3.0.0
 Requires: php-composer(symfony/yaml)    >= 2.7.1
@@ -542,6 +543,32 @@ Requires: php-composer(symfony/yaml)    <  3.0.0
 
 %prep
 %setup -q -c
+
+: Copy other sources into build dir
+cp -p %{SOURCE1} .
+cp -p %{SOURCE2} .
+cp -p %{SOURCE3} .
+cp -p %{SOURCE4} .
+cp -p %{SOURCE5} .
+cp -p %{SOURCE6} .
+
+: Update dynamic values in sources
+sed \
+    -e 's:__DRUPAL8_VERSION__:%{version}:' \
+    -e 's:__DRUPAL8_PHP_MIN_VER__:%{php_min_ver}:' \
+    -e 's:__DRUPAL8__:%{drupal8}:' \
+    -e 's:__DRUPAL8_VAR__:%{drupal8_var}:' \
+    -e 's:__DRUPAL8_CONF__:%{drupal8_conf}:' \
+    -e 's:__PHPDIR__:%{phpdir}:' \
+    -e 's:__SPEC_VERSION__:%{version}:' \
+    -e 's:__SPEC_RELEASE__:%{release}:' \
+    -i %{name}-find-provides.php \
+    -i %{name}-find-requires.php \
+    -i %{name}-modify-core-composer-json.php \
+    -i macros.%{name}
+
+: Modify core/composer.json
+./%{name}-modify-core-composer-json.php modify-core-composer-json --builddir=$(pwd)/drupal-%{version}
 
 pushd drupal-%{version}
 
@@ -576,7 +603,7 @@ do
         mv $DOC ../docs/${DIR}/
     done
 done
-for COMPOSER in $(find . -iname "composer.*" | grep -e '\.json$' -e '\.lock$' -e '\.txt$')
+for COMPOSER in $(find . -name "composer.*")
 do
     DIR=$(dirname "$COMPOSER")
     mkdir -p ../docs/${DIR}
@@ -642,27 +669,7 @@ chmod -x \
     core/modules/views_ui/src/ParamConverter/ViewUIConverter.php \
     core/scripts/run-tests.sh
 
-: Modify core/composer.json
-%{SOURCE1} modify-core-composer-json --builddir=$(pwd) --phpdir=%{phpdir}
-
 popd
-
-: RPM AutoReqProv
-cp -p %{SOURCE2} .
-cp -p %{SOURCE3} .
-cp -p %{SOURCE4} .
-cp -p %{SOURCE5} .
-
-: Apache HTTPD conf
-cp -p %{SOURCE6} .
-
-: Update macros version and base path
-sed -e 's:__DRUPAL8_VERSION__:%{version}:' \
-    -e 's:__DRUPAL8_PHP_MIN_VER__:%{php_min_ver}:' \
-    -e 's:__DRUPAL8__:%{drupal8}:' \
-    -e 's:__DRUPAL8_VAR__:%{drupal8_var}:' \
-    -e 's:__DRUPAL8_CONF__:%{drupal8_conf}:' \
-    -i macros.%{name}
 
 #-------------------------------------------------------------------------------
 
