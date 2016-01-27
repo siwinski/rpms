@@ -53,7 +53,7 @@ class FindRequires extends Command
         $this
             ->setName('find-requires')
             ->setDescription('Finds RPM requires')
-            // --drupal-project
+            // --drupal8-project
             ->addOption(
                 'drupal8-project',
                 null,
