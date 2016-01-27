@@ -55,10 +55,10 @@ class FindRequires extends Command
             ->setDescription('Finds RPM requires')
             // --drupal-project
             ->addOption(
-                'drupal-project',
+                'drupal8-project',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Drupal project name (i.e. https://www.drupal.org/project/<info>DRUPAL-PROJECT</info>)'
+                'Drupal 8 project name (i.e. https://www.drupal.org/project/<info>DRUPAL8-PROJECT</info>)'
             )
             // --spec-name
             ->addOption(
@@ -81,7 +81,7 @@ class FindRequires extends Command
     {
         $requires = ['drupal8(core)'];
 
-        $drupalProject = $input->getOption('drupal-project');
+        $drupalProject = $input->getOption('drupal8-project');
         if (empty($drupalProject)) {
             $specName = $input->getOption('spec-name');
             $drupalProject = preg_replace('/^drupal8-/', '', $specName);
