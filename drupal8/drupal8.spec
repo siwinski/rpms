@@ -102,7 +102,7 @@ AutoReqProv: no
 %global with_tests 0%{?_with_tests:1}
 
 # Drupal 8 directories
-%global drupal8      %{_datadir}/drupal8
+%global drupal8      %{_datadir}/%{name}
 %global drupal8_var  %{_localstatedir}/lib/%{name}
 %global drupal8_conf %{_sysconfdir}/%{name}
 
@@ -532,6 +532,7 @@ Summary:  RPM build files for %{name}
 Group:    Development/Tools
 License:  MIT
 
+Requires: php-cli
 Requires: php(language)                 >= 5.4.0
 Requires: php-composer(symfony/console) >= 2.7.1
 Requires: php-composer(symfony/console) <  3.0.0
