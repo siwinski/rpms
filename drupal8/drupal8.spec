@@ -146,13 +146,14 @@ URL:       https://www.drupal.org/8
 Source0:   http://ftp.drupal.org/files/projects/drupal-%{version}.tar.gz
 # Modify core/composer.json
 Source1:   %{name}-modify-core-composer-json.php
-# RPM AutoReqProv
+# rpmbuild
 Source2:   macros.%{name}
 Source3:   %{name}.attr
 Source4:   %{name}-find-provides.php
 Source5:   %{name}-find-requires.php
+Source6:   %{name}-prep-licenses-and-docs.sh
 # Apache HTTPD conf
-Source6:   %{name}.conf
+Source7:   %{name}.conf
 
 BuildArch: noarch
 # Version check
@@ -555,6 +556,7 @@ cp -p %{SOURCE3} .rpm/
 cp -p %{SOURCE4} .rpm/
 cp -p %{SOURCE5} .rpm/
 cp -p %{SOURCE6} .rpm/
+cp -p %{SOURCE7} .rpm/
 
 : Update dynamic values in sources
 sed \
@@ -710,13 +712,14 @@ mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 ln -s %{_sysconfdir}/httpd/conf.d/%{name}.htaccess %{buildroot}%{drupal8}/.htaccess
 
-: RPM AutoReqProv
+: rpmbuild
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
 install -pm 0644 .rpm/macros.%{name} %{buildroot}%{_rpmconfigdir}/macros.d/
 mkdir -p %{buildroot}%{_rpmconfigdir}/fileattrs
 install -pm 0644 .rpm/%{name}.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 install -pm 0755 .rpm/%{name}-find-provides.php %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
+install -pm 0755 .rpm/%{name}-prep-licenses-and-docs.sh %{buildroot}%{_rpmconfigdir}/
 
 : Apache HTTPD conf
 install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
@@ -783,11 +786,12 @@ popd
 %{_rpmconfigdir}/fileattrs/%{name}.attr
 %{_rpmconfigdir}/%{name}-find-provides.php
 %{_rpmconfigdir}/%{name}-find-requires.php
+%{_rpmconfigdir}/%{name}-prep-licenses-and-docs.sh
 
 #-------------------------------------------------------------------------------
 
 %changelog
-* Sat Jan 23 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
+* Tue Jan 26 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
 - Updated to 8.0.2
 - Main package license changed from "GPLv2+" to "GPLv2+ and MIT and Public Domain"
 - "rpmbuild" sub-package "MIT" license added
