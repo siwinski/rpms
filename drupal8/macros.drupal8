@@ -33,3 +33,23 @@
 
 %drupal8_var          __DRUPAL8_VAR__
 %drupal8_conf         __DRUPAL8_CONF__
+
+%drupal8_project %([[ "%{?name}" == drupal8-* ]] && echo "%{?name}" | sed 's/^drupal8-//')
+
+%drupal8_release %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?dist}
+
+%drupal8_url https://www.drupal.org/project/%{drupal8_project}
+
+%drupal8_source_url https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz
+
+%drupal8_prep() \
+%setup -qn %{drupal8_project} \
+%{_rpmconfigdir}/drupal8-prep-licenses-and-docs.sh
+
+%drupal8_install() \
+%define drupal8_type_dir %{expand:%%{drupal8_%{drupal8_type}s}} \
+mkdir -p %{buildroot}%{drupal8_type_dir}/%{drupal8_project} \
+cp -pr * %{buildroot}%{drupal8_type_dir}/%{drupal8_project}/ \
+cp .rpm/licenses-and-docs.txt .rpm/files.txt \
+echo "%{drupal8_type_dir}/%{drupal8_project}" >> .rpm/files.txt \
+cat .rpm/files.txt
