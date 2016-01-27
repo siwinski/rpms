@@ -50,5 +50,5 @@ responsive).
 
 
 %changelog
-* Sat Jan 23 2016 Shawn Iwinski <shawn@iwin.ski> - 1.11-1
+* Tue Jan 26 2016 Shawn Iwinski <shawn@iwin.ski> - 1.11-1
 - Initial package
