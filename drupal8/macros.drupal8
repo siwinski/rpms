@@ -42,6 +42,8 @@
 
 %drupal8_source       %{!?drupal8_commit:https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz}%{?drupal8_commit:%{drupal8_project}-8.x-%{?version}-%{drupal8_commit}.tar.gz}
 
+%drupal8_files        .rpm/files.txt
+
 %drupal8_prep() \
 %setup -qn %{drupal8_project} \
 %{_rpmconfigdir}/drupal8-prep-licenses-and-docs.sh

@@ -3,6 +3,20 @@
 #
 # Fedora Drupal 8 get dev source
 #
+# Usage: drupal8-get-dev-source.sh SPEC
+#
+# Gets a Drupal8 project's source from its' Drupal upstream git repo and
+# creates an RPM *.tar.gz file.
+#
+# Requires the following from the source spec:
+# - %global drupal8_project
+# - %global drupal8_version || Version:
+# - %global drupal8_commit
+#
+# Requires the following commands:
+# - git
+# - rpm (required to dynamically get the "%{_sourcedir}" RPM macro value)
+#
 # Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -74,7 +88,7 @@ then
 fi
 
 #
-#
+# Validate source information
 #
 
 DRUPAL8_PROJECT=`egrep '^\s*%global\s+drupal8_project\s+' "$SPEC" | awk '{print $3}'`
@@ -99,6 +113,10 @@ if [[ ( -z "$DRUPAL8_PROJECT" ) || ( -z "$DRUPAL8_VERSION" ) || ( -z "$DRUPAL8_C
 then
     error 'Missing information'
 fi
+
+#
+# Get source from upstream git repo and create *.tar.gz file
+#
 
 TEMP_DIR=$(mktemp --dir)
 
