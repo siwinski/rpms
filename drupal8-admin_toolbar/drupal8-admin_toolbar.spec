@@ -9,9 +9,11 @@
 # Please preserve changelog entries
 #
 
-%global drupal8_type module
+%global drupal8_project     admin_toolbar
+%global drupal8_type        module
+#%%global drupal8_pre_release
 
-Name:          drupal8-admin_toolbar
+Name:          %{drupal8_name}
 Version:       1.11
 Release:       1%{drupal8_release}
 Summary:       Improves the default Drupal Toolbar
