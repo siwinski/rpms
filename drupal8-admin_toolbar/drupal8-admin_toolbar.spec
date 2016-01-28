@@ -50,7 +50,7 @@ responsive).
 %{drupal8_install}
 
 
-%files -f .rpm/files.txt
+%files -f %{drupal8_files}
 
 
 %changelog
