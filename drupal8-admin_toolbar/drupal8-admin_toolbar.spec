@@ -20,7 +20,6 @@ Version:       1.11
 Release:       1%{drupal8_release}
 Summary:       Improves the default Drupal Toolbar
 
-Group:         Applications/Publishing
 License:       GPLv2+
 URL:           %{drupal8_url}
 Source0:       %{drupal8_source}
