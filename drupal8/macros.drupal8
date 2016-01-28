@@ -22,27 +22,27 @@
 # SOFTWARE.
 #
 
-%drupal8_version      __DRUPAL8_VERSION__
-%drupal8_php_min_ver  __DRUPAL8_PHP_MIN_VER__
+%drupal8_core_version  __DRUPAL8_CORE_VERSION__
+%drupal8_php_min_ver   __DRUPAL8_PHP_MIN_VER__
 
-%drupal8              __DRUPAL8__
-%drupal8_modules      %{drupal8}/modules/rpm
-%drupal8_profiles     %{drupal8}/profiles/rpm
-%drupal8_themes       %{drupal8}/themes/rpm
-%drupal8_libraries    %{drupal8}/libraries
+%drupal8               __DRUPAL8__
+%drupal8_modules       %{drupal8}/modules/rpm
+%drupal8_profiles      %{drupal8}/profiles/rpm
+%drupal8_themes        %{drupal8}/themes/rpm
+%drupal8_libraries     %{drupal8}/libraries
 
-%drupal8_var          __DRUPAL8_VAR__
-%drupal8_conf         __DRUPAL8_CONF__
+%drupal8_var           __DRUPAL8_VAR__
+%drupal8_conf          __DRUPAL8_CONF__
 
-%drupal8_name         drupal8-%{drupal8_project}
+%drupal8_name          drupal8-%{drupal8_project}
 
-%drupal8_release      %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?drupal8_commit:.%{?drupal8_commit_date}git%(c=%{drupal8_commit}; echo ${c:0:7})}%{?dist}
+%drupal8_release       %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?drupal8_commit:.%{?drupal8_commit_date}git%(c=%{drupal8_commit}; echo ${c:0:7})}%{?dist}
 
-%drupal8_url          https://www.drupal.org/project/%{drupal8_project}
+%drupal8_url           https://www.drupal.org/project/%{drupal8_project}
 
-%drupal8_source       %{!?drupal8_commit:https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz}%{?drupal8_commit:%{drupal8_project}-8.x-%{?version}-%{drupal8_commit}.tar.gz}
+%drupal8_source        %{!?drupal8_commit:https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz}%{?drupal8_commit:%{drupal8_project}-8.x-%{?version}-%{drupal8_commit}.tar.gz}
 
-%drupal8_files        .rpm/files.txt
+%drupal8_files         .rpm/files.txt
 
 %drupal8_prep() \
 %setup -qn %{drupal8_project} \

@@ -562,7 +562,7 @@ cp -p %{SOURCE8} .rpm/
 
 : Update dynamic values in sources
 sed \
-    -e 's:__DRUPAL8_VERSION__:%{version}:' \
+    -e 's:__DRUPAL8_CORE_VERSION__:%{version}:' \
     -e 's:__DRUPAL8_PHP_MIN_VER__:%{php_min_ver}:' \
     -e 's:__DRUPAL8__:%{drupal8}:' \
     -e 's:__DRUPAL8_VAR__:%{drupal8_var}:' \
