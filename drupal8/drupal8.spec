@@ -114,8 +114,6 @@ Version:   8.0.2
 Release:   1%{?dist}
 Summary:   An open source content management platform
 
-Group:     Applications/Publishing
-
 # Licenses:
 # - GPLv2+
 #     - Drupal 8 itself
@@ -531,7 +529,6 @@ Provides:   %{name}-webserver = %{version}-%{release}
 
 Summary:  RPM build files for %{name}
 
-Group:    Development/Tools
 License:  MIT
 
 Requires: php-cli
