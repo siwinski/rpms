@@ -22,6 +22,7 @@ sources:
 	cp \
 		drupal8-find-provides.php \
 		drupal8-find-requires.php \
+		drupal8-get-dev-source.sh \
 		drupal8-modify-core-composer-json.php \
 		drupal8-prep-licenses-and-docs.sh \
 		macros.drupal8 \

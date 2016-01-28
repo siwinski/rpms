@@ -36,11 +36,11 @@
 
 %drupal8_name         drupal8-%{drupal8_project}
 
-%drupal8_release      %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?dist}
+%drupal8_release      %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?drupal8_commit:.%{?drupal8_commit_date}git%(c=%{drupal8_commit}; echo ${c:0:7})}%{?dist}
 
 %drupal8_url          https://www.drupal.org/project/%{drupal8_project}
 
-%drupal8_source_url   https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz
+%drupal8_source_url   %{!?drupal8_commit:https://ftp.drupal.org/files/projects/%{drupal8_project}-8.x-%{?version}%{?drupal8_pre_release:-%{drupal8_pre_release}}.tar.gz}%{?drupal8_commit:%{drupal8_project}-8.x-%{?version}-%{drupal8_commit}.tar.gz}
 
 %drupal8_prep() \
 %setup -qn %{drupal8_project} \

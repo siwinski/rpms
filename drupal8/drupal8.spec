@@ -151,9 +151,10 @@ Source2:   macros.%{name}
 Source3:   %{name}.attr
 Source4:   %{name}-find-provides.php
 Source5:   %{name}-find-requires.php
-Source6:   %{name}-prep-licenses-and-docs.sh
+Source6:   %{name}-get-dev-source.sh
+Source7:   %{name}-prep-licenses-and-docs.sh
 # Apache HTTPD conf
-Source7:   %{name}.conf
+Source8:   %{name}.conf
 
 BuildArch: noarch
 # Version check
@@ -557,6 +558,7 @@ cp -p %{SOURCE4} .rpm/
 cp -p %{SOURCE5} .rpm/
 cp -p %{SOURCE6} .rpm/
 cp -p %{SOURCE7} .rpm/
+cp -p %{SOURCE8} .rpm/
 
 : Update dynamic values in sources
 sed \
@@ -719,6 +721,7 @@ mkdir -p %{buildroot}%{_rpmconfigdir}/fileattrs
 install -pm 0644 .rpm/%{name}.attr %{buildroot}%{_rpmconfigdir}/fileattrs/
 install -pm 0755 .rpm/%{name}-find-provides.php %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
+install -pm 0755 .rpm/%{name}-get-dev-source.sh %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-prep-licenses-and-docs.sh %{buildroot}%{_rpmconfigdir}/
 
 : Apache HTTPD conf
@@ -782,10 +785,11 @@ popd
 #-------------------------------------------------------------------------------
 
 %files rpmbuild
-%{_rpmconfigdir}/macros.d/macros.%{name}
 %{_rpmconfigdir}/fileattrs/%{name}.attr
+%{_rpmconfigdir}/macros.d/macros.%{name}
 %{_rpmconfigdir}/%{name}-find-provides.php
 %{_rpmconfigdir}/%{name}-find-requires.php
+%{_rpmconfigdir}/%{name}-get-dev-source.sh
 %{_rpmconfigdir}/%{name}-prep-licenses-and-docs.sh
 
 #-------------------------------------------------------------------------------
