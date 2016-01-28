@@ -26,7 +26,7 @@
  * @copyright Copyright (c) 2016, Shawn Iwinski <shawn@iwin.ski>
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace Drupal8Rpmbuild;
+namespace FedoraDrupal8Rpmbuild;
 
 require_once '__PHPDIR__/Symfony/Component/Console/autoload.php';
 
