@@ -24,6 +24,7 @@ sources:
 		drupal8-find-requires.php \
 		drupal8-modify-core-composer-json.php \
 		drupal8-prep-licenses-and-docs.sh \
+		macros.drupal8 \
 		$(SOURCES_DIR)
 
 
