@@ -12,6 +12,8 @@
 %global drupal8_project     admin_toolbar
 %global drupal8_type        module
 #%%global drupal8_pre_release
+#%%global drupal8_commit
+#%%global drupal8_commit_date
 
 Name:          %{drupal8_name}
 Version:       1.11
