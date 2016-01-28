@@ -23,7 +23,7 @@ Summary:       Improves the default Drupal Toolbar
 Group:         Applications/Publishing
 License:       GPLv2+
 URL:           %{drupal8_url}
-Source0:       %{drupal8_source_url}
+Source0:       %{drupal8_source}
 
 BuildArch:     noarch
 BuildRequires: drupal8-rpmbuild
