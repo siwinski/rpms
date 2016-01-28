@@ -34,7 +34,7 @@
 %drupal8_var          __DRUPAL8_VAR__
 %drupal8_conf         __DRUPAL8_CONF__
 
-%drupal8_project      %([[ "%{?name}" == drupal8-* ]] && echo "%{?name}" | sed 's/^drupal8-//')
+%drupal8_name         drupal8-%{drupal8_project}
 
 %drupal8_release      %{?drupal8_pre_release:.%{drupal8_pre_release}}%{?dist}
 
