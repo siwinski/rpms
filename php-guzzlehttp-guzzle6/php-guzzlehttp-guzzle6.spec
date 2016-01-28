@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-guzzlehttp-guzzle6
 #
-# Copyright (c) 2015 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2015-2016 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -38,7 +38,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}6
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       PHP HTTP client library
 
 Group:         Development/Libraries
@@ -72,7 +72,9 @@ BuildRequires: php-reflection
 BuildRequires: php-spl
 BuildRequires: php-zlib
 # Autoloader
-BuildRequires: php-composer(symfony/class-loader)
+## NOTE: Min version 2.5 because class
+## \Symfony\Component\ClassLoader\Psr4ClassLoader required
+BuildRequires: php-composer(symfony/class-loader) >= 2.5
 %endif
 
 Requires:      ca-certificates
@@ -93,7 +95,9 @@ Requires:      php-json
 Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
-Requires:      php-composer(symfony/class-loader)
+## NOTE: Min version 2.5 because class
+## \Symfony\Component\ClassLoader\Psr4ClassLoader required
+Requires:      php-composer(symfony/class-loader) >= 2.5
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -112,6 +116,8 @@ to integrate with web services.
   environment and transport agnostic code; i.e., no hard dependency on cURL,
   PHP streams, sockets, or non-blocking event loops.
 * Middleware system allows you to augment and compose client behavior.
+
+Autoloader: %{phpdir}/GuzzleHttp6/autoload.php
 
 
 %prep
@@ -171,10 +177,14 @@ AUTOLOAD
 %license LICENSE
 %doc *.md
 %doc composer.json
-%{phpdir}/GuzzleHttp6/*
+%{phpdir}/GuzzleHttp6
 
 
 %changelog
+* Thu Jan 28 2016 Shawn Iwinski <shawn@iwin.ski> - 6.1.1-2
+- Added min version of autoloader dependency
+- Fix directory ownership
+
 * Sun Dec 06 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 6.1.1-1
 - Renamed from php-guzzlehttp-guzzle to php-guzzlehttp-guzzle6 for
   dual-install of version 5 and version 6
