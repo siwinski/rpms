@@ -31,8 +31,8 @@
 mkdir .rpm
 
 # Licenses
-rm -rf .rpm/licences
-mkdir .rpm/licences
+rm -rf .rpm/licenses
+mkdir .rpm/licenses
 for LICENSE_FILENAME in LICENSE COPYING COPYRIGHT
 do
     # TODO: File without extension!

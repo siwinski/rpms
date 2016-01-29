@@ -111,7 +111,7 @@ AutoReqProv: no
 
 Name:      drupal8
 Version:   8.0.2
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   An open source content management platform
 
 # Licenses:
@@ -792,7 +792,11 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
-* Tue Jan 26 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 8.0.2-1
+* Fri Jan 29 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-2
+- Fix typo in drupal8-prep-licenses-and-docs.sh
+- Fix finding of composer.json files in drupal8.attr
+
+* Tue Jan 26 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-1
 - Updated to 8.0.2
 - Main package license changed from "GPLv2+" to "GPLv2+ and MIT and Public Domain"
 - "rpmbuild" sub-package "MIT" license added

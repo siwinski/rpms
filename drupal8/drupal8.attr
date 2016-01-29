@@ -22,6 +22,6 @@
 # SOFTWARE.
 #
 
-%__drupal8_path      ^(%{drupal8_modules}|%{drupal8_profiles}|%{drupal8_themes}|%{_docdir}/%{name}/**/composer.json)
+%__drupal8_path      ^(%{drupal8_modules}|%{drupal8_profiles}|%{drupal8_themes}|%{_docdir}/%{name})
 %__drupal8_provides  %{_rpmconfigdir}/drupal8-find-provides.php find-provides --spec-version=%{version}
 %__drupal8_requires  %{_rpmconfigdir}/drupal8-find-requires.php find-requires --spec-name=%{name} %{?drupal8_project:--drupal8-project=%{drupal8_project}}
