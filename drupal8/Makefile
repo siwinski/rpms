@@ -20,6 +20,7 @@ setup:
 sources:
 	spectool -g -R $(SPEC)
 	cp \
+		drupal8.attr \
 		drupal8-find-provides.php \
 		drupal8-find-requires.php \
 		drupal8-get-dev-source.sh \
