@@ -90,10 +90,11 @@ class FindProvides extends Command
         }
 
         $specVersion = $input->getOption('spec-version');
+        $useSpecVersion = !empty($specVersion) || ('0' === $specVersion);
 
         foreach ($provides as $p) {
             $output->write($p);
-            $output->writeln($specVersion ? ' = '.$specVersion : '');
+            $output->writeln($useSpecVersion ? ' = '.$specVersion : '');
         }
     }
 

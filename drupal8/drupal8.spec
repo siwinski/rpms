@@ -797,7 +797,8 @@ popd
 - Fix finding of composer.json files in drupal8.attr
 - Update automatic provides and requires for single file input and
   ignore directories
-- Remove "--spec-name" option from automatic find requires
+- Remove "--spec-name" option from automatic requires
+- Fix automatic provides version when version = 0
 
 * Tue Jan 26 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-1
 - Updated to 8.0.2
