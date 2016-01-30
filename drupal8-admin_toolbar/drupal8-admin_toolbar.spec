@@ -27,6 +27,9 @@ Source0:       %{drupal8_source}
 BuildArch:     noarch
 BuildRequires: drupal8-rpmbuild
 
+# phpcompatinfo (computed from version 1.11)
+#     <none>
+
 %description
 Admin Toolbar intends to improve the default Drupal Toolbar (the administration
 menu at the top of your site) to transform it into a drop-down menu, providing
@@ -53,5 +56,5 @@ responsive).
 
 
 %changelog
-* Tue Jan 26 2016 Shawn Iwinski <shawn@iwin.ski> - 1.11-1
+* Sat Jan 30 2016 Shawn Iwinski <shawn@iwin.ski> - 1.11-1
 - Initial package
