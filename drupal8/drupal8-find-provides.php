@@ -69,27 +69,29 @@ class FindProvides extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $provides = [];
-
-        while ($file = trim(fgets(STDIN))) {
-            if (
-                !($fileProvides = $this->executeDrupal8($file))
-                && !($fileProvides = $this->executeComposer($file))
-            ) {
-                continue;
-            }
-
-            if (is_array($fileProvides)) {
-                $provides = array_merge($provides, $fileProvides);
-            } else {
-                $provides[] = $fileProvides;
-            }
+        $file = trim(fgets(STDIN));
+        if (empty($file) || !is_file($file)) {
+            return;
         }
 
-        sort($provides);
+        $provides = [];
+
+        if (
+            empty($fileProvides = $this->executeDrupal8($file))
+            && empty($fileProvides = $this->executeComposer($file))
+        ) {
+            return;
+        }
+
+        if (is_array($fileProvides)) {
+            $provides = array_merge($provides, $fileProvides);
+        } else {
+            $provides[] = $fileProvides;
+        }
+
         $specVersion = $input->getOption('spec-version');
 
-        foreach (array_unique($provides) as $p) {
+        foreach ($provides as $p) {
             $output->write($p);
             $output->writeln($specVersion ? ' = '.$specVersion : '');
         }
