@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * Fedora Drupal 8 RPM find provides
+ * Fedora Drupal 8 RPM find provides.
  *
  * Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
  *

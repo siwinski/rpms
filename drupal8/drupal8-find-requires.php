@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * Fedora Drupal 8 RPM find requires
+ * Fedora Drupal 8 RPM find requires.
  *
  * Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
  *
@@ -91,7 +91,8 @@ class FindRequires extends Command
         }
     }
 
-    private function executeDrupal8(InputInterface $input, OutputInterface $output, $file) {
+    private function executeDrupal8(InputInterface $input, OutputInterface $output, $file)
+    {
         $drupalProject = $input->getOption('drupal8-project');
         if (empty($drupalProject)) {
             return;

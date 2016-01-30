@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * Fedora Drupal 8 RPM modify core's composer.json
+ * Fedora Drupal 8 RPM modify core's composer.json.
  *
  * Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
  *
