@@ -28,15 +28,14 @@
 # SOFTWARE.
 #
 
-mkdir .rpm
+[ -d .rpm ] || mkdir .rpm
 
 # Licenses
 rm -rf .rpm/licenses
 mkdir .rpm/licenses
 for LICENSE_FILENAME in LICENSE COPYING COPYRIGHT
 do
-    # TODO: File without extension!
-    for LICENSE in $(find . -iname "${LICENSE_FILENAME}.*" | grep -e '\.md$' -e '\.rst$' -e '\.txt$')
+    for LICENSE in $(find . -type f -iregex ".*/${LICENSE_FILENAME}\(\.\(md\|rst\|txt\)\)?\$")
     do
         DIR=$(dirname "$LICENSE")
         mkdir -p .rpm/licenses/${DIR}
@@ -49,8 +48,7 @@ rm -rf .rpm/docs
 mkdir .rpm/docs
 for DOC_FILENAME in AUTHORS CHANGELOG CHANGES INSTALL MAINTAINERS README TESTING UPGRADE
 do
-    # TODO: File without extension!
-    for DOC in $(find . -iname "${DOC_FILENAME}.*" | grep -e '\.md$' -e '\.rst$' -e '\.txt$')
+    for DOC in $(find . -type f -iregex ".*/${DOC_FILENAME}\(\.\(md\|rst\|txt\)\)?\$")
     do
         DIR=$(dirname "$DOC")
         mkdir -p .rpm/docs/${DIR}
