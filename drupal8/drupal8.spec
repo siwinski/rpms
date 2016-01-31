@@ -763,7 +763,7 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
-* Sat Jan 30 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-2
+* Sun Jan 31 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-2
 - Fix typo in drupal8-prep-licenses-and-docs.sh
 - Fix finding of composer.json files in drupal8.attr
 - Update automatic provides and requires for single file input and
