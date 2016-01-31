@@ -63,12 +63,12 @@ class FindRequires extends Command
     }
 
     /**
-     * Outputs Drupal 8 requires from files provided via STDIN.
+     * Outputs Drupal 8 requires from file provided via STDIN.
      *
-     * Starts with "drupal8(core)".
+     * Starts with "drupal8(core)" and adds {@link executeDrupal8()}.
      *
-     * Sorts unique values from main project's *.info.yml file's "dependencies"
-     * property.
+     * @param InputInterface  $input  An InputInterface instance.
+     * @param OutputInterface $output An OutputInterface instance.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -91,6 +91,15 @@ class FindRequires extends Command
         }
     }
 
+    /**
+     * Returns requires from a Drupal project's main *.info.yml file.
+     *
+     * @param InputInterface  $input  An InputInterface instance.
+     * @param OutputInterface $output An OutputInterface instance.
+     * @param string          $file   A file name (full path).
+     *
+     * @return string|null Requires or null
+     */
     private function executeDrupal8(InputInterface $input, OutputInterface $output, $file)
     {
         $drupalProject = $input->getOption('drupal8-project');

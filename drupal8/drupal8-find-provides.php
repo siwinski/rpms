@@ -66,6 +66,9 @@ class FindProvides extends Command
      * Sorts unique values from {@link executeDrupal8()} and
      * {@link executeComposer()}.  If "--spec-version" option is provided,
      * outputs each virtual provide with its' value.
+     *
+     * @param InputInterface  $input  An InputInterface instance.
+     * @param OutputInterface $output An OutputInterface instance.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -101,6 +104,8 @@ class FindProvides extends Command
     /**
      * Returns drupal8(*) virtual provide from a *.info.yml file.
      *
+     * @param string $file A file name (full path).
+     *
      * @return string|null drupal8(*) virtual provide or null
      */
     private function executeDrupal8($file)
@@ -125,6 +130,8 @@ class FindProvides extends Command
      * - {@link https://getcomposer.org/doc/04-schema.md#name name}
      * - {@link https://getcomposer.org/doc/04-schema.md#replace replace}
      *     - Values are only returned if their version equals "self.version"
+     *
+     * @param string $file A file name (full path).
      *
      * @return array|null php-composer(*) virtual provides or null
      */
