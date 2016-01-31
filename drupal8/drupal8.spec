@@ -578,42 +578,11 @@ find . -name 'web.config' -delete
 rm -rf vendor
 
 : Licenses
-mkdir .rpm/licences
-for LICENSE_FILENAME in LICENSE COPYRIGHT
-do
-    for LICENSE in $(find . -iname "${LICENSE_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
-    do
-        DIR=$(dirname "$LICENSE")
-        mkdir -p .rpm/licenses/${DIR}
-        mv $LICENSE .rpm/licenses/${DIR}/
-    done
-done
+.rpm/%{name}-prep-licenses-and-docs.sh
+mv core/INSTALL.*.* .rpm/docs/core/
 
-: Verbose output for logging...
-find .rpm/licenses/ | sort
-
-: Docs
-mkdir .rpm/docs
-for DOC_FILENAME in AUTHORS CHANGELOG CHANGES INSTALL MAINTAINERS README TESTING UPGRADE
-do
-    for DOC in $(find . -iname "${DOC_FILENAME}.*" | grep -e '\.md$' -e '\.txt$')
-    do
-        DIR=$(dirname "$DOC")
-        mkdir -p .rpm/docs/${DIR}
-        mv $DOC .rpm/docs/${DIR}/
-    done
-done
-for COMPOSER in $(find . -name "composer.*")
-do
-    DIR=$(dirname "$COMPOSER")
-    mkdir -p .rpm/docs/${DIR}
-    mv $COMPOSER .rpm/docs/${DIR}/
-done
 : Reposition core composer.json for autoloader creation in %%build
 cp .rpm/docs/core/composer.json core/
-
-: Verbose output for logging...
-find .rpm/docs/ | sort
 
 : Apache .htaccess
 sed 's!# RewriteBase /$!# RewriteBase /\n  RewriteBase /drupal8!' \
@@ -675,6 +644,8 @@ chmod -x \
 pushd core
     : Create Composer autoloader
     %{_bindir}/composer dump-autoload --optimize
+
+    rm -f composer.json
 
     : Verbose output for logging...
     find vendor
@@ -799,6 +770,7 @@ popd
   ignore directories
 - Remove "--spec-name" option from automatic requires
 - Fix automatic provides version when version = 0
+- %%{name}-prep-licenses-and-docs.sh usage in %%prep
 
 * Tue Jan 26 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-1
 - Updated to 8.0.2
