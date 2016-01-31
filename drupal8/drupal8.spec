@@ -111,7 +111,7 @@ AutoReqProv: no
 
 Name:      drupal8
 Version:   8.0.2
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   An open source content management platform
 
 # Licenses:
@@ -157,6 +157,10 @@ Source8:   %{name}.conf
 BuildArch: noarch
 # Version check
 BuildRequires: php-cli
+# Scripts
+BuildRequires: php-composer(symfony/console) >= 2.7.1
+# Autoloader
+BuildRequires: composer
 
 # Webserver
 Requires:   %{name}-webserver
@@ -699,13 +703,13 @@ install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 
 %check
 : Version check
-%{_bindir}/php -r 'require_once "%{buildroot}%{drupal8}/vendor/autoload.php";
+%{_bindir}/php -r 'require_once "%{buildroot}%{drupal8}/core/lib/Drupal.php";
     echo "\Drupal::VERSION = \"" . \Drupal::VERSION . "\"\n";
     exit(version_compare("%{version}", \Drupal::VERSION, "=") ? 0 : 1);'
 
 : Ensure RewriteBase in HTTPD config
 grep \
-'RewriteBase /drupal8' \
+    'RewriteBase /drupal8' \
         %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess \
         --quiet \
     || exit 1
@@ -763,6 +767,9 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Sun Jan 31 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-3
+- Fix build requires and %%check in clean buildroot
+
 * Sun Jan 31 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-2
 - Fix typo in drupal8-prep-licenses-and-docs.sh
 - Fix finding of composer.json files in drupal8.attr
