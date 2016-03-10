@@ -39,9 +39,9 @@ AutoReqProv: no
 ## "guzzlehttp/guzzle": "~6.1"
 %global guzzle_min_ver 6.1
 %global guzzle_max_ver 7.0
-## "jcalderonzumba/gastonjs": "^1.1@dev"
-%global gastonjs_min_ver 1.1
-%global gastonjs_max_ver 2.0
+## "jcalderonzumba/gastonjs": "~1.0.2"
+%global gastonjs_min_ver 1.0.2
+%global gastonjs_max_ver 1.1.0
 ## "jcalderonzumba/mink-phantomjs-driver": "~0.3.1"
 %global mink_phantomjs_driver_min_ver 0.3.1
 %global mink_phantomjs_driver_max_ver 0.4.0
@@ -110,8 +110,8 @@ AutoReqProv: no
 
 
 Name:      drupal8
-Version:   8.0.2
-Release:   3%{?dist}
+Version:   8.0.5
+Release:   1%{?dist}
 Summary:   An open source content management platform
 
 # Licenses:
@@ -767,6 +767,9 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
+- Update to 8.0.5
+
 * Sun Jan 31 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.2-3
 - Fix build requires and %%check in clean buildroot
 
