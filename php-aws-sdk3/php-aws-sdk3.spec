@@ -146,6 +146,8 @@ The AWS SDK for PHP makes it easy for developers to access Amazon Web
 Services [1] in their PHP code, and build robust applications and software
 using services like Amazon S3, Amazon DynamoDB, Amazon Glacier, etc.
 
+Autoloader: %{phpdir}/Aws3/autoload.php
+
 [1] http://aws.amazon.com/
 
 
