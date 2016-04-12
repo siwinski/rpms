@@ -26,7 +26,8 @@
 %global aws_sns_message_validator_min_ver 1.0
 %global aws_sns_message_validator_max_ver 2.0
 # "doctrine/cache": "~1.4"
-%global doctrine_cache_min_ver 1.4
+#     NOTE: Min version not 1.4 because autoloader required
+%global doctrine_cache_min_ver 1.4.1
 %global doctrine_cache_max_ver 2.0
 # "guzzlehttp/guzzle": "~5.3|~6.0.1|~6.1"
 %global guzzle_min_ver 5.3
