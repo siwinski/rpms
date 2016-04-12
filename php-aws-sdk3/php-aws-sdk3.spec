@@ -152,6 +152,11 @@ using services like Amazon S3, Amazon DynamoDB, Amazon Glacier, etc.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
+: Remove executable bits
+chmod a-x composer.json
+
+
+%build
 : Create autoloader
 cat <<'AUTOLOAD' | tee src/autoload.php
 <?php
@@ -184,10 +189,6 @@ require_once '%{phpdir}/JmesPath/autoload.php';
 @include_once '%{phpdir}/Aws/Sns/autoload.php';
 @include_once '%{phpdir}/Doctrine/Common/Cache/autoload.php';
 AUTOLOAD
-
-
-%build
-# Empty build section, nothing required
 
 
 %install
