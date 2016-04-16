@@ -29,6 +29,11 @@ This package provides the following Drupal 7 modules:
 %prep
 %setup -qn %{module}
 
+: Licenses and docs
+mkdir -p .rpm/{licenses,docs}
+mv LICENSE.txt .rpm/licenses/
+mv *.txt .rpm/docs/
+
 
 %build
 # Empty build section, nothing to build
@@ -46,10 +51,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{!?_licensedir:%global license %%doc}
-%license LICENSE.txt
-%doc README.txt
+%license .rpm/licenses/*
+%doc .rpm/docs/*
 %{drupal7_modules}/%{module}
-%exclude %{drupal7_modules}/%{module}/*.txt
 
 
 %changelog
