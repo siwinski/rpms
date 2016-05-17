@@ -11,17 +11,17 @@
 
 %global github_owner     symfony
 %global github_name      security-acl
-%global github_version   3.0.0
-%global github_commit    053b49bf4aa333a392c83296855989bcf88ddad1
+%global github_version   2.8.0
+%global github_commit    4a3f7327ad215242c78f6564ad4ea6d2db1b8347
 
 %global composer_vendor  symfony
 %global composer_project securiy-acl
 
-# "php": "php": ">=5.5.9"
-%global php_min_ver 5.5.9
-# "symfony/phpunit-bridge": "~2.8|~3.0"
-# "symfony/security-core": "~2.8|~3.0"
-%global symfony_min_ver 2.8
+# "php": ">=5.3.9"
+%global php_min_ver 5.3.9
+# "symfony/phpunit-bridge": "~2.7|~3.0.0"
+# "symfony/security-core": "~2.4|~3.0.0"
+%global symfony_min_ver 2.7
 %global symfony_max_ver 4.0
 # "doctrine/common": "~2.2"
 #     NOTE: Min version not 2.2 because autoloader required
@@ -36,7 +36,7 @@
 %global psr_log_min_ver 1.0.0-8
 %global psr_log_max_ver 2.0
 
-%global bootstrap 1
+%global bootstrap 0
 
 %if %{bootstrap}
 %global with_tests 0
@@ -68,7 +68,7 @@ BuildRequires: php-composer(phpunit/phpunit)
 #BuildRequires: php-composer(psr/log)               >= %%{psr_log_min_ver}
 BuildRequires: php-PsrLog                          >= %{psr_log_min_ver}
 BuildRequires: php-composer(symfony/security-core) >= %{symfony_min_ver}
-## phpcompatinfo (computed from version 3.0.0)
+## phpcompatinfo (computed from version 2.8.0)
 BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-spl
@@ -80,7 +80,7 @@ BuildRequires: php-composer(symfony/class-loader)
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(symfony/security-core) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/security-core) >= %{symfony_min_ver}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 2.8.0)
 Requires:      php-pcre
 Requires:      php-reflection
 Requires:      php-spl
@@ -89,20 +89,17 @@ Requires:      php-composer(symfony/class-loader)
 
 # Weak dependencies
 Suggests:      php-composer(doctrine/dbal)
-Conflicts:     php-doctrine-dbal        <  %{doctrine_dbal_min_ver}
-Conflicts:     php-doctrine-dbal        >= %{doctrine_dbal_max_ver}
-Suggests:      php-composer(symfony/class-loader)
-Conflicts:     php-symfony-class-loader <  %{symfony_min_ver}
-Conflicts:     php-symfony-class-loader >= %{symfony_max_ver}
+Conflicts:     php-doctrine-dbal  <  %{doctrine_dbal_min_ver}
+Conflicts:     php-doctrine-dbal  >= %{doctrine_dbal_max_ver}
 Suggests:      php-composer(symfony/finder)
-Conflicts:     php-symfony-finder       <  %{symfony_min_ver}
-Conflicts:     php-symfony-finder       >= %{symfony_max_ver}
+Conflicts:     php-symfony-finder <  %{symfony_min_ver}
+Conflicts:     php-symfony-finder >= %{symfony_max_ver}
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 # Extracted from Symfony as of version 2.8.0
-#Conflicts:     php-symfony-security < 2.8.0
+Conflicts:     php-symfony-security < 2.8.0
 
 %description
 %{summary}.
@@ -136,17 +133,14 @@ $fedoraPsr4ClassLoader->addPrefix('Symfony\\Component\\Security\\Acl\\', __DIR__
 
 // Dependencies (autoloader => required)
 foreach(array(
-    '%{phpdir}/Doctrine/DBAL/autoload.php'                 => false,
-    '%{phpdir}/Symfony/Component/ClassLoader/autoload.php' => false,
-    '%{phpdir}/Symfony/Component/Finder/autoload.php'      => false,
-    '%{phpdir}/Symfony/Component/Security/autoload.php'    => true,
+    '%{phpdir}/Doctrine/DBAL/autoload.php'              => false,
+    '%{phpdir}/Symfony/Component/Finder/autoload.php'   => false,
+    '%{phpdir}/Symfony/Component/Security/autoload.php' => true,
 ) as $dependencyAutoloader => $required) {
     if ($required || file_exists($dependencyAutoloader)) {
         require_once $dependencyAutoloader;
     }
 }
-
-//return $fedoraClassLoader;
 AUTOLOAD
 
 
@@ -190,5 +184,5 @@ BOOTSTRAP
 
 
 %changelog
-* Tue Apr 19 2016 Shawn Iwinski <shawn@iwin.ski> - 3.0.0-1
+* Tue May 17 2016 Shawn Iwinski <shawn@iwin.ski> - 2.8.0-1
 - Initial package
