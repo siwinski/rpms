@@ -15,7 +15,7 @@
 %global github_commit    4a3f7327ad215242c78f6564ad4ea6d2db1b8347
 
 %global composer_vendor  symfony
-%global composer_project securiy-acl
+%global composer_project security-acl
 
 # "php": ">=5.3.9"
 %global php_min_ver 5.3.9
@@ -184,5 +184,5 @@ BOOTSTRAP
 
 
 %changelog
-* Tue May 17 2016 Shawn Iwinski <shawn@iwin.ski> - 2.8.0-1
+* Fri May 20 2016 Shawn Iwinski <shawn@iwin.ski> - 2.8.0-1
 - Initial package
