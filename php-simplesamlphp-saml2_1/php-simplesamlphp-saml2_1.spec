@@ -57,12 +57,13 @@ BuildRequires: php-composer(robrichards/xmlseclibs) <  %{robrichards_xmlseclibs_
 BuildRequires: php-composer(robrichards/xmlseclibs) >= %{robrichards_xmlseclibs_min_ver}
 BuildRequires: php-dom
 BuildRequires: php-openssl
-%if 0%{!?el6}
+%if 0%{!?el6:1}
 BuildRequires: php-composer(mockery/mockery)        >= %{mockery_min_ver}
 %endif
 ## phpcompatinfo (computed from version 1.9)
 BuildRequires: php-date
 BuildRequires: php-libxml
+BuildRequires: php-mcrypt
 BuildRequires: php-pcre
 BuildRequires: php-soap
 BuildRequires: php-spl
@@ -118,8 +119,6 @@ cat <<'AUTOLOAD' >> src/SAML2/autoload.php
 require_once '%{phpdir}/Psr/Log/autoload.php';
 require_once '%{phpdir}/robrichards-xmlseclibs/autoload.php';
 AUTOLOAD
-
-cat src/SAML2/autoload.php
 
 
 %install
