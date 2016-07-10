@@ -88,6 +88,8 @@ cat <<'AUTOLOAD' | tee src/autoload.php
 /**
  * Autoloader for %{name} and its' dependencies
  * (created by %{name}-%{version}-%{release}).
+ *
+ * @return \Symfony\Component\ClassLoader\ClassLoader
  */
 
 if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
