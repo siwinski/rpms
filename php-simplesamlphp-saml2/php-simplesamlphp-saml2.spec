@@ -56,12 +56,13 @@ BuildRequires: php-PsrLog                           >= %{psr_log_min_ver}
 BuildRequires: php-composer(robrichards/xmlseclibs) >= %{robrichards_xmlseclibs_min_ver}
 BuildRequires: php-dom
 BuildRequires: php-openssl
-%if 0%{!?el6}
+%if 0%{!?el6:1}
 BuildRequires: php-composer(mockery/mockery)        >= %{mockery_min_ver}
 %endif
 ## phpcompatinfo (computed from version 2.2)
 BuildRequires: php-date
 BuildRequires: php-libxml
+BuildRequires: php-mcrypt
 BuildRequires: php-pcre
 BuildRequires: php-soap
 BuildRequires: php-spl
