@@ -724,6 +724,7 @@ popd
 %license .rpm/licenses/*
 %doc .rpm/docs/*
 %{drupal8}
+%exclude %{drupal8}/.htaccess
 # Sites
 %dir  %{drupal8_conf}
 %dir  %{drupal8_conf}/sites
@@ -743,8 +744,9 @@ popd
 #-------------------------------------------------------------------------------
 
 %files httpd
+%{drupal8}/.htaccess
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
+%config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 
 #-------------------------------------------------------------------------------
 
@@ -762,6 +764,8 @@ popd
 * Tue Jul 12 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
 - Fix drupal8-get-dev-source.sh she-bang
+- Root .htaccess now owned by httpd subpackage
+- Replace %%{name}.htaccess on update (managed upstream)
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
