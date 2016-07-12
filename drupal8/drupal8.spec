@@ -761,6 +761,7 @@ popd
 %changelog
 * Tue Jul 12 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
+- Fix drupal8-get-dev-source.sh she-bang
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
