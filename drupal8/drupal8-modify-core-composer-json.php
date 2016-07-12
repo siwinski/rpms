@@ -66,10 +66,14 @@ class ModifyCoreComposerJson extends Command
         //unset($composerJsonDecoded['require-dev']);
         //unset($composerJsonDecoded['scripts']);
 
+        if (!isset($composerJsonDecoded['autoload']['files'])) {
+          $composerJsonDecoded['autoload']['files'] = [];
+        }
+
         // Modify "autoload" "files" to include de-coupled libraries' autoloaders
         $composerJsonDecoded['autoload']['files'] = array_merge(
             $composerJsonDecoded['autoload']['files'],
-            array(
+            [
                 '__PHPDIR__/Composer/Semver/autoload.php',
                 '__PHPDIR__/Doctrine/Common/Annotations/autoload.php',
                 '__PHPDIR__/Doctrine/Common/autoload.php',
@@ -77,6 +81,7 @@ class ModifyCoreComposerJson extends Command
                 '__PHPDIR__/Egulias/EmailValidator/autoload.php',
                 '__PHPDIR__/GuzzleHttp6/autoload.php',
                 '__PHPDIR__/Masterminds/HTML5/autoload.php',
+                '__PHPDIR__/random_compat/autoload.php',
                 '__PHPDIR__/Stack/autoload-builder.php',
                 '__PHPDIR__/Symfony/Bridge/PsrHttpMessage/autoload.php',
                 '__PHPDIR__/Symfony/Cmf/Component/Routing/autoload.php',
@@ -95,7 +100,7 @@ class ModifyCoreComposerJson extends Command
                 '__PHPDIR__/Twig/autoload.php',
                 '__PHPDIR__/Zend/autoload.php',
                 '__PHPDIR__/Zend/Diactoros/autoload.php',
-            )
+            ]
         );
 
         $this->executeEncode($input, $output, $composerJsonFile, $composerJsonDecoded);

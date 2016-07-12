@@ -13,8 +13,8 @@ AutoReqProv: no
 # core/composer.json
 ## "php": ">=5.5.9"
 %global php_min_ver 5.5.9
-## "behat/mink": "~1.6"
-%global behat_mink_min_ver 1.6
+## "behat/mink": "~1.7"
+%global behat_mink_min_ver 1.7
 %global behat_mink_max_ver 2.0
 ## "behat/mink-goutte-driver": "~1.2"
 %global behat_mink_goutte_driver_min_ver 1.2
@@ -52,27 +52,29 @@ AutoReqProv: no
 ### NOTE: Min version not 1.2 because autoloader required
 %global vfsstream_min_ver 1.6
 %global vfsstream_max_ver 2.0
+## "paragonie/random_compat": "~1.0"
+%global paragonie_random_compat_min_ver 1.6
+%global paragonie_random_compat_max_ver 2.0
 ## "phpunit/phpunit": "~4.8"
 %global phpunit_min_ver 4.8
 ## "stack/builder": "1.0.*"
 %global stack_builder_min_ver 1.0.0
 %global stack_builder_max_ver 1.1.0
-## "symfony/class-loader": "2.7.*"
-## "symfony/css-selector": "2.7.*"
-## "symfony/console": "2.7.*"
-## "symfony/dependency-injection": "2.7.*"
-## "symfony/event-dispatcher": "2.7.*"
-## "symfony/http-foundation": "~2.7.2"
-## "symfony/http-kernel": "2.7.*"
-## "symfony/routing": "2.7.*"
-## "symfony/serializer": "2.7.*"
-## "symfony/translation": "2.7.*"
-## "symfony/validator": "2.7.*"
-## "symfony/process": "2.7.*"
-## "symfony/yaml": "2.7.*"
-### NOTE: Min version not 2.7.0 because autoloader required
-%global symfony_min_ver 2.7.1
-%global symfony_max_ver 2.8.0
+## "symfony/class-loader": "~2.8"
+## "symfony/css-selector": "~2.8"
+## "symfony/console": "~2.8"
+## "symfony/dependency-injection": "~2.8"
+## "symfony/event-dispatcher": "~2.8"
+## "symfony/http-foundation": "~2.8"
+## "symfony/http-kernel": "~2.8"
+## "symfony/routing": "~2.8"
+## "symfony/serializer": "~2.8"
+## "symfony/translation": "~2.8"
+## "symfony/validator": "~2.8"
+## "symfony/process": "~2.8"
+## "symfony/yaml": "~2.8"
+%global symfony_min_ver 2.8.0
+%global symfony_max_ver 3.0.0
 ## "symfony-cmf/routing": "1.3.*"
 ### NOTE: Min version not 1.3.0 because autoloader required
 %global symfony_cmf_routing_min_ver 1.3.0-4
@@ -110,7 +112,7 @@ AutoReqProv: no
 
 
 Name:      drupal8
-Version:   8.0.5
+Version:   8.1.6
 Release:   1%{?dist}
 Summary:   An open source content management platform
 
@@ -163,67 +165,69 @@ BuildRequires: php-composer(symfony/console) >= 2.7.1
 BuildRequires: composer
 
 # Webserver
-Requires:   %{name}-webserver
+Requires:   %{name}-webserver = %{version}-%{release}
 ## Providers:
 ## - drupal8-httpd
 ## - FUTURE PLANNED: drupal8-nginx
-Recommends: %{name}-httpd
-#Suggests:   %%{name}-nginx
+Recommends: %{name}-httpd = %{version}-%{release}
+#Suggests:   %%{name}-nginx = %%{version}-%%{release}
 
 # core/composer.json
 Requires:  php(language)                                 >= %{php_min_ver}
-Requires:  php-composer(phpunit/phpunit)                 >= %{phpunit_min_ver}
-Requires:  php-composer(composer/semver)                 >= %{composer_semver_min_ver}
 Requires:  php-composer(composer/semver)                 <  %{composer_semver_max_ver}
-Requires:  php-composer(doctrine/annotations)            >= %{doctrine_annotations_min_ver}
+Requires:  php-composer(composer/semver)                 >= %{composer_semver_min_ver}
 Requires:  php-composer(doctrine/annotations)            <  %{doctrine_annotations_max_ver}
-Requires:  php-composer(doctrine/common)                 >= %{doctrine_common_min_ver}
+Requires:  php-composer(doctrine/annotations)            >= %{doctrine_annotations_min_ver}
 Requires:  php-composer(doctrine/common)                 <  %{doctrine_common_max_ver}
-Requires:  php-composer(easyrdf/easyrdf)                 >= %{easyrdf_min_ver}
+Requires:  php-composer(doctrine/common)                 >= %{doctrine_common_min_ver}
 Requires:  php-composer(easyrdf/easyrdf)                 <  %{easyrdf_max_ver}
-Requires:  php-composer(egulias/email-validator)         >= %{email_validator_min_ver}
+Requires:  php-composer(easyrdf/easyrdf)                 >= %{easyrdf_min_ver}
 Requires:  php-composer(egulias/email-validator)         <  %{email_validator_max_ver}
-Requires:  php-composer(guzzlehttp/guzzle)               >= %{guzzle_min_ver}
+Requires:  php-composer(egulias/email-validator)         >= %{email_validator_min_ver}
 Requires:  php-composer(guzzlehttp/guzzle)               <  %{guzzle_max_ver}
-Requires:  php-composer(masterminds/html5)               >= %{masterminds_html5_min_ver}
+Requires:  php-composer(guzzlehttp/guzzle)               >= %{guzzle_min_ver}
 Requires:  php-composer(masterminds/html5)               <  %{masterminds_html5_max_ver}
-Requires:  php-composer(stack/builder)                   >= %{stack_builder_min_ver}
+Requires:  php-composer(masterminds/html5)               >= %{masterminds_html5_min_ver}
+Requires:  php-composer(paragonie/random_compat)         <  %{paragonie_random_compat_max_ver}
+Requires:  php-composer(paragonie/random_compat)         >= %{paragonie_random_compat_min_ver}
+Requires:  php-composer(phpunit/phpunit)                 >= %{phpunit_min_ver}
 Requires:  php-composer(stack/builder)                   <  %{stack_builder_max_ver}
-Requires:  php-composer(symfony/class-loader)            >= %{symfony_min_ver}
-Requires:  php-composer(symfony/class-loader)            <  %{symfony_max_ver}
-Requires:  php-composer(symfony/console)                 >= %{symfony_min_ver}
-Requires:  php-composer(symfony/console)                 <  %{symfony_max_ver}
-Requires:  php-composer(symfony/dependency-injection)    >= %{symfony_min_ver}
-Requires:  php-composer(symfony/dependency-injection)    <  %{symfony_max_ver}
-Requires:  php-composer(symfony/event-dispatcher)        >= %{symfony_min_ver}
-Requires:  php-composer(symfony/event-dispatcher)        <  %{symfony_max_ver}
-Requires:  php-composer(symfony/http-foundation)         >= %{symfony_min_ver}
-Requires:  php-composer(symfony/http-foundation)         <  %{symfony_max_ver}
-Requires:  php-composer(symfony/http-kernel)             >= %{symfony_min_ver}
-Requires:  php-composer(symfony/http-kernel)             <  %{symfony_max_ver}
-Requires:  php-composer(symfony/process)                 >= %{symfony_min_ver}
-Requires:  php-composer(symfony/process)                 <  %{symfony_max_ver}
-Requires:  php-composer(symfony/psr-http-message-bridge) >= %{symfony_psr_http_message_bridge_min_ver}
-Requires:  php-composer(symfony/psr-http-message-bridge) <  %{symfony_psr_http_message_bridge_max_ver}
-Requires:  php-composer(symfony/routing)                 >= %{symfony_min_ver}
-Requires:  php-composer(symfony/routing)                 <  %{symfony_max_ver}
-Requires:  php-composer(symfony/serializer)              >= %{symfony_min_ver}
-Requires:  php-composer(symfony/serializer)              <  %{symfony_max_ver}
-Requires:  php-composer(symfony/translation)             >= %{symfony_min_ver}
-Requires:  php-composer(symfony/translation)             <  %{symfony_max_ver}
-Requires:  php-composer(symfony/validator)               >= %{symfony_min_ver}
-Requires:  php-composer(symfony/validator)               <  %{symfony_max_ver}
-Requires:  php-composer(symfony/yaml)                    >= %{symfony_min_ver}
-Requires:  php-composer(symfony/yaml)                    <  %{symfony_max_ver}
+Requires:  php-composer(stack/builder)                   >= %{stack_builder_min_ver}
+Requires:  php-composer(symfony-cmf/routing)             <  %{symfony_cmf_routing_max_ver}
 #Requires:  php-composer(symfony-cmf/routing)             >= %%{symfony_cmf_routing_min_ver}
 Requires:  php-SymfonyCmfRouting                         >= %{symfony_cmf_routing_min_ver}
-Requires:  php-composer(symfony-cmf/routing)             <  %{symfony_cmf_routing_max_ver}
-Requires:  php-composer(twig/twig)                       >= %{twig_min_ver}
+Requires:  php-composer(symfony/class-loader)            <  %{symfony_max_ver}
+Requires:  php-composer(symfony/class-loader)            >= %{symfony_min_ver}
+Requires:  php-composer(symfony/console)                 <  %{symfony_max_ver}
+Requires:  php-composer(symfony/console)                 >= %{symfony_min_ver}
+Requires:  php-composer(symfony/dependency-injection)    <  %{symfony_max_ver}
+Requires:  php-composer(symfony/dependency-injection)    >= %{symfony_min_ver}
+Requires:  php-composer(symfony/event-dispatcher)        <  %{symfony_max_ver}
+Requires:  php-composer(symfony/event-dispatcher)        >= %{symfony_min_ver}
+Requires:  php-composer(symfony/http-foundation)         <  %{symfony_max_ver}
+Requires:  php-composer(symfony/http-foundation)         >= %{symfony_min_ver}
+Requires:  php-composer(symfony/http-kernel)             <  %{symfony_max_ver}
+Requires:  php-composer(symfony/http-kernel)             >= %{symfony_min_ver}
+Requires:  php-composer(symfony/process)                 <  %{symfony_max_ver}
+Requires:  php-composer(symfony/process)                 >= %{symfony_min_ver}
+Requires:  php-composer(symfony/psr-http-message-bridge) <  %{symfony_psr_http_message_bridge_max_ver}
+Requires:  php-composer(symfony/psr-http-message-bridge) >= %{symfony_psr_http_message_bridge_min_ver}
+Requires:  php-composer(symfony/routing)                 <  %{symfony_max_ver}
+Requires:  php-composer(symfony/routing)                 >= %{symfony_min_ver}
+Requires:  php-composer(symfony/serializer)              <  %{symfony_max_ver}
+Requires:  php-composer(symfony/serializer)              >= %{symfony_min_ver}
+Requires:  php-composer(symfony/translation)             <  %{symfony_max_ver}
+Requires:  php-composer(symfony/translation)             >= %{symfony_min_ver}
+Requires:  php-composer(symfony/validator)               <  %{symfony_max_ver}
+Requires:  php-composer(symfony/validator)               >= %{symfony_min_ver}
+Requires:  php-composer(symfony/yaml)                    <  %{symfony_max_ver}
+Requires:  php-composer(symfony/yaml)                    >= %{symfony_min_ver}
 Requires:  php-composer(twig/twig)                       <  %{twig_max_ver}
-Requires:  php-composer(zendframework/zend-diactoros)    >= %{zend_diactoros_min_ver}
+Requires:  php-composer(twig/twig)                       >= %{twig_min_ver}
 Requires:  php-composer(zendframework/zend-diactoros)    <  %{zend_diactoros_max_ver}
-Requires:  php-composer(zendframework/zend-feed)         >= %{zend_feed_min_ver}
+Requires:  php-composer(zendframework/zend-diactoros)    >= %{zend_diactoros_min_ver}
 Requires:  php-composer(zendframework/zend-feed)         <  %{zend_feed_max_ver}
+Requires:  php-composer(zendframework/zend-feed)         >= %{zend_feed_min_ver}
 # phpcompatinfo (computed from version 8.0.2)
 Requires:  php-bz2
 Requires:  php-ctype
@@ -251,183 +255,204 @@ Requires:  php-tokenizer
 Requires:  php-xml
 Requires:  php-zip
 Requires:  php-zlib
+
 # Weak dependencies
 Suggests:  php-pecl(apcu)
 
 # drupal8(*) virtual provides
 ## Core
-Provides:  drupal8(core)                         = %{version}
+Provides:  drupal8(core) = %{version}
 ## Other
-Provides:  drupal8(action)                       = %{version}
-Provides:  drupal8(aggregator)                   = %{version}
-Provides:  drupal8(automated_cron)               = %{version}
-Provides:  drupal8(ban)                          = %{version}
-Provides:  drupal8(bartik)                       = %{version}
-Provides:  drupal8(basic_auth)                   = %{version}
-Provides:  drupal8(block)                        = %{version}
-Provides:  drupal8(block_content)                = %{version}
-Provides:  drupal8(book)                         = %{version}
-Provides:  drupal8(breakpoint)                   = %{version}
-Provides:  drupal8(ckeditor)                     = %{version}
-Provides:  drupal8(color)                        = %{version}
-Provides:  drupal8(comment)                      = %{version}
-Provides:  drupal8(config)                       = %{version}
-Provides:  drupal8(config_translation)           = %{version}
-Provides:  drupal8(contact)                      = %{version}
-Provides:  drupal8(content_translation)          = %{version}
-Provides:  drupal8(contextual)                   = %{version}
-Provides:  drupal8(datetime)                     = %{version}
-Provides:  drupal8(dblog)                        = %{version}
-Provides:  drupal8(dynamic_page_cache)           = %{version}
-Provides:  drupal8(editor)                       = %{version}
-Provides:  drupal8(field)                        = %{version}
-Provides:  drupal8(field_ui)                     = %{version}
-Provides:  drupal8(file)                         = %{version}
-Provides:  drupal8(filter)                       = %{version}
-Provides:  drupal8(forum)                        = %{version}
-Provides:  drupal8(hal)                          = %{version}
-Provides:  drupal8(help)                         = %{version}
-Provides:  drupal8(history)                      = %{version}
-Provides:  drupal8(image)                        = %{version}
-Provides:  drupal8(inline_form_errors)           = %{version}
-Provides:  drupal8(language)                     = %{version}
-Provides:  drupal8(link)                         = %{version}
-Provides:  drupal8(locale)                       = %{version}
-Provides:  drupal8(menu_link_content)            = %{version}
-Provides:  drupal8(menu_ui)                      = %{version}
-Provides:  drupal8(migrate)                      = %{version}
-Provides:  drupal8(migrate_drupal)               = %{version}
-Provides:  drupal8(minimal)                      = %{version}
-Provides:  drupal8(node)                         = %{version}
-Provides:  drupal8(nyan_cat)                     = %{version}
-Provides:  drupal8(options)                      = %{version}
-Provides:  drupal8(page_cache)                   = %{version}
-Provides:  drupal8(path)                         = %{version}
-Provides:  drupal8(quickedit)                    = %{version}
-Provides:  drupal8(rdf)                          = %{version}
-Provides:  drupal8(responsive_image)             = %{version}
-Provides:  drupal8(rest)                         = %{version}
-Provides:  drupal8(search)                       = %{version}
-Provides:  drupal8(search_embedded_form)         = %{version}
-Provides:  drupal8(search_extra_type)            = %{version}
-Provides:  drupal8(search_query_alter)           = %{version}
-Provides:  drupal8(serialization)                = %{version}
-Provides:  drupal8(seven)                        = %{version}
-Provides:  drupal8(shortcut)                     = %{version}
-Provides:  drupal8(simpletest)                   = %{version}
-Provides:  drupal8(standard)                     = %{version}
-Provides:  drupal8(stark)                        = %{version}
-Provides:  drupal8(statistics)                   = %{version}
-Provides:  drupal8(syslog)                       = %{version}
-Provides:  drupal8(system)                       = %{version}
-Provides:  drupal8(taxonomy)                     = %{version}
-Provides:  drupal8(taxonomy_crud)                = %{version}
-Provides:  drupal8(telephone)                    = %{version}
-Provides:  drupal8(text)                         = %{version}
-Provides:  drupal8(toolbar)                      = %{version}
-Provides:  drupal8(toolbar_disable_user_toolbar) = %{version}
-Provides:  drupal8(tour)                         = %{version}
-Provides:  drupal8(tracker)                      = %{version}
-Provides:  drupal8(twig)                         = %{version}
-Provides:  drupal8(update)                       = %{version}
-Provides:  drupal8(user)                         = %{version}
-Provides:  drupal8(views)                        = %{version}
-Provides:  drupal8(views_ui)                     = %{version}
+Provides:  drupal8(drupal/action) = %{version}
+Provides:  drupal8(drupal/aggregator) = %{version}
+Provides:  drupal8(drupal/automated_cron) = %{version}
+Provides:  drupal8(drupal/ban) = %{version}
+Provides:  drupal8(drupal/bartik) = %{version}
+Provides:  drupal8(drupal/basic_auth) = %{version}
+Provides:  drupal8(drupal/big_pipe) = %{version}
+Provides:  drupal8(drupal/block) = %{version}
+Provides:  drupal8(drupal/block_content) = %{version}
+Provides:  drupal8(drupal/book) = %{version}
+Provides:  drupal8(drupal/breakpoint) = %{version}
+Provides:  drupal8(drupal/ckeditor) = %{version}
+Provides:  drupal8(drupal/classy) = %{version}
+Provides:  drupal8(drupal/color) = %{version}
+Provides:  drupal8(drupal/comment) = %{version}
+Provides:  drupal8(drupal/config) = %{version}
+Provides:  drupal8(drupal/config_translation) = %{version}
+Provides:  drupal8(drupal/contact) = %{version}
+Provides:  drupal8(drupal/content_translation) = %{version}
+Provides:  drupal8(drupal/contextual) = %{version}
+Provides:  drupal8(drupal/core-annotation) = %{version}
+Provides:  drupal8(drupal/core-assertion) = %{version}
+Provides:  drupal8(drupal/core-bridge) = %{version}
+Provides:  drupal8(drupal/core-datetime) = %{version}
+Provides:  drupal8(drupal/core-dependency-injection) = %{version}
+Provides:  drupal8(drupal/core-diff) = %{version}
+Provides:  drupal8(drupal/core-discovery) = %{version}
+Provides:  drupal8(drupal/core-event-dispatcher) = %{version}
+Provides:  drupal8(drupal/core-file-cache) = %{version}
+Provides:  drupal8(drupal/core-filesystem) = %{version}
+Provides:  drupal8(drupal/core-gettext) = %{version}
+Provides:  drupal8(drupal/core-graph) = %{version}
+Provides:  drupal8(drupal/core-php-storage) = %{version}
+Provides:  drupal8(drupal/core-plugin) = %{version}
+Provides:  drupal8(drupal/core-proxy-builder) = %{version}
+Provides:  drupal8(drupal/core-serialization) = %{version}
+Provides:  drupal8(drupal/core-transliteration) = %{version}
+Provides:  drupal8(drupal/core-utility) = %{version}
+Provides:  drupal8(drupal/core-uuid) = %{version}
+Provides:  drupal8(drupal/datetime) = %{version}
+Provides:  drupal8(drupal/dblog) = %{version}
+Provides:  drupal8(drupal/dynamic_page_cache) = %{version}
+Provides:  drupal8(drupal/editor) = %{version}
+Provides:  drupal8(drupal/entity_reference) = %{version}
+Provides:  drupal8(drupal/field) = %{version}
+Provides:  drupal8(drupal/field_ui) = %{version}
+Provides:  drupal8(drupal/file) = %{version}
+Provides:  drupal8(drupal/filter) = %{version}
+Provides:  drupal8(drupal/forum) = %{version}
+Provides:  drupal8(drupal/hal) = %{version}
+Provides:  drupal8(drupal/help) = %{version}
+Provides:  drupal8(drupal/history) = %{version}
+Provides:  drupal8(drupal/image) = %{version}
+Provides:  drupal8(drupal/inline_form_errors) = %{version}
+Provides:  drupal8(drupal/language) = %{version}
+Provides:  drupal8(drupal/link) = %{version}
+Provides:  drupal8(drupal/locale) = %{version}
+Provides:  drupal8(drupal/menu_link_content) = %{version}
+Provides:  drupal8(drupal/menu_ui) = %{version}
+Provides:  drupal8(drupal/migrate) = %{version}
+Provides:  drupal8(drupal/migrate_drupal) = %{version}
+Provides:  drupal8(drupal/migrate_drupal_ui) = %{version}
+Provides:  drupal8(drupal/minimal) = %{version}
+Provides:  drupal8(drupal/node) = %{version}
+Provides:  drupal8(drupal/options) = %{version}
+Provides:  drupal8(drupal/page_cache) = %{version}
+Provides:  drupal8(drupal/path) = %{version}
+Provides:  drupal8(drupal/quickedit) = %{version}
+Provides:  drupal8(drupal/rdf) = %{version}
+Provides:  drupal8(drupal/responsive_image) = %{version}
+Provides:  drupal8(drupal/rest) = %{version}
+Provides:  drupal8(drupal/search) = %{version}
+Provides:  drupal8(drupal/serialization) = %{version}
+Provides:  drupal8(drupal/seven) = %{version}
+Provides:  drupal8(drupal/shortcut) = %{version}
+Provides:  drupal8(drupal/simpletest) = %{version}
+Provides:  drupal8(drupal/standard) = %{version}
+Provides:  drupal8(drupal/stark) = %{version}
+Provides:  drupal8(drupal/statistics) = %{version}
+Provides:  drupal8(drupal/syslog) = %{version}
+Provides:  drupal8(drupal/system) = %{version}
+Provides:  drupal8(drupal/taxonomy) = %{version}
+Provides:  drupal8(drupal/telephone) = %{version}
+Provides:  drupal8(drupal/text) = %{version}
+Provides:  drupal8(drupal/toolbar) = %{version}
+Provides:  drupal8(drupal/tour) = %{version}
+Provides:  drupal8(drupal/tracker) = %{version}
+Provides:  drupal8(drupal/update) = %{version}
+Provides:  drupal8(drupal/user) = %{version}
+Provides:  drupal8(drupal/views) = %{version}
+Provides:  drupal8(drupal/views_ui) = %{version}
 
 # php-composer(*) virtual provides
 ## composer.json
-Provides:  php-composer(drupal/drupal)                    = %{version}
+Provides:  php-composer(drupal/drupal) = %{version}
 ## core/composer.json
 ### name
-Provides:  php-composer(drupal/core)                      = %{version}
+Provides:  php-composer(drupal/core) = %{version}
 ### replace
-Provides:  php-composer(drupal/action)                    = %{version}
-Provides:  php-composer(drupal/aggregator)                = %{version}
-Provides:  php-composer(drupal/automated_cron)            = %{version}
-Provides:  php-composer(drupal/ban)                       = %{version}
-Provides:  php-composer(drupal/bartik)                    = %{version}
-Provides:  php-composer(drupal/basic_auth)                = %{version}
-Provides:  php-composer(drupal/block)                     = %{version}
-Provides:  php-composer(drupal/block_content)             = %{version}
-Provides:  php-composer(drupal/book)                      = %{version}
-Provides:  php-composer(drupal/breakpoint)                = %{version}
-Provides:  php-composer(drupal/ckeditor)                  = %{version}
-Provides:  php-composer(drupal/classy)                    = %{version}
-Provides:  php-composer(drupal/color)                     = %{version}
-Provides:  php-composer(drupal/comment)                   = %{version}
-Provides:  php-composer(drupal/config)                    = %{version}
-Provides:  php-composer(drupal/config_translation)        = %{version}
-Provides:  php-composer(drupal/contact)                   = %{version}
-Provides:  php-composer(drupal/content_translation)       = %{version}
-Provides:  php-composer(drupal/contextual)                = %{version}
-Provides:  php-composer(drupal/core-annotation)           = %{version}
-Provides:  php-composer(drupal/core-bridge)               = %{version}
-Provides:  php-composer(drupal/core-datetime)             = %{version}
+Provides:  php-composer(drupal/action) = %{version}
+Provides:  php-composer(drupal/aggregator) = %{version}
+Provides:  php-composer(drupal/automated_cron) = %{version}
+Provides:  php-composer(drupal/ban) = %{version}
+Provides:  php-composer(drupal/bartik) = %{version}
+Provides:  php-composer(drupal/basic_auth) = %{version}
+Provides:  php-composer(drupal/big_pipe) = %{version}
+Provides:  php-composer(drupal/block) = %{version}
+Provides:  php-composer(drupal/block_content) = %{version}
+Provides:  php-composer(drupal/book) = %{version}
+Provides:  php-composer(drupal/breakpoint) = %{version}
+Provides:  php-composer(drupal/ckeditor) = %{version}
+Provides:  php-composer(drupal/classy) = %{version}
+Provides:  php-composer(drupal/color) = %{version}
+Provides:  php-composer(drupal/comment) = %{version}
+Provides:  php-composer(drupal/config) = %{version}
+Provides:  php-composer(drupal/config_translation) = %{version}
+Provides:  php-composer(drupal/contact) = %{version}
+Provides:  php-composer(drupal/content_translation) = %{version}
+Provides:  php-composer(drupal/contextual) = %{version}
+Provides:  php-composer(drupal/core-annotation) = %{version}
+Provides:  php-composer(drupal/core-assertion) = %{version}
+Provides:  php-composer(drupal/core-bridge) = %{version}
+Provides:  php-composer(drupal/core-datetime) = %{version}
 Provides:  php-composer(drupal/core-dependency-injection) = %{version}
-Provides:  php-composer(drupal/core-diff)                 = %{version}
-Provides:  php-composer(drupal/core-discovery)            = %{version}
-Provides:  php-composer(drupal/core-event-dispatcher)     = %{version}
-Provides:  php-composer(drupal/core-file-cache)           = %{version}
-Provides:  php-composer(drupal/core-gettext)              = %{version}
-Provides:  php-composer(drupal/core-graph)                = %{version}
-Provides:  php-composer(drupal/core-php-storage)          = %{version}
-Provides:  php-composer(drupal/core-plugin)               = %{version}
-Provides:  php-composer(drupal/core-proxy-builder)        = %{version}
-Provides:  php-composer(drupal/core-serialization)        = %{version}
-Provides:  php-composer(drupal/core-transliteration)      = %{version}
-Provides:  php-composer(drupal/core-utility)              = %{version}
-Provides:  php-composer(drupal/core-uuid)                 = %{version}
-Provides:  php-composer(drupal/datetime)                  = %{version}
-Provides:  php-composer(drupal/dblog)                     = %{version}
-Provides:  php-composer(drupal/dynamic_page_cache)        = %{version}
-Provides:  php-composer(drupal/editor)                    = %{version}
-Provides:  php-composer(drupal/entity_reference)          = %{version}
-Provides:  php-composer(drupal/field)                     = %{version}
-Provides:  php-composer(drupal/field_ui)                  = %{version}
-Provides:  php-composer(drupal/file)                      = %{version}
-Provides:  php-composer(drupal/filter)                    = %{version}
-Provides:  php-composer(drupal/forum)                     = %{version}
-Provides:  php-composer(drupal/hal)                       = %{version}
-Provides:  php-composer(drupal/help)                      = %{version}
-Provides:  php-composer(drupal/history)                   = %{version}
-Provides:  php-composer(drupal/image)                     = %{version}
-Provides:  php-composer(drupal/inline_form_errors)        = %{version}
-Provides:  php-composer(drupal/language)                  = %{version}
-Provides:  php-composer(drupal/link)                      = %{version}
-Provides:  php-composer(drupal/locale)                    = %{version}
-Provides:  php-composer(drupal/menu_link_content)         = %{version}
-Provides:  php-composer(drupal/menu_ui)                   = %{version}
-Provides:  php-composer(drupal/migrate)                   = %{version}
-Provides:  php-composer(drupal/migrate_drupal)            = %{version}
-Provides:  php-composer(drupal/minimal)                   = %{version}
-Provides:  php-composer(drupal/node)                      = %{version}
-Provides:  php-composer(drupal/options)                   = %{version}
-Provides:  php-composer(drupal/page_cache)                = %{version}
-Provides:  php-composer(drupal/path)                      = %{version}
-Provides:  php-composer(drupal/quickedit)                 = %{version}
-Provides:  php-composer(drupal/rdf)                       = %{version}
-Provides:  php-composer(drupal/responsive_image)          = %{version}
-Provides:  php-composer(drupal/rest)                      = %{version}
-Provides:  php-composer(drupal/search)                    = %{version}
-Provides:  php-composer(drupal/serialization)             = %{version}
-Provides:  php-composer(drupal/seven)                     = %{version}
-Provides:  php-composer(drupal/shortcut)                  = %{version}
-Provides:  php-composer(drupal/simpletest)                = %{version}
-Provides:  php-composer(drupal/standard)                  = %{version}
-Provides:  php-composer(drupal/stark)                     = %{version}
-Provides:  php-composer(drupal/statistics)                = %{version}
-Provides:  php-composer(drupal/syslog)                    = %{version}
-Provides:  php-composer(drupal/system)                    = %{version}
-Provides:  php-composer(drupal/taxonomy)                  = %{version}
-Provides:  php-composer(drupal/telephone)                 = %{version}
-Provides:  php-composer(drupal/text)                      = %{version}
-Provides:  php-composer(drupal/toolbar)                   = %{version}
-Provides:  php-composer(drupal/tour)                      = %{version}
-Provides:  php-composer(drupal/tracker)                   = %{version}
-Provides:  php-composer(drupal/update)                    = %{version}
-Provides:  php-composer(drupal/user)                      = %{version}
-Provides:  php-composer(drupal/views)                     = %{version}
-Provides:  php-composer(drupal/views_ui)                  = %{version}
+Provides:  php-composer(drupal/core-diff) = %{version}
+Provides:  php-composer(drupal/core-discovery) = %{version}
+Provides:  php-composer(drupal/core-event-dispatcher) = %{version}
+Provides:  php-composer(drupal/core-file-cache) = %{version}
+Provides:  php-composer(drupal/core-filesystem) = %{version}
+Provides:  php-composer(drupal/core-gettext) = %{version}
+Provides:  php-composer(drupal/core-graph) = %{version}
+Provides:  php-composer(drupal/core-php-storage) = %{version}
+Provides:  php-composer(drupal/core-plugin) = %{version}
+Provides:  php-composer(drupal/core-proxy-builder) = %{version}
+Provides:  php-composer(drupal/core-serialization) = %{version}
+Provides:  php-composer(drupal/core-transliteration) = %{version}
+Provides:  php-composer(drupal/core-utility) = %{version}
+Provides:  php-composer(drupal/core-uuid) = %{version}
+Provides:  php-composer(drupal/datetime) = %{version}
+Provides:  php-composer(drupal/dblog) = %{version}
+Provides:  php-composer(drupal/dynamic_page_cache) = %{version}
+Provides:  php-composer(drupal/editor) = %{version}
+Provides:  php-composer(drupal/entity_reference) = %{version}
+Provides:  php-composer(drupal/field) = %{version}
+Provides:  php-composer(drupal/field_ui) = %{version}
+Provides:  php-composer(drupal/file) = %{version}
+Provides:  php-composer(drupal/filter) = %{version}
+Provides:  php-composer(drupal/forum) = %{version}
+Provides:  php-composer(drupal/hal) = %{version}
+Provides:  php-composer(drupal/help) = %{version}
+Provides:  php-composer(drupal/history) = %{version}
+Provides:  php-composer(drupal/image) = %{version}
+Provides:  php-composer(drupal/inline_form_errors) = %{version}
+Provides:  php-composer(drupal/language) = %{version}
+Provides:  php-composer(drupal/link) = %{version}
+Provides:  php-composer(drupal/locale) = %{version}
+Provides:  php-composer(drupal/menu_link_content) = %{version}
+Provides:  php-composer(drupal/menu_ui) = %{version}
+Provides:  php-composer(drupal/migrate) = %{version}
+Provides:  php-composer(drupal/migrate_drupal) = %{version}
+Provides:  php-composer(drupal/migrate_drupal_ui) = %{version}
+Provides:  php-composer(drupal/minimal) = %{version}
+Provides:  php-composer(drupal/node) = %{version}
+Provides:  php-composer(drupal/options) = %{version}
+Provides:  php-composer(drupal/page_cache) = %{version}
+Provides:  php-composer(drupal/path) = %{version}
+Provides:  php-composer(drupal/quickedit) = %{version}
+Provides:  php-composer(drupal/rdf) = %{version}
+Provides:  php-composer(drupal/responsive_image) = %{version}
+Provides:  php-composer(drupal/rest) = %{version}
+Provides:  php-composer(drupal/search) = %{version}
+Provides:  php-composer(drupal/serialization) = %{version}
+Provides:  php-composer(drupal/seven) = %{version}
+Provides:  php-composer(drupal/shortcut) = %{version}
+Provides:  php-composer(drupal/simpletest) = %{version}
+Provides:  php-composer(drupal/standard) = %{version}
+Provides:  php-composer(drupal/stark) = %{version}
+Provides:  php-composer(drupal/statistics) = %{version}
+Provides:  php-composer(drupal/syslog) = %{version}
+Provides:  php-composer(drupal/system) = %{version}
+Provides:  php-composer(drupal/taxonomy) = %{version}
+Provides:  php-composer(drupal/telephone) = %{version}
+Provides:  php-composer(drupal/text) = %{version}
+Provides:  php-composer(drupal/toolbar) = %{version}
+Provides:  php-composer(drupal/tour) = %{version}
+Provides:  php-composer(drupal/tracker) = %{version}
+Provides:  php-composer(drupal/update) = %{version}
+Provides:  php-composer(drupal/user) = %{version}
+Provides:  php-composer(drupal/views) = %{version}
+Provides:  php-composer(drupal/views_ui) = %{version}
 
 # Bundled
 ## core/core.libraries.yml
@@ -438,7 +463,7 @@ Provides:  bundled(js-backbone) = 1.2.3
 ### core/assets/vendor/ckeditor
 ###     License:  GPLv2+
 ###     Upstream: https://github.com/ckeditor/ckeditor-dev
-Provides:  bundled(ckeditor) = 4.5.5
+Provides:  bundled(ckeditor) = 4.5.9
 ### core/assets/vendor/classList
 ###     License:  Public Domain
 ###     Upstream: https://github.com/eligrey/classList.js
@@ -490,7 +515,7 @@ Provides:  bundled(js-matchMedia) = 0.2.0
 ### core/assets/vendor/modernizr
 ###     License:  MIT
 ###     Upstream: https://github.com/Modernizr/Modernizr
-Provides:  bundled(js-modernizr) = 3.1.0
+Provides:  bundled(js-modernizr) = 3.3.1
 ### core/assets/vendor/normalize-css
 ###     License:  MIT
 ###     Upstream: https://github.com/necolas/normalize.css
@@ -577,8 +602,9 @@ sed \
 .rpm/%{name}-modify-core-composer-json.php modify-core-composer-json --builddir=$(pwd)
 
 : Remove unneeded files
-find . -name '.git*' -delete
-find . -name 'web.config' -delete
+find . -name '.eslintrc' -delete -print
+find . -name '.git*' -delete -print
+find . -name 'web.config' -delete -print
 rm -rf vendor
 
 : Licenses
@@ -600,47 +626,10 @@ sed 's#/bin/php#%{_bindir}/php#' \
 # core/modules/simpletest/simpletest.module:simpletest_phpunit_command()
 
 : Fix "non-executable-script" rpmlint errors
-chmod +x \
-    core/scripts/cron-curl.sh \
-    core/scripts/cron-lynx.sh \
-    core/scripts/db-tools.php \
-    core/scripts/dump-database-d6.sh \
-    core/scripts/dump-database-d7.sh \
-    core/scripts/generate-d6-content.sh \
-    core/scripts/generate-d7-content.sh \
-    core/scripts/generate-proxy-class.php
+chmod +x core/scripts/*.{php,sh}
 
 : Fix "script-without-shebang" rpmlint errors
-chmod -x \
-    core/assets/vendor/jquery-once/jquery.once.min.js.map \
-    core/modules/block_content/migration_templates/d7_custom_block.yml \
-    core/modules/block_content/src/Plugin/migrate/source/d7/BlockCustom.php \
-    core/modules/block/migration_templates/d7_block.yml \
-    core/modules/comment/migration_templates/d7_comment_entity_display.yml \
-    core/modules/comment/migration_templates/d7_comment_entity_form_display_subject.yml \
-    core/modules/comment/migration_templates/d7_comment_entity_form_display.yml \
-    core/modules/comment/migration_templates/d7_comment_field_instance.yml \
-    core/modules/comment/migration_templates/d7_comment_field.yml \
-    core/modules/comment/migration_templates/d7_comment_type.yml \
-    core/modules/comment/migration_templates/d7_comment.yml \
-    core/modules/comment/src/Plugin/migrate/source/d7/Comment.php \
-    core/modules/field/migration_templates/d7_field_instance_widget_settings.yml \
-    core/modules/field/migration_templates/d7_field_instance.yml \
-    core/modules/field/migration_templates/d7_field.yml \
-    core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceDefaults.php \
-    core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceSettings.php \
-    core/modules/field/src/Plugin/migrate/process/d7/FieldSettings.php \
-    core/modules/field/src/Plugin/migrate/source/d7/FieldInstance.php \
-    core/modules/field/src/Plugin/migrate/source/d7/Field.php \
-    core/modules/filter/src/Plugin/migrate/source/d7/FilterFormat.php \
-    core/modules/image/migration_templates/d7_image_settings.yml \
-    core/modules/user/migration_templates/d7_user_flood.yml \
-    core/modules/user/migration_templates/d7_user_role.yml \
-    core/modules/user/migration_templates/d7_user.yml \
-    core/modules/user/src/Plugin/migrate/source/d7/Role.php \
-    core/modules/user/src/Plugin/migrate/source/d7/User.php \
-    core/modules/views_ui/src/ParamConverter/ViewUIConverter.php \
-    core/scripts/run-tests.sh
+chmod -x core/scripts/run-tests.sh
 
 #-------------------------------------------------------------------------------
 
@@ -703,9 +692,12 @@ install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 
 %check
 : Version check
-%{_bindir}/php -r 'require_once "%{buildroot}%{drupal8}/core/lib/Drupal.php";
-    echo "\Drupal::VERSION = \"" . \Drupal::VERSION . "\"\n";
-    exit(version_compare("%{version}", \Drupal::VERSION, "=") ? 0 : 1);'
+%{_bindir}/php -r '
+    require_once "%{buildroot}%{drupal8}/core/lib/Drupal.php";
+    $version = \Drupal::VERSION;
+    echo "Version $version (expected %{version})\n";
+    exit(version_compare("%{version}", "$version", "=") ? 0 : 1);
+'
 
 : Ensure RewriteBase in HTTPD config
 grep \
@@ -767,6 +759,9 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Tue Jul 12 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
+- Update to 8.1.6
+
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
 
