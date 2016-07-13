@@ -542,6 +542,8 @@ diverse community of people around the world.
 Summary:    HTTPD integration for %{name}
 
 Requires:   %{name} = %{version}-%{release}
+Requires:   httpd
+Requires:   httpd-filesystem
 Requires:   php(httpd)
 # php(httpd) providers
 Recommends: mod_php
@@ -638,7 +640,8 @@ pushd core
     : Create Composer autoloader
     %{_bindir}/composer dump-autoload --optimize
 
-    rm -f composer.json
+    # NOTE: .htaccess config handled via main Apache config
+    rm -f composer.json vendor/.htaccess
 
     : Verbose output for logging...
     find vendor
@@ -670,10 +673,6 @@ mkdir -p %{buildroot}%{drupal8_var}/files/{public,private}/default
 ln -s %{drupal8_var}/files/public/default \
     %{buildroot}%{drupal8_conf}/sites/default/files
 
-: Apache .htaccess
-mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
-install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
-
 : rpmbuild
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
 install -pm 0644 .rpm/macros.%{name} %{buildroot}%{_rpmconfigdir}/macros.d/
@@ -684,8 +683,11 @@ install -pm 0755 .rpm/%{name}-find-requires.php %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-get-dev-source.sh %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-prep-licenses-and-docs.sh %{buildroot}%{_rpmconfigdir}/
 
-: Apache HTTPD conf
+: Apache HTTPD conf files
 install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
+mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
+install -pm 0644 core/vendor/.htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
 #-------------------------------------------------------------------------------
 
@@ -744,6 +746,7 @@ popd
 %files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
+%config            %{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
 #-------------------------------------------------------------------------------
 
@@ -758,10 +761,11 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
-* Tue Jul 12 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
+* Wed Jul 13 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
 - Fix drupal8-get-dev-source.sh she-bang
 - Include main .htaccess in httpd conf instead of soft-linking
+- Apache conf for no access
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
