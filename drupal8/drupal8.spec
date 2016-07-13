@@ -673,7 +673,6 @@ ln -s %{drupal8_var}/files/public/default \
 : Apache .htaccess
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
-ln -s %{_sysconfdir}/httpd/conf.d/%{name}.htaccess %{buildroot}%{drupal8}/.htaccess
 
 : rpmbuild
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
@@ -724,7 +723,6 @@ popd
 %license .rpm/licenses/*
 %doc .rpm/docs/*
 %{drupal8}
-%exclude %{drupal8}/.htaccess
 # Sites
 %dir  %{drupal8_conf}
 %dir  %{drupal8_conf}/sites
@@ -744,7 +742,6 @@ popd
 #-------------------------------------------------------------------------------
 
 %files httpd
-%{drupal8}/.htaccess
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 
@@ -764,8 +761,7 @@ popd
 * Tue Jul 12 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
 - Fix drupal8-get-dev-source.sh she-bang
-- Root .htaccess now owned by httpd subpackage
-- Replace %%{name}.htaccess on update (managed upstream)
+- Include main .htaccess in httpd conf instead of soft-linking
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
