@@ -640,8 +640,7 @@ pushd core
     : Create Composer autoloader
     %{_bindir}/composer dump-autoload --optimize
 
-    # NOTE: .htaccess config handled via main Apache config
-    rm -f composer.json vendor/.htaccess
+    rm -f composer.json
 
     : Verbose output for logging...
     find vendor
@@ -684,8 +683,8 @@ install -pm 0755 .rpm/%{name}-get-dev-source.sh %{buildroot}%{_rpmconfigdir}/
 install -pm 0755 .rpm/%{name}-prep-licenses-and-docs.sh %{buildroot}%{_rpmconfigdir}/
 
 : Apache HTTPD conf files
-install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 install -pm 0644 core/vendor/.htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
@@ -725,13 +724,15 @@ popd
 %license .rpm/licenses/*
 %doc .rpm/docs/*
 %{drupal8}
+%exclude %{drupal8}/core/vendor/.htaccess
 # Sites
-%dir  %{drupal8_conf}
-%dir  %{drupal8_conf}/sites
-      %{drupal8_conf}/sites/example.*
+%dir               %{drupal8_conf}
+%dir               %{drupal8_conf}/sites
 %config(noreplace) %{drupal8_conf}/sites/development.services.yml
-%dir  %{drupal8_conf}/sites/default
-      %{drupal8_conf}/sites/default/default.*
+%dir               %{drupal8_conf}/sites/default
+## Managed upstream example/default files
+%config            %{drupal8_conf}/sites/example.*
+%config            %{drupal8_conf}/sites/default/default.*
 # Files
 %{drupal8_conf}/sites/default/files
 %dir                         %{drupal8_var}
@@ -745,6 +746,7 @@ popd
 
 %files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+# Managed upstream confs
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
@@ -766,6 +768,7 @@ popd
 - Fix drupal8-get-dev-source.sh she-bang
 - Include main .htaccess in httpd conf instead of soft-linking
 - Apache conf for no access
+- %%files %%config updates
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
