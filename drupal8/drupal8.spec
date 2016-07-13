@@ -734,17 +734,19 @@ popd
 %dir                         %{drupal8_var}
 %dir                         %{drupal8_var}/files
 %dir                         %{drupal8_var}/files/private
-%dir %attr(0775,root,apache) %{drupal8_var}/files/private/default
 %dir                         %{drupal8_var}/files/public
-%dir %attr(0775,root,apache) %{drupal8_var}/files/public/default
 
 #-------------------------------------------------------------------------------
 
 %files httpd
+# Configs
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-# Managed upstream configs
+## Managed upstream configs
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.no-access
+# Files
+%dir %attr(0775,root,apache) %{drupal8_var}/files/private/default
+%dir %attr(0775,root,apache) %{drupal8_var}/files/public/default
 
 #-------------------------------------------------------------------------------
 
@@ -767,6 +769,8 @@ popd
 - Include main .htaccess in httpd conf instead of soft-linking
 - Apache conf for no access
 - %%files %%config updates
+- httpd subpackage now owns %%{drupal8_var}/files/{public,private}/default
+  because of %%attr
 
 * Thu Mar 10 2016 Shawn Iwinski <shawn@iwin.ski> - 8.0.5-1
 - Update to 8.0.5
