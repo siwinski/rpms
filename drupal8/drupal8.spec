@@ -731,10 +731,10 @@ popd
 %config            %{drupal8_conf}/sites/default/default.*
 # Files
 %{drupal8_conf}/sites/default/files
-%dir                         %{drupal8_var}
-%dir                         %{drupal8_var}/files
-%dir                         %{drupal8_var}/files/private
-%dir                         %{drupal8_var}/files/public
+%dir %{drupal8_var}
+%dir %{drupal8_var}/files
+%dir %{drupal8_var}/files/private
+%dir %{drupal8_var}/files/public
 
 #-------------------------------------------------------------------------------
 
