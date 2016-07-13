@@ -144,8 +144,8 @@ License:   GPLv2+ and MIT and Public Domain
 
 URL:       https://www.drupal.org/8
 Source0:   http://ftp.drupal.org/files/projects/drupal-%{version}.tar.gz
-# Modify core/composer.json
-Source1:   %{name}-modify-core-composer-json.php
+# Autoloader
+Source1:   %{name}-autoload.php
 # rpmbuild
 Source2:   macros.%{name}
 Source3:   %{name}.attr
@@ -600,21 +600,22 @@ sed \
     -e 's:__SPEC_RELEASE__:%{release}:' \
     -i .rpm/*
 
-: Modify core/composer.json
-.rpm/%{name}-modify-core-composer-json.php modify-core-composer-json --builddir=$(pwd)
-
 : Remove unneeded files
+rm -rf vendor core/vendor
 find . -name '.eslintrc' -delete -print
 find . -name '.git*' -delete -print
 find . -name 'web.config' -delete -print
-rm -rf vendor
 
-: Licenses
+: Autoloader
+mv autoload.php autoload.php.dist
+cp .rpm/%{name}-autoload.php autoload.php
+
+: Licenses and docs
 .rpm/%{name}-prep-licenses-and-docs.sh
 mv core/INSTALL.*.* .rpm/docs/core/
 
-: Reposition core composer.json for autoloader creation in %%build
-cp .rpm/docs/core/composer.json core/
+: Copy main INSTALL.txt back in place so users can access it on install
+cp .rpm/docs/core/INSTALL.txt core/
 
 : Apache .htaccess
 sed 's!# RewriteBase /$!# RewriteBase /\n  RewriteBase /drupal8!' \
@@ -638,21 +639,16 @@ chmod -x core/scripts/run-tests.sh
 %build
 pushd core
     : Create Composer autoloader
+    cp ../.rpm/docs/core/composer.json .
     %{_bindir}/composer dump-autoload --optimize
 
-    rm -f composer.json
+    : Remove unneeded files
+    rm -f composer.json vendor/web.config
 
-    : Verbose output for logging...
-    find vendor
-    cat vendor/composer/autoload_files.php
+    : Move autoloader license to licenses
+    mkdir -p ../.rpm/licenses/core/vendor/composer
+    mv vendor/composer/LICENSE ../.rpm/licenses/core/vendor/composer/
 popd
-
-: Symlink main vendor directory to core vendor directory
-ln -s core/vendor vendor
-
-: Move autoloader license to licenses
-mkdir -p .rpm/licenses/core/vendor/composer
-mv core/vendor/composer/LICENSE .rpm/licenses/core/vendor/composer/
 
 #-------------------------------------------------------------------------------
 
@@ -730,7 +726,7 @@ popd
 %dir               %{drupal8_conf}/sites
 %config(noreplace) %{drupal8_conf}/sites/development.services.yml
 %dir               %{drupal8_conf}/sites/default
-## Managed upstream example/default files
+## Managed upstream example/default configs
 %config            %{drupal8_conf}/sites/example.*
 %config            %{drupal8_conf}/sites/default/default.*
 # Files
@@ -746,7 +742,7 @@ popd
 
 %files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-# Managed upstream confs
+# Managed upstream configs
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.htaccess
 %config            %{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
@@ -765,6 +761,7 @@ popd
 %changelog
 * Wed Jul 13 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
+- Rewrite top-level autoload.php instead of modifying core's composer.json
 - Fix drupal8-get-dev-source.sh she-bang
 - Include main .htaccess in httpd conf instead of soft-linking
 - Apache conf for no access
