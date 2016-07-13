@@ -53,7 +53,7 @@ AutoReqProv: no
 %global vfsstream_min_ver 1.6
 %global vfsstream_max_ver 2.0
 ## "paragonie/random_compat": "~1.0"
-%global paragonie_random_compat_min_ver 1.6
+%global paragonie_random_compat_min_ver 1.0
 %global paragonie_random_compat_max_ver 2.0
 ## "phpunit/phpunit": "~4.8"
 %global phpunit_min_ver 4.8
