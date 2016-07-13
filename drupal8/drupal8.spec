@@ -763,6 +763,7 @@ popd
 - Update to 8.1.6
 - Rewrite top-level autoload.php instead of modifying core's composer.json
 - Fix drupal8-get-dev-source.sh she-bang
+- No "rpm" subdirectory for %%drupal8_{modules,profiles,themes} macros
 - Include main .htaccess in httpd conf instead of soft-linking
 - Apache conf for no access
 - %%files %%config updates
