@@ -43,7 +43,7 @@
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       SAML2 PHP library from SimpleSAMLphp
 
 Group:         Development/Libraries
@@ -85,20 +85,22 @@ Requires:      php-spl
 # Autoloader
 Requires:      php-composer(symfony/class-loader)
 
+%if 0%{?fedora} >= 21
 # Webserver
-Requires:   %{name}-webserver = %{version}-%{release}
+Requires:      %{name}-webserver = %{version}-%{release}
 ## Providers:
 ## - simplesamlphp-httpd
 ## - FUTURE PLANNED: simplesamlphp-nginx
-Recommends: %{name}-httpd = %{version}-%{release}
-#Suggests:   %%{name}-nginx = %%{version}-%%{release}
+Recommends:    %{name}-httpd = %{version}-%{release}
+#Suggests:      %%{name}-nginx = %%{version}-%%{release}
 
 # Weak dependencies
-%if 0%{?fedora} >= 21
 Suggests:      php-curl
 Suggests:      php-ldap
 Suggests:      php-pecl(krb5)
 Suggests:      php-pecl(oauth)
+%else
+Requires:      %{name}-httpd = %{version}-%{release}
 %endif
 
 # Composer
@@ -149,10 +151,14 @@ Summary:    HTTPD integration for %{name}
 Requires:   %{name} = %{version}-%{release}
 Requires:   httpd
 Requires:   httpd-filesystem
+%if 0%{?fedora} >= 21
 Requires:   php(httpd)
 # php(httpd) providers
 Recommends: mod_php
 Suggests:   php-fpm
+%else
+Requires:   mod_php
+%endif
 
 Provides:   %{name}-webserver = %{version}-%{release}
 
@@ -321,5 +327,8 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %changelog
+* Thu Jul 14 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.5-2
+- Fix EPEL 6/7
+
 * Thu Jul 14 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.5-1
 - Initial package
