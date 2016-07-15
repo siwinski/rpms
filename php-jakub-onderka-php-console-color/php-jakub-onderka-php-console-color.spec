@@ -35,6 +35,11 @@ License:       BSD
 URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
+# Add LICENSE file
+# https://github.com/JakubOnderka/PHP-Console-Color/pull/8
+# https://patch-diff.githubusercontent.com/raw/JakubOnderka/PHP-Console-Color/pull/8.patch
+Patch0:        %{name}-pr8-add-license.patch
+
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
@@ -69,6 +74,9 @@ Autoloader: %{phpdir}/JakubOnderka/PhpConsoleColor/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+
+: Add LICENSE file
+%patch0 -p1
 
 : Modify example.php to use generated autoloader
 sed "/require_once/s#.*#require_once '%{phpdir}/JakubOnderka/PhpConsoleColor/autoload.php';#" \
@@ -116,6 +124,8 @@ cp -rp src/* %{buildroot}%{phpdir}/
 
 
 %files
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
 %doc composer.json
 %doc example.php
 %dir %{phpdir}/JakubOnderka
