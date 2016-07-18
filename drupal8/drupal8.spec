@@ -36,8 +36,9 @@ AutoReqProv: no
 ### NOTE: Min version not 1.2.0 because autoloader required
 %global email_validator_min_ver 1.2.9
 %global email_validator_max_ver 1.3.0
-## "guzzlehttp/guzzle": "~6.1"
-%global guzzle_min_ver 6.1
+## "guzzlehttp/guzzle": "~6.2"
+### NOTE: Min version not 6.2.0 because of CVE-2016-5385
+%global guzzle_min_ver 6.2.1
 %global guzzle_max_ver 7.0
 ## "jcalderonzumba/gastonjs": "~1.0.2"
 %global gastonjs_min_ver 1.0.2
@@ -112,7 +113,7 @@ AutoReqProv: no
 
 
 Name:      drupal8
-Version:   8.1.6
+Version:   8.1.7
 Release:   1%{?dist}
 Summary:   An open source content management platform
 
@@ -228,7 +229,7 @@ Requires:  php-composer(zendframework/zend-diactoros)    <  %{zend_diactoros_max
 Requires:  php-composer(zendframework/zend-diactoros)    >= %{zend_diactoros_min_ver}
 Requires:  php-composer(zendframework/zend-feed)         <  %{zend_feed_max_ver}
 Requires:  php-composer(zendframework/zend-feed)         >= %{zend_feed_min_ver}
-# phpcompatinfo (computed from version 8.0.2)
+# phpcompatinfo (computed from version 8.1.7)
 Requires:  php-bz2
 Requires:  php-ctype
 Requires:  php-curl
@@ -243,8 +244,8 @@ Requires:  php-intl
 Requires:  php-json
 Requires:  php-libxml
 Requires:  php-mbstring
-Requires:  php-openssl
 Requires:  php-pcre
+Requires:  php-posix
 Requires:  php-pdo
 Requires:  php-recode
 Requires:  php-reflection
@@ -761,6 +762,9 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Wed Jul 18 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.7-1
+- Update to 8.1.7
+
 * Wed Jul 13 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
 - Update to 8.1.6
 - Rewrite top-level autoload.php instead of modifying core's composer.json
