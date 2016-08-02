@@ -11,31 +11,29 @@
 
 %global github_owner     alchemy-fr
 %global github_name      Zippy
-%global github_version   0.2.1
-%global github_commit    16285231eb37587c6c32b86fa483c35853cd7515
+%global github_version   0.4.0
+%global github_commit    28b7c0e9db9755889d1e6b3a3ca237abcbd98693
 
 %global composer_vendor  alchemy
 %global composer_project zippy
 
-# "php"                  : ">=5.3.3"
-%global php_min_ver 5.3.3
-# "doctrine/collections" : "~1.0"
-#     Note: Min version not 1.0 b/c autoloader was added in 1.3.0
+# "php": ">=5.5"
+%global php_min_ver 5.5
+# "doctrine/collections": "~1.0"
+#     NOTE: Min version not 1.0 b/c autoloader required
 %global doctrine_collections_min_ver 1.3.0
 %global doctrine_collections_max_ver 2.0
-# "guzzle/guzzle"        : "~3.0"
-#     Note: Min version not 3.0 b/c autoloader was added in 3.9.3
-%global guzzle_min_ver 3.9.3
-%global guzzle_max_ver 4.0
-# "pimple/pimple"        : "~1.0"
-%global pimple_min_ver 1.0
-%global pimple_max_ver 2.0
-# "symfony/filesystem"   : "~2.0"
-# "symfony/finder"       : "~2.0"
-# "symfony/process"      : "~2.0"
-#     Note: Min version not 2.0 b/c autoloader was added in 2.3.31|2.7.1
-%global symfony_min_ver %{?el6:2.3.31}%{!?el6:2.7.1}
-%global symfony_max_ver 3.0
+# "guzzle/guzzle": "~3.0"
+# "guzzlehttp/guzzle": "^6.0"
+#     NOTE: Min version not 3.0 to force version 6
+%global guzzle_min_ver 6.0
+%global guzzle_max_ver 7.0
+# "symfony/filesystem": "^2.0.5|^3.0"
+# "symfony/finder": "^2.0.5|^3.0"
+# "symfony/process": "^2.1|^3.0"
+#     NOTE: Min version not 2.1 b/c autoloader required
+%global symfony_min_ver 2.7.1
+%global symfony_max_ver 4.0
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -63,15 +61,17 @@ BuildArch:     noarch
 BuildRequires: %{_bindir}/phpunit
 BuildRequires: php(language)                      >= %{php_min_ver}
 BuildRequires: php-composer(doctrine/collections) >= %{doctrine_collections_min_ver}
-BuildRequires: php-composer(guzzle/guzzle)        >= %{guzzle_min_ver}
-BuildRequires: php-composer(pimple/pimple)        >= %{pimple_min_ver}
+BuildRequires: php-composer(guzzlehttp/guzzle)    >= %{guzzle_min_ver}
+BuildRequires: php-composer(symfony/filesystem)   <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/filesystem)   >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/finder)       <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/finder)       >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/process)      <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/process)      >= %{symfony_min_ver}
-BuildRequires: php-zip
-## phpcompatinfo (computed from version 0.2.1)
-BuildRequires: php-date
 BuildRequires: php-mbstring
+BuildRequires: php-zip
+## phpcompatinfo (computed from version 0.4.0)
+BuildRequires: php-date
 BuildRequires: php-pcre
 BuildRequires: php-spl
 ## Autoloader
@@ -82,42 +82,47 @@ BuildRequires: php-composer(symfony/class-loader)
 Requires:      php(language)                      >= %{php_min_ver}
 Requires:      php-composer(doctrine/collections) >= %{doctrine_collections_min_ver}
 Requires:      php-composer(doctrine/collections) <  %{doctrine_collections_max_ver}
-Requires:      php-composer(guzzle/guzzle)        >= %{guzzle_min_ver}
-Requires:      php-composer(guzzle/guzzle)        <  %{guzzle_max_ver}
-Requires:      php-composer(pimple/pimple)        >= %{pimple_min_ver}
-Requires:      php-composer(pimple/pimple)        <  %{pimple_max_ver}
 Requires:      php-composer(symfony/filesystem)   >= %{symfony_min_ver}
 Requires:      php-composer(symfony/filesystem)   <  %{symfony_max_ver}
 Requires:      php-composer(symfony/process)      >= %{symfony_min_ver}
 Requires:      php-composer(symfony/process)      <  %{symfony_max_ver}
+Requires:      php-mbstring
 # composer.json: optional
 Requires:      php-zip
-# phpcompatinfo (computed from version 0.2.1)
+# phpcompatinfo (computed from version 0.4.0)
 Requires:      php-date
-Requires:      php-mbstring
 Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(symfony/class-loader)
+
+# Weak dependencies
+Suggests:      php-composer(guzzlehttp/guzzle) >= %{guzzle_min_ver}
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 A Object-Oriented PHP library to manipulate any archive format (de)compression
-through commandline utilities or PHP extension.
+through command-line utilities or PHP extension.
 
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
+: Remove legacy Guzzle
+rm -f \
+    src/Resource/Reader/Guzzle/LegacyGuzzle* \
+    src/Resource/Teleporter/LegacyGuzzle*
+
+
+%build
 : Create autoloader
-cat <<'AUTOLOAD' | tee src/Alchemy/Zippy/autoload.php
+cat <<'AUTOLOAD' | tee src/autoload.php
 <?php
 /**
  * Autoloader for %{name} and its' dependencies
- *
- * Created by %{name}-%{version}-%{release}
+ * (created by %{name}-%{version}-%{release}).
  *
  * @return \Symfony\Component\ClassLoader\ClassLoader
  */
@@ -133,56 +138,63 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
 
 $fedoraClassLoader->addPrefix('Alchemy\\Zippy\\', dirname(dirname(__DIR__)));
 
-foreach (array(
-    '%{phpdir}/Doctrine/Common/Collections/autoload.php',
-    '%{phpdir}/Guzzle/autoload.php',
-    '%{phpdir}/Pimple1/autoload.php',
-    '%{phpdir}/Symfony/Component/Filesystem/autoload.php',
-    '%{phpdir}/Symfony/Component/Process/autoload.php',
-) as $dependencyAutoloader) {
-    require_once $dependencyAutoloader;
+// Dependencies (autoloader => required)
+foreach(array(
+    // Required dependencies
+    '%{phpdir}/Doctrine/Common/Collections/autoload.php'  => true,
+    '%{phpdir}/Symfony/Component/Filesystem/autoload.php' => true,
+    '%{phpdir}/Symfony/Component/Process/autoload.php'    => true,
+    // Optional dependency
+    '%{phpdir}/GuzzleHttp6/autoload.php'                  => false,
+) as $dependencyAutoloader => $required) {
+    if ($required || file_exists($dependencyAutoloader)) {
+        require_once $dependencyAutoloader;
+    }
 }
 
 return $fedoraClassLoader;
 AUTOLOAD
 
 
-%build
-# Empty build section, nothing required
-
-
 %install
-mkdir -p %{buildroot}%{phpdir}
-cp -pr src/* %{buildroot}%{phpdir}/
+mkdir -p %{buildroot}%{phpdir}/Alchemy/Zippy
+cp -pr src/* %{buildroot}%{phpdir}/Alchemy/Zippy/
 
 
 %check
 %if %{with_tests}
-: Recreate tests bootstrap
-cat <<'BOOTSTRAP' | tee tests/bootstrap.php
+: Mock tests PSR-0
+mkdir -p tests-psr0/Alchemy/Zippy
+ln -s ../../../tests/Functional tests-psr0/Alchemy/Zippy/Functional
+ln -s ../../../tests/Tests tests-psr0/Alchemy/Zippy/Tests
+
+: Create tests bootstrap
+cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
 
 $fedoraClassLoader =
     require_once '%{buildroot}%{phpdir}/Alchemy/Zippy/autoload.php';
 
-$fedoraClassLoader->addPrefix('Alchemy\\Zippy\\Tests\\', __DIR__);
-$fedoraClassLoader->addPrefix('Alchemy\\Zippy\\Functional\\', __DIR__);
+$fedoraClassLoader->addPrefix('Alchemy\\Zippy\\Functional\\', __DIR__.'/tests-psr0');
+$fedoraClassLoader->addPrefix('Alchemy\\Zippy\\Tests\\', __DIR__.'/tests-psr0');
 
+require_once '%{phpdir}/GuzzleHttp6/autoload.php';
 require_once '%{phpdir}/Symfony/Component/Finder/autoload.php';
 BOOTSTRAP
 
 : Skip tests that require network access
-rm -f tests/Alchemy/Zippy/Tests/Resource/TargetLocatorTest.php
+rm -f tests/Tests/Resource/TargetLocatorTest.php
 sed 's/function testFunctionnal/function SKIP_testFunctionnal/' \
-    -i tests/Alchemy/Zippy/Tests/Resource/ResourceManagerTest.php
+    -i tests/Tests/Resource/ResourceManagerTest.php
 sed 's/function testTeleport/function SKIP_testTeleport/' \
-    -i tests/Alchemy/Zippy/Tests/Resource/Teleporter/GuzzleTeleporterTest.php
+    -i tests/Tests/Resource/Teleporter/GuzzleTeleporterTest.php
 
 : Skip test known to fail
+rm -f tests/Tests/Resource/Teleporter/GuzzleTeleporterTest.php
 sed 's/function testTeleportADir/function SKIP_testTeleportADir/' \
-    -i tests/Alchemy/Zippy/Tests/Resource/Teleporter/LocalTeleporterTest.php
+    -i tests/Tests/Resource/Teleporter/LocalTeleporterTest.php
 
-%{_bindir}/phpunit --verbose
+%{_bindir}/phpunit --verbose --bootstrap bootstrap.php
 %else
 : Tests skipped
 %endif
@@ -198,5 +210,5 @@ sed 's/function testTeleportADir/function SKIP_testTeleportADir/' \
 
 
 %changelog
-* Thu Aug 20 2015 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.2.1-1
+* Tue Aug 02 2016 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.4.0-1
 - Initial package
