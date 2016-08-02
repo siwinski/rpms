@@ -11,8 +11,8 @@
 
 %global github_owner     simplesamlphp
 %global github_name      simplesamlphp
-%global github_version   1.14.5
-%global github_commit    0542f79c24b7ec30f4d66cec34a005b09f3117c0
+%global github_version   1.14.7
+%global github_commit    f5ff7c4643b9b784957f5e1fbf86fc740cd6b78a
 
 %global composer_vendor  simplesamlphp
 %global composer_project simplesamlphp
@@ -43,7 +43,7 @@
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       SAML2 PHP library from SimpleSAMLphp
 
 Group:         Development/Libraries
@@ -58,6 +58,8 @@ Source2:       %{name}.conf
 Source3:       macros.%{name}
 
 BuildArch:     noarch
+# Library version value check
+BuildRequires: php-cli >= %{php_min_ver}
 
 # composer.json
 Requires:      php(language)                        >= %{php_min_ver}
@@ -67,7 +69,8 @@ Requires:      php-composer(simplesamlphp/saml2)    <  %{simplesamlphp_saml2_max
 Requires:      php-composer(simplesamlphp/saml2)    >= %{simplesamlphp_saml2_min_ver}
 Requires:      php-composer(whitehat101/apr1-md5)   <  %{whitehat101_apr1_md5_max_ver}
 Requires:      php-composer(whitehat101/apr1-md5)   >= %{whitehat101_apr1_md5_min_ver}
-# phpcompatinfo (computed from version 1.14.5)
+# phpcompatinfo (computed from version 1.14.7)
+Requires:      php-curl
 Requires:      php-date
 Requires:      php-dom
 Requires:      php-fileinfo
@@ -95,7 +98,6 @@ Recommends:    %{name}-httpd = %{version}-%{release}
 #Suggests:      %%{name}-nginx = %%{version}-%%{release}
 
 # Weak dependencies
-Suggests:      php-curl
 Suggests:      php-ldap
 Suggests:      php-pecl(krb5)
 Suggests:      php-pecl(oauth)
@@ -193,9 +195,6 @@ sed \
     -e 's/na@example.org/root@localhost.localdomain/' \
     -i config-templates/config.php
 
-: Move docs directory aside so symlink can be created for doc subpackage
-mv docs .doc-subpackage
-
 : Copy other sources into build dir
 mkdir .rpm
 cp -p %{SOURCE1} .rpm/
@@ -212,6 +211,9 @@ sed \
     -e 's:__SPEC_VERSION__:%{version}:' \
     -e 's:__SPEC_RELEASE__:%{release}:' \
     -i .rpm/*
+
+: Docs
+mv docs .rpm/
 
 : Autoloader
 cp .rpm/%{name}-autoload.php autoload.php
@@ -274,6 +276,15 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 
 
 %check
+: Library version value check
+%{_bindir}/php -r '
+    require_once "%{buildroot}%{simplesamlphp}/lib/SimpleSAML/Configuration.php";
+    $configuration = new \SimpleSAML_Configuration(array(), "");
+    $version = $configuration->getVersion();
+    echo "Version $version (expected %{version})\n";
+    exit(version_compare("%{version}", "$version", "=") ? 0 : 1);
+'
+
 %if %{with_tests}
 : Tests skipped because upstream requires an old version of PHPUnit and tests fail with current versions
 %else
@@ -321,12 +332,16 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %files doc
-%doc .doc-subpackage/*
+%doc .rpm/docs/*
 %{simplesamlphp}/docs
 
 # ------------------------------------------------------------------------------
 
 %changelog
+* Tue Aug 02 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.7-1
+- Update to 1.14.7
+- Add library version value check
+
 * Thu Jul 14 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.5-2
 - Fix EPEL 6/7
 
