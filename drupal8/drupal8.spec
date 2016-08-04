@@ -36,8 +36,7 @@ AutoReqProv: no
 ### NOTE: Min version not 1.2.0 because autoloader required
 %global email_validator_min_ver 1.2.9
 %global email_validator_max_ver 1.3.0
-## "guzzlehttp/guzzle": "~6.2"
-### NOTE: Min version not 6.2.0 because of CVE-2016-5385
+## "guzzlehttp/guzzle": "^6.2.1"
 %global guzzle_min_ver 6.2.1
 %global guzzle_max_ver 7.0
 ## "jcalderonzumba/gastonjs": "~1.0.2"
@@ -113,7 +112,7 @@ AutoReqProv: no
 
 
 Name:      drupal8
-Version:   8.1.7
+Version:   8.1.8
 Release:   1%{?dist}
 Summary:   An open source content management platform
 
@@ -264,97 +263,83 @@ Suggests:  php-pecl(apcu)
 ## Core
 Provides:  drupal8(core) = %{version}
 ## Other
-Provides:  drupal8(drupal/action) = %{version}
-Provides:  drupal8(drupal/aggregator) = %{version}
-Provides:  drupal8(drupal/automated_cron) = %{version}
-Provides:  drupal8(drupal/ban) = %{version}
-Provides:  drupal8(drupal/bartik) = %{version}
-Provides:  drupal8(drupal/basic_auth) = %{version}
-Provides:  drupal8(drupal/big_pipe) = %{version}
-Provides:  drupal8(drupal/block) = %{version}
-Provides:  drupal8(drupal/block_content) = %{version}
-Provides:  drupal8(drupal/book) = %{version}
-Provides:  drupal8(drupal/breakpoint) = %{version}
-Provides:  drupal8(drupal/ckeditor) = %{version}
-Provides:  drupal8(drupal/classy) = %{version}
-Provides:  drupal8(drupal/color) = %{version}
-Provides:  drupal8(drupal/comment) = %{version}
-Provides:  drupal8(drupal/config) = %{version}
-Provides:  drupal8(drupal/config_translation) = %{version}
-Provides:  drupal8(drupal/contact) = %{version}
-Provides:  drupal8(drupal/content_translation) = %{version}
-Provides:  drupal8(drupal/contextual) = %{version}
-Provides:  drupal8(drupal/core-annotation) = %{version}
-Provides:  drupal8(drupal/core-assertion) = %{version}
-Provides:  drupal8(drupal/core-bridge) = %{version}
-Provides:  drupal8(drupal/core-datetime) = %{version}
-Provides:  drupal8(drupal/core-dependency-injection) = %{version}
-Provides:  drupal8(drupal/core-diff) = %{version}
-Provides:  drupal8(drupal/core-discovery) = %{version}
-Provides:  drupal8(drupal/core-event-dispatcher) = %{version}
-Provides:  drupal8(drupal/core-file-cache) = %{version}
-Provides:  drupal8(drupal/core-filesystem) = %{version}
-Provides:  drupal8(drupal/core-gettext) = %{version}
-Provides:  drupal8(drupal/core-graph) = %{version}
-Provides:  drupal8(drupal/core-php-storage) = %{version}
-Provides:  drupal8(drupal/core-plugin) = %{version}
-Provides:  drupal8(drupal/core-proxy-builder) = %{version}
-Provides:  drupal8(drupal/core-serialization) = %{version}
-Provides:  drupal8(drupal/core-transliteration) = %{version}
-Provides:  drupal8(drupal/core-utility) = %{version}
-Provides:  drupal8(drupal/core-uuid) = %{version}
-Provides:  drupal8(drupal/datetime) = %{version}
-Provides:  drupal8(drupal/dblog) = %{version}
-Provides:  drupal8(drupal/dynamic_page_cache) = %{version}
-Provides:  drupal8(drupal/editor) = %{version}
-Provides:  drupal8(drupal/entity_reference) = %{version}
-Provides:  drupal8(drupal/field) = %{version}
-Provides:  drupal8(drupal/field_ui) = %{version}
-Provides:  drupal8(drupal/file) = %{version}
-Provides:  drupal8(drupal/filter) = %{version}
-Provides:  drupal8(drupal/forum) = %{version}
-Provides:  drupal8(drupal/hal) = %{version}
-Provides:  drupal8(drupal/help) = %{version}
-Provides:  drupal8(drupal/history) = %{version}
-Provides:  drupal8(drupal/image) = %{version}
-Provides:  drupal8(drupal/inline_form_errors) = %{version}
-Provides:  drupal8(drupal/language) = %{version}
-Provides:  drupal8(drupal/link) = %{version}
-Provides:  drupal8(drupal/locale) = %{version}
-Provides:  drupal8(drupal/menu_link_content) = %{version}
-Provides:  drupal8(drupal/menu_ui) = %{version}
-Provides:  drupal8(drupal/migrate) = %{version}
-Provides:  drupal8(drupal/migrate_drupal) = %{version}
-Provides:  drupal8(drupal/migrate_drupal_ui) = %{version}
-Provides:  drupal8(drupal/minimal) = %{version}
-Provides:  drupal8(drupal/node) = %{version}
-Provides:  drupal8(drupal/options) = %{version}
-Provides:  drupal8(drupal/page_cache) = %{version}
-Provides:  drupal8(drupal/path) = %{version}
-Provides:  drupal8(drupal/quickedit) = %{version}
-Provides:  drupal8(drupal/rdf) = %{version}
-Provides:  drupal8(drupal/responsive_image) = %{version}
-Provides:  drupal8(drupal/rest) = %{version}
-Provides:  drupal8(drupal/search) = %{version}
-Provides:  drupal8(drupal/serialization) = %{version}
-Provides:  drupal8(drupal/seven) = %{version}
-Provides:  drupal8(drupal/shortcut) = %{version}
-Provides:  drupal8(drupal/simpletest) = %{version}
-Provides:  drupal8(drupal/standard) = %{version}
-Provides:  drupal8(drupal/stark) = %{version}
-Provides:  drupal8(drupal/statistics) = %{version}
-Provides:  drupal8(drupal/syslog) = %{version}
-Provides:  drupal8(drupal/system) = %{version}
-Provides:  drupal8(drupal/taxonomy) = %{version}
-Provides:  drupal8(drupal/telephone) = %{version}
-Provides:  drupal8(drupal/text) = %{version}
-Provides:  drupal8(drupal/toolbar) = %{version}
-Provides:  drupal8(drupal/tour) = %{version}
-Provides:  drupal8(drupal/tracker) = %{version}
-Provides:  drupal8(drupal/update) = %{version}
-Provides:  drupal8(drupal/user) = %{version}
-Provides:  drupal8(drupal/views) = %{version}
-Provides:  drupal8(drupal/views_ui) = %{version}
+Provides:  drupal8(action) = %{version}
+Provides:  drupal8(aggregator) = %{version}
+Provides:  drupal8(automated_cron) = %{version}
+Provides:  drupal8(ban) = %{version}
+Provides:  drupal8(bartik) = %{version}
+Provides:  drupal8(basic_auth) = %{version}
+Provides:  drupal8(big_pipe) = %{version}
+Provides:  drupal8(block_content) = %{version}
+Provides:  drupal8(block) = %{version}
+Provides:  drupal8(book) = %{version}
+Provides:  drupal8(breakpoint) = %{version}
+Provides:  drupal8(ckeditor) = %{version}
+Provides:  drupal8(color) = %{version}
+Provides:  drupal8(comment) = %{version}
+Provides:  drupal8(config_translation) = %{version}
+Provides:  drupal8(config) = %{version}
+Provides:  drupal8(contact) = %{version}
+Provides:  drupal8(content_translation) = %{version}
+Provides:  drupal8(contextual) = %{version}
+Provides:  drupal8(datetime) = %{version}
+Provides:  drupal8(dblog) = %{version}
+Provides:  drupal8(dynamic_page_cache) = %{version}
+Provides:  drupal8(editor) = %{version}
+Provides:  drupal8(field_ui) = %{version}
+Provides:  drupal8(field) = %{version}
+Provides:  drupal8(file) = %{version}
+Provides:  drupal8(filter) = %{version}
+Provides:  drupal8(forum) = %{version}
+Provides:  drupal8(hal) = %{version}
+Provides:  drupal8(help) = %{version}
+Provides:  drupal8(history) = %{version}
+Provides:  drupal8(image) = %{version}
+Provides:  drupal8(inline_form_errors) = %{version}
+Provides:  drupal8(language) = %{version}
+Provides:  drupal8(link) = %{version}
+Provides:  drupal8(locale) = %{version}
+Provides:  drupal8(menu_link_content) = %{version}
+Provides:  drupal8(menu_ui) = %{version}
+Provides:  drupal8(migrate_drupal_ui) = %{version}
+Provides:  drupal8(migrate_drupal) = %{version}
+Provides:  drupal8(migrate) = %{version}
+Provides:  drupal8(minimal) = %{version}
+Provides:  drupal8(node) = %{version}
+Provides:  drupal8(nyan_cat) = %{version}
+Provides:  drupal8(options) = %{version}
+Provides:  drupal8(page_cache) = %{version}
+Provides:  drupal8(path) = %{version}
+Provides:  drupal8(quickedit) = %{version}
+Provides:  drupal8(rdf) = %{version}
+Provides:  drupal8(responsive_image) = %{version}
+Provides:  drupal8(rest) = %{version}
+Provides:  drupal8(search_date_query_alter) = %{version}
+Provides:  drupal8(search_embedded_form) = %{version}
+Provides:  drupal8(search_extra_type) = %{version}
+Provides:  drupal8(search_query_alter) = %{version}
+Provides:  drupal8(search) = %{version}
+Provides:  drupal8(serialization) = %{version}
+Provides:  drupal8(seven) = %{version}
+Provides:  drupal8(shortcut) = %{version}
+Provides:  drupal8(simpletest) = %{version}
+Provides:  drupal8(standard) = %{version}
+Provides:  drupal8(stark) = %{version}
+Provides:  drupal8(statistics) = %{version}
+Provides:  drupal8(syslog) = %{version}
+Provides:  drupal8(system) = %{version}
+Provides:  drupal8(taxonomy_crud) = %{version}
+Provides:  drupal8(taxonomy) = %{version}
+Provides:  drupal8(telephone) = %{version}
+Provides:  drupal8(text) = %{version}
+Provides:  drupal8(toolbar) = %{version}
+Provides:  drupal8(tour) = %{version}
+Provides:  drupal8(tracker) = %{version}
+Provides:  drupal8(twig) = %{version}
+Provides:  drupal8(update) = %{version}
+Provides:  drupal8(user) = %{version}
+Provides:  drupal8(views_ui) = %{version}
+Provides:  drupal8(views) = %{version}
 
 # php-composer(*) virtual provides
 ## composer.json
@@ -370,16 +355,16 @@ Provides:  php-composer(drupal/ban) = %{version}
 Provides:  php-composer(drupal/bartik) = %{version}
 Provides:  php-composer(drupal/basic_auth) = %{version}
 Provides:  php-composer(drupal/big_pipe) = %{version}
-Provides:  php-composer(drupal/block) = %{version}
 Provides:  php-composer(drupal/block_content) = %{version}
+Provides:  php-composer(drupal/block) = %{version}
 Provides:  php-composer(drupal/book) = %{version}
 Provides:  php-composer(drupal/breakpoint) = %{version}
 Provides:  php-composer(drupal/ckeditor) = %{version}
 Provides:  php-composer(drupal/classy) = %{version}
 Provides:  php-composer(drupal/color) = %{version}
 Provides:  php-composer(drupal/comment) = %{version}
-Provides:  php-composer(drupal/config) = %{version}
 Provides:  php-composer(drupal/config_translation) = %{version}
+Provides:  php-composer(drupal/config) = %{version}
 Provides:  php-composer(drupal/contact) = %{version}
 Provides:  php-composer(drupal/content_translation) = %{version}
 Provides:  php-composer(drupal/contextual) = %{version}
@@ -395,9 +380,11 @@ Provides:  php-composer(drupal/core-file-cache) = %{version}
 Provides:  php-composer(drupal/core-filesystem) = %{version}
 Provides:  php-composer(drupal/core-gettext) = %{version}
 Provides:  php-composer(drupal/core-graph) = %{version}
+Provides:  php-composer(drupal/core-http-foundation) = %{version}
 Provides:  php-composer(drupal/core-php-storage) = %{version}
 Provides:  php-composer(drupal/core-plugin) = %{version}
 Provides:  php-composer(drupal/core-proxy-builder) = %{version}
+Provides:  php-composer(drupal/core-render) = %{version}
 Provides:  php-composer(drupal/core-serialization) = %{version}
 Provides:  php-composer(drupal/core-transliteration) = %{version}
 Provides:  php-composer(drupal/core-utility) = %{version}
@@ -407,8 +394,8 @@ Provides:  php-composer(drupal/dblog) = %{version}
 Provides:  php-composer(drupal/dynamic_page_cache) = %{version}
 Provides:  php-composer(drupal/editor) = %{version}
 Provides:  php-composer(drupal/entity_reference) = %{version}
-Provides:  php-composer(drupal/field) = %{version}
 Provides:  php-composer(drupal/field_ui) = %{version}
+Provides:  php-composer(drupal/field) = %{version}
 Provides:  php-composer(drupal/file) = %{version}
 Provides:  php-composer(drupal/filter) = %{version}
 Provides:  php-composer(drupal/forum) = %{version}
@@ -422,9 +409,9 @@ Provides:  php-composer(drupal/link) = %{version}
 Provides:  php-composer(drupal/locale) = %{version}
 Provides:  php-composer(drupal/menu_link_content) = %{version}
 Provides:  php-composer(drupal/menu_ui) = %{version}
-Provides:  php-composer(drupal/migrate) = %{version}
-Provides:  php-composer(drupal/migrate_drupal) = %{version}
 Provides:  php-composer(drupal/migrate_drupal_ui) = %{version}
+Provides:  php-composer(drupal/migrate_drupal) = %{version}
+Provides:  php-composer(drupal/migrate) = %{version}
 Provides:  php-composer(drupal/minimal) = %{version}
 Provides:  php-composer(drupal/node) = %{version}
 Provides:  php-composer(drupal/options) = %{version}
@@ -452,8 +439,8 @@ Provides:  php-composer(drupal/tour) = %{version}
 Provides:  php-composer(drupal/tracker) = %{version}
 Provides:  php-composer(drupal/update) = %{version}
 Provides:  php-composer(drupal/user) = %{version}
-Provides:  php-composer(drupal/views) = %{version}
 Provides:  php-composer(drupal/views_ui) = %{version}
+Provides:  php-composer(drupal/views) = %{version}
 
 # Bundled
 ## core/core.libraries.yml
@@ -464,7 +451,7 @@ Provides:  bundled(js-backbone) = 1.2.3
 ### core/assets/vendor/ckeditor
 ###     License:  GPLv2+
 ###     Upstream: https://github.com/ckeditor/ckeditor-dev
-Provides:  bundled(ckeditor) = 4.5.9
+Provides:  bundled(ckeditor) = 4.5.10
 ### core/assets/vendor/classList
 ###     License:  Public Domain
 ###     Upstream: https://github.com/eligrey/classList.js
@@ -762,7 +749,13 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
-* Wed Jul 18 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.7-1
+* Thu Aug 04 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.8-1
+- Update to 8.1.8
+- Fixed drupal8(*) virtual provides:
+-- drupal8(drupal/*) => drupal8(*)
+-- Only *.info.yml (instead of all composer names)
+
+* Mon Jul 18 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.7-1
 - Update to 8.1.7
 
 * Wed Jul 13 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.6-1
