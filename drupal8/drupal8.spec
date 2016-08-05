@@ -113,13 +113,12 @@ AutoReqProv: no
 
 Name:      drupal8
 Version:   8.1.8
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   An open source content management platform
 
 # Licenses:
 # - GPLv2+
 #     - Drupal 8 itself
-#     - core/assets/vendor/ckeditor (bundled)
 #     - core/assets/vendor/farbtastic (bundled)
 #     - core/assets/vendor/html5shiv (bundled)
 #     - core/assets/vendor/jquery-form (bundled)
@@ -140,21 +139,25 @@ Summary:   An open source content management platform
 # - Pubic Domain
 #     - core/assets/vendor/classList (bundled)
 #     - core/assets/vendor/jquery.ui (bundled)
-License:   GPLv2+ and MIT and Public Domain
+# - GPLv2+ or MPLv1.1+ or LGPLv2.1+
+#     - core/assets/vendor/ckeditor (bundled)
+License:   GPLv2+ and MIT and Public Domain and (GPLv2+ or MPLv1.1+ or LGPLv2.1+)
 
 URL:       https://www.drupal.org/8
 Source0:   http://ftp.drupal.org/files/projects/drupal-%{version}.tar.gz
+# rpmbuild subpackage license
+Source1:   %{name}-rpmbuild-LICENSE.txt
 # Autoloader
-Source1:   %{name}-autoload.php
+Source2:   %{name}-autoload.php
 # rpmbuild
-Source2:   macros.%{name}
-Source3:   %{name}.attr
-Source4:   %{name}-find-provides.php
-Source5:   %{name}-find-requires.php
-Source6:   %{name}-get-dev-source.sh
-Source7:   %{name}-prep-licenses-and-docs.sh
+Source3:   macros.%{name}
+Source4:   %{name}.attr
+Source5:   %{name}-find-provides.php
+Source6:   %{name}-find-requires.php
+Source7:   %{name}-get-dev-source.sh
+Source8:   %{name}-prep-licenses-and-docs.sh
 # Apache HTTPD conf
-Source8:   %{name}.conf
+Source9:   %{name}.conf
 
 BuildArch: noarch
 # Version check
@@ -164,14 +167,8 @@ BuildRequires: php-composer(symfony/console) >= 2.7.1
 # Autoloader
 BuildRequires: composer
 
-# Webserver
-Requires:   %{name}-webserver = %{version}-%{release}
-## Providers:
-## - drupal8-httpd
-## - FUTURE PLANNED: drupal8-nginx
-Recommends: %{name}-httpd = %{version}-%{release}
-#Suggests:   %%{name}-nginx = %%{version}-%%{release}
-
+# "/usr/bin/env php" usage
+Requires:  php-cli
 # core/composer.json
 Requires:  php(language)                                 >= %{php_min_ver}
 Requires:  php-composer(composer/semver)                 <  %{composer_semver_max_ver}
@@ -258,6 +255,14 @@ Requires:  php-zlib
 
 # Weak dependencies
 Suggests:  php-pecl(apcu)
+
+# Webserver
+Requires:   %{name}-webserver = %{version}-%{release}
+## Providers:
+## - drupal8-httpd
+## - FUTURE PLANNED: drupal8-nginx
+Recommends: %{name}-httpd = %{version}-%{release}
+#Suggests:   %%{name}-nginx = %%{version}-%%{release}
 
 # drupal8(*) virtual provides
 ## Core
@@ -567,7 +572,6 @@ Requires: php-composer(symfony/yaml)    <  3.0.0
 
 : Copy other sources into build dir
 mkdir .rpm
-cp -p %{SOURCE1} .rpm/
 cp -p %{SOURCE2} .rpm/
 cp -p %{SOURCE3} .rpm/
 cp -p %{SOURCE4} .rpm/
@@ -575,6 +579,7 @@ cp -p %{SOURCE5} .rpm/
 cp -p %{SOURCE6} .rpm/
 cp -p %{SOURCE7} .rpm/
 cp -p %{SOURCE8} .rpm/
+cp -p %{SOURCE9} .rpm/
 
 : Update dynamic values in sources
 sed \
@@ -602,8 +607,21 @@ cp .rpm/%{name}-autoload.php autoload.php
 .rpm/%{name}-prep-licenses-and-docs.sh
 mv core/INSTALL.*.* .rpm/docs/core/
 
+: Move license and doc files required at runtime back in place
+mv .rpm/docs/core/modules/system/tests/fixtures/HtaccessTest/composer.* \
+    core/modules/system/tests/fixtures/HtaccessTest/
+rmdir .rpm/docs/core/modules/system/tests/fixtures/HtaccessTest
+rmdir .rpm/docs/core/modules/system/tests/fixtures
+
 : Copy main INSTALL.txt back in place so users can access it on install
 cp .rpm/docs/core/INSTALL.txt core/
+
+: Remove all empty license and doc files
+find .rpm/{licenses,docs}/ -type f -size 0 -delete -print
+
+: rpmbuild subpackage license
+mkdir -p .rpm/rpmbuild
+cp %{SOURCE1} .rpm/rpmbuild/LICENSE.txt
 
 : Apache .htaccess
 sed 's!# RewriteBase /$!# RewriteBase /\n  RewriteBase /drupal8!' \
@@ -625,6 +643,7 @@ chmod -x core/scripts/run-tests.sh
 #-------------------------------------------------------------------------------
 
 %build
+: Autoloader
 pushd core
     : Create Composer autoloader
     cp ../.rpm/docs/core/composer.json .
@@ -637,6 +656,24 @@ pushd core
     mkdir -p ../.rpm/licenses/core/vendor/composer
     mv vendor/composer/LICENSE ../.rpm/licenses/core/vendor/composer/
 popd
+
+: Upstream managed httpd config files
+cat <<'HEADER' > .rpm/%{name}-managed-conf-header
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# This file is managed by the %{name} RPM to ensure it is automatically updated
+# when there are changes instead of creating a *.rpmnew file and administrators
+# having to manually update this file.
+#
+# Any changes to this file will be overwritten.  If you would like to make
+# changes to this file, copy it to a new file name and modify the %{name}.conf
+# file to load your custom file instead of this one.  Note that you will then
+# have to ensure you manually modify your custom file with upstream changes
+# including upstream security fixes.
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+HEADER
+cat .rpm/%{name}-managed-conf-header .htaccess | tee .rpm/%{name}.htaccess
+cat .rpm/%{name}-managed-conf-header core/vendor/.htaccess | tee .rpm/%{name}.deny-access
 
 #-------------------------------------------------------------------------------
 
@@ -669,8 +706,8 @@ install -pm 0755 .rpm/%{name}-prep-licenses-and-docs.sh %{buildroot}%{_rpmconfig
 : Apache HTTPD conf files
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 install -pm 0644 .rpm/%{name}.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
-install -pm 0644 .htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
-install -pm 0644 core/vendor/.htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.no-access
+install -pm 0644 .rpm/%{name}.htaccess %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.htaccess
+install -pm 0644 .rpm/%{name}.deny-access %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.no-access
 
 #-------------------------------------------------------------------------------
 
@@ -739,6 +776,7 @@ popd
 #-------------------------------------------------------------------------------
 
 %files rpmbuild
+%license .rpm/rpmbuild/LICENSE.txt
 %{_rpmconfigdir}/fileattrs/%{name}.attr
 %{_rpmconfigdir}/macros.d/macros.%{name}
 %{_rpmconfigdir}/%{name}-find-provides.php
@@ -749,9 +787,18 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Fri Aug 05 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.8-2
+- Update license from "GPLv2+ or MPLv1.1+ or LGPLv2.1+" to
+  "GPLv2+ and MIT and Public Domain and (GPLv2+ or MPLv1.1+ or LGPLv2.1+)"
+- Add LICENSE file to rpmbuild subpackage
+- Add missing "php-cli" dependency (for "/usr/bin/env php" usage)
+- Move license and doc files required at runtime back in place
+- Remove all empty license and doc files
+- Add header to managed httpd conf files
+
 * Thu Aug 04 2016 Shawn Iwinski <shawn@iwin.ski> - 8.1.8-1
 - Update to 8.1.8
-- Fixed drupal8(*) virtual provides:
+- Fix drupal8(*) virtual provides:
 -- drupal8(drupal/*) => drupal8(*)
 -- Only *.info.yml (instead of all composer names)
 
