@@ -16,14 +16,12 @@ BuildArch:     noarch
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: drupal7-rpmbuild >= 7.23-3
 
+#Requires:      drupal7()
 # phpcompatinfo (computed from version __VERSION__)
 #Requires:      php-
 
 %description
 __DESCRIPTION__
-
-This package provides the following Drupal 7 modules:
-* %{module}
 
 
 %prep
@@ -49,7 +47,6 @@ rm -rf %{buildroot}
 
 
 %files
-%defattr(-,root,root,-)
 %{!?_licensedir:%global license %%doc}
 %license .rpm/licenses/*
 %doc .rpm/docs/*
@@ -57,3 +54,5 @@ rm -rf %{buildroot}
 
 
 %changelog
+* ddd MMM DD YYYY Shawn Iwinski <shawn.iwinski@gmail.com> - __VERSION__-1
+- Initial package
