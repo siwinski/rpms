@@ -10,14 +10,12 @@ $autoloader->register();
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\Yaml\Yaml;
 
 $finder = new Finder();
 $finder->in(SYMFONY_SOURCE_DIR)->name('composer.json');
 
 foreach ($finder as $composerFile) {
     $autoloadGenerator = new AutoloadGenerator($composerFile);
-    $autoloadGenerator->generate();
     echo $autoloadGenerator->getFilename(), "\n";
 }
 
@@ -27,142 +25,145 @@ foreach ($finder as $composerFile) {
 
 final class AutoloadGenerator {
     private static $pkgMap = [
-        'doctrine/annotations'             => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/Common/Annotations/autoload.php'   ],
-        'doctrine/cache'                   => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/Common/autoload.php'               ],
-        'doctrine/common'                  => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/Common/autoload.php'        ],
-        'doctrine/data-fixtures'           => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/Common/DataFixtures/autoload.php'  ],
-        'doctrine/dbal'                    => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/DBAL/autoload.php'                 ],
-        'doctrine/orm'                     => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Doctrine/ORM/autoload.php'                  ],
-        'egulias/email-validator'          => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Egulias/EmailValidator/autoload.php'        ],
-        'monolog/monolog'                  => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Monolog/autoload.php'                       ],
-        'ocramius/proxy-manager'           => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'ProxyManager/autoload.php'                  ],
-        'phpdocumentor/reflection'         => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'phpDocumentor/Reflection/autoload.php'      ],
-        'psr/log'                          => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Psr/Log/autoload.php'                       ],
-        'symfony/asset'                    => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Asset/autoload.php'               ],
-        'symfony/browser-kit'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/BrowserKit/autoload.php'          ],
-        'symfony/class-loader'             => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/ClassLoader/autoload.php'         ],
-        'symfony/config'                   => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Config/autoload.php'              ],
-        'symfony/console'                  => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Console/autoload.php'             ],
-        'symfony/css-selector'             => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/CssSelector/autoload.php'         ],
-        'symfony/debug-bundle'             => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bundle/DebugBundle/autoload.php'            ],
-        'symfony/debug'                    => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Debug/autoload.php'               ],
-        'symfony/dependency-injection'     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/DependencyInjection/autoload.php' ],
-        'symfony/doctrine-bridge'          => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bridge/Doctrine/autoload.php'               ],
-        'symfony/dom-crawler'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/DomCrawler/autoload.php'          ],
-        'symfony/event-dispatcher'         => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/EventDispatcher/autoload.php'     ],
-        'symfony/expression-language'      => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/ExpressionLanguage/autoload.php'  ],
-        'symfony/filesystem'               => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Filesystem/autoload.php'          ],
-        'symfony/finder'                   => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Finder/autoload.php'              ],
-        'symfony/form'                     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Form/autoload.php'                ],
-        'symfony/framework-bundle'         => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bundle/FrameworkBundle/autoload.php'        ],
-        'symfony/http-foundation'          => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/HttpFoundation/autoload.php'      ],
-        'symfony/http-kernel'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/HttpKernel/autoload.php'          ],
-        'symfony/intl'                     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Intl/autoload.php'                ],
-        'symfony/ldap'                     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Ldap/autoload.php'                ],
-        'symfony/monolog-bridge'           => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Monolog/autoload.php'             ],
-        'symfony/options-resolver'         => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/OptionsResolver/autoload.php'     ],
-        'symfony/phpunit-bridge'           => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bridge/PhpUnit/autoload.php'                ],
-        'symfony/polyfill-iconv'           => false,
-        'symfony/polyfill-intl-grapheme'   => false,
-        'symfony/polyfill-intl-icu'        => false,
-        'symfony/polyfill-intl-normalizer' => false,
-        'symfony/polyfill-mbstring'        => false,
-        'symfony/polyfill-php54'           => (PHP_VERSION_ID < 50400) ? [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
-        'symfony/polyfill-php55'           => (PHP_VERSION_ID < 50500) ? [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
-        'symfony/polyfill-php56'           => (PHP_VERSION_ID < 50600) ? [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
-        'symfony/polyfill-php70'           => (PHP_VERSION_ID < 70000) ? [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
-        'symfony/polyfill-util'            => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php'              ],
-        'symfony/polyfill-xml'             => false,
-        'symfony/polyfill'                 => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Symfony/Polyfill/autoload.php'              ],
-        'symfony/process'                  => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Process/autoload.php'             ],
-        'symfony/property-access'          => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/PropertyAccess/autoload.php'      ],
-        'symfony/property-info'            => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/PropertyInfo/autoload.php'        ],
-        'symfony/proxy-manager-bridge'     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bridge/ProxyManager/autoload.php'           ],
-        'symfony/routing'                  => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Routing/autoload.php'             ],
-        'symfony/security-acl'             => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/Acl/autoload.php'        ],
-        'symfony/security-bundle'          => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bundle/SecurityBundle/autoload.php'         ],
-        'symfony/security-core'            => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/autoload.php'            ],
-        'symfony/security-csrf'            => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/autoload.php'            ],
-        'symfony/security-guard'           => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/autoload.php'            ],
-        'symfony/security-http'            => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/autoload.php'            ],
-        'symfony/security'                 => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Security/autoload.php'            ],
-        'symfony/serializer'               => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Serializer/autoload.php'          ],
-        'symfony/stopwatch'                => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Stopwatch/autoload.php'           ],
-        'symfony/templating'               => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Templating/autoload.php'          ],
-        'symfony/translation'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Translation/autoload.php'         ],
-        'symfony/twig-bridge'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bridge/Twig/autoload.php'                   ],
-        'symfony/twig-bundle'              => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bundle/TwigBundle/autoload.php'             ],
-        'symfony/validator'                => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Validator/autoload.php'           ],
-        'symfony/var-dumper'               => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/VarDumper/autoload.php'           ],
-        'symfony/web-profiler-bundle'      => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Bundle/WebProfilerBundle/autoload.php'      ],
-        'symfony/yaml'                     => [ 'prefix' => '$fedoraSymfony3Dir',    'path' => 'Component/Yaml/autoload.php'                ],
-        'twig/twig'                        => [ 'prefix' => '$fedoraSymfony3PhpDir', 'path' => 'Twig/autoload.php'                          ],
+        'doctrine/annotations'              => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/Common/Annotations/autoload.php'       ],
+        'doctrine/cache'                    => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/Common/Cache/autoload.php'             ],
+        'doctrine/common'                   => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/Common/autoload.php'                   ],
+        'doctrine/data-fixtures'            => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/Common/DataFixtures/autoload.php'      ],
+        'doctrine/dbal'                     => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/DBAL/autoload.php'                     ],
+        'doctrine/orm'                      => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Doctrine/ORM/autoload.php'                      ],
+        'egulias/email-validator'           => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Egulias/EmailValidator/autoload.php'            ],
+        'monolog/monolog'                   => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Monolog/autoload.php'                           ],
+        'ocramius/proxy-manager'            => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'ProxyManager/autoload.php'                      ],
+        'phpdocumentor/reflection-docblock' => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'phpDocumentor/Reflection/DocBlock/autoload.php' ],
+        'psr/cache-implementation'          => false,
+        'psr/cache'                         => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Psr/Cache/autoload.php'                         ],
+        'psr/log'                           => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Psr/Log/autoload.php'                           ],
+        'symfony/asset'                     => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Asset/autoload.php'                   ],
+        'symfony/browser-kit'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/BrowserKit/autoload.php'              ],
+        'symfony/cache'                     => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Cache/autoload.php'                   ],
+        'symfony/class-loader'              => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/ClassLoader/autoload.php'             ],
+        'symfony/config'                    => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Config/autoload.php'                  ],
+        'symfony/console'                   => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Console/autoload.php'                 ],
+        'symfony/css-selector'              => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/CssSelector/autoload.php'             ],
+        'symfony/debug-bundle'              => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/DebugBundle/autoload.php'                ],
+        'symfony/debug'                     => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Debug/autoload.php'                   ],
+        'symfony/dependency-injection'      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/DependencyInjection/autoload.php'     ],
+        'symfony/doctrine-bridge'           => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bridge/Doctrine/autoload.php'                   ],
+        'symfony/dom-crawler'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/DomCrawler/autoload.php'              ],
+        'symfony/event-dispatcher'          => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/EventDispatcher/autoload.php'         ],
+        'symfony/expression-language'       => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/ExpressionLanguage/autoload.php'      ],
+        'symfony/filesystem'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Filesystem/autoload.php'              ],
+        'symfony/finder'                    => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Finder/autoload.php'                  ],
+        'symfony/form'                      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Form/autoload.php'                    ],
+        'symfony/framework-bundle'          => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/FrameworkBundle/autoload.php'            ],
+        'symfony/http-foundation'           => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/HttpFoundation/autoload.php'          ],
+        'symfony/http-kernel'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/HttpKernel/autoload.php'              ],
+        'symfony/inflector'                 => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Inflector/autoload.php'               ],
+        'symfony/intl'                      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Intl/autoload.php'                    ],
+        'symfony/ldap'                      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Ldap/autoload.php'                    ],
+        'symfony/monolog-bridge'            => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Monolog/autoload.php'                 ],
+        'symfony/options-resolver'          => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/OptionsResolver/autoload.php'         ],
+        'symfony/phpunit-bridge'            => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bridge/PhpUnit/autoload.php'                    ],
+        'symfony/polyfill-apcu'             => false,
+        'symfony/polyfill-iconv'            => false,
+        'symfony/polyfill-intl-grapheme'    => false,
+        'symfony/polyfill-intl-icu'         => false,
+        'symfony/polyfill-intl-normalizer'  => false,
+        'symfony/polyfill-mbstring'         => false,
+        'symfony/polyfill-php54'            => (PHP_VERSION_ID < 50400) ? [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
+        'symfony/polyfill-php55'            => (PHP_VERSION_ID < 50500) ? [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
+        'symfony/polyfill-php56'            => (PHP_VERSION_ID < 50600) ? [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
+        'symfony/polyfill-php70'            => (PHP_VERSION_ID < 70000) ? [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php' ] : false,
+        'symfony/polyfill-util'             => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php'                  ],
+        'symfony/polyfill-xml'              => false,
+        'symfony/polyfill'                  => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Symfony/Polyfill/autoload.php'                  ],
+        'symfony/process'                   => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Process/autoload.php'                 ],
+        'symfony/property-access'           => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/PropertyAccess/autoload.php'          ],
+        'symfony/property-info'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/PropertyInfo/autoload.php'            ],
+        'symfony/proxy-manager-bridge'      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bridge/ProxyManager/autoload.php'               ],
+        'symfony/routing'                   => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Routing/autoload.php'                 ],
+        'symfony/security-acl'              => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Acl/autoload.php'            ],
+        'symfony/security-bundle'           => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/SecurityBundle/autoload.php'             ],
+        'symfony/security-core'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/security-csrf'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/security-guard'            => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/security-http'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/security'                  => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/serializer'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Serializer/autoload.php'              ],
+        'symfony/stopwatch'                 => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Stopwatch/autoload.php'               ],
+        'symfony/templating'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Templating/autoload.php'              ],
+        'symfony/translation'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Translation/autoload.php'             ],
+        'symfony/twig-bridge'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bridge/Twig/autoload.php'                       ],
+        'symfony/twig-bundle'               => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/TwigBundle/autoload.php'                 ],
+        'symfony/validator'                 => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Validator/autoload.php'               ],
+        'symfony/var-dumper'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/VarDumper/autoload.php'               ],
+        'symfony/web-profiler-bundle'       => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/WebProfilerBundle/autoload.php'          ],
+        'symfony/yaml'                      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Yaml/autoload.php'                    ],
+        'twig/twig'                         => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Twig/autoload.php'                              ],
     ];
-
-    private $composerFile = null;
-
-    private $composer = null;
-
-    private $dependencies = [];
-
-    private $dependencyAutoloaders = [];
 
     private $filename = null;
 
-    private $content = null;
-
     public function __construct(SplFileInfo $composerFile) {
-        // Composer
-        $this->composerFile = $composerFile;
-        $this->composer = json_decode(
-            file_get_contents($composerFile->getPathname()),
-            true
-        );
+        $composerJson = static::composerJson($composerFile);
+        $dependencyAutoloaders = static::dependencyAutoloaders($composerJson);
+        $content = static::content($composerJson, $dependencyAutoloaders);
 
-        // Dependencies
-        foreach (['require', 'suggest'] as $composerKey) {
-            $this->dependencies[$composerKey] =
-                self::getDependenciesByComposerKey($composerKey);
-            $this->dependencyAutoloaders[$composerKey] =
-                self::getDependencyAutoloadersByComposerKey($composerKey);
-        }
-
-        // Filename
         $this->filename = $composerFile->getPath() . '/autoload.php';
+
+        if (FALSE == file_put_contents($this->filename, $content)) {
+            throw new Exception(sprintf(
+                'Failed to generate autoload file "%s"',
+                $this->filename
+            ));
+        }
     }
 
-    public function __toString() {
-        return $this->getContent();
+    private static function composerJson(SplFileInfo $composerFile) {
+      $composerJson = json_decode(
+          file_get_contents($composerFile->getPathname()),
+          true
+      );
+
+      if (!isset($composerJson)) {
+          throw new \Exception(sprintf(
+              'Failed to JSON decode "%s"',
+              $composerFile->getPathname()
+          ));
+      }
+
+      return $composerJson;
     }
 
-    private function getDependenciesByComposerKey($composerKey) {
-        return isset($this->composer[$composerKey])
-            ? array_keys(array_filter(
-                $this->composer[$composerKey],
+    private static function dependencyAutoloaders($composerJson) {
+        $dependencyAutoloaders = [];
+
+        foreach ([
+          'require' => true,
+          'suggest' => false,
+        ] as $composerKey => $required) {
+            if (!isset($composerJson[$composerKey])) {
+              continue;
+            }
+
+            $dependencies = array_keys(array_filter(
+                $composerJson[$composerKey],
                 function ($pkg) {
                     return preg_match('#[^/]+/[^/]+#', $pkg);
                 },
                 ARRAY_FILTER_USE_KEY
-            ))
-            : [];
-    }
+            ));
 
-    private function getDependencyAutoloadersByComposerKey($composerKey) {
-        if (!isset($this->composer[$composerKey])) {
-            return [];
-        }
-
-        $autoloaders = [];
-
-        foreach ($this->dependencies[$composerKey] as $pkg) {
-            if ($autoloader = self::pkg2Autoload($pkg)) {
-                $autoloaders[] = $autoloader;
+            foreach ($dependencies as $pkg) {
+                if ($autoloader = self::pkg2Autoload($pkg)) {
+                    $dependencyAutoloaders[$autoloader] = $required;
+                }
             }
         }
 
-        sort($autoloaders);
+        ksort($dependencyAutoloaders);
 
-        return array_unique($autoloaders);
+        return $dependencyAutoloaders;
     }
 
     private static function pkg2Autoload ($pkg) {
@@ -176,10 +177,10 @@ final class AutoloadGenerator {
         return sprintf("%s.'/%s'", $map['prefix'], $map['path']);
     }
 
-    public function getContent() {
-        if (!isset($this->content)) {
-            $pkg = explode('/', $this->composer['name'])[1];
-            $this->content = <<<AUTOLOAD
+    public function content($composerJson, array $dependencyAutoloaders) {
+        $pkg = explode('/', $composerJson['name'])[1];
+
+        $content = <<<AUTOLOAD
 <?php
 /**
  * Autoloader for php-symfony3-${pkg} and its' dependencies
@@ -187,60 +188,39 @@ final class AutoloadGenerator {
  */
 
 require_once dirname(dirname(__DIR__)).'/autoload-common.php';
-
 AUTOLOAD;
 
-            if (!empty($this->dependencyAutoloaders['require'])) {
-                $this->content .= "\n// Required dependencies\n";
-                $this->content .= array_reduce(
-                    $this->dependencyAutoloaders['require'],
-                    function ($carry, $item) {
-                        return $carry . sprintf("require_once %s;\n", $item);
-                    },
-                    ''
+        if (!empty($dependencyAutoloaders)) {
+            $dependencyAutoloadersString = '';
+
+            foreach ($dependencyAutoloaders as $autoloader => $required) {
+                $dependencyAutoloadersString .= sprintf(
+                    "    %s => %s,\n",
+                    $autoloader,
+                    $required ? 'true' : 'false'
                 );
             }
 
-            if (!empty($this->dependencyAutoloaders['suggest'])) {
-                $arrayValuesString = rtrim(array_reduce(
-                    $this->dependencyAutoloaders['suggest'],
-                    function ($carry, $item) {
-                        return $carry . sprintf("    %s,\n", $item);
-                    },
-                    ''
-                ));
+            $dependencyAutoloadersString = rtrim($dependencyAutoloadersString);
 
-                $this->content .= <<<OPTIONAL_DEPENDENCIES
+            $content .= <<<DEPENDENCY_AUTOLOADERS
 
-// Optional dependencies
+
+// Dependencies (autoloader => required)
 foreach([
-${arrayValuesString}
-] as \$optionalDependency) {
-    if (file_exists(\$optionalDependency)) {
-        require_once \$optionalDependency;
+${dependencyAutoloadersString}
+] as \$dependency => \$required) {
+    if (\$required || file_exists(\$dependency)) {
+        require_once \$dependency;
     }
 }
-
-OPTIONAL_DEPENDENCIES;
-            }
+DEPENDENCY_AUTOLOADERS;
         }
 
-        return $this->content;
+        return $content;
     }
 
     public function getFilename() {
         return $this->filename;
-    }
-
-    public function generate() {
-        if (FALSE == file_put_contents(
-            $this->filename,
-            $this->getContent()
-        )) {
-            throw new Exception(sprintf(
-                'Failed to generate autoload file "%s"',
-                $this->filename
-            ));
-        }
     }
 }

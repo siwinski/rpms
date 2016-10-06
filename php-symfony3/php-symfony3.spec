@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-symfony3
 #
-# Copyright (c) 2015 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
 #                    Remi Collet <remi@fedoraproject.org>
 #
 # License: MIT
@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   3.0.0
-%global github_commit    eb2a4f5f7a09fc4ce7a74ae883a8cf8a279614f5
+%global github_version   3.1.4
+%global github_commit    65ca9e4fbdb34f6d463ef77898ca583b101a4162
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -1389,9 +1389,17 @@ if (!isset($fedoraPsr4ClassLoader) || !($fedoraPsr4ClassLoader instanceof \Symfo
 $fedoraSymfony3PhpDir = '%{phpdir}';
 $fedoraSymfony3Dir    = __DIR__;
 
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bridge\\',    $fedoraSymfony3Dir.'/Bridge'   );
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bundle\\',    $fedoraSymfony3Dir.'/Bundle'   );
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\Component\\', $fedoraSymfony3Dir.'/Component');
+if (!defined('FEDORA_SYMFONY3_PHP_DIR')) {
+  define('FEDORA_SYMFONY3_PHP_DIR', '%{phpdir}');
+}
+
+if (!defined('FEDORA_SYMFONY3_DIR')) {
+  define('FEDORA_SYMFONY3_DIR', __DIR__);
+}
+
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bridge\\',    FEDORA_SYMFONY3_DIR.'/Bridge'   );
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bundle\\',    FEDORA_SYMFONY3_DIR.'/Bundle'   );
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Component\\', FEDORA_SYMFONY3_DIR.'/Component');
 AUTOLOAD
 
 : Create autoloaders
@@ -1428,18 +1436,22 @@ sed -e 's#vendor/autoload\.php#bootstrap.php#' \
 : Run tests
 RET=0
 for PKG in %{buildroot}%{phpdir}/Symfony3/*/*; do
-    echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
+    if [ "$(basename $PKG)" = "PhpUnit" ]; then
+        continue
+    elif [ -d $PKG ]; then
+        echo -e "\n>>>>>>>>>>>>>>>>>>>>>>> ${PKG}\n"
 
-    : Create tests bootstrap
-    cat << BOOTSTRAP | tee bootstrap.php
+        : Create tests bootstrap
+        cat << BOOTSTRAP | tee bootstrap.php
 <?php
 
 require_once '${PKG}/autoload.php';
 require_once '%{buildroot}%{phpdir}/Symfony3/Bridge/PhpUnit/bootstrap.php';
 BOOTSTRAP
 
-    %{_bindir}/php -d include_path=.:%{buildroot}%{phpdir}:%{phpdir} \
-        %{_bindir}/phpunit --exclude-group benchmark $PKG || RET=1
+        %{_bindir}/php -d include_path=.:%{buildroot}%{phpdir}:%{phpdir} \
+            %{_bindir}/phpunit --exclude-group benchmark $PKG || RET=1
+    fi
 done
 exit $RET
 %else
