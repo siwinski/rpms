@@ -11,8 +11,8 @@
 
 %global github_owner     getsentry
 %global github_name      sentry-php
-%global github_version   1.1.0
-%global github_commit    33fbf98955cdfe34e99fe43ef8bdd874253675dd
+%global github_version   1.5.0
+%global github_commit    be326f6a8eacacd86598af2a82bd37e93d9126d2
 
 %global composer_vendor  sentry
 %global composer_project sentry
@@ -48,11 +48,11 @@ BuildRequires: php-cli
 # Tests
 %if %{with_tests}
 ## composer.json
-BuildRequires: php(language)                 >= %{php_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
 BuildRequires: php-curl
-## phpcompatinfo (computed from version 1.1.0)
+## phpcompatinfo (computed from version 1.5.0)
 BuildRequires: php-date
 BuildRequires: php-hash
 BuildRequires: php-json
@@ -61,19 +61,23 @@ BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-session
 BuildRequires: php-spl
+BuildRequires: php-xml
 BuildRequires: php-zlib
-## Autoloader
-BuildRequires: php-composer(symfony/class-loader)
+%if 0%{?fedora} >= 25
+# Required for PHPUnit with PHP 7
+# See https://github.com/getsentry/sentry-php/pull/365
+BuildRequires: php-uopz
+%endif
 # Conflicts
 BuildConflicts: php-Raven
 %endif
 
 Requires:      ca-certificates
 # composer.json
-Requires:      php(language)                 >= %{php_min_ver}
+Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(monolog/monolog) >= %{monolog_min_ver}
 Requires:      php-curl
-# phpcompatinfo (computed from version 1.1.0)
+# phpcompatinfo (computed from version 1.5.0)
 Requires:      php-date
 Requires:      php-hash
 Requires:      php-json
@@ -83,8 +87,6 @@ Requires:      php-reflection
 Requires:      php-session
 Requires:      php-spl
 Requires:      php-zlib
-# Autoloader
-Requires:      php-composer(symfony/class-loader)
 
 # Standard "php-{COMPOSER_VENDOR}-{COMPOSER_PROJECT}" naming
 Provides:      php-%{composer_vendor}-%{composer_project} = %{version}-%{release}
@@ -128,6 +130,7 @@ cat <<'AUTOLOAD' | tee lib/Raven/autoload.php
 require_once dirname(__FILE__).'/Autoloader.php';
 Raven_Autoloader::register();
 
+// Required dependency
 require_once '%{phpdir}/Monolog/autoload.php';
 AUTOLOAD
 
@@ -179,5 +182,5 @@ BOOTSTRAP
 
 
 %changelog
-* Mon Aug 01 2016 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
+* Thu Oct 13 2016 Shawn Iwinski <shawn@iwin.ski> - 1.5.0-1
 - Initial package

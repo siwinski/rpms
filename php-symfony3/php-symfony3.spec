@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   3.1.4
-%global github_commit    65ca9e4fbdb34f6d463ef77898ca583b101a4162
+%global github_version   3.1.5
+%global github_commit    e7e1d01fe103de78bca6fbf7f6f4acf64482d63c
 
 %global composer_vendor  symfony
 %global composer_project symfony
