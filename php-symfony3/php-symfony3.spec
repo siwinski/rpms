@@ -20,19 +20,20 @@
 
 # "php": ">=5.5.9"
 %global php_min_ver 5.5.9
+# "cache/integration-tests": "dev-master"
+#%%global cache_integration_tests_min_ver
+#%%global cache_integration_tests_max_ver
 # "doctrine/annotations": "~1.0"
 #     src/Symfony/Bundle/FrameworkBundle/composer.json
+#     src/Symfony/Bundle/TwigBundle/composer.json
 #     src/Symfony/Component/PropertyInfo/composer.json
 #     src/Symfony/Component/Routing/composer.json
 #     src/Symfony/Component/Serializer/composer.json
 #     src/Symfony/Component/Validator/composer.json
 %global doctrine_annotations_min_ver 1.0
 %global doctrine_annotations_max_ver 2.0
-# "doctrine/cache": "~1.0"
-#     src/Symfony/Bundle/FrameworkBundle/composer.json
-#     src/Symfony/Component/Serializer/composer.json
-#     src/Symfony/Component/Validator/composer.json
-%global doctrine_cache_min_ver 1.0
+# "doctrine/cache": "~1.6"
+%global doctrine_cache_min_ver 1.6
 %global doctrine_cache_max_ver 2.0
 # "doctrine/common": "~2.4"
 %global doctrine_common_min_ver 2.4
@@ -49,25 +50,27 @@
 # "doctrine/orm": "~2.4,>=2.4.5"
 %global doctrine_orm_min_ver 2.4.5
 %global doctrine_orm_max_ver 3.0
-# "egulias/email-validator": "~1.2"
-%global email_validator_min_ver 1.2
+# "egulias/email-validator": "~1.2,>=1.2.1"
+%global email_validator_min_ver 1.2.1
 %global email_validator_max_ver 2.0
 # "monolog/monolog": "~1.11"
 %global monolog_min_ver 1.11
 %global monolog_max_ver 2.0
-# "ocramius/proxy-manager": "~0.4|~1.0"
+# "ocramius/proxy-manager": "~0.4|~1.0|~2.0"
+#     NOTE: Min version not 0.4 to force v1.
 %global proxy_manager_min_ver 1.0
 %global proxy_manager_max_ver 2.0
-# "phpdocumentor/reflection": "^1.0.7"
-%global phpdocumentor_reflection_min_ver 1.0.7
-%global phpdocumentor_reflection_max_ver 2.0
+# "phpdocumentor/reflection-docblock": "^3.0"
+%global phpdocumentor_reflection_docblock_min_ver 3.0
+%global phpdocumentor_reflection_docblock_max_ver 4.0
+# "psr/cache": "~1.0"
+%global psr_cache_min_ver 1.0
+%global psr_cache_max_ver 2.0
 # "psr/log": "~1.0"
-%global psrlog_min_ver 1.0
-%global psrlog_max_ver 2.0
+%global psr_log_min_ver 1.0
+%global psr_log_max_ver 2.0
 # "symfony/polyfill-intl-icu": "~1.0"
 # "symfony/polyfill-mbstring": "~1.0"
-# "symfony/polyfill-php54": "~1.0"
-# "symfony/polyfill-php55": "~1.0"
 # "symfony/polyfill-php56": "~1.0"
 # "symfony/polyfill-php70": "~1.0"
 # "symfony/polyfill-util": "~1.0"
@@ -76,8 +79,8 @@
 # "symfony/security-acl": "~2.8|~3.0"
 %global symfony_security_acl_min_ver 2.8
 %global symfony_security_acl_max_ver 4.0
-# "twig/twig": "~1.23|~2.0"
-%global twig_min_ver 1.23
+# "twig/twig": "~1.26|~2.0"
+%global twig_min_ver 1.26
 %global twig_max_ver 3.0
 
 # Build using "--without tests" to disable tests
@@ -116,7 +119,8 @@ BuildRequires: php-composer(doctrine/orm)             >= %{doctrine_orm_min_ver}
 BuildRequires: php-composer(egulias/email-validator)  >= %{email_validator_min_ver}
 BuildRequires: php-composer(monolog/monolog)          >= %{monolog_min_ver}
 BuildRequires: php-composer(ocramius/proxy-manager)   >= %{proxy_manager_min_ver}
-BuildRequires: php-composer(psr/log)                  >= %{psrlog_min_ver}
+BuildRequires: php-composer(psr/cache)                >= %{psr_cache_min_ver}
+BuildRequires: php-composer(psr/log)                  >= %{psr_log_min_ver}
 BuildRequires: php-composer(symfony/polyfill)         >= %{symfony_polyfill_min_ver}
 #BuildRequires: php-composer(symfony/security-acl)     >= %{symfony_security_acl_min_ver}
 BuildRequires: php-composer(twig/twig)                >= %{twig_min_ver}
@@ -633,8 +637,8 @@ Requires: %{name}-common                                     =  %{version}-%{rel
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/event-dispatcher) =  %{version}
 Suggests:  php-composer(%{composer_vendor}/process)          =  %{version}
-Suggests:  php-composer(psr/log)                             >= %{psrlog_min_ver}
-Suggests:  php-composer(psr/log)                             <  %{psrlog_max_ver}
+Suggests:  php-composer(psr/log)                             >= %{psr_log_min_ver}
+Suggests:  php-composer(psr/log)                             <  %{psr_log_max_ver}
 # phpcompatinfo (computed from version 3.0.0)
 Requires:  php-date
 Requires:  php-dom
@@ -681,8 +685,8 @@ Summary:  Symfony Debug Component (version 3)
 
 Requires: %{name}-common                                   =  %{version}-%{release}
 # composer.json
-Requires:  php-composer(psr/log)                           >= %{psrlog_min_ver}
-Requires:  php-composer(psr/log)                           <  %{psrlog_max_ver}
+Requires:  php-composer(psr/log)                           >= %{psr_log_min_ver}
+Requires:  php-composer(psr/log)                           <  %{psr_log_max_ver}
 # phpcompatinfo (computed from version 3.0.0)
 Requires: php-reflection
 Requires: php-pcre
@@ -903,8 +907,8 @@ Summary:   Symfony HttpKernel Component (version 3)
 Requires:  php-composer(%{composer_vendor}/debug)                =  %{version}
 Requires:  php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
 Requires:  php-composer(%{composer_vendor}/http-foundation)      =  %{version}
-Requires:  php-composer(psr/log)                                 >= %{psrlog_min_ver}
-Requires:  php-composer(psr/log)                                 <  %{psrlog_max_ver}
+Requires:  php-composer(psr/log)                                 >= %{psr_log_min_ver}
+Requires:  php-composer(psr/log)                                 <  %{psr_log_max_ver}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/browser-kit)          =  %{version}
 Suggests:  php-composer(%{composer_vendor}/class-loader)         =  %{version}
@@ -1057,8 +1061,8 @@ Requires:  %{name}-common                                   =  %{version}-%{rele
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/doctrine-bridge) =  %{version}
 Suggests:  php-composer(%{composer_vendor}/serializer)      =  %{version}
-Suggests:  php-composer(phpdocumentor/reflection)           >= %{phpdocumentor_reflection_min_ver}
-Suggests:  php-composer(phpdocumentor/reflection)           <  %{phpdocumentor_reflection_max_ver}
+Suggests:  php-composer(phpdocumentor/reflection-docblock)           >= %{phpdocumentor_reflection_docblock_min_ver}
+Suggests:  php-composer(phpdocumentor/reflection-docblock)           <  %{phpdocumentor_reflection_docblock_max_ver}
 # phpcompatinfo (computed from version 3.0.0)
 Requires:  php-pcre
 Requires:  php-reflection
@@ -1203,8 +1207,8 @@ Summary:   Symfony Templating Component (version 3)
 
 Requires:  %{name}-common        =  %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(psr/log) >= %{psrlog_min_ver}
-Suggests:  php-composer(psr/log) <  %{psrlog_max_ver}
+Suggests:  php-composer(psr/log) >= %{psr_log_min_ver}
+Suggests:  php-composer(psr/log) <  %{psr_log_max_ver}
 # phpcompatinfo (computed from version 3.0.0)
 Requires:  php-ctype
 Requires:  php-hash
@@ -1233,8 +1237,8 @@ Requires:  %{name}-common                          =  %{version}-%{release}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/config) =  %{version}
 Suggests:  php-composer(%{composer_vendor}/yaml)   =  %{version}
-Suggests:  php-composer(psr/log)                   >= %{psrlog_min_ver}
-Suggests:  php-composer(psr/log)                   <  %{psrlog_max_ver}
+Suggests:  php-composer(psr/log)                   >= %{psr_log_min_ver}
+Suggests:  php-composer(psr/log)                   <  %{psr_log_max_ver}
 # phpcompatinfo (computed from version 3.0.0)
 Requires:  php-dom
 Requires:  php-intl
@@ -1387,18 +1391,18 @@ if (!isset($fedoraPsr4ClassLoader) || !($fedoraPsr4ClassLoader instanceof \Symfo
 }
 
 $fedoraSymfony3PhpDir = '%{phpdir}';
-$fedoraSymfony3Dir    = __DIR__;
+$fedoraSymfony3Dir = __DIR__;
 
 if (!defined('FEDORA_SYMFONY3_PHP_DIR')) {
-  define('FEDORA_SYMFONY3_PHP_DIR', '%{phpdir}');
+    define('FEDORA_SYMFONY3_PHP_DIR', '%{phpdir}');
 }
 
 if (!defined('FEDORA_SYMFONY3_DIR')) {
-  define('FEDORA_SYMFONY3_DIR', __DIR__);
+    define('FEDORA_SYMFONY3_DIR', __DIR__);
 }
 
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bridge\\',    FEDORA_SYMFONY3_DIR.'/Bridge'   );
-$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bundle\\',    FEDORA_SYMFONY3_DIR.'/Bundle'   );
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bridge\\', FEDORA_SYMFONY3_DIR.'/Bridge');
+$fedoraPsr4ClassLoader->addPrefix('Symfony\\Bundle\\', FEDORA_SYMFONY3_DIR.'/Bundle');
 $fedoraPsr4ClassLoader->addPrefix('Symfony\\Component\\', FEDORA_SYMFONY3_DIR.'/Component');
 AUTOLOAD
 
@@ -1428,6 +1432,11 @@ ln -s %{name}-common-%{version} %{buildroot}%{_docdir}/%{name}-%{version}
 
 %check
 %if %{with_tests}
+: Set up PSR-0 path for PHPUnit
+mkdir psr0
+ln -s %{buildroot}%{phpdir}/Symfony3 psr0/Symfony
+PSR0=$(pwd)/psr0/Symfony
+
 : Modify PHPUnit config
 sed -e 's#vendor/autoload\.php#bootstrap.php#' \
     -e 's#\./src/Symfony/#%{buildroot}%{phpdir}/Symfony3/#' \
@@ -1445,11 +1454,13 @@ for PKG in %{buildroot}%{phpdir}/Symfony3/*/*; do
         cat << BOOTSTRAP | tee bootstrap.php
 <?php
 
+echo PHP_EOL.'>>>>> PHP include path = '.get_include_path().PHP_EOL;
+
 require_once '${PKG}/autoload.php';
 require_once '%{buildroot}%{phpdir}/Symfony3/Bridge/PhpUnit/bootstrap.php';
 BOOTSTRAP
 
-        %{_bindir}/php -d include_path=.:%{buildroot}%{phpdir}:%{phpdir} \
+        %{_bindir}/php -d include_path=.:${PSR0}:%{buildroot}%{phpdir}:%{phpdir} \
             %{_bindir}/phpunit --exclude-group benchmark $PKG || RET=1
     fi
 done

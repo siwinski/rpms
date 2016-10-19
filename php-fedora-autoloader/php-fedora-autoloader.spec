@@ -13,7 +13,7 @@
 %global github_owner     php-fedora
 %global github_name      autoloader
 %global github_version   0.1.0
-%global github_commit    xxxxx
+%global github_commit    f88fc9430954d86250495eb945ac736bef1dd9ba
 
 %global composer_vendor  fedora
 %global composer_project autoloader
@@ -38,8 +38,7 @@ Summary:       Fedora Autoloader
 Group:         Development/Libraries
 License:       MIT
 URL:           https://github.com/%{github_owner}/%{github_name}
-#Source0:       %%{url}/archive/%%{github_commit}/%%{name}-%%{github_version}-%%{github_commit}.tar.gz
-Source0:       %{name}-%{github_version}.tar.gz
+Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Tests
@@ -61,8 +60,11 @@ Requires:      php-spl
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-%{summary}.
+Static PSR-4 [1], PSR-0 [2], and classmap autoloader.  Includes loader for
+required and optional dependencies.
 
+[1] http://www.php-fig.org/psr/psr-4/
+[2] http://www.php-fig.org/psr/psr-0/
 
 # ------------------------------------------------------------------------------
 
@@ -76,15 +78,15 @@ Requires: php-composer(theseer/autoload) >= %{phpab_min_ver}
 Requires: php-composer(theseer/autoload) <  %{phpab_max_ver}
 
 %description devel
-%{name} devel.
+Provides needed tools to build other packages:
+- phpab fedora template
 
 
 # ------------------------------------------------------------------------------
 
 
 %prep
-#%%setup -qn %%{github_name}-%%{github_commit}
-%setup
+%setup -qn %{github_name}-%{github_commit}
 
 : Set PHP directory in phpab template
 sed 's#__PHPDIR__#%{phpdir}#' res/phpab/fedora.php.tpl
@@ -127,5 +129,5 @@ cp -p res/phpab/fedora.php.tpl %{buildroot}%{phpab_template_dir}/
 
 
 %changelog
-* Tue Oct 18 2016 Shawn Iwinski <shawn@iwin.ski> - 0.1.0-1
+* Wed Oct 19 2016 Shawn Iwinski <shawn@iwin.ski> - 0.1.0-1
 - Initial package

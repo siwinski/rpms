@@ -68,7 +68,7 @@ BuildRequires: php-zlib
 # See https://github.com/getsentry/sentry-php/pull/365
 BuildRequires: php-uopz
 %endif
-# Conflicts
+# Conflict because Monolog will load obsoleted package's autoloader and classes.
 BuildConflicts: php-Raven
 %endif
 
