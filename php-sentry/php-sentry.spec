@@ -42,6 +42,11 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
+# Use uopz for travis and PHP 7
+# https://github.com/getsentry/sentry-php/pull/365
+# https://github.com/getsentry/sentry-php/pull/365.patch
+Patch0:        %{name}-pr365.patch
+
 BuildArch:     noarch
 # Library version value check
 BuildRequires: php-cli
@@ -107,6 +112,9 @@ Autoloader: %{phpdir}/Raven/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+
+: Use uopz for travis and PHP 7
+%patch0 -p1
 
 : Remove bundled cert
 rm -rf lib/Raven/data
@@ -182,5 +190,5 @@ BOOTSTRAP
 
 
 %changelog
-* Thu Oct 13 2016 Shawn Iwinski <shawn@iwin.ski> - 1.5.0-1
+* Thu Oct 20 2016 Shawn Iwinski <shawn@iwin.ski> - 1.5.0-1
 - Initial package
