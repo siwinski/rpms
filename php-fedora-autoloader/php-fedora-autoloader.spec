@@ -12,8 +12,8 @@
 
 %global github_owner     php-fedora
 %global github_name      autoloader
-%global github_version   0.1.0
-%global github_commit    f88fc9430954d86250495eb945ac736bef1dd9ba
+%global github_version   0.1.1
+%global github_commit    816e4e59061c592f7480a00c6cd9c16067811c1e
 
 %global composer_vendor  fedora
 %global composer_project autoloader
@@ -89,7 +89,8 @@ Provides needed tools to build other packages:
 %setup -qn %{github_name}-%{github_commit}
 
 : Set PHP directory in phpab template
-sed 's#__PHPDIR__#%{phpdir}#' res/phpab/fedora.php.tpl
+sed "s#___AUTOLOAD_PATH___#'%{phpdir}/Fedora/Autoloader'#" \
+    -i res/phpab/fedora.php.tpl
 
 
 %build
@@ -118,16 +119,21 @@ cp -p res/phpab/fedora.php.tpl %{buildroot}%{phpab_template_dir}/
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
-%doc *.md
-%doc composer.json
 %dir %{phpdir}/Fedora
      %{phpdir}/Fedora/Autoloader
 %exclude %{phpdir}/Fedora/Autoloader/Test
 
 %files devel
+%doc *.md
+%doc composer.json
 %{phpab_template_dir}/fedora.php.tpl
 
 
 %changelog
+* Wed Oct 19 2016 Shawn Iwinski <shawn@iwin.ski> - 0.1.1-1
+- Update to 0.1.1
+- Fix phpab template
+- Move docs to devel subpackage
+
 * Wed Oct 19 2016 Shawn Iwinski <shawn@iwin.ski> - 0.1.0-1
 - Initial package
