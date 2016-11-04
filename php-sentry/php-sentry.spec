@@ -11,8 +11,8 @@
 
 %global github_owner     getsentry
 %global github_name      sentry-php
-%global github_version   1.5.0
-%global github_commit    be326f6a8eacacd86598af2a82bd37e93d9126d2
+%global github_version   0.22.0
+%global github_commit    49d4c0c4f2c298c9f15a07416debb5352a209b79
 
 %global composer_vendor  sentry
 %global composer_project sentry
@@ -42,11 +42,6 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
-# Use uopz for travis and PHP 7
-# https://github.com/getsentry/sentry-php/pull/365
-# https://github.com/getsentry/sentry-php/pull/365.patch
-Patch0:        %{name}-pr365.patch
-
 BuildArch:     noarch
 # Library version value check
 BuildRequires: php-cli
@@ -57,16 +52,14 @@ BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
 BuildRequires: php-curl
-## phpcompatinfo (computed from version 1.5.0)
+## phpcompatinfo (computed from version 0.22.0)
 BuildRequires: php-date
 BuildRequires: php-hash
-BuildRequires: php-json
 BuildRequires: php-mbstring
 BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-session
 BuildRequires: php-spl
-BuildRequires: php-xml
 BuildRequires: php-zlib
 %if 0%{?fedora} >= 25
 # Required for PHPUnit with PHP 7
@@ -82,10 +75,9 @@ Requires:      ca-certificates
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(monolog/monolog) >= %{monolog_min_ver}
 Requires:      php-curl
-# phpcompatinfo (computed from version 1.5.0)
+# phpcompatinfo (computed from version 0.22.0)
 Requires:      php-date
 Requires:      php-hash
-Requires:      php-json
 Requires:      php-mbstring
 Requires:      php-pcre
 Requires:      php-reflection
@@ -112,9 +104,6 @@ Autoloader: %{phpdir}/Raven/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
-
-: Use uopz for travis and PHP 7
-%patch0 -p1
 
 : Remove bundled cert
 rm -rf lib/Raven/data
@@ -190,5 +179,5 @@ BOOTSTRAP
 
 
 %changelog
-* Thu Oct 20 2016 Shawn Iwinski <shawn@iwin.ski> - 1.5.0-1
+* Thu Nov 03 2016 Shawn Iwinski <shawn@iwin.ski> - 0.22.0-1
 - Initial package
