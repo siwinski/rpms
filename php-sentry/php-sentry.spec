@@ -34,7 +34,11 @@ Release:       1%{?github_release}%{?dist}
 Summary:       PHP client for Sentry
 
 Group:         Development/Libraries
-License:       BSD
+# ASL 2.0:
+#     - lib/Raven/Serializer.php
+# BSD:
+#     - Everything else
+License:       BSD and ASL 2.0
 URL:           https://github.com/%{github_owner}/%{github_name}
 
 # GitHub export does not include tests.
@@ -70,6 +74,7 @@ BuildRequires: php-uopz
 BuildConflicts: php-Raven
 %endif
 
+Requires:      php-cli
 Requires:      ca-certificates
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
