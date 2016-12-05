@@ -11,8 +11,8 @@
 
 %global github_owner     simplesamlphp
 %global github_name      simplesamlphp
-%global github_version   1.14.7
-%global github_commit    f5ff7c4643b9b784957f5e1fbf86fc740cd6b78a
+%global github_version   1.14.10
+%global github_commit    da637c53962c13905eaae5ec9f33e658a237c284
 
 %global composer_vendor  simplesamlphp
 %global composer_project simplesamlphp
@@ -22,8 +22,12 @@
 # "robrichards/xmlseclibs": "~1.4.1"
 %global robrichards_xmlseclibs_min_ver 1.4.1
 %global robrichards_xmlseclibs_max_ver 1.5.0
-# "simplesamlphp/saml2": "~1.7"
-%global simplesamlphp_saml2_min_ver 1.7
+# "simplesamlphp/saml2": "~1.9.1"
+#     NOTE: Min version 1.10.3 because that is the 1.10.* version that contains
+#         the same security fix that 1.9.1 contains (201612-01) AND is the 1.*
+#         version released via Fedora/EPEL.
+#     NOTE: Preserving previous max version of 2.0
+%global simplesamlphp_saml2_min_ver 1.10.3
 %global simplesamlphp_saml2_max_ver 2.0
 # "whitehat101/apr1-md5": "~1.0"
 %global whitehat101_apr1_md5_min_ver 1.0
@@ -50,12 +54,10 @@ Group:         Development/Libraries
 License:       LGPLv2
 URL:           https://simplesamlphp.org
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
-# Autoloader
-Source1:       %{name}-autoload.php
 # Apache HTTPD config
-Source2:       %{name}.conf
+Source1:       %{name}.conf
 # RPM macros
-Source3:       macros.%{name}
+Source2:       macros.%{name}
 
 BuildArch:     noarch
 # Library version value check
@@ -69,24 +71,26 @@ Requires:      php-composer(simplesamlphp/saml2)    <  %{simplesamlphp_saml2_max
 Requires:      php-composer(simplesamlphp/saml2)    >= %{simplesamlphp_saml2_min_ver}
 Requires:      php-composer(whitehat101/apr1-md5)   <  %{whitehat101_apr1_md5_max_ver}
 Requires:      php-composer(whitehat101/apr1-md5)   >= %{whitehat101_apr1_md5_min_ver}
-# phpcompatinfo (computed from version 1.14.7)
-Requires:      php-curl
 Requires:      php-date
 Requires:      php-dom
-Requires:      php-fileinfo
 Requires:      php-hash
 Requires:      php-json
-Requires:      php-libxml
 Requires:      php-openssl
 Requires:      php-pcre
+Requires:      php-spl
+Requires:      php-zlib
+# phpcompatinfo (computed from version 1.14.10)
+Requires:      php-curl
+Requires:      php-fileinfo
+Requires:      php-libxml
 Requires:      php-pdo
 Requires:      php-posix
 Requires:      php-reflection
 Requires:      php-session
 Requires:      php-simplexml
-Requires:      php-spl
+Requires:      php-sqlite3
 # Autoloader
-Requires:      php-composer(symfony/class-loader)
+Requires:      php-composer(fedora/autoloader)
 
 %if 0%{?fedora} >= 21
 # Webserver
@@ -100,6 +104,7 @@ Recommends:    %{name}-httpd = %{version}-%{release}
 # Weak dependencies
 Suggests:      php-ldap
 Suggests:      php-pecl(krb5)
+Suggests:      php-pecl(memcache)
 Suggests:      php-pecl(oauth)
 %else
 Requires:      %{name}-httpd = %{version}-%{release}
@@ -199,7 +204,6 @@ sed \
 mkdir .rpm
 cp -p %{SOURCE1} .rpm/
 cp -p %{SOURCE2} .rpm/
-cp -p %{SOURCE3} .rpm/
 
 : Update dynamic values in sources
 sed \
@@ -215,16 +219,31 @@ sed \
 : Docs
 mv docs .rpm/
 
-: Autoloader
-cp .rpm/%{name}-autoload.php autoload.php
+
+%build
+: Create autoloader
+cat <<'AUTOLOAD' | tee autoload.php
+<?php
+/**
+ * Autoloader for %{name} and its' dependencies
+ * (created by %{name}-%{version}-%{release}).
+ */
+require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
+
+\Fedora\Autoloader\Autoload::addPsr4('SimpleSAML', __DIR__.'/lib/SimpleSAML');
+require_once __DIR__.'/lib/_autoload_modules.php';
+
+\Fedora\Autoloader\Dependencies::required(array(
+    '%{phpdir}/Consolidation/AnnotatedCommand/autoload.php',
+    '%{phpdir}/robrichards-xmlseclibs/autoload.php',
+    '%{phpdir}/SAML2_1/autoload.php',
+    '%{phpdir}/WhiteHat101/Crypt/autoload.php',
+));
+AUTOLOAD
 
 : Symlink autoloader used by app
 mv lib/_autoload.php lib/_autoload.php.dist
 ln -s ../autoload.php lib/_autoload.php
-
-
-%build
-# Empty build section, nothing to build
 
 
 %install
@@ -338,6 +357,13 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %changelog
+* Mon Dec 05 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.10-1
+- Update to 1.14.10
+- SSPSA 201612-01 (https://simplesamlphp.org/security/201612-01)
+- Switch autoloader from php-composer(symfony/class-loader) to
+  php-composer(fedora/autoloader)
+- Move autoloader into spec instead stand-alone source
+
 * Tue Aug 02 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.7-1
 - Update to 1.14.7
 - Add library version value check
