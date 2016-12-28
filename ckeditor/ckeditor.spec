@@ -1,15 +1,15 @@
-Name:		       ckeditor
-Version:	     4.6.1
-Release:	     1%{?dist}
-Summary:	     WYSIWYG text editor to be used inside web pages
+Name:          ckeditor
+Version:       4.6.1
+Release:       1%{?dist}
+Summary:       WYSIWYG text editor to be used inside web pages
 
-Group:		     Applications/Internet
-License:	     GPLv2+ or LGPLv2+ or MPLv1.1+
-URL:		       http://ckeditor.com/
+Group:         Applications/Internet
+License:       GPLv2+ or LGPLv2+ or MPLv1.1+
+URL:           http://ckeditor.com/
 
-Source0:	     http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/ckeditor_%{version}_standard.tar.gz
+Source0:       http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/ckeditor_%{version}_standard.tar.gz
 
-BuildArch:	   noarch
+BuildArch:     noarch
 BuildRequires: web-assets-devel
 
 Requires:      web-assets-filesystem
