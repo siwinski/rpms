@@ -4,7 +4,7 @@ Release:	     1%{?dist}
 Summary:	     WYSIWYG text editor to be used inside web pages
 
 Group:		     Applications/Internet
-License:	     GPLv2+ or LGPLv2.1+ or MPLv1.1+
+License:	     GPLv2+ or LGPLv2+ or MPLv1.1+
 URL:		       http://ckeditor.com/
 
 Source0:	     http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/ckeditor_%{version}_standard.tar.gz
@@ -48,6 +48,9 @@ do
     mkdir -p .rpm/docs/$DIR
     mv $DOC_FILE .rpm/docs/$DIR/
 done
+
+: wrong-file-end-of-line-encoding
+find .rpm -type f -print0 | xargs -0 sed -i 's/\r$//'
 
 : Delete bundled flash files
 rm -r samples/old/htmlwriter/{assets,outputforflash.html}
