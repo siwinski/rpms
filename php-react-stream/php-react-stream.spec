@@ -181,5 +181,5 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
-* Mon Jan 16 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.5-1
+* Tue Jan 17 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.5-1
 - Initial package
