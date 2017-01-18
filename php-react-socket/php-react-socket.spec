@@ -38,8 +38,9 @@
 %global react_stream_min_ver 0.4.5
 %global react_stream_max_ver 1.0
 
-# Circular dependency with "react/socket-client" so allow bootstrap for when
-# it is not available at build time
+# Allow bootstrapped build because:
+# - Circular build dependency with "react/socket-client" and "react/dns"
+# - Requires "react/socket-client" >= 0.5.1 but 0.4 will be packaged
 %global bootstrap 1
 
 # Build using "--without tests" to disable tests
