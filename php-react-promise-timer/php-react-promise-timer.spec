@@ -23,8 +23,7 @@
 %global react_event_loop_min_ver 0.4.0
 %global react_event_loop_max_ver 1.0
 # "react/promise": "~2.1|~1.2"
-#     NOTE: Min version not 1.2 because only v2 is packaged
-%global react_promise_min_ver 2.1
+%global react_promise_min_ver 1.2
 %global react_promise_max_ver 3.0
 
 # Build using "--without tests" to disable tests
