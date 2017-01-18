@@ -20,8 +20,7 @@
 # "php": ">=5.3.0",
 %global php_min_ver 5.3.0
 # "react/promise": "~2.0|~1.1"
-#     NOTE: Min version not 1.1 because only v2 is packaged
-%global react_promise_min_ver 2.0
+%global react_promise_min_ver 1.1
 %global react_promise_max_ver 3.0
 
 # Build using "--without tests" to disable tests
