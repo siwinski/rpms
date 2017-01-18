@@ -61,7 +61,29 @@ Requires:      php-composer(fedora/autoloader)
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-%{summary}.
+Event loop abstraction layer that libraries can use for evented I/O.
+
+In order for async based libraries to be interoperable, they need to use
+the same event loop. This component provides a common LoopInterface that
+any library can target. This allows them to be used in the same loop, with
+one single run call that is controlled by the user.
+
+In addition to the interface there are some implementations provided:
+* StreamSelectLoop: This is the only implementation which works out of the box
+      with PHP. It does a simple select system call. It's not the most
+      performant of loops, but still does the job quite well.
+* LibEventLoop: This uses the libevent pecl extension. libevent itself supports
+      a number of system-specific backends (epoll, kqueue).
+* LibEvLoop: This uses the libev pecl extension (github). It supports the same
+      backends as libevent.
+* ExtEventLoop: This uses the event pecl extension. It supports the same
+      backends as libevent.
+
+All of the loops support these features:
+* File descriptor polling
+* One-off timers
+* Periodic timers
+* Deferred execution of callbacks
 
 Autoloader: %{phpdir}/React/EventLoop/autoload.php
 
