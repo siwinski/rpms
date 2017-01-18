@@ -106,7 +106,10 @@ Requires:      php-composer(fedora/autoloader)
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-%{summary}.
+Async, streaming plaintext TCP/IP and secure TLS socket server for React PHP.
+
+The socket component provides a more usable interface for a socket-layer server
+based on the EventLoop and Stream components.
 
 Autoloader: %{phpdir}/React/Socket/autoload.php
 
