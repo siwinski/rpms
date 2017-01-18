@@ -139,7 +139,7 @@ BOOTSTRAP
 
 : Upstream tests with SCLs if available
 SCL_RETURN_CODE=0
-for SCL in php54 php55 php56 php70 php71; do
+for SCL in php55 php56 php70 php71; do
     if which $SCL; then
         $SCL %{_bindir}/phpunit --verbose --bootstrap bootstrap.php || SCL_RETURN_CODE=1
     fi
