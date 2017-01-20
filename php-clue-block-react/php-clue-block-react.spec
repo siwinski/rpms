@@ -26,7 +26,8 @@
 %global react_promise_timer_min_ver 1.0
 %global react_promise_timer_max_ver 2.0
 # "react/promise": "~2.1|~1.2"
-%global react_promise_min_ver 1.2
+#     NOTE: Min version not 1.2 to restrict to one major version
+%global react_promise_min_ver 2.1
 %global react_promise_max_ver 3.0
 
 # Build using "--without tests" to disable tests
@@ -36,7 +37,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Integrate async React PHP components into your blocking environment
 
 Group:         Development/Libraries
@@ -50,6 +51,12 @@ BuildArch:     noarch
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: php-composer(react/event-loop) <  %{react_event_loop_max_ver}
+BuildRequires: php-composer(react/event-loop) >= %{react_event_loop_min_ver}
+BuildRequires: php-composer(react/promise-timer) <  %{react_promise_timer_max_ver}
+BuildRequires: php-composer(react/promise-timer) >= %{react_promise_timer_min_ver}
+BuildRequires: php-composer(react/promise) <  %{react_promise_max_ver}
+BuildRequires: php-composer(react/promise) >= %{react_promise_min_ver}
 ## phpcompatinfo (computed from version 1.1.0)
 BuildRequires: php-spl
 ## Autoloader
@@ -58,6 +65,12 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+Requires:      php-composer(react/event-loop) <  %{react_event_loop_max_ver}
+Requires:      php-composer(react/event-loop) >= %{react_event_loop_min_ver}
+Requires:      php-composer(react/promise-timer) <  %{react_promise_timer_max_ver}
+Requires:      php-composer(react/promise-timer) >= %{react_promise_timer_min_ver}
+Requires:      php-composer(react/promise) <  %{react_promise_max_ver}
+Requires:      php-composer(react/promise) >= %{react_promise_min_ver}
 # phpcompatinfo (computed from version 1.1.0)
 Requires:      php-spl
 # Autoloader
@@ -114,7 +127,7 @@ ln -s %{buildroot}%{phpdir}/Clue/React/Block/autoload.php vendor/autoload.php
 
 : Upstream tests with SCLs if available
 SCL_RETURN_CODE=0
-for SCL in php54 php55 php56 php70 php71; do
+for SCL in %{?rhel:php54 php55} php56 php70 php71; do
     if which $SCL; then
         $SCL %{_bindir}/phpunit --verbose || SCL_RETURN_CODE=1
     fi
@@ -136,5 +149,10 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
+* Fri Jan 20 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-2
+- Add missing BuildRequires and Requires
+- Retrict react/promise dependency to one major version
+- Minor update to SCL tests (only php54 and php55 if rhel)
+
 * Tue Jan 17 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
 - Initial package
