@@ -57,7 +57,7 @@
 
 Name:          php-%{composer_vendor}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Event-driven, non-blocking I/O with PHP
 
 Group:         Development/Libraries
@@ -68,6 +68,7 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
+BuildRequires: php-cli
 ## Minimal autoloader test
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(react/cache) <  %{react_cache_max_ver}
@@ -174,7 +175,7 @@ cp -p autoload.php %{buildroot}%{phpdir}/React/
 %check
 %if %{with_tests}
 : Minimal autoloader test
-php -r 'require "%{buildroot}%{phpdir}/React/autoload.php";'
+%{_bindir}/php -r 'require "%{buildroot}%{phpdir}/React/autoload.php";'
 %else
 : Tests skipped
 %endif
@@ -190,5 +191,8 @@ php -r 'require "%{buildroot}%{phpdir}/React/autoload.php";'
 
 
 %changelog
+* Wed Jan 25 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.2-2
+- Add missing php-cli BuildRequires
+
 * Tue Jan 17 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.2-1
 - Initial package
