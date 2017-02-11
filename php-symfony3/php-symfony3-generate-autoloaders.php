@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 $finder = new Finder();
-$finder->in(SYMFONY_SOURCE_DIR)->name('composer.json');
+$finder->in(SYMFONY_SOURCE_DIR)->name('composer.json')->sortByName();
 
 foreach ($finder as $composerFile) {
     $autoloadGenerator = new AutoloadGenerator($composerFile);
@@ -34,7 +34,7 @@ final class AutoloadGenerator {
         'egulias/email-validator'           => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Egulias/EmailValidator/autoload.php'            ],
         'monolog/monolog'                   => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Monolog/autoload.php'                           ],
         'ocramius/proxy-manager'            => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'ProxyManager/autoload.php'                      ],
-        'phpdocumentor/reflection-docblock' => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'phpDocumentor/Reflection/DocBlock/autoload.php' ],
+        'phpdocumentor/reflection-docblock' => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'phpDocumentor/Reflection/DocBlock3/autoload.php' ],
         'psr/cache-implementation'          => false,
         'psr/cache'                         => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Psr/Cache/autoload.php'                         ],
         'psr/log'                           => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Psr/Log/autoload.php'                           ],
@@ -82,12 +82,12 @@ final class AutoloadGenerator {
         'symfony/property-info'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/PropertyInfo/autoload.php'            ],
         'symfony/proxy-manager-bridge'      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bridge/ProxyManager/autoload.php'               ],
         'symfony/routing'                   => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Routing/autoload.php'                 ],
-        'symfony/security-acl'              => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Acl/autoload.php'            ],
+        'symfony/security-acl'              => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Component/Security/Acl/autoload.php'            ],
         'symfony/security-bundle'           => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/SecurityBundle/autoload.php'             ],
-        'symfony/security-core'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
-        'symfony/security-csrf'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
-        'symfony/security-guard'            => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
-        'symfony/security-http'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
+        'symfony/security-core'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Core/autoload.php'                ],
+        'symfony/security-csrf'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Csrf/autoload.php'                ],
+        'symfony/security-guard'            => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Guard/autoload.php'                ],
+        'symfony/security-http'             => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/Http/autoload.php'                ],
         'symfony/security'                  => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Security/autoload.php'                ],
         'symfony/serializer'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Serializer/autoload.php'              ],
         'symfony/stopwatch'                 => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Stopwatch/autoload.php'               ],
@@ -106,8 +106,11 @@ final class AutoloadGenerator {
 
     public function __construct(SplFileInfo $composerFile) {
         $composerJson = static::composerJson($composerFile);
-        $dependencyAutoloaders = static::dependencyAutoloaders($composerJson);
-        $content = static::content($composerJson, $dependencyAutoloaders);
+        $content = static::content(
+            $composerJson,
+            static::dependencyAutoloaders($composerJson, true),
+            static::dependencyAutoloaders($composerJson, false)
+        );
 
         $this->filename = $composerFile->getPath() . '/autoload.php';
 
@@ -135,17 +138,11 @@ final class AutoloadGenerator {
       return $composerJson;
     }
 
-    private static function dependencyAutoloaders($composerJson) {
+    private static function dependencyAutoloaders($composerJson, $required) {
         $dependencyAutoloaders = [];
+        $composerKey = $required ? 'require' : 'suggest';
 
-        foreach ([
-          'require' => true,
-          'suggest' => false,
-        ] as $composerKey => $required) {
-            if (!isset($composerJson[$composerKey])) {
-              continue;
-            }
-
+        if (isset($composerJson[$composerKey])) {
             $dependencies = array_keys(array_filter(
                 $composerJson[$composerKey],
                 function ($pkg) {
@@ -156,12 +153,12 @@ final class AutoloadGenerator {
 
             foreach ($dependencies as $pkg) {
                 if ($autoloader = self::pkg2Autoload($pkg)) {
-                    $dependencyAutoloaders[$autoloader] = $required;
+                    $dependencyAutoloaders[] = $autoloader;
                 }
             }
-        }
 
-        ksort($dependencyAutoloaders);
+            ksort($dependencyAutoloaders);
+        }
 
         return $dependencyAutoloaders;
     }
@@ -177,7 +174,7 @@ final class AutoloadGenerator {
         return sprintf("%s.'/%s'", $map['prefix'], $map['path']);
     }
 
-    public function content($composerJson, array $dependencyAutoloaders) {
+    public function content($composerJson, array $dependencyAutoloadersRequired, array $dependencyAutoloadersOptional) {
         $pkg = explode('/', $composerJson['name'])[1];
 
         $content = <<<AUTOLOAD
@@ -187,37 +184,43 @@ final class AutoloadGenerator {
  * (created by php-symfony3-__VERSION__-__RELEASE__).
  */
 
-require_once dirname(dirname(__DIR__)).'/autoload-common.php';
 AUTOLOAD;
 
-        if (!empty($dependencyAutoloaders)) {
-            $dependencyAutoloadersString = '';
-
-            foreach ($dependencyAutoloaders as $autoloader => $required) {
-                $dependencyAutoloadersString .= sprintf(
-                    "    %s => %s,\n",
-                    $autoloader,
-                    $required ? 'true' : 'false'
-                );
-            }
-
-            $dependencyAutoloadersString = rtrim($dependencyAutoloadersString);
-
-            $content .= <<<DEPENDENCY_AUTOLOADERS
-
-
-// Dependencies (autoloader => required)
-foreach([
-${dependencyAutoloadersString}
-] as \$dependency => \$required) {
-    if (\$required || file_exists(\$dependency)) {
-        require_once \$dependency;
-    }
-}
-DEPENDENCY_AUTOLOADERS;
+        // This switch statement handles the "autoload-common" require for sub-sub-modules.
+        switch ($pkg) {
+            case 'security-core':
+            case 'security-csrf':
+            case 'security-guard':
+            case 'security-http':
+                $content .= "require_once dirname(dirname(dirname(__DIR__))).'/autoload-common.php';".PHP_EOL;
+                break;
+            default:
+                $content .= "require_once dirname(dirname(__DIR__)).'/autoload-common.php';".PHP_EOL;
         }
 
-        return $content;
+        if (!empty($dependencyAutoloadersRequired)) {
+            $dependencyAutoloadersRequiredString = implode(",\n    ", $dependencyAutoloadersRequired);
+            $content .= <<<DEPENDENCY_AUTOLOADERS_REQUIRED
+
+
+\Fedora\Autoloader\Dependencies::required([
+    $dependencyAutoloadersRequiredString
+]);
+DEPENDENCY_AUTOLOADERS_REQUIRED;
+        }
+
+        if (!empty($dependencyAutoloadersOptional)) {
+            $dependencyAutoloadersOptionalString = implode(",\n    ", $dependencyAutoloadersOptional);
+            $content .= <<<DEPENDENCY_AUTOLOADERS_REQUIRED
+
+
+\Fedora\Autoloader\Dependencies::optional([
+    $dependencyAutoloadersOptionalString
+]);
+DEPENDENCY_AUTOLOADERS_REQUIRED;
+        }
+
+        return $content.PHP_EOL;
     }
 
     public function getFilename() {
