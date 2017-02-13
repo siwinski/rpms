@@ -99,7 +99,7 @@ final class AutoloadGenerator {
         'symfony/var-dumper'                => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/VarDumper/autoload.php'               ],
         'symfony/web-profiler-bundle'       => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Bundle/WebProfilerBundle/autoload.php'          ],
         'symfony/yaml'                      => [ 'prefix' => 'FEDORA_SYMFONY3_DIR',    'path' => 'Component/Yaml/autoload.php'                    ],
-        'twig/twig'                         => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Twig/autoload.php'                              ],
+        'twig/twig'                         => [ 'prefix' => 'FEDORA_SYMFONY3_PHP_DIR', 'path' => 'Twig2/autoload.php'                              ],
     ];
 
     private $filename = null;

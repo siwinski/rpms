@@ -83,7 +83,8 @@
 %global symfony_security_acl_min_ver 2.8
 %global symfony_security_acl_max_ver 4.0
 # "twig/twig": "~1.26|~2.0"
-%global twig_min_ver 1.26
+#     NOTE: Forcing version 2 for now.
+%global twig_min_ver 2.0
 %global twig_max_ver 3.0
 
 # Build using "--without tests" to disable tests
@@ -1561,6 +1562,22 @@ sed \
     -e 's/function testLdapClientFunctional/function SKIP_testLdapClientFunctional/' \
     -i %{buildroot}%{symfony3_dir}/Component/Ldap/Tests/LdapClientTest.php
 rm -f %{buildroot}%{symfony3_dir}/Component/Ldap/Tests/Adapter/ExtLdap/LdapManagerTest.php
+
+: Skip tests that fail in a mock environment
+sed \
+    -e 's/function testAskHiddenResponse/function SKIP_testAskHiddenResponse/' \
+    -e 's/function testLegacyAskHiddenResponse/function SKIP_testLegacyAskHiddenResponse/' \
+    -i %{buildroot}%{symfony3_dir}/Component/Console/Tests/Helper/QuestionHelperTest.php
+
+: Skip test requiring external resource -- i.e. network access required
+sed 's/function testCopyForOriginUrlsAndExistingLocalFileDefaultsToCopy/function SKIP_testCopyForOriginUrlsAndExistingLocalFileDefaultsToCopy/' \
+    -i %{buildroot}%{symfony3_dir}/Component/Filesystem/Tests/FilesystemTest.php
+
+: Skip TTY tests
+sed \
+    -e 's/function testTTYCommand/function SKIP_testTTYCommand/' \
+    -e 's/function testTTYCommandExitCode/function SKIP_testTTYCommandExitCode/' \
+    -i %{buildroot}%{symfony3_dir}/Component/Process/Tests/ProcessTest.php
 
 : Re-load common autoloader to prevent trying to load Composer autoloader
 sed "s#__DIR__.'/../../vendor/autoload.php'#__DIR__.'/../../../../autoload-common.php'#" \
