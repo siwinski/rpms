@@ -1,8 +1,8 @@
 #
 # Fedora spec file for php-symfony3
 #
-# Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
-#                    Remi Collet <remi@fedoraproject.org>
+# Copyright (c) 2016-2017 Shawn Iwinski <shawn@iwin.ski>
+#                         Remi Collet <remi@fedoraproject.org>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   3.2.3
-%global github_commit    6306409b3836ed2936c7b0454f00711d0128748c
+%global github_version   3.2.4
+%global github_commit    141569be5b33a7cf0d141fb88422649fe11b0c47
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -80,8 +80,9 @@
 %global symfony_polyfill_min_ver 1.0
 %global symfony_polyfill_max_ver 2.0
 # "symfony/security-acl": "~2.8|~3.0"
+#     NOTE: Min version not 4.0 to restrict to single major version
 %global symfony_security_acl_min_ver 2.8
-%global symfony_security_acl_max_ver 4.0
+%global symfony_security_acl_max_ver 3.0
 # "twig/twig": "~1.26|~2.0"
 #     NOTE: Forcing version 2 for now.
 %global twig_min_ver 2.0
@@ -117,35 +118,50 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 ### Force version to 4.8 for autoloader
-BuildRequires: php-composer(phpunit/phpunit)          >= 4.8
-BuildRequires: php(language)                          >= %{php_min_ver}
-BuildRequires: php-composer(doctrine/annotations)     >= %{doctrine_annotations_min_ver}
-BuildRequires: php-composer(doctrine/cache)           >= %{doctrine_cache_min_ver}
-BuildRequires: php-composer(doctrine/common)          >= %{doctrine_common_min_ver}
-BuildRequires: php-composer(doctrine/data-fixtures)   >= %{doctrine_datafixtures_min_ver}
-BuildRequires: php-composer(doctrine/dbal)            >= %{doctrine_dbal_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
+BuildRequires: php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
+BuildRequires: php-composer(doctrine/cache) <  %{doctrine_cache_max_ver}
+BuildRequires: php-composer(doctrine/cache) >= %{doctrine_cache_min_ver}
+BuildRequires: php-composer(doctrine/common) <  %{doctrine_common_max_ver}
+BuildRequires: php-composer(doctrine/common) >= %{doctrine_common_min_ver}
+BuildRequires: php-composer(doctrine/data-fixtures) <  %{doctrine_datafixtures_max_ver}
+BuildRequires: php-composer(doctrine/data-fixtures) >= %{doctrine_datafixtures_min_ver}
+BuildRequires: php-composer(doctrine/dbal) <  %{doctrine_dbal_max_ver}
+BuildRequires: php-composer(doctrine/dbal) >= %{doctrine_dbal_min_ver}
+BuildRequires: php-composer(doctrine/doctrine-bundle) <  %{doctrine_bundle_max_ver}
 BuildRequires: php-composer(doctrine/doctrine-bundle) >= %{doctrine_bundle_min_ver}
-BuildRequires: php-composer(doctrine/orm)             >= %{doctrine_orm_min_ver}
-BuildRequires: php-composer(egulias/email-validator)  >= %{email_validator_min_ver}
-BuildRequires: php-composer(monolog/monolog)          >= %{monolog_min_ver}
-BuildRequires: php-composer(ocramius/proxy-manager)   >= %{proxy_manager_min_ver}
-BuildRequires: php-composer(psr/cache)                >= %{psr_cache_min_ver}
-BuildRequires: php-composer(psr/log)                  >= %{psr_log_min_ver}
-BuildRequires: php-composer(symfony/polyfill)         >= %{symfony_polyfill_min_ver}
-#BuildRequires: php-composer(symfony/security-acl)     >= %{symfony_security_acl_min_ver}
-BuildRequires: php-composer(twig/twig)                >= %{twig_min_ver}
+BuildRequires: php-composer(doctrine/orm) <  %{doctrine_orm_max_ver}
+BuildRequires: php-composer(doctrine/orm) >= %{doctrine_orm_min_ver}
+BuildRequires: php-composer(egulias/email-validator) <  %{email_validator_max_ver}
+BuildRequires: php-composer(egulias/email-validator) >= %{email_validator_min_ver}
+BuildRequires: php-composer(monolog/monolog) <  %{monolog_max_ver}
+BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+BuildRequires: php-composer(ocramius/proxy-manager) <  %{proxy_manager_max_ver}
+BuildRequires: php-composer(ocramius/proxy-manager) >= %{proxy_manager_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: php-composer(psr/cache) <  %{psr_cache_max_ver}
+BuildRequires: php-composer(psr/cache) >= %{psr_cache_min_ver}
+BuildRequires: php-composer(psr/log) <  %{psr_log_max_ver}
+BuildRequires: php-composer(psr/log) >= %{psr_log_min_ver}
+BuildRequires: php-composer(symfony/polyfill) <  %{symfony_polyfill_max_ver}
+BuildRequires: php-composer(symfony/polyfill) >= %{symfony_polyfill_min_ver}
+BuildRequires: php-composer(symfony/security-acl) <  %{symfony_security_acl_max_ver}
+BuildRequires: php-composer(symfony/security-acl) >= %{symfony_security_acl_min_ver}
+BuildRequires: php-composer(twig/twig) <  %{twig_max_ver}
+BuildRequires: php-composer(twig/twig) >= %{twig_min_ver}
 %if %{with_cache_integration_tests}
 BuildRequires: php-composer(cache/integration-tests)
 %endif
 %if %{with_phpdocumentor_reflection_docblock}
-BuildRequires: php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
 BuildRequires: php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
+BuildRequires: php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
 %endif
 %if %{with_sensio_framework_extra_bundle}
-BuildRequires: php-composer(sensio/framework-extra-bundle) >= %{sensio_framework_extra_bundle_min_ver}
 BuildRequires: php-composer(sensio/framework-extra-bundle) <  %{sensio_framework_extra_bundle_max_ver}
+BuildRequires: php-composer(sensio/framework-extra-bundle) >= %{sensio_framework_extra_bundle_min_ver}
 %endif
-## phpcompatinfo (computed from version 3.0.0)
+## phpcompatinfo (computed from version 3.2.4)
 BuildRequires: php-ctype
 BuildRequires: php-curl
 BuildRequires: php-date
@@ -165,7 +181,6 @@ BuildRequires: php-pcre
 BuildRequires: php-pdo
 BuildRequires: php-pdo_sqlite
 BuildRequires: php-posix
-BuildRequires: php-readline
 BuildRequires: php-reflection
 BuildRequires: php-session
 BuildRequires: php-simplexml
@@ -173,57 +188,60 @@ BuildRequires: php-sockets
 BuildRequires: php-spl
 BuildRequires: php-tokenizer
 BuildRequires: php-xml
+BuildRequires: php-xmlreader
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
 %endif
 
 # Bridges
-Requires:      php-composer(%{composer_vendor}/doctrine-bridge)      = %{version}
-Requires:      php-composer(%{composer_vendor}/monolog-bridge)       = %{version}
-Requires:      php-composer(%{composer_vendor}/phpunit-bridge)       = %{version}
+Requires:      php-composer(%{composer_vendor}/doctrine-bridge) = %{version}
+Requires:      php-composer(%{composer_vendor}/monolog-bridge) = %{version}
+Requires:      php-composer(%{composer_vendor}/phpunit-bridge) = %{version}
 Requires:      php-composer(%{composer_vendor}/proxy-manager-bridge) = %{version}
-Requires:      php-composer(%{composer_vendor}/twig-bridge)          = %{version}
+Requires:      php-composer(%{composer_vendor}/twig-bridge) = %{version}
 # Bundles
-Requires:      php-composer(%{composer_vendor}/debug-bundle)         = %{version}
-Requires:      php-composer(%{composer_vendor}/framework-bundle)     = %{version}
-Requires:      php-composer(%{composer_vendor}/security-bundle)      = %{version}
-Requires:      php-composer(%{composer_vendor}/twig-bundle)          = %{version}
-Requires:      php-composer(%{composer_vendor}/web-profiler-bundle)  = %{version}
+Requires:      php-composer(%{composer_vendor}/debug-bundle) = %{version}
+Requires:      php-composer(%{composer_vendor}/framework-bundle) = %{version}
+Requires:      php-composer(%{composer_vendor}/security-bundle) = %{version}
+Requires:      php-composer(%{composer_vendor}/twig-bundle) = %{version}
+Requires:      php-composer(%{composer_vendor}/web-profiler-bundle) = %{version}
 # Components
-Requires:      php-composer(%{composer_vendor}/asset)                = %{version}
-Requires:      php-composer(%{composer_vendor}/browser-kit)          = %{version}
-Requires:      php-composer(%{composer_vendor}/class-loader)         = %{version}
-Requires:      php-composer(%{composer_vendor}/config)               = %{version}
-Requires:      php-composer(%{composer_vendor}/console)              = %{version}
-Requires:      php-composer(%{composer_vendor}/css-selector)         = %{version}
-Requires:      php-composer(%{composer_vendor}/debug)                = %{version}
+Requires:      php-composer(%{composer_vendor}/asset) = %{version}
+Requires:      php-composer(%{composer_vendor}/browser-kit) = %{version}
+Requires:      php-composer(%{composer_vendor}/cache) = %{version}
+Requires:      php-composer(%{composer_vendor}/class-loader) = %{version}
+Requires:      php-composer(%{composer_vendor}/config) = %{version}
+Requires:      php-composer(%{composer_vendor}/console) = %{version}
+Requires:      php-composer(%{composer_vendor}/css-selector) = %{version}
+Requires:      php-composer(%{composer_vendor}/debug) = %{version}
 Requires:      php-composer(%{composer_vendor}/dependency-injection) = %{version}
-Requires:      php-composer(%{composer_vendor}/dom-crawler)          = %{version}
-Requires:      php-composer(%{composer_vendor}/event-dispatcher)     = %{version}
-Requires:      php-composer(%{composer_vendor}/expression-language)  = %{version}
-Requires:      php-composer(%{composer_vendor}/filesystem)           = %{version}
-Requires:      php-composer(%{composer_vendor}/finder)               = %{version}
-Requires:      php-composer(%{composer_vendor}/form)                 = %{version}
-Requires:      php-composer(%{composer_vendor}/http-foundation)      = %{version}
-Requires:      php-composer(%{composer_vendor}/http-kernel)          = %{version}
-Requires:      php-composer(%{composer_vendor}/intl)                 = %{version}
-Requires:      php-composer(%{composer_vendor}/ldap)                 = %{version}
-Requires:      php-composer(%{composer_vendor}/options-resolver)     = %{version}
-Requires:      php-composer(%{composer_vendor}/process)              = %{version}
-Requires:      php-composer(%{composer_vendor}/property-access)      = %{version}
-Requires:      php-composer(%{composer_vendor}/property-info)        = %{version}
-Requires:      php-composer(%{composer_vendor}/routing)              = %{version}
-Requires:      php-composer(%{composer_vendor}/security)             = %{version}
-Requires:      php-composer(%{composer_vendor}/serializer)           = %{version}
-Requires:      php-composer(%{composer_vendor}/stopwatch)            = %{version}
-Requires:      php-composer(%{composer_vendor}/templating)           = %{version}
-Requires:      php-composer(%{composer_vendor}/translation)          = %{version}
-Requires:      php-composer(%{composer_vendor}/validator)            = %{version}
-Requires:      php-composer(%{composer_vendor}/var-dumper)           = %{version}
-Requires:      php-composer(%{composer_vendor}/yaml)                 = %{version}
+Requires:      php-composer(%{composer_vendor}/dom-crawler) = %{version}
+Requires:      php-composer(%{composer_vendor}/event-dispatcher) = %{version}
+Requires:      php-composer(%{composer_vendor}/expression-language) = %{version}
+Requires:      php-composer(%{composer_vendor}/filesystem) = %{version}
+Requires:      php-composer(%{composer_vendor}/finder) = %{version}
+Requires:      php-composer(%{composer_vendor}/form) = %{version}
+Requires:      php-composer(%{composer_vendor}/http-foundation) = %{version}
+Requires:      php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:      php-composer(%{composer_vendor}/intl) = %{version}
+Requires:      php-composer(%{composer_vendor}/ldap) = %{version}
+Requires:      php-composer(%{composer_vendor}/options-resolver) = %{version}
+Requires:      php-composer(%{composer_vendor}/process) = %{version}
+Requires:      php-composer(%{composer_vendor}/property-access) = %{version}
+Requires:      php-composer(%{composer_vendor}/property-info) = %{version}
+Requires:      php-composer(%{composer_vendor}/routing) = %{version}
+Requires:      php-composer(%{composer_vendor}/security) = %{version}
+Requires:      php-composer(%{composer_vendor}/serializer) = %{version}
+Requires:      php-composer(%{composer_vendor}/stopwatch) = %{version}
+Requires:      php-composer(%{composer_vendor}/templating) = %{version}
+Requires:      php-composer(%{composer_vendor}/translation) = %{version}
+Requires:      php-composer(%{composer_vendor}/validator) = %{version}
+Requires:      php-composer(%{composer_vendor}/var-dumper) = %{version}
+Requires:      php-composer(%{composer_vendor}/workflow) = %{version}
+Requires:      php-composer(%{composer_vendor}/yaml) = %{version}
 
 # Composer
-Provides:      php-composer(%{composer_vendor}/%{composer_project})  = %{version}
+Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 %{summary}
@@ -247,25 +265,23 @@ Requires:  php-composer(fedora/autoloader)
 
 Summary:  Symfony Doctrine Bridge (version 3)
 
-Requires: %{name}-common                                 =  %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json
-Requires: php-composer(doctrine/common)                  >= %{doctrine_common_min_ver}
-Requires: php-composer(doctrine/common)                  <  %{doctrine_common_max_ver}
+Requires: php-composer(doctrine/common) >= %{doctrine_common_min_ver}
+Requires: php-composer(doctrine/common) <  %{doctrine_common_max_ver}
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/form)          =  %{version}
-Suggests: php-composer(%{composer_vendor}/validator)     =  %{version}
-Suggests: php-composer(%{composer_vendor}/property-info) =  %{version}
-Suggests: php-composer(doctrine/data-fixtures)           >= %{doctrine_datafixtures_min_ver}
-Suggests: php-composer(doctrine/data-fixtures)           <  %{doctrine_datafixtures_max_ver}
-Suggests: php-composer(doctrine/dbal)                    >= %{doctrine_dbal_min_ver}
-Suggests: php-composer(doctrine/dbal)                    <  %{doctrine_dbal_max_ver}
-Suggests: php-composer(doctrine/orm)                     >= %{doctrine_orm_min_ver}
-Suggests: php-composer(doctrine/orm)                     <  %{doctrine_orm_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests: php-composer(%{composer_vendor}/form)
+Suggests: php-composer(%{composer_vendor}/validator)
+Suggests: php-composer(%{composer_vendor}/property-info)
+Suggests: php-composer(doctrine/data-fixtures)
+Suggests: php-composer(doctrine/dbal)
+Suggests: php-composer(doctrine/orm)
+# phpcompatinfo (computed from version 3.2.4)
+Requires: php-ctype
 Requires: php-date
 Requires: php-hash
-Requires: php-iconv
 Requires: php-json
+Requires: php-mbstring
 Requires: php-pcre
 Requires: php-pdo_sqlite
 Requires: php-reflection
@@ -282,21 +298,24 @@ various Symfony components.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/doctrine.html
 
+Autoloader: %{phpdir}/Symfony/Bridge/Doctrine/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  monolog-bridge
 
 Summary:  Symfony Monolog Bridge (version 3)
 
-Requires: %{name}-common                                    =  %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json
-Requires: php-composer(monolog/monolog)                     >= %{monolog_min_ver}
-Requires: php-composer(monolog/monolog)                     <  %{monolog_max_ver}
+Requires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+Requires: php-composer(monolog/monolog) <  %{monolog_max_ver}
+Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/console)          =  %{version}
-Suggests: php-composer(%{composer_vendor}/event-dispatcher) =  %{version}
-Suggests: php-composer(%{composer_vendor}/http-kernel)      =  %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests: php-composer(%{composer_vendor}/console)
+Suggests: php-composer(%{composer_vendor}/event-dispatcher)
+
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-pcre
 
 # Composer
@@ -309,31 +328,36 @@ various Symfony components.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/monolog.html
 
+Autoloader: %{phpdir}/Symfony/Bridge/Monolog/autoload.php
+
 # ------------------------------------------------------------------------------
 
-%package  phpunit-bridge
+#%%package  phpunit-bridge
 
-Summary:  Symfony PHPUnit Bridge (version 3)
+#Summary:  Symfony PHPUnit Bridge (version 3)
 
-Requires: %{name}-common = %{version}-%{release}
+#Requires: php(language) >= 5.3.3
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/debug) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
-Requires: php-date
-Requires: php-pcre
-Requires: php-posix
-Requires: php-reflection
+#Suggests: php-composer(%%{composer_vendor}/debug) = %%{version}
+#Suggests: php-pecl(zip)
+# phpcompatinfo (computed from version 3.2.4)
+#Requires: php-date
+#Requires: php-pcre
+#Requires: php-posix
+#Requires: php-reflection
 
 # Composer
-Provides: php-composer(%{composer_vendor}/phpunit-bridge) = %{version}
+#Provides: php-composer(%%{composer_vendor}/phpunit-bridge) = %%{version}
 
-%description phpunit-bridge
-Provides utilities for PHPUnit, especially user deprecation notices management.
+#%%description phpunit-bridge
+#Provides utilities for PHPUnit, especially user deprecation notices management.
 
-It comes with the following features:
-* disable the garbage collector
-* auto-register class_exists to load Doctrine annotations
-* print a user deprecation notices summary at the end of the test suite.
+#It comes with the following features:
+#* disable the garbage collector
+#* auto-register class_exists to load Doctrine annotations
+#* print a user deprecation notices summary at the end of the test suite.
+
+#Autoloader: %%{phpdir}/Symfony/Bridge/PhpUnit/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -342,10 +366,10 @@ It comes with the following features:
 Summary:  Symfony ProxyManager Bridge (version 3)
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/dependency-injection) =  %{version}
-Requires: php-composer(ocramius/proxy-manager)                  >= %{proxy_manager_min_ver}
-Requires: php-composer(ocramius/proxy-manager)                  <  %{proxy_manager_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Requires: php-composer(%{composer_vendor}/dependency-injection) = %{version}
+Requires: php-composer(ocramius/proxy-manager) >= %{proxy_manager_min_ver}
+Requires: php-composer(ocramius/proxy-manager) <  %{proxy_manager_max_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-reflection
 Requires: php-spl
 
@@ -355,6 +379,8 @@ Provides: php-composer(%{composer_vendor}/proxy-manager-bridge) = %{version}
 %description proxy-manager-bridge
 Provides integration for ProxyManager [1] with various Symfony components.
 
+Autoloader: %{phpdir}/Symfony/Bridge/ProxyManager/autoload.php
+
 [1] http://ocramius.github.io/ProxyManager/
 
 # ------------------------------------------------------------------------------
@@ -363,24 +389,25 @@ Provides integration for ProxyManager [1] with various Symfony components.
 
 Summary:  Symfony Twig Bridge (version 3)
 
-Requires: %{name}-common                                       =  %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json
-Requires: php-composer(twig/twig)                              >= %{twig_min_ver}
-Requires: php-composer(twig/twig)                              <  %{twig_max_ver}
+Requires: php-composer(twig/twig) >= %{twig_min_ver}
+Requires: php-composer(twig/twig) <  %{twig_max_ver}
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/asset)               =  %{version}
-Suggests: php-composer(%{composer_vendor}/expression-language) =  %{version}
-Suggests: php-composer(%{composer_vendor}/finder)              =  %{version}
-Suggests: php-composer(%{composer_vendor}/form)                =  %{version}
-Suggests: php-composer(%{composer_vendor}/http-kernel)         =  %{version}
-Suggests: php-composer(%{composer_vendor}/routing)             =  %{version}
-Suggests: php-composer(%{composer_vendor}/security)            =  %{version}
-Suggests: php-composer(%{composer_vendor}/stopwatch)           =  %{version}
-Suggests: php-composer(%{composer_vendor}/templating)          =  %{version}
-Suggests: php-composer(%{composer_vendor}/translation)         =  %{version}
-Suggests: php-composer(%{composer_vendor}/var-dumper)          =  %{version}
-Suggests: php-composer(%{composer_vendor}/yaml)                =  %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests: php-composer(%{composer_vendor}/asset)
+Suggests: php-composer(%{composer_vendor}/expression-language)
+Suggests: php-composer(%{composer_vendor}/finder)
+Suggests: php-composer(%{composer_vendor}/form)
+Suggests: php-composer(%{composer_vendor}/http-kernel)
+Suggests: php-composer(%{composer_vendor}/routing)
+Suggests: php-composer(%{composer_vendor}/security)
+Suggests: php-composer(%{composer_vendor}/stopwatch)
+Suggests: php-composer(%{composer_vendor}/templating)
+Suggests: php-composer(%{composer_vendor}/translation)
+Suggests: php-composer(%{composer_vendor}/var-dumper)
+Suggests: php-composer(%{composer_vendor}/yaml)
+# phpcompatinfo (computed from version 3.2.4)
+Requires: php-hash
 Requires: php-json
 Requires: php-pcre
 Requires: php-reflection
@@ -393,6 +420,8 @@ Provides: php-composer(%{composer_vendor}/twig-bridge) = %{version}
 Provides integration for Twig (http://twig.sensiolabs.org/) with various
 Symfony components.
 
+Autoloader: %{phpdir}/Symfony/Bridge/Twig/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  debug-bundle
@@ -400,13 +429,13 @@ Symfony components.
 Summary:  Symfony Debug Bundle (version 3)
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel)          = %{version}
-Requires: php-composer(%{composer_vendor}/twig-bridge)          = %{version}
-Requires: php-composer(%{composer_vendor}/var-dumper)           = %{version}
+Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
+Requires: php-composer(%{composer_vendor}/var-dumper) = %{version}
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/config)               = %{version}
+Suggests: php-composer(%{composer_vendor}/config) = %{version}
 Suggests: php-composer(%{composer_vendor}/dependency-injection) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 #     <none>
 
 # Composer
@@ -415,6 +444,8 @@ Provides: php-composer(%{composer_vendor}/debug-bundle) = %{version}
 %description debug-bundle
 %{summary}.
 
+Autoloader: %{phpdir}/Symfony/Bundle/DebugBundle/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  framework-bundle
@@ -422,33 +453,30 @@ Provides: php-composer(%{composer_vendor}/debug-bundle) = %{version}
 Summary:  Symfony Framework Bundle (version 3)
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/asset)                =  %{version}
-Requires: php-composer(%{composer_vendor}/class-loader)         =  %{version}
-Requires: php-composer(%{composer_vendor}/config)               =  %{version}
-Requires: php-composer(%{composer_vendor}/dependency-injection) =  %{version}
-Requires: php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
-Requires: php-composer(%{composer_vendor}/filesystem)           =  %{version}
-Requires: php-composer(%{composer_vendor}/http-foundation)      =  %{version}
-Requires: php-composer(%{composer_vendor}/http-kernel)          =  %{version}
-Requires: php-composer(%{composer_vendor}/routing)              =  %{version}
-Requires: php-composer(%{composer_vendor}/security-core)        =  %{version}
-Requires: php-composer(%{composer_vendor}/security-csrf)        =  %{version}
-Requires: php-composer(%{composer_vendor}/stopwatch)            =  %{version}
-Requires: php-composer(%{composer_vendor}/templating)           =  %{version}
-Requires: php-composer(%{composer_vendor}/translation)          =  %{version}
-Requires: php-composer(doctrine/annotations)                    >= %{doctrine_annotations_min_ver}
-Requires: php-composer(doctrine/annotations)                    <  %{doctrine_annotations_max_ver}
-Requires: php-composer(doctrine/cache)                          >= %{doctrine_cache_min_ver}
-Requires: php-composer(doctrine/cache)                          <  %{doctrine_cache_max_ver}
+Requires: php-composer(%{composer_vendor}/cache) = %{version}
+Requires: php-composer(%{composer_vendor}/class-loader) = %{version}
+Requires: php-composer(%{composer_vendor}/config) = %{version}
+Requires: php-composer(%{composer_vendor}/dependency-injection) = %{version}
+Requires: php-composer(%{composer_vendor}/event-dispatcher) = %{version}
+Requires: php-composer(%{composer_vendor}/filesystem) = %{version}
+Requires: php-composer(%{composer_vendor}/finder) = %{version}
+Requires: php-composer(%{composer_vendor}/http-foundation) = %{version}
+Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires: php-composer(%{composer_vendor}/routing) = %{version}
+Requires: php-composer(%{composer_vendor}/security-core) = %{version}
+Requires: php-composer(%{composer_vendor}/security-csrf) = %{version}
+Requires: php-composer(%{composer_vendor}/stopwatch) = %{version}
+Requires: php-composer(doctrine/cache) >= %{doctrine_cache_min_ver}
+Requires: php-composer(doctrine/cache) <  %{doctrine_cache_max_ver}
 # composer.json: optional
-Suggests: php-composer(%{composer_vendor}/console)              =  %{version}
-Suggests: php-composer(%{composer_vendor}/finder)               =  %{version}
-Suggests: php-composer(%{composer_vendor}/form)                 =  %{version}
-Suggests: php-composer(%{composer_vendor}/property-info)        =  %{version}
-Suggests: php-composer(%{composer_vendor}/serializer)           =  %{version}
-Suggests: php-composer(%{composer_vendor}/validator)            =  %{version}
-Suggests: php-composer(%{composer_vendor}/yaml)                 =  %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests: php-composer(%{composer_vendor}/console)
+Suggests: php-composer(%{composer_vendor}/form)
+Suggests: php-composer(%{composer_vendor}/process)
+Suggests: php-composer(%{composer_vendor}/property-info)
+Suggests: php-composer(%{composer_vendor}/serializer)
+Suggests: php-composer(%{composer_vendor}/validator)
+Suggests: php-composer(%{composer_vendor}/yaml)
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-dom
 Requires: php-fileinfo
 Requires: php-filter
@@ -474,6 +502,8 @@ and more.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/framework.html
 
+Autoloader: %{phpdir}/Symfony/Bundle/FrameworkBundle/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  security-bundle
@@ -481,13 +511,13 @@ http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/framework.htm
 Summary:  Symfony Security Bundle (version 3)
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/http-kernel)    =  %{version}
-Requires: php-composer(%{composer_vendor}/security)       =  %{version}
-Requires: php-composer(%{composer_vendor}/security-acl)   >= %{symfony_security_acl_min_ver}
-Requires: php-composer(%{composer_vendor}/security-acl)   <  %{symfony_security_acl_max_ver}
-Requires: php-composer(%{composer_vendor}/polyfill)       >= %{symfony_polyfill_min_ver}
-Requires: php-composer(%{composer_vendor}/polyfill)       <  %{symfony_polyfill_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires: php-composer(%{composer_vendor}/security) = %{version}
+Requires: php-composer(%{composer_vendor}/polyfill-php70) >= %{symfony_polyfill_min_ver}
+Requires: php-composer(%{composer_vendor}/polyfill-php70) <  %{symfony_polyfill_max_ver}
+# composer.json: optional
+Suggests: php-composer(%{composer_vendor}/security-acl)
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-pcre
 Requires: php-spl
 
@@ -495,7 +525,9 @@ Requires: php-spl
 Provides: php-composer(%{composer_vendor}/security-bundle) = %{version}
 
 %description security-bundle
-%{summary}
+%{summary}.
+
+Autoloader: %{phpdir}/Symfony/Bundle/SecurityBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -504,11 +536,13 @@ Provides: php-composer(%{composer_vendor}/security-bundle) = %{version}
 Summary:  Symfony Twig Bundle (version 3)
 
 # composer.json
-Requires: php-composer(%{composer_vendor}/asset)           = %{version}
+Requires: php-composer(%{composer_vendor}/config) = %{version}
 Requires: php-composer(%{composer_vendor}/http-foundation) = %{version}
-Requires: php-composer(%{composer_vendor}/http-kernel)     = %{version}
-Requires: php-composer(%{composer_vendor}/twig-bridge)     = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
+Requires: php-composer(twig/twig) <  %{twig_max_ver}
+Requires: php-composer(twig/twig) >= %{twig_min_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-ctype
 Requires: php-reflection
 Requires: php-spl
@@ -522,6 +556,8 @@ Provides: php-composer(%{composer_vendor}/twig-bundle) = %{version}
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/twig.html
 
+Autoloader: %{phpdir}/Symfony/Bundle/TwigBundle/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  web-profiler-bundle
@@ -530,9 +566,13 @@ Summary:  Symfony WebProfiler Bundle (version 3)
 
 # composer.json
 Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/routing)     = %{version}
+Requires: php-composer(%{composer_vendor}/polyfill-php70) = %{version}
+Requires: php-composer(%{composer_vendor}/routing) = %{version}
 Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Requires: php-composer(%{composer_vendor}/var-dumper) = %{version}
+Requires: php-composer(twig/twig) <  %{twig_max_ver}
+Requires: php-composer(twig/twig) >= %{twig_min_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-pcre
 Requires: php-spl
 
@@ -545,6 +585,8 @@ Provides: php-composer(%{composer_vendor}/web-profiler-bundle) = %{version}
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/web_profiler.html
 
+Autoloader: %{phpdir}/Symfony/Bundle/WebProfilerBundle/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   asset
@@ -552,10 +594,10 @@ http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/web_profiler.
 Summary:   Symfony Asset Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/asset.html
 
-Requires: %{name}-common                                    = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/http-foundation) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-hash
 Requires:  php-spl
 
@@ -564,6 +606,8 @@ Provides:  php-composer(%{composer_vendor}/asset) = %{version}
 
 %description asset
 The Asset component manages asset URLs.
+
+Autoloader: %{phpdir}/Symfony/Component/Asset/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -575,8 +619,8 @@ URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/browser_kit.htm
 # composer.json
 Requires:  php-composer(%{composer_vendor}/dom-crawler) = %{version}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/process)     = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/process) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -590,6 +634,8 @@ BrowserKit simulates the behavior of a web browser.
 The component only provide an abstract client and does not provide any
 "default" backend for the HTTP layer.
 
+Autoloader: %{phpdir}/Symfony/Component/BrowserKit/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   cache
@@ -602,12 +648,15 @@ Requires:  php-composer(psr/cache) <  %{psr_cache_max_ver}
 Requires:  php-composer(psr/cache) >= %{psr_cache_min_ver}
 Requires:  php-composer(psr/log) <  %{psr_log_max_ver}
 Requires:  php-composer(psr/log) >= %{psr_log_min_ver}
-# phpcompatinfo (computed from version 3.2.3)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-pcre
+Requires:  php-pdo
 Requires:  php-reflection
 Requires:  php-spl
+Suggests:  php-pecl(apcu)
+Suggests:  php-pecl(opcache)
 
 # Composer
 Provides:  php-composer(%{composer_vendor}/cache) = %{version}
@@ -617,6 +666,8 @@ Provides:  php-composer(psr/cache-implementation) = 1.0
 The Cache component provides an extended PSR-6 [1] implementation for adding
 cache to your applications. It is designed to have a low overhead and it ships
 with ready to use adapters for the most common caching backends.
+
+Autoloader: %{phpdir}/Symfony/Component/Cache/autoload.php
 
 [1] http://www.php-fig.org/psr/psr-6/
 
@@ -628,7 +679,7 @@ Summary:   Symfony ClassLoader Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/class_loader.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-hash
 Requires:  php-pcre
 Requires:  php-reflection
@@ -656,6 +707,8 @@ If your classes and the third-party libraries you use for your project follow
 these standards, the Symfony autoloader is the only autoloader you will ever
 need.
 
+Autoloader: %{phpdir}/Symfony/Component/ClassLoader/autoload.php
+
 [1] http://symfony.com/PSR0
 [2] http://pear.php.net/manual/en/standards.php
 
@@ -668,7 +721,9 @@ URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/config.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/filesystem) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+# composer.json: optional
+Requires:  php-composer(%{composer_vendor}/yaml) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-dom
 Requires:  php-json
@@ -684,6 +739,8 @@ The Config Component provides several classes to help you find, load, combine,
 autofill and validate configuration values of any kind, whatever their source
 may be (Yaml, XML, INI files, or for instance a database).
 
+Autoloader: %{phpdir}/Symfony/Component/Config/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   console
@@ -691,20 +748,21 @@ may be (Yaml, XML, INI files, or for instance a database).
 Summary:   Symfony Console Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/console.html
 
-Requires: %{name}-common                                     =  %{version}-%{release}
+# composer.json
+Suggests:  php-composer(%{composer_vendor}/debug) = %{version}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/event-dispatcher) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/process)          =  %{version}
-Suggests:  php-composer(psr/log)                             >= %{psr_log_min_ver}
-Suggests:  php-composer(psr/log)                             <  %{psr_log_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
+Suggests:  php-composer(%{composer_vendor}/filesystem) = %{version}
+Suggests:  php-composer(%{composer_vendor}/process) = %{version}
+Suggests:  php-composer(psr/log) >= %{psr_log_min_ver}
+Suggests:  php-composer(psr/log) <  %{psr_log_max_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-dom
 Requires:  php-json
 Requires:  php-mbstring
 Requires:  php-pcre
 Requires:  php-posix
-Requires:  php-readline
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -719,6 +777,8 @@ The Console component allows you to create command-line commands. Your console
 commands can be used for any recurring task, such as cronjobs, imports, or
 other batch jobs.
 
+Autoloader: %{phpdir}/Symfony/Component/Console/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   css-selector
@@ -727,7 +787,7 @@ Summary:   Symfony CssSelector Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/css_selector.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
 
 # Composer
@@ -736,6 +796,8 @@ Provides:  php-composer(%{composer_vendor}/css-selector) = %{version}
 %description css-selector
 The CssSelector Component converts CSS selectors to XPath expressions.
 
+Autoloader: %{phpdir}/Symfony/Component/CssSelector/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  debug
@@ -743,13 +805,14 @@ The CssSelector Component converts CSS selectors to XPath expressions.
 Summary:  Symfony Debug Component (version 3)
 URL:      http://symfony.com/doc/%{symfony3_doc_ver}/components/debug.html
 
-Requires: %{name}-common                                   =  %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json
-Requires:  php-composer(psr/log)                           >= %{psr_log_min_ver}
-Requires:  php-composer(psr/log)                           <  %{psr_log_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
-Requires: php-reflection
+Requires:  php-composer(psr/log) >= %{psr_log_min_ver}
+Requires:  php-composer(psr/log) <  %{psr_log_max_ver}
+# phpcompatinfo (computed from version 3.2.4)
+Requires: php-json
 Requires: php-pcre
+Requires: php-reflection
 Requires: php-spl
 Suggests: php-pecl(Xdebug)
 
@@ -759,6 +822,8 @@ Provides: php-composer(%{composer_vendor}/debug) = %{version}
 %description debug
 The Debug Component provides tools to ease debugging PHP code.
 
+Autoloader: %{phpdir}/Symfony/Component/Debug/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   dependency-injection
@@ -766,14 +831,16 @@ The Debug Component provides tools to ease debugging PHP code.
 Summary:   Symfony DependencyInjection Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/dependency_injection.html
 
-Requires: %{name}-common                                         = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/config)               = %{version}
-Suggests:  php-composer(%{composer_vendor}/yaml)                 = %{version}
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/expression-language) = %{version}
 Suggests:  php-composer(%{composer_vendor}/proxy-manager-bridge) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/yaml) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-dom
 Requires:  php-hash
+Requires:  php-libxml
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -785,6 +852,8 @@ Provides:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
 The Dependency Injection component allows you to standardize and centralize
 the way objects are constructed in your application.
 
+Autoloader: %{phpdir}/Symfony/Component/DependencyInjection/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   dom-crawler
@@ -792,10 +861,10 @@ the way objects are constructed in your application.
 Summary:   Symfony DomCrawler Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/dom_crawler.html
 
-Requires: %{name}-common                                 = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/css-selector) = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-dom
 Requires:  php-libxml
 Requires:  php-mbstring
@@ -808,6 +877,8 @@ Provides:  php-composer(%{composer_vendor}/dom-crawler) = %{version}
 %description dom-crawler
 The DomCrawler Component eases DOM navigation for HTML and XML documents.
 
+Autoloader: %{phpdir}/Symfony/Component/DomCrawler/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   event-dispatcher
@@ -815,13 +886,12 @@ The DomCrawler Component eases DOM navigation for HTML and XML documents.
 Summary:   Symfony EventDispatcher Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/event_dispatcher.html
 
-Requires: %{name}-common                                         = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
-Suggests:  php-composer(%{composer_vendor}/http-kernel)          = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
-Requires:  php-reflection
 Requires:  php-spl
 
 # Composer
@@ -832,6 +902,8 @@ The Symfony Event Dispatcher component implements the Observer [1] pattern in
 a simple and effective way to make all these things possible and to make your
 projects truly extensible.
 
+Autoloader: %{phpdir}/Symfony/Component/EventDispatcher/autoload.php
+
 [1] http://en.wikipedia.org/wiki/Observer_pattern
 
 # ------------------------------------------------------------------------------
@@ -841,8 +913,8 @@ projects truly extensible.
 Summary:   Symfony ExpressionLanguage Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/expression_language.html
 
-Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+Requires:  php-composer(%{composer_vendor}/cache) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-pcre
 Requires:  php-spl
@@ -855,6 +927,8 @@ The ExpressionLanguage component provides an engine that can compile and
 evaluate expressions. An expression is a one-liner that returns a value
 (mostly, but not limited to, Booleans).
 
+Autoloader: %{phpdir}/Symfony/Component/ExpressionLanguage/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   filesystem
@@ -863,7 +937,7 @@ Summary:   Symfony Filesystem Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/filesystem.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-hash
 Requires:  php-pcre
@@ -876,6 +950,8 @@ Provides:  php-composer(%{composer_vendor}/filesystem) = %{version}
 %description filesystem
 The Filesystem component provides basic utilities for the filesystem.
 
+Autoloader: %{phpdir}/Symfony/Component/Filesystem/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   finder
@@ -884,7 +960,7 @@ Summary:   Symfony Finder Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/finder.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-pcre
 Requires:  php-spl
@@ -896,6 +972,8 @@ Provides:  php-composer(%{composer_vendor}/finder) = %{version}
 The Finder Component finds files and directories via an intuitive fluent
 interface.
 
+Autoloader: %{phpdir}/Symfony/Component/Finder/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   form
@@ -905,15 +983,15 @@ URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/form.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
-Requires:  php-composer(%{composer_vendor}/intl)             = %{version}
+Requires:  php-composer(%{composer_vendor}/intl) = %{version}
 Requires:  php-composer(%{composer_vendor}/options-resolver) = %{version}
-Requires:  php-composer(%{composer_vendor}/property-access)  = %{version}
+Requires:  php-composer(%{composer_vendor}/property-access) = %{version}
 # composer.json: optional
 Suggests:  php-composer(%{composer_vendor}/framework-bundle) = %{version}
-Suggests:  php-composer(%{composer_vendor}/security-csrf)    = %{version}
-Suggests:  php-composer(%{composer_vendor}/twig-bridge)      = %{version}
-Suggests:  php-composer(%{composer_vendor}/validator)        = %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/security-csrf) = %{version}
+Suggests:  php-composer(%{composer_vendor}/twig-bridge) = %{version}
+Suggests:  php-composer(%{composer_vendor}/validator) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-hash
@@ -930,6 +1008,8 @@ Form provides tools for defining forms, rendering and mapping request data
 to related models. Furthermore it provides integration with the Validation
 component.
 
+Autoloader: %{phpdir}/Symfony/Component/Form/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   http-foundation
@@ -938,14 +1018,16 @@ Summary:   Symfony HttpFoundation Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/http_foundation.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-fileinfo
 Requires:  php-filter
 Requires:  php-hash
 Requires:  php-json
+Requires:  php-mbstring
 Requires:  php-pcre
 Requires:  php-pdo
+Requires:  php-reflection
 Requires:  php-session
 Requires:  php-sockets
 Requires:  php-spl
@@ -965,6 +1047,8 @@ functions (echo, header, setcookie, ...).
 The Symfony HttpFoundation component replaces these default PHP global
 variables and functions by an Object-Oriented layer.
 
+Autoloader: %{phpdir}/Symfony/Component/HttpFoundation/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   http-kernel
@@ -973,20 +1057,20 @@ Summary:   Symfony HttpKernel Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/http_kernel.html
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/debug)                =  %{version}
-Requires:  php-composer(%{composer_vendor}/event-dispatcher)     =  %{version}
-Requires:  php-composer(%{composer_vendor}/http-foundation)      =  %{version}
-Requires:  php-composer(psr/log)                                 >= %{psr_log_min_ver}
-Requires:  php-composer(psr/log)                                 <  %{psr_log_max_ver}
+Requires:  php-composer(%{composer_vendor}/debug) = %{version}
+Requires:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
+Requires:  php-composer(%{composer_vendor}/http-foundation) = %{version}
+Requires:  php-composer(psr/log) >= %{psr_log_min_ver}
+Requires:  php-composer(psr/log) <  %{psr_log_max_ver}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/browser-kit)          =  %{version}
-Suggests:  php-composer(%{composer_vendor}/class-loader)         =  %{version}
-Suggests:  php-composer(%{composer_vendor}/config)               =  %{version}
-Suggests:  php-composer(%{composer_vendor}/console)              =  %{version}
-Suggests:  php-composer(%{composer_vendor}/dependency-injection) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/finder)               =  %{version}
-Suggests:  php-composer(%{composer_vendor}/var-dumper)           =  %{version}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/browser-kit) = %{version}
+Suggests:  php-composer(%{composer_vendor}/class-loader) = %{version}
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/console) = %{version}
+Suggests:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
+Suggests:  php-composer(%{composer_vendor}/finder) = %{version}
+Suggests:  php-composer(%{composer_vendor}/var-dumper) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-pcre
@@ -995,14 +1079,9 @@ Requires:  php-session
 Requires:  php-spl
 Requires:  php-tokenizer
 Suggests:  php-pecl(apcu)
+Suggests:  php-pecl(opcache)
 Suggests:  php-pecl(Xdebug)
 Suggests:  php-xcache
-# TODO!!!!!!!!!!!!!!
-#%%if 0%%{?rhel} >= 6
-#* Zend OPcache (php-pecl-zendopcache)
-#%%else
-#* Zend OPcache (php-opcache)
-#%%endif
 
 # Composer
 Provides:  php-composer(%{composer_vendor}/http-kernel) = %{version}
@@ -1016,6 +1095,8 @@ advanced CMS system (Drupal).
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/kernel.html
 
+Autoloader: %{phpdir}/Symfony/Component/HttpKernel/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   inflector
@@ -1023,7 +1104,7 @@ http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/kernel.html
 Summary:   Symfony Inflector Component (version 3)
 
 Requires: %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.2.3)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 
 # Composer
@@ -1031,6 +1112,8 @@ Provides:  php-composer(%{composer_vendor}/inflector) = %{version}
 
 %description inflector
 Symfony Inflector Component (version 3).
+
+Autoloader: %{phpdir}/Symfony/Component/Inflector/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1042,7 +1125,7 @@ URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/intl.html
 Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
 Requires:  php-intl
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-json
@@ -1058,6 +1141,8 @@ Provides:  php-composer(%{composer_vendor}/intl) = %{version}
 A PHP replacement layer for the C intl extension [1] that also provides access
 to the localization data of the ICU library [2].
 
+Autoloader: %{phpdir}/Symfony/Component/Intl/autoload.php
+
 [1] http://www.php.net/manual/en/book.intl.php
 [2] http://site.icu-project.org/
 
@@ -1068,20 +1153,22 @@ to the localization data of the ICU library [2].
 Summary:   An abstraction in front of PHP's LDAP functions (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/ldap.html
 
-Requires:  %{name}-common                             =  %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 # composer.json
+Requires:  php-composer(%{composer_vendor}/options-resolver) = %{version}
+Requires:  php-composer(%{composer_vendor}/polyfill-php56) <  %{symfony_polyfill_max_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-php56) >= %{symfony_polyfill_min_ver}
 Requires:  php-ldap
-Requires:  php-composer(%{composer_vendor}/polyfill) >= %{symfony_polyfill_min_ver}
-Requires:  php-composer(%{composer_vendor}/polyfill) >= %{symfony_polyfill_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
-Requires:  php-ldap
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-spl
 
 # Composer
-Provides:  php-composer(%{composer_vendor}/ldap)     =  %{version}
+Provides:  php-composer(%{composer_vendor}/ldap)     = %{version}
 
 %description ldap
 %{summary}.
+
+Autoloader: %{phpdir}/Symfony/Component/Ldap/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1091,7 +1178,7 @@ Summary:   Symfony OptionsResolver Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/options_resolver.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-reflection
 Requires:  php-spl
 
@@ -1102,6 +1189,8 @@ Provides:  php-composer(%{composer_vendor}/options-resolver) = %{version}
 The OptionsResolver Component helps you configure objects with option arrays.
 It supports default values, option constraints and lazy options.
 
+Autoloader: %{phpdir}/Symfony/Component/OptionsResolver/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   process
@@ -1110,8 +1199,9 @@ Summary:   Symfony Process Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/process.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
+Requires:  php-posix
 Requires:  php-spl
 
 # Composer
@@ -1120,6 +1210,8 @@ Provides:  php-composer(%{composer_vendor}/process) = %{version}
 %description process
 The Process component executes commands in sub-processes.
 
+Autoloader: %{phpdir}/Symfony/Component/Process/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   property-access
@@ -1127,9 +1219,13 @@ The Process component executes commands in sub-processes.
 Summary:   Symfony PropertyAccess Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/property_access.html
 
-Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
-Requires:  php-ctype
+# composer.json
+Requires:  php-composer(%{composer_vendor}/inflector) = %{version}
+Requires:  php-composer(%{composer_vendor}/polyfill-php70) <  %{symfony_polyfill_max_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-php70) >= %{symfony_polyfill_min_ver}
+# composer.json: optional
+Suggests:  php-composer(psr/cache-implementation)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -1141,6 +1237,8 @@ Provides:  php-composer(%{composer_vendor}/property-access) = %{version}
 The PropertyAccess component provides function to read and write from/to an
 object or array using a simple string notation.
 
+Autoloader: %{phpdir}/Symfony/Component/PropertyAccess/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   property-info
@@ -1148,13 +1246,14 @@ object or array using a simple string notation.
 Summary:   Symfony PropertyInfo Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/property_info.html
 
-Requires:  %{name}-common                                   =  %{version}-%{release}
+# composer.json
+Requires:  php-composer(%{composer_vendor}/inflector) = %{version}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/doctrine-bridge) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/serializer)      =  %{version}
-Suggests:  php-composer(phpdocumentor/reflection-docblock)           >= %{phpdocumentor_reflection_docblock_min_ver}
-Suggests:  php-composer(phpdocumentor/reflection-docblock)           <  %{phpdocumentor_reflection_docblock_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/doctrine-bridge)
+Suggests:  php-composer(%{composer_vendor}/serializer)
+Suggests:  php-composer(psr/cache-implementation)
+Suggests:  php-phpdocumentor-reflection-docblock3
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -1165,6 +1264,8 @@ Provides:  php-composer(%{composer_vendor}/property-info) = %{version}
 %description property-info
 %{summary}.
 
+Autoloader: %{phpdir}/Symfony/Component/PropertyInfo/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   routing
@@ -1172,15 +1273,16 @@ Provides:  php-composer(%{composer_vendor}/property-info) = %{version}
 Summary:   Symfony Routing Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/routing.html
 
-Requires:  %{name}-common                                        =  %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/config)               =  %{version}
-Suggests:  php-composer(%{composer_vendor}/dependency-injection) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/expression-language)  =  %{version}
-Suggests:  php-composer(%{composer_vendor}/yaml)                 =  %{version}
-Suggests:  php-composer(doctrine/annotations)                    >= %{doctrine_annotations_min_ver}
-Suggests:  php-composer(doctrine/annotations)                    <  %{doctrine_annotations_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
+Suggests:  php-composer(%{composer_vendor}/expression-language) = %{version}
+Suggests:  php-composer(%{composer_vendor}/http-foundation) = %{version}
+Suggests:  php-composer(%{composer_vendor}/yaml) = %{version}
+Suggests:  php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
+Suggests:  php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-spl
@@ -1192,6 +1294,8 @@ Provides:  php-composer(%{composer_vendor}/routing) = %{version}
 %description routing
 The Routing Component maps an HTTP request to a set of configuration variables.
 
+Autoloader: %{phpdir}/Symfony/Component/Routing/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   security
@@ -1200,41 +1304,42 @@ Summary:   Symfony Security Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/security.html
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/event-dispatcher)    =  %{version}
-Requires:  php-composer(%{composer_vendor}/http-foundation)     =  %{version}
-Requires:  php-composer(%{composer_vendor}/http-kernel)         =  %{version}
-Requires:  php-composer(%{composer_vendor}/polyfill)            >= %{symfony_polyfill_min_ver}
-Requires:  php-composer(%{composer_vendor}/polyfill)            >= %{symfony_polyfill_max_ver}
-Requires:  php-composer(%{composer_vendor}/property-access)     =  %{version}
+Requires:  php-composer(%{composer_vendor}/event-dispatcher) = %{version}
+Requires:  php-composer(%{composer_vendor}/http-foundation) = %{version}
+Requires:  php-composer(%{composer_vendor}/http-kernel) = %{version}
+Requires:  php-composer(%{composer_vendor}/polyfill-php56) <  %{symfony_polyfill_max_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-php56) >= %{symfony_polyfill_min_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-php70) <  %{symfony_polyfill_max_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-php70) >= %{symfony_polyfill_min_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-util) <  %{symfony_polyfill_max_ver}
+Requires:  php-composer(%{composer_vendor}/polyfill-util) >= %{symfony_polyfill_min_ver}
+Requires:  php-composer(%{composer_vendor}/property-access) = %{version}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/expression-language) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/form)                =  %{version}
-Suggests:  php-composer(%{composer_vendor}/ldap)                =  %{version}
-Suggests:  php-composer(%{composer_vendor}/routing)             =  %{version}
-Suggests:  php-composer(%{composer_vendor}/validator)           =  %{version}
-# phpcompatinfo (computed from version 3.0.0)
-Requires:  php-reflection
-Requires:  php-ctype
+Suggests:  php-composer(%{composer_vendor}/expression-language) = %{version}
+Suggests:  php-composer(%{composer_vendor}/form) = %{version}
+Suggests:  php-composer(%{composer_vendor}/ldap) = %{version}
+Suggests:  php-composer(%{composer_vendor}/routing) = %{version}
+Suggests:  php-composer(%{composer_vendor}/validator) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-date
 Requires:  php-hash
 Requires:  php-json
-Requires:  php-ldap
 Requires:  php-pcre
+Requires:  php-reflection
 Requires:  php-session
 Requires:  php-spl
-############ TODO: WITHOUT SUB-PKG TESTS!!!!!!!!!!!!!!!!!!!!!
 
 # Composer
-Provides: php-composer(%{composer_vendor}/security)       = %{version}
-Provides: php-composer(%{composer_vendor}/security-core)  = %{version}
-Provides: php-composer(%{composer_vendor}/security-csrf)  = %{version}
+Provides: php-composer(%{composer_vendor}/security) = %{version}
+Provides: php-composer(%{composer_vendor}/security-core) = %{version}
+Provides: php-composer(%{composer_vendor}/security-csrf) = %{version}
 Provides: php-composer(%{composer_vendor}/security-guard) = %{version}
-Provides: php-composer(%{composer_vendor}/security-http)  = %{version}
+Provides: php-composer(%{composer_vendor}/security-http) = %{version}
 # Composer sub-packages
-Provides: %{name}-security-core  = %{version}-%{release}
-Provides: %{name}-security-csrf  = %{version}-%{release}
+Provides: %{name}-security-core = %{version}-%{release}
+Provides: %{name}-security-csrf = %{version}-%{release}
 Provides: %{name}-security-guard = %{version}-%{release}
-Provides: %{name}-security-http  = %{version}-%{release}
+Provides: %{name}-security-http = %{version}-%{release}
 
 %description security
 The Security Component provides a complete security system for your web
@@ -1244,6 +1349,8 @@ but also allows you to implement your own authentication strategies.
 Furthermore, the component provides ways to authorize authenticated users
 based on their roles, and it contains an advanced ACL system.
 
+Autoloader: %{phpdir}/Symfony/Component/Security/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   serializer
@@ -1251,17 +1358,21 @@ based on their roles, and it contains an advanced ACL system.
 Summary:   Symfony Serializer Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/serializer.html
 
-Requires:  %{name}-common                                   =  %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/config)          =  %{version}
-Suggests:  php-composer(%{composer_vendor}/property-access) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/yaml)            =  %{version}
-Suggests:  php-composer(doctrine/annotations)               >= %{doctrine_annotations_min_ver}
-Suggests:  php-composer(doctrine/annotations)               <  %{doctrine_annotations_max_ver}
-Suggests:  php-composer(doctrine/cache)                     >= %{doctrine_cache_min_ver}
-Suggests:  php-composer(doctrine/cache)                     <  %{doctrine_cache_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/http-foundation) = %{version}
+Suggests:  php-composer(%{composer_vendor}/property-access) = %{version}
+Suggests:  php-composer(%{composer_vendor}/property-info) = %{version}
+Suggests:  php-composer(%{composer_vendor}/yaml) = %{version}
+Suggests:  php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
+Suggests:  php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
+Suggests:  php-composer(doctrine/cache) <  %{doctrine_cache_max_ver}
+Suggests:  php-composer(doctrine/cache) >= %{doctrine_cache_min_ver}
+Suggests:  php-composer(psr/cache-implementation)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
+Requires:  php-date
 Requires:  php-dom
 Requires:  php-json
 Requires:  php-libxml
@@ -1277,6 +1388,8 @@ Provides:  php-composer(%{composer_vendor}/serializer) = %{version}
 The Serializer Component is meant to be used to turn objects into a specific
 format (XML, JSON, Yaml, ...) and the other way around.
 
+Autoloader: %{phpdir}/Symfony/Component/Serializer/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  stopwatch
@@ -1285,7 +1398,7 @@ Summary:  Symfony Stopwatch Component (version 3)
 URL:      http://symfony.com/doc/%{symfony3_doc_ver}/components/stopwatch.html
 
 Requires: %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-spl
 
 # Composer
@@ -1294,6 +1407,8 @@ Provides: php-composer(%{composer_vendor}/stopwatch) = %{version}
 %description stopwatch
 Stopwatch component provides a way to profile code.
 
+Autoloader: %{phpdir}/Symfony/Component/Stopwatch/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   templating
@@ -1301,11 +1416,11 @@ Stopwatch component provides a way to profile code.
 Summary:   Symfony Templating Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/templating.html
 
-Requires:  %{name}-common        =  %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(psr/log) >= %{psr_log_min_ver}
 Suggests:  php-composer(psr/log) <  %{psr_log_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(psr/log) >= %{psr_log_min_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-hash
 Requires:  php-iconv
@@ -1323,6 +1438,8 @@ them for changes. It also provides a concrete template engine implementation
 using PHP with additional tools for escaping and separating templates into
 blocks and layouts.
 
+Autoloader: %{phpdir}/Symfony/Component/Templating/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   translation
@@ -1330,13 +1447,13 @@ blocks and layouts.
 Summary:   Symfony Translation Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/translation.html
 
-Requires:  %{name}-common                          =  %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/config) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/yaml)   =  %{version}
-Suggests:  php-composer(psr/log)                   >= %{psr_log_min_ver}
-Suggests:  php-composer(psr/log)                   <  %{psr_log_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/yaml) = %{version}
+Suggests:  php-composer(psr/log) <  %{psr_log_max_ver}
+Suggests:  php-composer(psr/log) >= %{psr_log_min_ver}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-dom
 Requires:  php-intl
 Requires:  php-json
@@ -1353,6 +1470,8 @@ Provides:  php-composer(%{composer_vendor}/translation) = %{version}
 Translation provides tools for loading translation files and generating
 translated strings from these including support for pluralization.
 
+Autoloader: %{phpdir}/Symfony/Component/Translation/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   validator
@@ -1361,27 +1480,28 @@ Summary:   Symfony Validator Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/validator.html
 
 # composer.json
-Requires:  php-composer(%{composer_vendor}/translation)         =  %{version}
+Requires:  php-composer(%{composer_vendor}/translation) = %{version}
 # composer.json: optional
-Suggests:  php-composer(%{composer_vendor}/config)              =  %{version}
-Suggests:  php-composer(%{composer_vendor}/expression-language) =  %{version}
-Suggests:  php-composer(%{composer_vendor}/http-foundation)     =  %{version}
-Suggests:  php-composer(%{composer_vendor}/intl)                =  %{version}
-Suggests:  php-composer(%{composer_vendor}/property-access)     =  %{version}
-Suggests:  php-composer(%{composer_vendor}/yaml)                =  %{version}
-Suggests:  php-composer(doctrine/annotations)                   >= %{doctrine_annotations_min_ver}
-Suggests:  php-composer(doctrine/annotations)                   <  %{doctrine_annotations_max_ver}
-Suggests:  php-composer(doctrine/cache)                         >= %{doctrine_cache_min_ver}
-Suggests:  php-composer(doctrine/cache)                         <  %{doctrine_cache_max_ver}
-Suggests:  php-composer(egulias/email-validator)                >= %{email_validator_min_ver}
-Suggests:  php-composer(egulias/email-validator)                <  %{email_validator_max_ver}
-# phpcompatinfo (computed from version 3.0.0)
+Suggests:  php-composer(%{composer_vendor}/config) = %{version}
+Suggests:  php-composer(%{composer_vendor}/expression-language) = %{version}
+Suggests:  php-composer(%{composer_vendor}/http-foundation) = %{version}
+Suggests:  php-composer(%{composer_vendor}/intl) = %{version}
+Suggests:  php-composer(%{composer_vendor}/property-access) = %{version}
+Suggests:  php-composer(%{composer_vendor}/yaml) = %{version}
+Suggests:  php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
+Suggests:  php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
+Suggests:  php-composer(doctrine/cache) <  %{doctrine_cache_max_ver}
+Suggests:  php-composer(doctrine/cache) >= %{doctrine_cache_min_ver}
+Suggests:  php-composer(egulias/email-validator) <  %{email_validator_max_ver}
+Suggests:  php-composer(egulias/email-validator) >= %{email_validator_min_ver}
+Suggests:  php-composer(psr/cache-implementation)
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-filter
-Requires:  php-iconv
 Requires:  php-intl
 Requires:  php-json
+Requires:  php-mbstring
 Requires:  php-pcre
 Requires:  php-reflection
 Requires:  php-simplexml
@@ -1395,6 +1515,8 @@ This component is based on the JSR-303 Bean Validation specification and
 enables specifying validation rules for classes using XML, YAML, PHP or
 annotations, which can then be checked against instances of these classes.
 
+Autoloader: %{phpdir}/Symfony/Component/Validator/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  var-dumper
@@ -1405,7 +1527,7 @@ URL:      http://symfony.com/doc/%{symfony3_doc_ver}/components/var_dumper.html
 Requires: %{name}-common = %{version}-%{release}
 # composer.json: optional
 ## ext-symfony_debug
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-curl
 Requires: php-date
 Requires: php-dom
@@ -1421,7 +1543,6 @@ Requires: php-xml
 Suggests: php-mysql
 Suggests: php-pecl(amqp)
 Suggests: php-pgsql
-## symfony_debug
 
 # Composer
 Provides: php-composer(%{composer_vendor}/var-dumper) = %{version}
@@ -1439,6 +1560,8 @@ The component exposes all the parts involved in the different steps of cloning
 then dumping a PHP variable, while applying size limits and having specialized
 output formats and methods.
 
+Autoloader: %{phpdir}/Symfony/Component/VarDumper/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package  workflow
@@ -1448,7 +1571,7 @@ URL:      http://symfony.com/doc/%{symfony3_doc_ver}/components/workflow.html
 
 # composer.json
 Requires:  php-composer(%{composer_vendor}/property-access) = %{version}
-# phpcompatinfo (computed from version 3.2.3)
+# phpcompatinfo (computed from version 3.2.4)
 Requires: php-pcre
 Requires: php-spl
 
@@ -1459,6 +1582,8 @@ Provides: php-composer(%{composer_vendor}/workflow) = %{version}
 The Workflow component provides tools for managing a workflow or finite state
 machine.
 
+Autoloader: %{phpdir}/Symfony/Component/Workflow/autoload.php
+
 # ------------------------------------------------------------------------------
 
 %package   yaml
@@ -1467,7 +1592,9 @@ Summary:   Symfony Yaml Component (version 3)
 URL:       http://symfony.com/doc/%{symfony3_doc_ver}/components/yaml.html
 
 Requires:  %{name}-common = %{version}-%{release}
-# phpcompatinfo (computed from version 3.2.3)
+# composer.json: optional
+Suggests:  php-composer(%{composer_vendor}/console) = %{version}
+# phpcompatinfo (computed from version 3.2.4)
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-json
@@ -1480,6 +1607,8 @@ Provides:  php-composer(%{composer_vendor}/yaml) = %{version}
 
 %description yaml
 The YAML Component loads and dumps YAML files.
+
+Autoloader: %{phpdir}/Symfony/Component/Yaml/autoload.php
 
 # ##############################################################################
 
@@ -1686,6 +1815,8 @@ exit $RET
 %dir %{symfony3_dir}/Bundle
 %dir %{symfony3_dir}/Component
 
+%exclude %{symfony3_dir}/Bridge/PhpUnit
+
 # ------------------------------------------------------------------------------
 
 %files doctrine-bridge
@@ -1718,18 +1849,17 @@ exit $RET
 
 # ------------------------------------------------------------------------------
 
-%files phpunit-bridge
+#%%files phpunit-bridge
 
-%license src/Symfony/Bridge/PhpUnit/LICENSE
-%doc src/Symfony/Bridge/PhpUnit/*.md
-%doc src/Symfony/Bridge/PhpUnit/composer.json
+#%%license src/Symfony/Bridge/PhpUnit/LICENSE
+#%%doc src/Symfony/Bridge/PhpUnit/*.md
+#%%doc src/Symfony/Bridge/PhpUnit/composer.json
 
-%{symfony3_dir}/Bridge/PhpUnit
-%exclude %{symfony3_dir}/Bridge/PhpUnit/LICENSE
-%exclude %{symfony3_dir}/Bridge/PhpUnit/*.md
-%exclude %{symfony3_dir}/Bridge/PhpUnit/composer.json
-%exclude %{symfony3_dir}/Bridge/PhpUnit/phpunit.*
-#%%exclude %%{symfony3_dir}/Bridge/PhpUnit/Tests
+#%%{symfony3_dir}/Bridge/PhpUnit
+#%%exclude %%{symfony3_dir}/Bridge/PhpUnit/LICENSE
+#%%exclude %%{symfony3_dir}/Bridge/PhpUnit/*.md
+#%%exclude %%{symfony3_dir}/Bridge/PhpUnit/composer.json
+#%%exclude %%{symfony3_dir}/Bridge/PhpUnit/phpunit.*
 
 # ------------------------------------------------------------------------------
 
@@ -2228,7 +2358,6 @@ exit $RET
 %exclude %{symfony3_dir}/Component/Security/composer.json
 %exclude %{symfony3_dir}/Component/Security/phpunit.*
 %exclude %{symfony3_dir}/Component/Security/*/phpunit.*
-#exclude %{symfony3_dir}/Component/Security/Tests
 %exclude %{symfony3_dir}/Component/Security/*/Tests
 %exclude %{symfony3_dir}/Component/Security/*/LICENSE
 %exclude %{symfony3_dir}/Component/Security/*/*.md
@@ -2357,5 +2486,5 @@ exit $RET
 # ##############################################################################
 
 %changelog
-* Thu Dec 03 2015 Shawn Iwinski <shawn@iwin.ski> - 3.0.0-1
+* Tue Feb 21 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.4-1
 - Initial package
