@@ -1,5 +1,5 @@
 Name:          ckeditor
-Version:       4.6.1
+Version:       4.6.2
 Release:       1%{?dist}
 Summary:       WYSIWYG text editor to be used inside web pages
 
@@ -34,15 +34,17 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -qn %{name}
 
-: Licenses and docs
+: Licenses
 mkdir -p .rpm/{licenses,docs}
-for LICENSE_FILE in $(find . -type f -name 'LICENSE*' | grep -v '\.rpm/')
+for LICENSE_FILE in $(find . -type f -name 'LICENSE*')
 do
     DIR=$(dirname $LICENSE_FILE)
     mkdir -p .rpm/licenses/$DIR
     mv $LICENSE_FILE .rpm/licenses/$DIR/
 done
-for DOC_FILE in $(find . -type f -name '*.md' | grep -v '\.rpm/')
+
+: Docs
+for DOC_FILE in $(find . -type f -name '*.md')
 do
     DIR=$(dirname $DOC_FILE)
     mkdir -p .rpm/docs/$DIR
@@ -53,7 +55,7 @@ done
 find .rpm -type f -print0 | xargs -0 sed -i 's/\r$//'
 
 : Delete bundled flash files
-rm -r samples/old/htmlwriter/{assets,outputforflash.html}
+rm -rf samples/old/htmlwriter/{assets,outputforflash.html}
 
 
 %build
@@ -102,9 +104,13 @@ end
 
 
 %changelog
+* Mon Mar 06 2017 Shawn Iwinski <shawn@iwin.ski> - 4.6.2-1
+- Update to 4.6.2 (RHBZ #1070102, RHBZ #1295348)
+
 * Wed Dec 28 2016 Shawn Iwinski <shawn@iwin.ski> - 4.6.1-1
 - Update to 4.6.1 (RHBZ #1070102, RHBZ #1295348)
 - CVE-2014-5191 (RHBZ #1139487)
+- Update spec to use web assets packaging guidelines
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
