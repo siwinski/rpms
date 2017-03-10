@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   3.2.4
-%global github_commit    141569be5b33a7cf0d141fb88422649fe11b0c47
+%global github_version   3.2.6
+%global github_commit    b0f8a7fa4b8baadf9db299cb6ac87c96a8977dbe
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -57,9 +57,9 @@
 %global monolog_min_ver 1.11
 %global monolog_max_ver 2.0
 # "ocramius/proxy-manager": "~0.4|~1.0|~2.0"
-#     NOTE: Min version not 0.4 to force v1.
+#     NOTE: Min version not 0.4 to force v1 or v2.
 %global proxy_manager_min_ver 1.0
-%global proxy_manager_max_ver 2.0
+%global proxy_manager_max_ver 3.0
 # "phpdocumentor/reflection-docblock": "^3.0"
 %global phpdocumentor_reflection_docblock_min_ver 3.0
 %global phpdocumentor_reflection_docblock_max_ver 4.0
@@ -2486,5 +2486,8 @@ exit $RET
 # ##############################################################################
 
 %changelog
+* Fri Mar 10 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.6-1
+- Update to 3.2.6
+
 * Tue Feb 21 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.4-1
 - Initial package
