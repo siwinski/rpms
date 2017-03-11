@@ -20,9 +20,11 @@
 # "php": ">=5.4"
 %global php_min_ver 5.4
 # "firebase/php-jwt": "~2.0|~3.0|~4.0"
+#     NOTE: Min version not 2.0 to force version 4
 %global firebase_jwt_min_ver 4.0
 %global firebase_jwt_max_ver 5.0
 # "guzzlehttp/guzzle": "~5.3|~6.0"
+#     NOTE: Min version not 5.3 to force version 6
 %global guzzle_min_ver 6.0
 %global guzzle_max_ver 7.0
 # "guzzlehttp/psr7": "~1.2"
@@ -55,11 +57,16 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(firebase/php-jwt) <  %{firebase_jwt_max_ver}
 BuildRequires: php-composer(firebase/php-jwt) >= %{firebase_jwt_min_ver}
+BuildRequires: php-composer(guzzlehttp/guzzle) <  %{guzzle_max_ver}
 BuildRequires: php-composer(guzzlehttp/guzzle) >= %{guzzle_min_ver}
+BuildRequires: php-composer(guzzlehttp/psr7) <  %{guzzle_psr7_max_ver}
 BuildRequires: php-composer(guzzlehttp/psr7) >= %{guzzle_psr7_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: php-composer(psr/cache) <  %{psr_cache_max_ver}
 BuildRequires: php-composer(psr/cache) >= %{psr_cache_min_ver}
+BuildRequires: php-composer(psr/http-message) <  %{psr_http_message_max_ver}
 BuildRequires: php-composer(psr/http-message) >= %{psr_http_message_min_ver}
 ## phpcompatinfo (computed from version 0.11.1)
 BuildRequires: php-date
@@ -130,8 +137,8 @@ AUTOLOAD
 
 
 %install
-mkdir -p %{buildroot}%{phpdir}/Google/Auth
-cp -rp src/* %{buildroot}%{phpdir}/Google/Auth/
+mkdir -p %{buildroot}%{phpdir}/Google
+cp -rp src %{buildroot}%{phpdir}/Google/Auth
 
 
 %check
@@ -143,14 +150,14 @@ ln -s %{buildroot}%{phpdir}/Google/Auth/autoload.php vendor/autoload.php
 : Upstream tests
 %{_bindir}/phpunit --verbose
 
-: Upstream tests with SCLs if available
-SCL_RETURN_CODE=0
-for SCL in php55 php56 php70 php71; do
-    if which $SCL; then
-        $SCL %{_bindir}/phpunit --verbose || SCL_RETURN_CODE=1
+: Upstream tests
+RETURN_CODE=0
+for PHP_EXEC in php %{?rhel:php55} php56 php70 php71; do
+    if which $PHP_EXEC; then
+        $PHP_EXEC %{_bindir}/phpunit --verbose || RETURN_CODE=1
     fi
 done
-exit $SCL_RETURN_CODE
+exit $RETURN_CODE
 %else
 : Tests skipped
 %endif
@@ -166,5 +173,5 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
-* Thu Jan 05 2017 Shawn Iwinski <shawn@iwin.ski> - 0.11.1-1
+* Sat Mar 11 2017 Shawn Iwinski <shawn@iwin.ski> - 0.11.1-1
 - Initial package
