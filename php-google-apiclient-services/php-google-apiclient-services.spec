@@ -105,9 +105,6 @@ class Google_Service_autoload {}
 BOOTSTRAP
 
 : Upstream tests
-%{_bindir}/phpunit --verbose --bootstrap bootstrap.php
-
-: Upstream tests
 RETURN_CODE=0
 for PHP_EXEC in php %{?rhel:php55} php56 php70 php71; do
     if which $PHP_EXEC; then
