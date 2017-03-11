@@ -101,8 +101,8 @@ AUTOLOAD
 
 
 %install
-mkdir -p %{buildroot}%{phpdir}/Firebase/JWT
-cp -rp src/* %{buildroot}%{phpdir}/Firebase/JWT/
+mkdir -p %{buildroot}%{phpdir}/Firebase
+cp -rp src %{buildroot}%{phpdir}/Firebase/JWT
 
 
 %check
@@ -110,16 +110,15 @@ cp -rp src/* %{buildroot}%{phpdir}/Firebase/JWT/
 BOOTSTRAP=%{buildroot}%{phpdir}/Firebase/JWT/autoload.php
 
 : Upstream tests
-%{_bindir}/phpunit --verbose --bootstrap $BOOTSTRAP
-
-: Upstream tests with SCLs if available
-SCL_RETURN_CODE=0
-for SCL in php54 php55 php56 php70 php71; do
-    if which $SCL; then
-        $SCL %{_bindir}/phpunit --bootstrap $BOOTSTRAP || SCL_RETURN_CODE=1
+RETURN_CODE=0
+for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71; do
+    if which $PHP_EXEC; then
+        $PHP_EXEC %{_bindir}/phpunit \
+            --bootstrap %{buildroot}%{phpdir}/Firebase/JWT/autoload.php \
+            || RETURN_CODE=1
     fi
 done
-exit $SCL_RETURN_CODE
+exit $RETURN_CODE
 %else
 : Tests skipped
 %endif
@@ -135,5 +134,5 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
-* Thu Jan 05 2017 Shawn Iwinski <shawn@iwin.ski> - 4.0.0-1
+* Sat Mar 11 2017 Shawn Iwinski <shawn@iwin.ski> - 4.0.0-1
 - Initial package
