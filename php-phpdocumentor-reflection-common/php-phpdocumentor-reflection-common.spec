@@ -75,8 +75,8 @@ Autoloader: %{phpdir}/phpDocumentor/Reflection/autoload-common.php
 
 
 %install
-mkdir -p %{buildroot}%{phpdir}/phpDocumentor/Reflection
-cp -rp src/* %{buildroot}%{phpdir}/phpDocumentor/Reflection/
+mkdir -p %{buildroot}%{phpdir}/phpDocumentor
+cp -rp src %{buildroot}%{phpdir}/phpDocumentor/Reflection
 
 
 %check
@@ -84,16 +84,13 @@ cp -rp src/* %{buildroot}%{phpdir}/phpDocumentor/Reflection/
 BOOTSTRAP=%{buildroot}%{phpdir}/phpDocumentor/Reflection/autoload-common.php
 
 : Upstream tests
-%{_bindir}/phpunit --verbose --bootstrap $BOOTSTRAP
-
-: Upstream tests with SCLs if available
-SCL_RETURN_CODE=0
-for SCL in php56 php70 php71; do
-    if which $SCL; then
-        $SCL %{_bindir}/phpunit --verbose --bootstrap $BOOTSTRAP || SCL_RETURN_CODE=1
+RETURN_CODE=0
+for PHP_EXEC in php php56 php70 php71; do
+    if which $PHP_EXEC; then
+        $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap $BOOTSTRAP || RETURN_CODE=1
     fi
 done
-exit $SCL_RETURN_CODE
+exit $RETURN_CODE
 %else
 : Tests skipped
 %endif
@@ -116,5 +113,5 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
-* Wed Feb 22 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0-1
+* Sat Mar 11 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0-1
 - Initial package
