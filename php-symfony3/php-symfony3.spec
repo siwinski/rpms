@@ -84,8 +84,8 @@
 %global symfony_security_acl_min_ver 2.8
 %global symfony_security_acl_max_ver 3.0
 # "twig/twig": "~1.26|~2.0"
-#     NOTE: Forcing version 2 for now.
-%global twig_min_ver 2.0
+#     NOTE: Multiple major versions handled in autoloaders
+%global twig_min_ver 1.26
 %global twig_max_ver 3.0
 
 # Build using "--without tests" to disable tests
@@ -104,7 +104,7 @@
 
 Name:          php-%{composer_project}3
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Symfony PHP framework (version 3)
 
 Group:         Development/Libraries
@@ -2486,6 +2486,9 @@ exit $RET
 # ##############################################################################
 
 %changelog
+* Sat Mar 11 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.6-2
+- Allow Twig v1 and v2
+
 * Fri Mar 10 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.6-1
 - Update to 3.2.6
 
