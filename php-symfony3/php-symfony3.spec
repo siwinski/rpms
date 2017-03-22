@@ -104,11 +104,15 @@
 
 Name:          php-%{composer_project}3
 Version:       %{github_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Symfony PHP framework (version 3)
 
 Group:         Development/Libraries
-License:       MIT
+# MIT and CC-BY-SA:
+#     - WebProfiler bundle (web-profiler-bundle sub-package)
+# MIT:
+#     - All other bridges/bundles/components
+License:       MIT and CC-BY-SA
 URL:           http://symfony.com
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-generate-autoloaders.php
@@ -196,7 +200,7 @@ BuildRequires: php-composer(fedora/autoloader)
 # Bridges
 Requires:      php-composer(%{composer_vendor}/doctrine-bridge) = %{version}
 Requires:      php-composer(%{composer_vendor}/monolog-bridge) = %{version}
-Requires:      php-composer(%{composer_vendor}/phpunit-bridge) = %{version}
+#Requires:      php-composer(%%{composer_vendor}/phpunit-bridge) = %%{version}
 Requires:      php-composer(%{composer_vendor}/proxy-manager-bridge) = %{version}
 Requires:      php-composer(%{composer_vendor}/twig-bridge) = %{version}
 # Bundles
@@ -298,7 +302,7 @@ various Symfony components.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/doctrine.html
 
-Autoloader: %{phpdir}/Symfony/Bridge/Doctrine/autoload.php
+Autoloader: %{symfony3_dir}/Bridge/Doctrine/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -328,7 +332,7 @@ various Symfony components.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/monolog.html
 
-Autoloader: %{phpdir}/Symfony/Bridge/Monolog/autoload.php
+Autoloader: %{symfony3_dir}/Bridge/Monolog/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -379,7 +383,7 @@ Provides: php-composer(%{composer_vendor}/proxy-manager-bridge) = %{version}
 %description proxy-manager-bridge
 Provides integration for ProxyManager [1] with various Symfony components.
 
-Autoloader: %{phpdir}/Symfony/Bridge/ProxyManager/autoload.php
+Autoloader: %{symfony3_dir}/Bridge/ProxyManager/autoload.php
 
 [1] http://ocramius.github.io/ProxyManager/
 
@@ -420,7 +424,7 @@ Provides: php-composer(%{composer_vendor}/twig-bridge) = %{version}
 Provides integration for Twig (http://twig.sensiolabs.org/) with various
 Symfony components.
 
-Autoloader: %{phpdir}/Symfony/Bridge/Twig/autoload.php
+Autoloader: %{symfony3_dir}/Bridge/Twig/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -444,7 +448,7 @@ Provides: php-composer(%{composer_vendor}/debug-bundle) = %{version}
 %description debug-bundle
 %{summary}.
 
-Autoloader: %{phpdir}/Symfony/Bundle/DebugBundle/autoload.php
+Autoloader: %{symfony3_dir}/Bundle/DebugBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -502,7 +506,7 @@ and more.
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/framework.html
 
-Autoloader: %{phpdir}/Symfony/Bundle/FrameworkBundle/autoload.php
+Autoloader: %{symfony3_dir}/Bundle/FrameworkBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -527,7 +531,7 @@ Provides: php-composer(%{composer_vendor}/security-bundle) = %{version}
 %description security-bundle
 %{summary}.
 
-Autoloader: %{phpdir}/Symfony/Bundle/SecurityBundle/autoload.php
+Autoloader: %{symfony3_dir}/Bundle/SecurityBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -556,7 +560,7 @@ Provides: php-composer(%{composer_vendor}/twig-bundle) = %{version}
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/twig.html
 
-Autoloader: %{phpdir}/Symfony/Bundle/TwigBundle/autoload.php
+Autoloader: %{symfony3_dir}/Bundle/TwigBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -564,9 +568,12 @@ Autoloader: %{phpdir}/Symfony/Bundle/TwigBundle/autoload.php
 
 Summary:  Symfony WebProfiler Bundle (version 3)
 
+License:  MIT and CC-BY-SA
+
 # composer.json
 Requires: php-composer(%{composer_vendor}/http-kernel) = %{version}
-Requires: php-composer(%{composer_vendor}/polyfill-php70) = %{version}
+Requires: php-composer(%{composer_vendor}/polyfill-php70) <  %{symfony_polyfill_max_ver}
+Requires: php-composer(%{composer_vendor}/polyfill-php70) >= %{symfony_polyfill_min_ver}
 Requires: php-composer(%{composer_vendor}/routing) = %{version}
 Requires: php-composer(%{composer_vendor}/twig-bridge) = %{version}
 Requires: php-composer(%{composer_vendor}/var-dumper) = %{version}
@@ -585,7 +592,7 @@ Provides: php-composer(%{composer_vendor}/web-profiler-bundle) = %{version}
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/web_profiler.html
 
-Autoloader: %{phpdir}/Symfony/Bundle/WebProfilerBundle/autoload.php
+Autoloader: %{symfony3_dir}/Bundle/WebProfilerBundle/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -607,7 +614,7 @@ Provides:  php-composer(%{composer_vendor}/asset) = %{version}
 %description asset
 The Asset component manages asset URLs.
 
-Autoloader: %{phpdir}/Symfony/Component/Asset/autoload.php
+Autoloader: %{symfony3_dir}/Component/Asset/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -634,7 +641,7 @@ BrowserKit simulates the behavior of a web browser.
 The component only provide an abstract client and does not provide any
 "default" backend for the HTTP layer.
 
-Autoloader: %{phpdir}/Symfony/Component/BrowserKit/autoload.php
+Autoloader: %{symfony3_dir}/Component/BrowserKit/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -667,7 +674,7 @@ The Cache component provides an extended PSR-6 [1] implementation for adding
 cache to your applications. It is designed to have a low overhead and it ships
 with ready to use adapters for the most common caching backends.
 
-Autoloader: %{phpdir}/Symfony/Component/Cache/autoload.php
+Autoloader: %{symfony3_dir}/Component/Cache/autoload.php
 
 [1] http://www.php-fig.org/psr/psr-6/
 
@@ -707,7 +714,7 @@ If your classes and the third-party libraries you use for your project follow
 these standards, the Symfony autoloader is the only autoloader you will ever
 need.
 
-Autoloader: %{phpdir}/Symfony/Component/ClassLoader/autoload.php
+Autoloader: %{symfony3_dir}/Component/ClassLoader/autoload.php
 
 [1] http://symfony.com/PSR0
 [2] http://pear.php.net/manual/en/standards.php
@@ -739,7 +746,7 @@ The Config Component provides several classes to help you find, load, combine,
 autofill and validate configuration values of any kind, whatever their source
 may be (Yaml, XML, INI files, or for instance a database).
 
-Autoloader: %{phpdir}/Symfony/Component/Config/autoload.php
+Autoloader: %{symfony3_dir}/Component/Config/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -777,7 +784,7 @@ The Console component allows you to create command-line commands. Your console
 commands can be used for any recurring task, such as cronjobs, imports, or
 other batch jobs.
 
-Autoloader: %{phpdir}/Symfony/Component/Console/autoload.php
+Autoloader: %{symfony3_dir}/Component/Console/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -796,7 +803,7 @@ Provides:  php-composer(%{composer_vendor}/css-selector) = %{version}
 %description css-selector
 The CssSelector Component converts CSS selectors to XPath expressions.
 
-Autoloader: %{phpdir}/Symfony/Component/CssSelector/autoload.php
+Autoloader: %{symfony3_dir}/Component/CssSelector/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -822,7 +829,7 @@ Provides: php-composer(%{composer_vendor}/debug) = %{version}
 %description debug
 The Debug Component provides tools to ease debugging PHP code.
 
-Autoloader: %{phpdir}/Symfony/Component/Debug/autoload.php
+Autoloader: %{symfony3_dir}/Component/Debug/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -852,7 +859,7 @@ Provides:  php-composer(%{composer_vendor}/dependency-injection) = %{version}
 The Dependency Injection component allows you to standardize and centralize
 the way objects are constructed in your application.
 
-Autoloader: %{phpdir}/Symfony/Component/DependencyInjection/autoload.php
+Autoloader: %{symfony3_dir}/Component/DependencyInjection/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -877,7 +884,7 @@ Provides:  php-composer(%{composer_vendor}/dom-crawler) = %{version}
 %description dom-crawler
 The DomCrawler Component eases DOM navigation for HTML and XML documents.
 
-Autoloader: %{phpdir}/Symfony/Component/DomCrawler/autoload.php
+Autoloader: %{symfony3_dir}/Component/DomCrawler/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -902,7 +909,7 @@ The Symfony Event Dispatcher component implements the Observer [1] pattern in
 a simple and effective way to make all these things possible and to make your
 projects truly extensible.
 
-Autoloader: %{phpdir}/Symfony/Component/EventDispatcher/autoload.php
+Autoloader: %{symfony3_dir}/Component/EventDispatcher/autoload.php
 
 [1] http://en.wikipedia.org/wiki/Observer_pattern
 
@@ -927,7 +934,7 @@ The ExpressionLanguage component provides an engine that can compile and
 evaluate expressions. An expression is a one-liner that returns a value
 (mostly, but not limited to, Booleans).
 
-Autoloader: %{phpdir}/Symfony/Component/ExpressionLanguage/autoload.php
+Autoloader: %{symfony3_dir}/Component/ExpressionLanguage/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -950,7 +957,7 @@ Provides:  php-composer(%{composer_vendor}/filesystem) = %{version}
 %description filesystem
 The Filesystem component provides basic utilities for the filesystem.
 
-Autoloader: %{phpdir}/Symfony/Component/Filesystem/autoload.php
+Autoloader: %{symfony3_dir}/Component/Filesystem/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -972,7 +979,7 @@ Provides:  php-composer(%{composer_vendor}/finder) = %{version}
 The Finder Component finds files and directories via an intuitive fluent
 interface.
 
-Autoloader: %{phpdir}/Symfony/Component/Finder/autoload.php
+Autoloader: %{symfony3_dir}/Component/Finder/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1008,7 +1015,7 @@ Form provides tools for defining forms, rendering and mapping request data
 to related models. Furthermore it provides integration with the Validation
 component.
 
-Autoloader: %{phpdir}/Symfony/Component/Form/autoload.php
+Autoloader: %{symfony3_dir}/Component/Form/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1047,7 +1054,7 @@ functions (echo, header, setcookie, ...).
 The Symfony HttpFoundation component replaces these default PHP global
 variables and functions by an Object-Oriented layer.
 
-Autoloader: %{phpdir}/Symfony/Component/HttpFoundation/autoload.php
+Autoloader: %{symfony3_dir}/Component/HttpFoundation/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1095,7 +1102,7 @@ advanced CMS system (Drupal).
 Configuration reference:
 http://symfony.com/doc/%{symfony3_doc_ver}/reference/configuration/kernel.html
 
-Autoloader: %{phpdir}/Symfony/Component/HttpKernel/autoload.php
+Autoloader: %{symfony3_dir}/Component/HttpKernel/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1113,7 +1120,7 @@ Provides:  php-composer(%{composer_vendor}/inflector) = %{version}
 %description inflector
 Symfony Inflector Component (version 3).
 
-Autoloader: %{phpdir}/Symfony/Component/Inflector/autoload.php
+Autoloader: %{symfony3_dir}/Component/Inflector/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1141,7 +1148,7 @@ Provides:  php-composer(%{composer_vendor}/intl) = %{version}
 A PHP replacement layer for the C intl extension [1] that also provides access
 to the localization data of the ICU library [2].
 
-Autoloader: %{phpdir}/Symfony/Component/Intl/autoload.php
+Autoloader: %{symfony3_dir}/Component/Intl/autoload.php
 
 [1] http://www.php.net/manual/en/book.intl.php
 [2] http://site.icu-project.org/
@@ -1168,7 +1175,7 @@ Provides:  php-composer(%{composer_vendor}/ldap)     = %{version}
 %description ldap
 %{summary}.
 
-Autoloader: %{phpdir}/Symfony/Component/Ldap/autoload.php
+Autoloader: %{symfony3_dir}/Component/Ldap/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1189,7 +1196,7 @@ Provides:  php-composer(%{composer_vendor}/options-resolver) = %{version}
 The OptionsResolver Component helps you configure objects with option arrays.
 It supports default values, option constraints and lazy options.
 
-Autoloader: %{phpdir}/Symfony/Component/OptionsResolver/autoload.php
+Autoloader: %{symfony3_dir}/Component/OptionsResolver/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1210,7 +1217,7 @@ Provides:  php-composer(%{composer_vendor}/process) = %{version}
 %description process
 The Process component executes commands in sub-processes.
 
-Autoloader: %{phpdir}/Symfony/Component/Process/autoload.php
+Autoloader: %{symfony3_dir}/Component/Process/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1237,7 +1244,7 @@ Provides:  php-composer(%{composer_vendor}/property-access) = %{version}
 The PropertyAccess component provides function to read and write from/to an
 object or array using a simple string notation.
 
-Autoloader: %{phpdir}/Symfony/Component/PropertyAccess/autoload.php
+Autoloader: %{symfony3_dir}/Component/PropertyAccess/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1264,7 +1271,7 @@ Provides:  php-composer(%{composer_vendor}/property-info) = %{version}
 %description property-info
 %{summary}.
 
-Autoloader: %{phpdir}/Symfony/Component/PropertyInfo/autoload.php
+Autoloader: %{symfony3_dir}/Component/PropertyInfo/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1294,7 +1301,7 @@ Provides:  php-composer(%{composer_vendor}/routing) = %{version}
 %description routing
 The Routing Component maps an HTTP request to a set of configuration variables.
 
-Autoloader: %{phpdir}/Symfony/Component/Routing/autoload.php
+Autoloader: %{symfony3_dir}/Component/Routing/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1349,7 +1356,7 @@ but also allows you to implement your own authentication strategies.
 Furthermore, the component provides ways to authorize authenticated users
 based on their roles, and it contains an advanced ACL system.
 
-Autoloader: %{phpdir}/Symfony/Component/Security/autoload.php
+Autoloader: %{symfony3_dir}/Component/Security/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1388,7 +1395,7 @@ Provides:  php-composer(%{composer_vendor}/serializer) = %{version}
 The Serializer Component is meant to be used to turn objects into a specific
 format (XML, JSON, Yaml, ...) and the other way around.
 
-Autoloader: %{phpdir}/Symfony/Component/Serializer/autoload.php
+Autoloader: %{symfony3_dir}/Component/Serializer/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1407,7 +1414,7 @@ Provides: php-composer(%{composer_vendor}/stopwatch) = %{version}
 %description stopwatch
 Stopwatch component provides a way to profile code.
 
-Autoloader: %{phpdir}/Symfony/Component/Stopwatch/autoload.php
+Autoloader: %{symfony3_dir}/Component/Stopwatch/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1438,7 +1445,7 @@ them for changes. It also provides a concrete template engine implementation
 using PHP with additional tools for escaping and separating templates into
 blocks and layouts.
 
-Autoloader: %{phpdir}/Symfony/Component/Templating/autoload.php
+Autoloader: %{symfony3_dir}/Component/Templating/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1470,7 +1477,7 @@ Provides:  php-composer(%{composer_vendor}/translation) = %{version}
 Translation provides tools for loading translation files and generating
 translated strings from these including support for pluralization.
 
-Autoloader: %{phpdir}/Symfony/Component/Translation/autoload.php
+Autoloader: %{symfony3_dir}/Component/Translation/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1515,7 +1522,7 @@ This component is based on the JSR-303 Bean Validation specification and
 enables specifying validation rules for classes using XML, YAML, PHP or
 annotations, which can then be checked against instances of these classes.
 
-Autoloader: %{phpdir}/Symfony/Component/Validator/autoload.php
+Autoloader: %{symfony3_dir}/Component/Validator/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1560,7 +1567,7 @@ The component exposes all the parts involved in the different steps of cloning
 then dumping a PHP variable, while applying size limits and having specialized
 output formats and methods.
 
-Autoloader: %{phpdir}/Symfony/Component/VarDumper/autoload.php
+Autoloader: %{symfony3_dir}/Component/VarDumper/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1582,7 +1589,7 @@ Provides: php-composer(%{composer_vendor}/workflow) = %{version}
 The Workflow component provides tools for managing a workflow or finite state
 machine.
 
-Autoloader: %{phpdir}/Symfony/Component/Workflow/autoload.php
+Autoloader: %{symfony3_dir}/Component/Workflow/autoload.php
 
 # ------------------------------------------------------------------------------
 
@@ -1608,7 +1615,7 @@ Provides:  php-composer(%{composer_vendor}/yaml) = %{version}
 %description yaml
 The YAML Component loads and dumps YAML files.
 
-Autoloader: %{phpdir}/Symfony/Component/Yaml/autoload.php
+Autoloader: %{symfony3_dir}/Component/Yaml/autoload.php
 
 # ##############################################################################
 
@@ -2486,6 +2493,13 @@ exit $RET
 # ##############################################################################
 
 %changelog
+* Tue Mar 21 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.6-3
+- Modify main package and web-profiler-bundle sub-package licenses
+    from "MIT" to "MIT and CC-BY-SA"
+- Remove phpunit-bridge dependency from main package
+- Fix web-profiler-bundle sub-package's polyfill-php70 dependency versions
+- Fix autoloader locations in descriptions
+
 * Sat Mar 11 2017 Shawn Iwinski <shawn@iwin.ski> - 3.2.6-2
 - Allow Twig v1 and v2
 
