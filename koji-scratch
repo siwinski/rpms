@@ -17,7 +17,7 @@ do
 	echo -e "\e[0;32m>>>>>>>>>> `basename $SRPM` <<<<<<<<<<\e[0m" | tee --append $BUILD_LOG
 
 
-	for DIST in rawhide f25 f24 epel7 dist-6E-epel
+	for DIST in rawhide f26 f25 f24 epel7 dist-6E-epel
 	do
 		echo -e "\e[0;32m>>>>> $DIST\e[0m" | tee --append $BUILD_LOG
 		koji build --scratch --nowait $DIST $SRPM | tee --append $BUILD_LOG

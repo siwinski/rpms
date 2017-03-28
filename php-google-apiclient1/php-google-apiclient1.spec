@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-google-apiclient1
 #
-# Copyright (c) 2014-2017 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2014-2017 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}1
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       4%{?dist}
 Summary:       Client library for Google APIs (version 1)
 
 Group:         Development/Libraries
@@ -76,8 +76,8 @@ Suggests:      php-pecl(memcached)
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 # Package rename (php-google-apiclient => php-google-apiclient1)
-Obsoletes:     php-google-apiclient < 2:1.1.7-3
-Provides:      php-google-apiclient = 3:%{version}-%{release}
+Obsoletes:     php-google-apiclient < 2:1.1.7-4
+Provides:      php-google-apiclient = 2:%{version}-%{release}
 Conflicts:     owncloud < 9.1.4-5
 Conflicts:     nextcloud < 10.0.4-2
 
@@ -95,6 +95,10 @@ Autoloader: %{phpdir}/Google1/autoload.php
 
 Summary:  Client library for Google APIs: Examples
 Requires: %{name} = %{version}-%{release}
+
+# Package rename (php-google-apiclient => php-google-apiclient1)
+Obsoletes:     php-google-apiclient-examples < 2:1.1.7-4
+Provides:      php-google-apiclient-examples = 2:%{version}-%{release}
 
 %description examples
 %{summary}
@@ -157,7 +161,7 @@ exit $RETURN_CODE
 
 
 %changelog
-* Sun Mar 26 2017 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.1.7-1
+* Tue Mar 28 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.7-4
 - Package rename (php-google-apiclient => php-google-apiclient1)
 
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.1.7-3
