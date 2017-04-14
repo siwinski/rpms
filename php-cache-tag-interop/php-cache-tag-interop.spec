@@ -33,7 +33,7 @@ Summary:       Framework interoperable interfaces for tags
 Group:         Development/Libraries
 License:       MIT
 URL:           http://www.php-cache.com
-Source0:       https://github.com/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
 BuildArch:     noarch
 # Minimal autoloader test
