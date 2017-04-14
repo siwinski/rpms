@@ -40,16 +40,14 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 
 BuildArch:     noarch
 # Minimal autoloader test
-BuildRequires: php-cli >= %{php_min_ver}
+BuildRequires: php-cli
+BuildRequires: php-composer(phpunit/phpunit)
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(cache/tag-interop) <  %{cache_tag_interop_max_ver}
 BuildRequires: php-composer(cache/tag-interop) >= %{cache_tag_interop_min_ver}
 BuildRequires: php-composer(psr/cache) <  %{psr_cache_max_ver}
 BuildRequires: php-composer(psr/cache) >= %{psr_cache_min_ver}
-## composer.json
-BuildRequires: php-composer(phpunit/phpunit)
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
 
@@ -97,6 +95,7 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Dependencies::required([
     '%{phpdir}/Cache/TagInterop/autoload.php',
+    '%{phpdir}/PHPUnit/Autoload.php',
     '%{phpdir}/Psr/Cache/autoload.php',
 ]);
 AUTOLOAD
@@ -111,7 +110,6 @@ cp -rp src %{buildroot}%{phpdir}/Cache/IntegrationTests
 : Minimal autoloader test
 php -r '
     require_once "%{buildroot}%{phpdir}/Cache/IntegrationTests/autoload.php";
-    require_once "%{phpdir}/PHPUnit/Autoload.php";
     exit(class_exists("Cache\\IntegrationTests\\CachePoolTest") ? 0 : 1);
 '
 
