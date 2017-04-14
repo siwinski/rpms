@@ -16,7 +16,7 @@
 Name:           php-phpdocumentor-reflection-docblock2
 Version:        2.0.4
 Release:        5%{?dist}
-Summary:        DocBlock parser
+Summary:        DocBlock parser (Version 2)
 
 Group:          Development/Libraries
 License:        MIT
