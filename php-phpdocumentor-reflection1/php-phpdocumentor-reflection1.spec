@@ -18,7 +18,7 @@
 Name:           php-phpdocumentor-reflection1
 Version:        1.0.7
 Release:        4%{?dist}
-Summary:        Reflection library to do Static Analysis for PHP Projects
+Summary:        Reflection library to do Static Analysis for PHP Projects (Version 1)
 
 Group:          Development/Libraries
 License:        MIT
