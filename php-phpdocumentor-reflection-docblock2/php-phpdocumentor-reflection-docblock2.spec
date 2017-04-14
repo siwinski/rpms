@@ -46,6 +46,11 @@ Provides:       php-composer(phpdocumentor/reflection-docblock) = %{version}
 # Package rename (php-phpdocumentor-reflection-docblock => php-phpdocumentor-reflection-docblock2)
 Obsoletes:      php-phpdocumentor-reflection-docblock < 2.0.4-5
 Provides:       php-phpdocumentor-reflection-docblock = %{version}-%{release}
+Conflicts:      drush < 8.1.10-2
+Conflicts:      php-bartlett-PHP-Reflect < 4.0.2-3
+Conflicts:      php-consolidation-annotated-command < 2.4.8
+Conflicts:      php-phpdocumentor-reflection < 1.0.7-3
+Conflicts:      php-phpspec-prophecy < 1.7.0-4
 
 
 %description
@@ -103,8 +108,9 @@ exit $RETURN_CODE
 
 
 %changelog
-* Mon Mar 27 2017 Shawn Iwinski <shawn@iwin.ski> - 2.0.4-5
-- Package rename (php-phpdocumentor-reflection-docblock => php-phpdocumentor-reflection-docblock2)
+* Thu Apr 13 2017 Shawn Iwinski <shawn@iwin.ski> - 2.0.4-5
+- Package rename (php-phpdocumentor-reflection-docblock =>
+  php-phpdocumentor-reflection-docblock2)
 - Switch autoloader to php-composer(fedora/autoloader)
 
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-4
