@@ -1,0 +1,20 @@
+#!/bin/bash
+
+for PKG in "$@"
+do
+    mkdir $PKG
+    cp TEMPLATE.spec ${PKG}/${PKG}.spec
+
+    cat <<'MAKEFILE' > ${PKG}/Makefile
+COMMON_DIR := ../common
+include $(COMMON_DIR)/Makefile
+MAKEFILE
+
+    sed \
+        -e "s/COPYRIGHT_YEAR/$(date +%Y)/g" \
+        -e "s/CHANGELOG_DAY_NAME/$(date +%a)/g" \
+        -e "s/CHANGELOG_MONTH/$(date +%b)/g" \
+        -e "s/CHANGELOG_DAY/$(date +%d)/g" \
+        -e "s/CHANGELOG_YEAR/$(date +%Y)/g" \
+        -i ${PKG}/${PKG}.spec
+done
