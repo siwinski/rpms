@@ -17,7 +17,7 @@
 
 Name:           php-phpdocumentor-reflection1
 Version:        1.0.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Reflection library to do Static Analysis for PHP Projects
 
 Group:          Development/Libraries
@@ -58,6 +58,7 @@ BuildRequires:  php-composer(phpdocumentor/reflection-docblock) <  3
 #        "mockery/mockery": "~0.8"
 BuildRequires:  php-composer(phpunit/phpunit) >= 4.0
 BuildRequires:  php-composer(mockery/mockery) >= 0.8
+BuildRequires:  php-composer(mockery/mockery) <  1
 %endif
 
 # From composer.json, require
@@ -86,6 +87,7 @@ Provides:       php-composer(phpdocumentor/reflection) = %{version}
 # Package rename (php-phpdocumentor-reflection => php-phpdocumentor-reflection1)
 Obsoletes:      php-phpdocumentor-reflection < 1.0.7-3
 Provides:       php-phpdocumentor-reflection = %{version}-%{release}
+Conflicts:      php-symfony-property-info < 2.8.19-2
 
 
 %description
@@ -136,14 +138,17 @@ cp %{SOURCE2} LICENSE
 : Generate library autoloader
 %{_bindir}/phpab \
   --template fedora \
-  --output  src/phpDocumentor/Reflection1/autoload.php \
+  --output src/phpDocumentor/Reflection1/autoload.php \
   src/phpDocumentor/Reflection1
 
 cat << 'EOF' | tee -a src/phpDocumentor/Reflection1/autoload.php
 
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/php/phpDocumentor/Reflection/DocBlock2/autoload.php',
+    array(
+        '%{_datadir}/php/phpDocumentor/Reflection/DocBlock2/autoload.php',
+        '%{_datadir}/php/phpDocumentor/Reflection/DocBlock/autoload.php',
+    ),
 %if ! %{with_php_parser}
     '%{_datadir}/php/PhpParser/autoload.php',
 %endif
@@ -164,7 +169,7 @@ sed -e 's:vendor/mockery/mockery/library:/usr/share/php:' \
 
 : Create tests autoloader
 mkdir vendor
-%{_bindir}/phpab --output vendor/autoload.php tests
+%{_bindir}/phpab --template fedora --output vendor/autoload.php tests
 
 cat << 'EOF' | tee -a vendor/autoload.php
 require_once '%{_datadir}/php/Mockery/autoload.php';
@@ -192,9 +197,14 @@ done
 
 
 %changelog
-* Mon Mar 27 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.7-3
+* Thu Apr 13 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.7-4
 - Package rename (php-phpdocumentor-reflection => php-phpdocumentor-reflection1)
 - Switch autoloader to php-composer(fedora/autoloader)
+
+* Thu Apr 13 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.7-3
+- Add max versions to BuildRequires
+- Prepare for php-phpdocumentor-reflection-docblock =>
+  php-phpdocumentor-reflection-docblock2 dependency rename
 
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
