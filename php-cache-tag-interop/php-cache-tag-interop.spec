@@ -37,8 +37,9 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 
 BuildArch:     noarch
 # Minimal autoloader test
-BuildRequires: php-cli >= %{php_min_ver}
+BuildRequires: php-cli
 ## composer.json
+BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(psr/cache) >= %{psr_cache_min_ver}
 BuildRequires: php-composer(psr/cache) <  %{psr_cache_max_ver}
 ## Autoloader
