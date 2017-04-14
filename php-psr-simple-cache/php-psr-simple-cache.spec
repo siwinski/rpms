@@ -105,5 +105,5 @@ cp -rp src %{buildroot}%{phpdir}/Psr/SimpleCache
 
 
 %changelog
-* Tue Mar 21 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
+* Fri Apr 14 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
 - Initial package
