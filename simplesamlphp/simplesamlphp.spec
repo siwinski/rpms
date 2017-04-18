@@ -47,7 +47,7 @@
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       SAML2 PHP library from SimpleSAMLphp
 
 Group:         Development/Libraries
@@ -236,7 +236,6 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 require_once __DIR__.'/lib/_autoload_modules.php';
 
 \Fedora\Autoloader\Dependencies::required(array(
-    '%{phpdir}/Consolidation/AnnotatedCommand/autoload.php',
     '%{phpdir}/robrichards-xmlseclibs/autoload.php',
     '%{phpdir}/SAML2_1/autoload.php',
     '%{phpdir}/WhiteHat101/Crypt/autoload.php',
@@ -359,6 +358,9 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %changelog
+* Tue Apr 18 2017 Shawn Iwinski <shawn@iwin.ski> - 1.14.12-2
+- Remove invalid autoloader required file
+
 * Tue Apr 18 2017 Shawn Iwinski <shawn@iwin.ski> - 1.14.12-1
 - Update to 1.14.12
 - Security advisories (1.14.12): SSPSA 201703-01, SSPSA 201703-02
