@@ -11,8 +11,8 @@
 
 %global github_owner     simplesamlphp
 %global github_name      simplesamlphp
-%global github_version   1.14.10
-%global github_commit    da637c53962c13905eaae5ec9f33e658a237c284
+%global github_version   1.14.12
+%global github_commit    353a77be570b29f42812a44245947b4fb030a5da
 
 %global composer_vendor  simplesamlphp
 %global composer_project simplesamlphp
@@ -157,7 +157,9 @@ Summary:    HTTPD integration for %{name}
 
 Requires:   %{name} = %{version}-%{release}
 Requires:   httpd
+%if 0%{?fedora}
 Requires:   httpd-filesystem
+%endif
 %if 0%{?fedora} >= 21
 Requires:   php(httpd)
 # php(httpd) providers
@@ -188,8 +190,8 @@ SimpleSAMLphp: Additional documentation.
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-: Remove git files
-find . -name '.git*' -print0 | xargs -0 rm
+#: Remove git files
+#find . -name '.git*' -print0 | xargs -0 rm
 
 : Update default configs
 sed \
@@ -357,6 +359,11 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %changelog
+* Tue Apr 18 2017 Shawn Iwinski <shawn@iwin.ski> - 1.14.12-1
+- Update to 1.14.12
+- Security advisories (1.14.12): SSPSA 201703-01, SSPSA 201703-02
+- Security advisories (1.14.11): SSPSA 201612-02, SSPSA 201612-03
+
 * Mon Dec 05 2016 Shawn Iwinski <shawn@iwin.ski> - 1.14.10-1
 - Update to 1.14.10
 - SSPSA 201612-01 (https://simplesamlphp.org/security/201612-01)
