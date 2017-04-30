@@ -106,8 +106,8 @@ cp -rp src %{buildroot}%{phpdir}/League/Flysystem/Memory
 %if %{with_tests}
 : Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
-    if which $PHP_EXEC; then
+for PHP_EXEC in php %{?rhel:php55} php56 php70 php71 php72; do
+    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC %{_bindir}/phpunit --verbose \
             --bootstrap %{buildroot}%{phpdir}/League/Flysystem/Memory/autoload.php \
             || RETURN_CODE=1
@@ -128,5 +128,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Sun Apr 16 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.1-1
+* Sun Apr 30 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.1-1
 - Initial package
