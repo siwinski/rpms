@@ -1,0 +1,33 @@
+From 33417a5e5c03d917a3eff6b1b4ed55beb125716a Mon Sep 17 00:00:00 2001
+From: Shawn Iwinski <siwinski@redhat.com>
+Date: Mon, 17 Apr 2017 12:44:53 -0400
+Subject: [PATCH] [Driver/Composite] Fix PHP 7.2 failure
+
+---
+ src/Stash/Driver/Composite.php | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/Stash/Driver/Composite.php b/src/Stash/Driver/Composite.php
+index 3875522..f33fe54 100644
+--- a/src/Stash/Driver/Composite.php
++++ b/src/Stash/Driver/Composite.php
+@@ -44,7 +44,7 @@ protected function setOptions(array $options = array())
+     {
+         $options += $this->getDefaultOptions();
+ 
+-        if (!isset($options['drivers']) || (count($options['drivers']) < 1)) {
++        if (!isset($options['drivers'])) {
+             throw new RuntimeException('One or more secondary drivers are required.');
+         }
+ 
+@@ -52,6 +52,10 @@ protected function setOptions(array $options = array())
+             throw new InvalidArgumentException('Drivers option requires an array.');
+         }
+ 
++        if (count($options['drivers']) < 1) {
++            throw new RuntimeException('One or more secondary drivers are required.');
++        }
++
+         $this->drivers = array();
+         foreach ($options['drivers'] as $driver) {
+             if (!(is_object($driver) && $driver instanceof DriverInterface)) {
