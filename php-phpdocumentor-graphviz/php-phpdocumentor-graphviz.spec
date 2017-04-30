@@ -38,6 +38,7 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
+BuildRequires: graphviz
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
@@ -48,6 +49,7 @@ BuildRequires: php-spl
 BuildRequires: php-composer(fedora/autoloader)
 %endif
 
+Requires:      graphviz
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
 # phpcompatinfo (computed from version 1.0.4)
@@ -93,7 +95,7 @@ cp -rp src/phpDocumentor/GraphViz %{buildroot}%{phpdir}/phpDocumentor/
 : Upstream tests
 RETURN_CODE=0
 for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
-    if which $PHP_EXEC; then
+    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC %{_bindir}/phpunit --verbose \
             --bootstrap %{buildroot}%{phpdir}/phpDocumentor/GraphViz/autoload.php \
             || RETURN_CODE=1
@@ -115,5 +117,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Sun Apr 16 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.4-1
+* Sun Apr 30 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.4-1
 - Initial package
