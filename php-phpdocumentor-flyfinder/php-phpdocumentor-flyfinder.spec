@@ -57,7 +57,7 @@ BuildRequires: php-composer(league/flysystem-memory) >= %{league_flysystem_memor
 BuildRequires: php-composer(league/flysystem-memory) <  %{league_flysystem_memory_max_ver}
 BuildRequires: php-composer(mockery/mockery) >= %{mockery_min_ver}
 BuildRequires: php-composer(mockery/mockery) <  %{mockery_max_ver}
-## phpcompatinfo (computed from version 1.0.0)
+## phpcompatinfo (computed from version 1.0.0-alpha1)
 BuildRequires: php-pcre
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
@@ -67,7 +67,7 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(league/flysystem) >= %{league_flysystem_min_ver}
 Requires:      php-composer(league/flysystem) <  %{league_flysystem_max_ver}
-# phpcompatinfo (computed from version 1.0.0)
+# phpcompatinfo (computed from version 1.0.0-alpha1)
 Requires:      php-pcre
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
@@ -127,7 +127,7 @@ sed 's#vendor/mockery/mockery/library#%{phpdir}#' phpunit.xml.dist > phpunit.xml
 : Upstream tests
 RETURN_CODE=0
 for PHP_EXEC in php php56 php70 php71 php72; do
-    if which $PHP_EXEC; then
+    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap bootstrap.php \
             || RETURN_CODE=1
     fi
@@ -147,5 +147,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Sun Apr 16 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-0.1.alpha1
+* Sun Apr 30 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-0.1.alpha1
 - Initial package
