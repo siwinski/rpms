@@ -1,7 +1,7 @@
 #
 # Fedora spec file for simplesamlphp
 #
-# Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016-2017 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     simplesamlphp
 %global github_name      simplesamlphp
-%global github_version   1.14.12
-%global github_commit    353a77be570b29f42812a44245947b4fb030a5da
+%global github_version   1.14.14
+%global github_commit    0329e7fd0e9f356211a002f5b7c79da4543b5efe
 
 %global composer_vendor  simplesamlphp
 %global composer_project simplesamlphp
@@ -47,7 +47,7 @@
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       SAML2 PHP library from SimpleSAMLphp
 
 Group:         Development/Libraries
@@ -75,11 +75,12 @@ Requires:      php-date
 Requires:      php-dom
 Requires:      php-hash
 Requires:      php-json
+Requires:      php-mbstring
 Requires:      php-openssl
 Requires:      php-pcre
 Requires:      php-spl
 Requires:      php-zlib
-# phpcompatinfo (computed from version 1.14.10)
+# phpcompatinfo (computed from version 1.14.14)
 Requires:      php-curl
 Requires:      php-fileinfo
 Requires:      php-libxml
@@ -358,6 +359,11 @@ install -pm 0644 .rpm/macros.%{name} %{buildroot}%{rpmconfigdir}/
 # ------------------------------------------------------------------------------
 
 %changelog
+* Mon May 08 2017 Shawn Iwinski <shawn@iwin.ski> - 1.14.14-1
+- Update to 1.14.14
+- Security advisories (1.14.14): SSPSA 201705-01, SSPSA 201704-02
+- Security advisories (1.14.13): SSPSA 201704-01
+
 * Tue Apr 18 2017 Shawn Iwinski <shawn@iwin.ski> - 1.14.12-2
 - Remove invalid autoloader required file
 
