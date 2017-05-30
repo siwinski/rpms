@@ -42,7 +42,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       A PSR-6 cache implementation using filesystem
 
 Group:         Development/Libraries
@@ -144,9 +144,10 @@ BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in php php70 php71 php72; do
-    if which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap bootstrap.php \
+PHPUNIT=$(which phpunit)
+for PHP_EXEC in "" php70 php71 php72; do
+    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
             || RETURN_CODE=1
     fi
 done
@@ -161,8 +162,7 @@ exit $RETURN_CODE
 %license LICENSE
 %doc *.md
 %doc composer.json
-%dir %{phpdir}/Cache/Adapter
-     %{phpdir}/Cache/Adapter/Filesystem
+%{phpdir}/Cache/Adapter/Filesystem
 %exclude %{phpdir}/Cache/Adapter/Filesystem/*.md
 %exclude %{phpdir}/Cache/Adapter/Filesystem/composer.json
 %exclude %{phpdir}/Cache/Adapter/Filesystem/LICENSE
@@ -171,5 +171,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue May 30 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.0-2
+- Fix directory ownership
+
 * Fri Apr 14 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.0-1
 - Initial package
