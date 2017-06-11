@@ -69,7 +69,7 @@ Requires:      php-composer(fedora/autoloader)
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-This repository includes common utilities to assist with implementing
+This package includes common utilities to assist with implementing
 PSR-13 [1].
 
 Note that it is not intended as a complete PSR-13 implementation, only
@@ -96,9 +96,9 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('Fig\\Link\\', __DIR__);
 
-\Fedora\Autoloader\Dependencies::required(array(
+\Fedora\Autoloader\Dependencies::required([
     '%{phpdir}/Psr/Link/autoload.php',
-));
+]);
 AUTOLOAD
 
 
@@ -109,18 +109,12 @@ cp -rp src %{buildroot}%{phpdir}/Fig/Link
 
 %check
 %if %{with_tests}
-: Create tests bootstrap
-cat <<'BOOTSTRAP' | tee bootstrap.php
-<?php
-require '%{buildroot}%{phpdir}/Fig/Link/autoload.php';
-\Fedora\Autoloader\Autoload::addPsr4('Fig\\Link\\Test\\', __DIR__.'/test');
-BOOTSTRAP
-
-: Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in php php56 php70 php71; do
-    if which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap bootstrap.php \
+PHPUNIT=$(which phpunit)
+for PHP_EXEC in "" php56 php70 php71 php72; do
+    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose \
+            --bootstrap %{buildroot}%{phpdir}/Fig/Link/autoload.php \
             || RETURN_CODE=1
     fi
 done
@@ -140,5 +134,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Wed Mar 22 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
+* Sun Jun 11 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
 - Initial package
