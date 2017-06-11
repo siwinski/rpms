@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Markdown parser in PHP
 
 Group:         Development/Libraries
@@ -116,9 +116,13 @@ exit $RETURN_CODE
 %license LICENSE.txt
 %doc *.md
 %doc composer.json
-%{phpdir}/%{composer_vendor}/%{composer_project}
+%dir %{phpdir}/%{composer_vendor}
+     %{phpdir}/%{composer_vendor}/%{composer_project}
 
 
 %changelog
+* Sun Jun 11 2017 Shawn Iwinski <shawn@iwin.ski> - 1.6.2-2
+- Fix directory ownership
+
 * Tue May 30 2017 Shawn Iwinski <shawn@iwin.ski> - 1.6.2-1
 - Initial package
