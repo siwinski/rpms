@@ -35,7 +35,7 @@ Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{githu
 BuildArch:     noarch
 # Minimal autoloader test
 BuildRequires: php-cli >= %{php_min_ver}
-# Autoloader
+## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
@@ -100,5 +100,5 @@ cp -rp src %{buildroot}%{phpdir}/Psr/Link
 
 
 %changelog
-* Tue Mar 21 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
+* Sun Jun 11 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.0-1
 - Initial package
