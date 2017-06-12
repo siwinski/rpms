@@ -49,10 +49,12 @@
 
 Name:          php-%{composer_project}1
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       PHP micro-framework for Command line tools
 
 Group:         Development/Libraries
+# License file request for cilex/console-service-provider:
+# https://github.com/Cilex/console-service-provider/issues/11
 License:       MIT
 URL:           http://cilex.github.io/
 Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
@@ -81,7 +83,6 @@ BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-simplexml
 BuildRequires: php-spl
-BuildRequires: php-tokenizer
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
 %endif
@@ -101,7 +102,6 @@ Requires:      php-json
 Requires:      php-pcre
 Requires:      php-simplexml
 Requires:      php-spl
-Requires:      php-tokenizer
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
 
@@ -119,6 +119,7 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 # Bundled: php-composer(cilex/console-service-provider)
 Provides:      bundled(php-cilex-console-service-provider) = %{cilex_console_service_provider_github_version}
+Provides:      php-composer(cilex/console-service-provider) = %{cilex_console_service_provider_github_version}
 
 %description
 Cilex provides the means to build anything from small script collections to
@@ -215,5 +216,10 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Jun 12 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-2
+- Add link to upstream cilex/console-service-provider license file request
+- Remove php-tokenizer dependency
+- Add php-composer(cilex/console-service-provider) provides
+
 * Sun Jun 04 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
 - Initial package
