@@ -27,9 +27,8 @@
 %global psr_log_min_ver 1.0.1
 %global psr_log_max_ver 2.0
 # "robrichards/xmlseclibs": "^2.0|^3.0"
-#     NOTE: Max version not 4.0 because it is unknown at this time how 3.0 will be packaged
 %global robrichards_xmlseclibs_min_ver 2.0
-%global robrichards_xmlseclibs_max_ver 3.0
+%global robrichards_xmlseclibs_max_ver 4.0
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -122,7 +121,10 @@ class_alias('\\SAML2\\Constants', 'SAML2_Const');
 
 \Fedora\Autoloader\Dependencies::required(array(
     '%{phpdir}/Psr/Log/autoload.php',
-    '%{phpdir}/RobRichards/XMLSecLibs/autoload.php',
+    array(
+        '%{phpdir}/RobRichards/XMLSecLibs3/autoload.php',
+        '%{phpdir}/RobRichards/XMLSecLibs/autoload.php',
+    ),
 ));
 AUTOLOAD
 
