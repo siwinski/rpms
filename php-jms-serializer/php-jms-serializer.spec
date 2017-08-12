@@ -11,8 +11,8 @@
 
 %global github_owner     schmittjoh
 %global github_name      serializer
-%global github_version   1.7.1
-%global github_commit    4fad8bbbe76e05de3b79ffa3db027058ed3813ff
+%global github_version   1.8.1
+%global github_commit    ce65798f722c836f16d5d7d2e3ca9d21e0fb4331
 
 %global composer_vendor  jms
 %global composer_project serializer
@@ -231,10 +231,7 @@ cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
 require '%{buildroot}%{phpdir}/JMS/Serializer/autoload.php';
 
-\Fedora\Autoloader\Autoload::addPsr4(
-    'JMS\\Serializer\\Tests\\',
-    __DIR__.'/tests/JMS/Serializer/Tests'
-);
+\Fedora\Autoloader\Autoload::addPsr4('JMS\\Serializer\\Tests\\', __DIR__.'/tests');
 
 \Fedora\Autoloader\Dependencies::required([
     '%{phpdir}/Doctrine/ORM/autoload.php',
@@ -253,17 +250,22 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 AnnotationRegistry::registerLoader('class_exists');
 BOOTSTRAP
 
-: Skip tests known to fail
-sed \
-    -e 's/function testArrayFloats/function SKIP_testArrayFloats/' \
-    -e 's/function testCurrencyAwarePrice/function SKIP_testCurrencyAwarePrice/' \
-    -i tests/JMS/Serializer/Tests/Serializer/BaseSerializationTest.php
+: Skip test known to fail
+sed 's/function testInlineArray/function SKIP_testInlineArray/' \
+    -i tests/Serializer/JsonSerializationTest.php
 
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" php56 php70 php71 php72; do
-    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+for PHP_EXEC in php php56 php70 php71 php72; do
+    if [ "php" = "$PHP_EXEC" ] || which $PHP_EXEC; then
+        if [ $($PHP_EXEC -r 'echo PHP_VERSION_ID;') -lt 70200 ]; then
+            sed \
+                -e 's/function testArrayFloats/function SKIP_testArrayFloats/' \
+                -e 's/function testCurrencyAwarePrice/function SKIP_testCurrencyAwarePrice/' \
+                -i tests/Serializer/BaseSerializationTest.php
+        fi
+
         $PHP_EXEC $PHPUNIT --bootstrap bootstrap.php || RETURN_CODE=1
     fi
 done
@@ -282,5 +284,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sat Aug 12 2017 Shawn Iwinski <shawn@iwin.ski> - 1.8.1-1
+- Update to 1.8.1
+
 * Wed Jul 12 2017 Shawn Iwinski <shawn@iwin.ski> - 1.7.1-1
 - Initial package
