@@ -1,0 +1,775 @@
+~/projects/rpms/phpdoc/phpDocumentor2-2.9.0/src ~/projects/rpms/phpdoc
+
+Data Source Analysed
+
+Directories                                         92
+Files                                              312
+
+Extensions Analysis
+
+    Extension       Matches REF        EXT min/Max     PHP min/Max PHP all 
+    Core                    Core       5.3.0           5.3.0               
+    Reflection              Reflection 5.0.0           5.0.0               
+ C  Zend OPcache            user                       4.0.0               
+ C  Zend Optimizer+         user                       4.0.0               
+    date                    date       5.2.0           5.2.0               
+    dom                     dom        5.0.0           5.0.0               
+ C  iconv                   user       4.0.5           4.0.5               
+ C  igbinary                user                       4.0.0               
+    json                    json       5.2.0           5.2.0               
+    libxml                  libxml     5.1.0           5.1.0               
+    pcre                    pcre       4.0.5           4.0.5               
+    spl                     spl        5.3.0 => 5.2.17 5.3.0               
+    standard                standard   5.2.1           5.2.1               
+ C  xhprof                  user                       4.0.0               
+    xsl                     xsl        5.0.0           5.0.0               
+ C  xslcache                user                       4.0.0               
+    zlib                    zlib       4.0.1           4.0.1               
+    Total [17]                                         5.3.0               
+
+Namespaces Analysis
+
+    Namespace                                                            Matches REF  EXT min/Max PHP min/Max PHP all 
+    +global                                                                      Core             5.3.0               
+    Cilex\Provider                                                               user             5.3.0               
+    phpDocumentor                                                                user             5.3.0               
+    phpDocumentor\Command                                                        user             5.3.0               
+    phpDocumentor\Command\Helper                                                 user             5.3.0               
+    phpDocumentor\Command\Phar                                                   user             5.3.0               
+    phpDocumentor\Command\Project                                                user             5.3.0               
+    phpDocumentor\Compiler                                                       user             5.3.0               
+    phpDocumentor\Compiler\Linker                                                user             5.3.0               
+    phpDocumentor\Compiler\Pass                                                  user             5.3.0               
+    phpDocumentor\Configuration                                                  user             5.3.0               
+    phpDocumentor\Configuration\Merger\Annotation                                user             5.3.0               
+    phpDocumentor\Console\Input                                                  user             5.3.0               
+    phpDocumentor\Console\Output                                                 user             5.3.0               
+    phpDocumentor\Descriptor                                                     user             5.3.0               
+    phpDocumentor\Descriptor\Builder                                             user             5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector                                   user             5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags                              user             5.3.0               
+    phpDocumentor\Descriptor\Cache                                               user             5.3.0               
+    phpDocumentor\Descriptor\Example                                             user             5.3.0               
+    phpDocumentor\Descriptor\Exception                                           user             5.3.0               
+    phpDocumentor\Descriptor\Filter                                              user             5.3.0               
+    phpDocumentor\Descriptor\Interfaces                                          user             5.3.0               
+    phpDocumentor\Descriptor\ProjectDescriptor                                   user             5.3.0               
+    phpDocumentor\Descriptor\Tag                                                 user             5.3.0               
+    phpDocumentor\Descriptor\Tag\BaseTypes                                       user             5.3.0               
+    phpDocumentor\Descriptor\Type                                                user             5.3.0               
+    phpDocumentor\Descriptor\Validator                                           user             5.3.0               
+    phpDocumentor\Event                                                          user             5.3.0               
+    phpDocumentor\Parser                                                         user             5.3.0               
+    phpDocumentor\Parser\Command\Project                                         user             5.3.0               
+    phpDocumentor\Parser\Configuration                                           user             5.3.0               
+    phpDocumentor\Parser\Event                                                   user             5.3.0               
+    phpDocumentor\Parser\Exception                                               user             5.3.0               
+    phpDocumentor\Parser\Util                                                    user             5.3.0               
+    phpDocumentor\Partials                                                       user             5.3.0               
+    phpDocumentor\Partials\Exception                                             user             5.3.0               
+    phpDocumentor\Plugin                                                         user             5.3.0               
+    phpDocumentor\Plugin\Core                                                    user             5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator                               user             5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes           user             5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions         user             5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Property          user             5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Functions                     user             5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag                          user             5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer                                 user             5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml                             user             5.3.0               
+    phpDocumentor\Plugin\Core\Xslt                                               user             5.3.0               
+    phpDocumentor\Plugin\Graphs                                                  user             5.3.0               
+    phpDocumentor\Plugin\Graphs\Writer                                           user             5.3.0               
+    phpDocumentor\Plugin\LegacyNamespaceConverter                                user             5.3.0               
+    phpDocumentor\Plugin\LegacyNamespaceConverter\Tests                          user             5.3.0               
+    phpDocumentor\Plugin\Scrybe                                                  user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Command\Manual                                   user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter                                        user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Definition                             user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Exception                              user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Format                                 user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Format\Exception                       user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata                               user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents               user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText                       user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Directives            user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Roles                 user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Visitors              user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template                                         user             5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\Mock                                    user             5.3.0               
+    phpDocumentor\Plugin\Twig                                                    user             5.3.0               
+    phpDocumentor\Plugin\Twig\Writer                                             user             5.3.0               
+    phpDocumentor\Transformer                                                    user             5.3.0               
+    phpDocumentor\Transformer\Behaviour                                          user             5.3.0               
+    phpDocumentor\Transformer\Command\Project                                    user             5.3.0               
+    phpDocumentor\Transformer\Command\Template                                   user             5.3.0               
+    phpDocumentor\Transformer\Configuration                                      user             5.3.0               
+    phpDocumentor\Transformer\Configuration\Transformations                      user             5.3.0               
+    phpDocumentor\Transformer\Event                                              user             5.3.0               
+    phpDocumentor\Transformer\Exception                                          user             5.3.0               
+    phpDocumentor\Transformer\Router                                             user             5.3.0               
+    phpDocumentor\Transformer\Router\Matcher                                     user             5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator                                user             5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard                       user             5.3.0               
+    phpDocumentor\Transformer\Template                                           user             5.3.0               
+    phpDocumentor\Transformer\Writer                                             user             5.3.0               
+    phpDocumentor\Transformer\Writer\Exception                                   user             5.3.0               
+    phpDocumentor\Translator                                                     user             5.3.0               
+    Total [85]                                                                                    5.3.0               
+
+Interfaces Analysis
+
+    Interface                                                           Matches REF  EXT min/Max     PHP min/Max PHP all 
+    ArrayAccess                                                         2       spl  5.1.0 => 5.2.17 5.1.0               
+  U Cilex\ServiceProviderInterface                                      13      user                 5.3.0               
+    Countable                                                           3       spl  5.1.0           5.1.0               
+    Iterator                                                            1       spl  5.1.0 => 5.2.17 5.1.0               
+    IteratorAggregate                                                   1       spl  5.1.0 => 5.2.17 5.1.0               
+  U Psr\Log\LoggerAwareInterface                                        1       user                 5.3.0               
+  U ezcDocumentRstXhtmlDirective                                        2       user                 4.0.0               
+  U ezcDocumentRstXhtmlTextRole                                         1       user                 4.0.0               
+    phpDocumentor\Compiler\CompilerPassInterface                        9       user                 5.3.0               
+    phpDocumentor\Descriptor\Builder\AssemblerInterface                 3       user                 5.3.0               
+    phpDocumentor\Descriptor\Filter\Filterable                          4       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ArgumentInterface               1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ChildInterface                          user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ClassInterface                  1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ConstantInterface               1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ContainerInterface                      user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ElementInterface                        user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\FileInterface                   1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\FunctionInterface               1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\InterfaceInterface              1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\MethodInterface                 1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\NamespaceInterface              1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\PackageInterface                1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\ProjectInterface                1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\PropertyInterface               1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\TraitInterface                  1       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\TypeInterface                   7       user                 5.3.0               
+    phpDocumentor\Descriptor\Interfaces\VisibilityInterface             2       user                 5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\ConverterInterface            1       user                 5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\ToHtmlInterface               1       user                 5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\ToLatexInterface                      user                 5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\ToPdfInterface                        user                 5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\TemplateInterface              7       user                 5.3.0               
+    phpDocumentor\Plugin\Twig\ExtensionInterface                        1       user                 5.3.0               
+    phpDocumentor\Transformer\Router\Matcher\MatcherInterface                   user                 5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\UrlGeneratorInterface 8       user                 5.3.0               
+    phpDocumentor\Transformer\Writer\Initializable                              user                 5.3.0               
+    phpDocumentor\Transformer\Writer\Routable                           2       user                 5.3.0               
+    phpDocumentor\Transformer\Writer\Translatable                       2       user                 5.3.0               
+    Total [39]                                                                                       5.3.0               
+
+No trait found
+
+Classes Analysis
+
+    Class                                                                                                        Matches REF        EXT min/Max PHP min/Max PHP all 
+    ArrayIterator                                                                                                1       spl        5.0.0       5.0.0               
+    ArrayObject                                                                                                  8       spl        5.0.0       5.0.0               
+    BadMethodCallException                                                                                       2       spl        5.1.0       5.1.0               
+  U Cilex\Application                                                                                            21      user                   5.3.0               
+  U Cilex\Command\Command                                                                                        2       user                   5.3.0               
+    Cilex\Provider\JmsSerializerServiceProvider                                                                  1       user                   5.3.0               
+  U Cilex\Provider\MonologServiceProvider                                                                        1       user                   5.3.0               
+  U Cilex\Provider\ValidatorServiceProvider                                                                      1       user                   5.3.0               
+    DOMDocument                                                                                                  31      dom        5.0.0       5.0.0               
+    DOMElement                                                                                                   103     dom        5.0.0       5.0.0               
+    DOMNode                                                                                                      1       dom        5.0.0       5.0.0               
+    DOMText                                                                                                      9       dom        5.0.0       5.0.0               
+    DOMXPath                                                                                                     14      dom        5.0.0       5.0.0               
+    DateTime                                                                                                     1       date       5.2.0       5.2.0               
+    DirectoryIterator                                                                                            1       spl        5.0.0       5.0.0               
+  U Doctrine\Common\Annotations\AnnotationReader                                                                 1       user                   5.3.0               
+  U Doctrine\Common\Annotations\AnnotationRegistry                                                               1       user                   5.3.0               
+    DomainException                                                                                              1       spl        5.1.0       5.1.0               
+    Exception                                                                                                    9       Core       5.1.0       5.1.0               
+  U Herrera\Phar\Update\Manager                                                                                  2       user                   5.3.0               
+  U Herrera\Phar\Update\Manifest                                                                                 1       user                   5.3.0               
+    InvalidArgumentException                                                                                     27      spl        5.1.0       5.1.0               
+  U JMS\Serializer\Serializer                                                                                    2       user                   5.3.0               
+  U JMS\Serializer\SerializerBuilder                                                                             1       user                   5.3.0               
+  U Mockery                                                                                                      3       user                   4.0.0               
+  U Monolog\ErrorHandler                                                                                         1       user                   5.3.0               
+  U Monolog\Handler\NullHandler                                                                                  1       user                   5.3.0               
+  U Monolog\Handler\StreamHandler                                                                                2       user                   5.3.0               
+  U Monolog\Logger                                                                                               7       user                   5.3.0               
+  U PHPUnit_Framework_TestCase                                                                                   9       user                   4.0.0               
+  U Parsedown                                                                                                    5       user                   4.0.0               
+    Phar                                                                                                         2       phar       1.0.0       5.2.0               
+  U Psr\Log\LoggerInterface                                                                                      2       user                   5.3.0               
+    ReflectionObject                                                                                             2       Reflection 5.0.0       5.0.0               
+    ReflectionProperty                                                                                           3       Reflection 5.0.0       5.0.0               
+    RuntimeException                                                                                             13      spl        5.1.0       5.1.0               
+    SplPriorityQueue                                                                                             2       spl        5.3.0       5.3.0               
+  U Symfony\Component\Console\Application                                                                        2       user                   5.3.0               
+  U Symfony\Component\Console\Command\Command                                                                    1       user                   5.3.0               
+  U Symfony\Component\Console\Helper\Helper                                                                      2       user                   5.3.0               
+  U Symfony\Component\Console\Helper\HelperSet                                                                   1       user                   5.3.0               
+  U Symfony\Component\Console\Input\ArgvInput                                                                    1       user                   5.3.0               
+  U Symfony\Component\Console\Input\ArrayInput                                                                   2       user                   5.3.0               
+  U Symfony\Component\Console\Input\InputDefinition                                                              1       user                   5.3.0               
+  U Symfony\Component\Console\Input\InputInterface                                                               17      user                   5.3.0               
+  U Symfony\Component\Console\Input\InputOption                                                                  1       user                   5.3.0               
+  U Symfony\Component\Console\Output\ConsoleOutput                                                               1       user                   5.3.0               
+  U Symfony\Component\Console\Output\OutputInterface                                                             12      user                   5.3.0               
+  U Symfony\Component\Console\Shell                                                                              1       user                   5.3.0               
+  U Symfony\Component\EventDispatcher\Event                                                                      1       user                   5.3.0               
+  U Symfony\Component\EventDispatcher\EventDispatcher                                                            1       user                   5.3.0               
+  U Symfony\Component\Filesystem\Filesystem                                                                      4       user                   5.3.0               
+  U Symfony\Component\Finder\Finder                                                                              1       user                   5.3.0               
+  U Symfony\Component\Stopwatch\Stopwatch                                                                        2       user                   5.3.0               
+  U Symfony\Component\Validator\Constraint                                                                       21      user                   5.3.0               
+  U Symfony\Component\Validator\ConstraintValidator                                                              11      user                   5.3.0               
+  U Symfony\Component\Validator\Constraints\NotBlank                                                             6       user                   5.3.0               
+  U Symfony\Component\Validator\Exception\ConstraintDefinitionException                                          10      user                   5.3.0               
+  U Symfony\Component\Validator\Validator                                                                        2       user                   5.3.0               
+  U Twig_Environment                                                                                             4       user                   4.0.0               
+  U Twig_Extension                                                                                               1       user                   4.0.0               
+  U Twig_Extension_Debug                                                                                         1       user                   4.0.0               
+  U Twig_Loader_Filesystem                                                                                       2       user                   4.0.0               
+  U Twig_SimpleFilter                                                                                            4       user                   4.0.0               
+  U Twig_SimpleFunction                                                                                          1       user                   4.0.0               
+    UnexpectedValueException                                                                                     5       spl        5.1.0       5.1.0               
+  U XSLTCache                                                                                                    1       user                   4.0.0               
+ C  XSLTProcessor                                                                                                1       xsl        5.0.0       5.0.0               
+  U Zend\Cache\Storage\Adapter\Filesystem                                                                        1       user                   5.3.0               
+  U Zend\Cache\Storage\Plugin\PluginOptions                                                                      1       user                   5.3.0               
+  U Zend\Cache\Storage\Plugin\Serializer                                                                         1       user                   5.3.0               
+  U Zend\Cache\Storage\StorageInterface                                                                          1       user                   5.3.0               
+  U Zend\Filter\AbstractFilter                                                                                   4       user                   5.3.0               
+  U Zend\Filter\FilterChain                                                                                      1       user                   5.3.0               
+  U Zend\I18n\Translator\Translator                                                                              1       user                   5.3.0               
+  U Zend\Stdlib\Exception\ExtensionNotLoadedException                                                            1       user                   5.3.0               
+  U ezcDocumentRst                                                                                               1       user                   4.0.0               
+  U ezcDocumentRstDirective                                                                                      2       user                   4.0.0               
+  U ezcDocumentRstDirectiveNode                                                                                  1       user                   4.0.0               
+  U ezcDocumentRstDocumentNode                                                                                   2       user                   4.0.0               
+  U ezcDocumentRstFigureDirective                                                                                1       user                   4.0.0               
+  U ezcDocumentRstImageDirective                                                                                 1       user                   4.0.0               
+  U ezcDocumentRstNode                                                                                           1       user                   4.0.0               
+  U ezcDocumentRstTextRole                                                                                       1       user                   4.0.0               
+  U ezcDocumentRstXhtmlBodyVisitor                                                                               1       user                   4.0.0               
+    parent                                                                                                       53      Core       5.0.0       5.0.0               
+    phpDocumentor\Application                                                                                    1       user                   5.3.0               
+    phpDocumentor\Bootstrap                                                                                      1       user                   5.3.0               
+    phpDocumentor\Command\Command                                                                                4       user                   5.3.0               
+    phpDocumentor\Command\Helper\ConfigurationHelper                                                             2       user                   5.3.0               
+    phpDocumentor\Command\Helper\LoggerHelper                                                                    1       user                   5.3.0               
+    phpDocumentor\Command\Phar\UpdateCommand                                                                     1       user                   5.3.0               
+    phpDocumentor\Command\Project\RunCommand                                                                     1       user                   5.3.0               
+    phpDocumentor\Compiler\Compiler                                                                              1       user                   5.3.0               
+    phpDocumentor\Compiler\Linker\Linker                                                                         1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\Debug                                                                            1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\ElementsIndexBuilder                                                             1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\ExampleTagsEnricher                                                              1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\MarkerFromTagsExtractor                                                          1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\NamespaceTreeBuilder                                                             1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\PackageTreeBuilder                                                               1       user                   5.3.0               
+    phpDocumentor\Compiler\Pass\ResolveInlineLinkAndSeeTags                                                      1       user                   5.3.0               
+    phpDocumentor\Configuration                                                                                  2       user                   5.3.0               
+    phpDocumentor\Configuration\Loader                                                                           1       user                   5.3.0               
+    phpDocumentor\Configuration\Logging                                                                          1       user                   5.3.0               
+    phpDocumentor\Configuration\Merger                                                                           2       user                   5.3.0               
+    phpDocumentor\Configuration\Merger\Annotation\Replace                                                                user                   5.3.0               
+    phpDocumentor\Configuration\ServiceProvider                                                                  1       user                   5.3.0               
+    phpDocumentor\Console\Input\ArgvInput                                                                        2       user                   5.3.0               
+    phpDocumentor\Console\Output\Output                                                                          1       user                   5.3.0               
+    phpDocumentor\Descriptor\ArgumentDescriptor                                                                  7       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\AssemblerAbstract                                                           1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\AssemblerFactory                                                            1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\ArgumentAssembler                                                 3       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\AssemblerAbstract                                                 25      user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\ClassAssembler                                                    1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\ConstantAssembler                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\FileAssembler                                                     1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\FunctionAssembler                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\InterfaceAssembler                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\MethodAssembler                                                   1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\PropertyAssembler                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\AuthorAssembler                                              1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\DeprecatedAssembler                                          1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\ExampleAssembler                                             2       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\GenericTagAssembler                                          1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\LinkAssembler                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\MethodAssembler                                              1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\ParamAssembler                                               1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\PropertyAssembler                                            1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\ReturnAssembler                                              1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\SeeAssembler                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\SinceAssembler                                               1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\ThrowsAssembler                                              1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\TypeCollectionAssembler                                      1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\UsesAssembler                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\VarAssembler                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\Tags\VersionAssembler                                             1       user                   5.3.0               
+    phpDocumentor\Descriptor\Builder\Reflector\TraitAssembler                                                    1       user                   5.3.0               
+    phpDocumentor\Descriptor\Cache\ProjectDescriptorMapper                                                       2       user                   5.3.0               
+    phpDocumentor\Descriptor\ClassDescriptor                                                                     3       user                   5.3.0               
+    phpDocumentor\Descriptor\Collection                                                                          158     user                   5.3.0               
+    phpDocumentor\Descriptor\ConstantDescriptor                                                                  2       user                   5.3.0               
+    phpDocumentor\Descriptor\DescriptorAbstract                                                                  19      user                   5.3.0               
+    phpDocumentor\Descriptor\Example\Finder                                                                      3       user                   5.3.0               
+    phpDocumentor\Descriptor\Exception\MissingDependencyException                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\FileDescriptor                                                                      6       user                   5.3.0               
+    phpDocumentor\Descriptor\Filter\ClassFactory                                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Filter\Filter                                                                       2       user                   5.3.0               
+    phpDocumentor\Descriptor\Filter\StripIgnore                                                                  1       user                   5.3.0               
+    phpDocumentor\Descriptor\Filter\StripInternal                                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Filter\StripOnVisibility                                                            1       user                   5.3.0               
+    phpDocumentor\Descriptor\FunctionDescriptor                                                                  2       user                   5.3.0               
+    phpDocumentor\Descriptor\InterfaceDescriptor                                                                 2       user                   5.3.0               
+    phpDocumentor\Descriptor\MethodDescriptor                                                                    4       user                   5.3.0               
+    phpDocumentor\Descriptor\NamespaceDescriptor                                                                 4       user                   5.3.0               
+    phpDocumentor\Descriptor\PackageDescriptor                                                                   2       user                   5.3.0               
+    phpDocumentor\Descriptor\ProjectAnalyzer                                                                     2       user                   5.3.0               
+    phpDocumentor\Descriptor\ProjectDescriptor                                                                   41      user                   5.3.0               
+    phpDocumentor\Descriptor\ProjectDescriptorBuilder                                                            15      user                   5.3.0               
+    phpDocumentor\Descriptor\ProjectDescriptor\Settings                                                          1       user                   5.3.0               
+    phpDocumentor\Descriptor\PropertyDescriptor                                                                  4       user                   5.3.0               
+    phpDocumentor\Descriptor\ServiceProvider                                                                     1       user                   5.3.0               
+    phpDocumentor\Descriptor\TagDescriptor                                                                       13      user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\AuthorDescriptor                                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\BaseTypes\TypedAbstract                                                         2       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\BaseTypes\TypedVariableAbstract                                                 3       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\DeprecatedDescriptor                                                            1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\ExampleDescriptor                                                               1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\LinkDescriptor                                                                  1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\MethodDescriptor                                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\ParamDescriptor                                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\PropertyDescriptor                                                              1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\ReturnDescriptor                                                                3       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\SeeDescriptor                                                                   1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\SinceDescriptor                                                                 1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\ThrowsDescriptor                                                                1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\UsesDescriptor                                                                  1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\VarDescriptor                                                                   1       user                   5.3.0               
+    phpDocumentor\Descriptor\Tag\VersionDescriptor                                                               1       user                   5.3.0               
+    phpDocumentor\Descriptor\TraitDescriptor                                                                     2       user                   5.3.0               
+    phpDocumentor\Descriptor\Type\BooleanDescriptor                                                              3       user                   5.3.0               
+    phpDocumentor\Descriptor\Type\CollectionDescriptor                                                           3       user                   5.3.0               
+    phpDocumentor\Descriptor\Type\FloatDescriptor                                                                5       user                   5.3.0               
+    phpDocumentor\Descriptor\Type\IntegerDescriptor                                                                      user                   5.3.0               
+    phpDocumentor\Descriptor\Type\StringDescriptor                                                               1       user                   5.3.0               
+    phpDocumentor\Descriptor\Type\UnknownTypeDescriptor                                                          6       user                   5.3.0               
+    phpDocumentor\Descriptor\Validator\Error                                                                     6       user                   5.3.0               
+    phpDocumentor\Event\DebugEvent                                                                               3       user                   5.3.0               
+ C  phpDocumentor\Event\Dispatcher                                                                               17      user                   5.3.0               
+    phpDocumentor\Event\EventAbstract                                                                            6       user                   5.3.0               
+    phpDocumentor\Event\LogEvent                                                                                 7       user                   5.3.0               
+  U phpDocumentor\Fileset\Collection                                                                             2       user                   5.3.0               
+  U phpDocumentor\Fileset\File                                                                                   3       user                   5.3.0               
+  U phpDocumentor\GraphViz\Edge                                                                                  1       user                   5.3.0               
+  U phpDocumentor\GraphViz\Graph                                                                                 3       user                   5.3.0               
+  U phpDocumentor\GraphViz\Node                                                                                  2       user                   5.3.0               
+    phpDocumentor\Parser\Command\Project\ParseCommand                                                            1       user                   5.3.0               
+    phpDocumentor\Parser\Configuration                                                                           1       user                   5.3.0               
+    phpDocumentor\Parser\Configuration\Files                                                                     1       user                   5.3.0               
+    phpDocumentor\Parser\Event\PreFileEvent                                                                      3       user                   5.3.0               
+    phpDocumentor\Parser\Exception                                                                               5       user                   5.1.0               
+    phpDocumentor\Parser\Exception\FilesNotFoundException                                                        1       user                   5.3.0               
+    phpDocumentor\Parser\Exception\MissingDependencyException                                                    1       user                   5.3.0               
+    phpDocumentor\Parser\File                                                                                    1       user                   5.3.0               
+    phpDocumentor\Parser\Parser                                                                                  3       user                   5.3.0               
+    phpDocumentor\Parser\ServiceProvider                                                                         1       user                   5.3.0               
+    phpDocumentor\Parser\Util\ParserPopulator                                                                    1       user                   5.3.0               
+    phpDocumentor\Partials\Collection                                                                            1       user                   5.3.0               
+    phpDocumentor\Partials\Exception\MissingNameForPartialException                                              1       user                   5.3.0               
+    phpDocumentor\Partials\Partial                                                                                       user                   5.3.0               
+    phpDocumentor\Partials\ServiceProvider                                                                       1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasPackageWithSubpackage                  4       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasPackageWithSubpackageValidator                 user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasSinglePackage                          4       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasSinglePackageValidator                         user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasSingleSubpackage                       4       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Classes\HasSingleSubpackageValidator                      user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\AreAllArgumentsValid                    2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\AreAllArgumentsValidValidator                   user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesArgumentNameMatchParam              1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesArgumentNameMatchParamValidator     1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesArgumentTypehintMatchParam          1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesArgumentTypehintMatchParamValidator 1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesParamsExists                        1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\DoesParamsExistsValidator               1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsArgumentInDocBlock                    1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsArgumentInDocBlockValidator           1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsParamTypeNotAnIdeDefault              2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsParamTypeNotAnIdeDefaultValidator             user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsReturnTypeNotAnIdeDefault             2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Functions\IsReturnTypeNotAnIdeDefaultValidator            user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Property\HasSummary                               1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Constraints\Property\HasSummaryValidator                              user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\Functions\AreAllArgumentsValid                                        user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\ValidationValueObject                                         5       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Descriptor\Validator\ValidatorAbstract                                                     user                   5.3.0               
+    phpDocumentor\Plugin\Core\Exception                                                                          2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\ServiceProvider                                                                    1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\AuthorTag                                                1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\CoversTag                                                1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\IgnoreTag                                                1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\InternalTag                                              1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\LicenseTag                                               1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\MethodTag                                                1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\ParamTag                                                 2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\PropertyTag                                              1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\ReturnTag                                                1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\UsesTag                                                  1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Behaviour\Tag\VarTag                                                   1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Checkstyle                                                      2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\FileIo                                                          1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Pathfinder                                                      2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Sourcecode                                                      1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Statistics                                                      1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml                                                             1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\ArgumentConverter                                           2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\ConstantConverter                                           2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\DocBlockConverter                                           6       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\InterfaceConverter                                          1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\MethodConverter                                             3       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\PropertyConverter                                           2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\TagConverter                                                2       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xml\TraitConverter                                              1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Transformer\Writer\Xsl                                                             1       user                   5.3.0               
+    phpDocumentor\Plugin\Core\Xslt\Extension                                                                             user                   5.3.0               
+    phpDocumentor\Plugin\Graphs\ServiceProvider                                                                  8       user                   5.3.0               
+    phpDocumentor\Plugin\Graphs\Writer\Graph                                                                     1       user                   5.3.0               
+    phpDocumentor\Plugin\LegacyNamespaceConverter\LegacyNamespaceFilter                                          2       user                   5.3.0               
+    phpDocumentor\Plugin\LegacyNamespaceConverter\ServiceProvider                                                5       user                   5.3.0               
+    phpDocumentor\Plugin\LegacyNamespaceConverter\Tests\LegacyNamespaceFilterTest                                        user                   5.3.0               
+    phpDocumentor\Plugin\Parameter                                                                                       user                   5.3.0               
+    phpDocumentor\Plugin\Plugin                                                                                  1       user                   5.3.0               
+  U phpDocumentor\Plugin\Scrybe\Application                                                                      3       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\ApplicationTest                                                                          user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Command\Manual\BaseConvertCommand                                                3       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Command\Manual\ToHtmlCommand                                                     1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Command\Manual\ToLatexCommand                                                            user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Command\Manual\ToPdfCommand                                                              user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\BaseConverter                                                          1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Definition\Definition                                                  2       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Definition\Factory                                                     4       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Exception\ConverterNotFoundException                                   1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Factory                                                                2       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Format\Collection                                                      2       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Format\Exception\FormatNotFoundException                               1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Format\Format                                                          6       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\Assets                                                        4       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\Glossary                                                      2       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents                                               5       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContentsTest                                                   user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\BaseEntry                                     3       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\BaseEntryTest                                         user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\File                                          11      user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\FileTest                                              user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\Heading                                       4       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\Module                                        1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\Metadata\TableOfContents\ModuleTest                                            user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Directives\CodeBlock                                          user                   5.0.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Directives\Figure                                             user                   5.0.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Directives\Image                                              user                   5.0.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Directives\Toctree                                            user                   5.0.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Document                                              2       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Roles\Doc                                                     user                   5.0.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\ToHtml                                                        user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Visitors\Creator                                      1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Visitors\Discover                                     1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Converter\RestructuredText\Visitors\DiscoverTest                                         user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\ServiceProvider                                                                  1       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\Factory                                                                 8       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\FactoryTest                                                                     user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\Mock\Template                                                           4       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\Twig                                                                    9       user                   5.3.0               
+    phpDocumentor\Plugin\Scrybe\Template\TwigTest                                                                        user                   5.3.0               
+    phpDocumentor\Plugin\ServiceProvider                                                                         2       user                   5.3.0               
+    phpDocumentor\Plugin\Twig\Extension                                                                          1       user                   5.3.0               
+    phpDocumentor\Plugin\Twig\ServiceProvider                                                                    7       user                   5.3.0               
+    phpDocumentor\Plugin\Twig\Writer\Twig                                                                        1       user                   5.3.0               
+  U phpDocumentor\Reflection\BaseReflector                                                                       4       user                   5.3.0               
+  U phpDocumentor\Reflection\DocBlock\Context                                                                    1       user                   5.3.0               
+  U phpDocumentor\Reflection\DocBlock\Tag                                                                        1       user                   5.3.0               
+  U phpDocumentor\Reflection\DocBlock\Tag\ExampleTag                                                             1       user                   5.3.0               
+  U phpDocumentor\Reflection\DocBlock\Tag\ParamTag                                                               2       user                   5.3.0               
+  U phpDocumentor\Reflection\DocBlock\Type\Collection                                                            13      user                   5.3.0               
+  U phpDocumentor\Reflection\FileReflector                                                                       1       user                   5.3.0               
+  U phpDocumentor\Reflection\FunctionReflector\ArgumentReflector                                                 4       user                   5.3.0               
+    phpDocumentor\Transformer\Behaviour\BehaviourAbstract                                                        3       user                   5.3.0               
+    phpDocumentor\Transformer\Behaviour\Collection                                                               1       user                   5.3.0               
+    phpDocumentor\Transformer\Command\Project\TransformCommand                                                   1       user                   5.3.0               
+    phpDocumentor\Transformer\Command\Template\ListCommand                                                       1       user                   5.3.0               
+    phpDocumentor\Transformer\Configuration                                                                      1       user                   5.3.0               
+    phpDocumentor\Transformer\Configuration\ExternalClassDocumentation                                                   user                   5.3.0               
+    phpDocumentor\Transformer\Configuration\Transformations                                                      1       user                   5.3.0               
+    phpDocumentor\Transformer\Configuration\Transformations\Template                                                     user                   5.3.0               
+    phpDocumentor\Transformer\Event\PostTransformEvent                                                           1       user                   5.3.0               
+    phpDocumentor\Transformer\Event\PostTransformationEvent                                                      1       user                   5.3.0               
+    phpDocumentor\Transformer\Event\PreTransformEvent                                                            2       user                   5.3.0               
+    phpDocumentor\Transformer\Event\PreTransformationEvent                                                       2       user                   5.3.0               
+    phpDocumentor\Transformer\Event\PreXslWriterEvent                                                            1       user                   5.3.0               
+    phpDocumentor\Transformer\Event\WriterInitializationEvent                                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Exception                                                                          4       user                   5.3.0               
+    phpDocumentor\Transformer\Exception\MissingDependencyException                                               2       user                   5.3.0               
+    phpDocumentor\Transformer\Exception\UnknownWriter                                                                    user                   5.3.0               
+    phpDocumentor\Transformer\Router\ExternalRouter                                                              1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\ForFileProxy                                                                2       user                   5.3.0               
+    phpDocumentor\Transformer\Router\Queue                                                                       5       user                   5.3.0               
+    phpDocumentor\Transformer\Router\Renderer                                                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\RouterAbstract                                                              2       user                   5.3.0               
+    phpDocumentor\Transformer\Router\Rule                                                                        15      user                   5.3.0               
+    phpDocumentor\Transformer\Router\StandardRouter                                                              1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\ClassDescriptor                                       1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\ConstantDescriptor                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\FileDescriptor                                        1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\FunctionDescriptor                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\MethodDescriptor                                      1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\NamespaceDescriptor                                   1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\PackageDescriptor                                     1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\PropertyDescriptor                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Router\UrlGenerator\Standard\QualifiedNameToUrlConverter                           8       user                   5.3.0               
+    phpDocumentor\Transformer\ServiceProvider                                                                    1       user                   5.3.0               
+    phpDocumentor\Transformer\Template                                                                           2       user                   5.3.0               
+    phpDocumentor\Transformer\Template\Collection                                                                2       user                   5.3.0               
+    phpDocumentor\Transformer\Template\Factory                                                                   1       user                   5.3.0               
+    phpDocumentor\Transformer\Template\Parameter                                                                         user                   5.3.0               
+    phpDocumentor\Transformer\Template\PathResolver                                                              2       user                   5.3.0               
+    phpDocumentor\Transformer\Transformation                                                                     1       user                   5.3.0               
+    phpDocumentor\Transformer\Transformer                                                                        1       user                   5.3.0               
+    phpDocumentor\Transformer\Writer\Collection                                                                  3       user                   5.3.0               
+    phpDocumentor\Transformer\Writer\Exception\RequirementMissing                                                1       user                   5.3.0               
+    phpDocumentor\Transformer\Writer\WriterAbstract                                                              8       user                   5.3.0               
+    phpDocumentor\Translator\Configuration                                                                       1       user                   5.3.0               
+    phpDocumentor\Translator\ServiceProvider                                                                     1       user                   5.3.0               
+    phpDocumentor\Translator\Translator                                                                          2       user                   5.3.0               
+    self                                                                                                         3       Core       5.0.0       5.0.0               
+    static                                                                                                       1       Core       5.0.0       5.0.0               
+    stdClass                                                                                                     1       Core       4.0.0       4.0.0               
+    Total [376]                                                                                                                                 5.3.0               
+
+Functions Analysis
+
+    Function                   Matches REF      EXT min/Max PHP min/Max  
+    array_diff                 1       standard 4.0.1       4.0.1        
+    array_fill                 2       standard 4.2.0       4.2.0        
+    array_key_exists           1       standard 4.0.7       4.0.7        
+    array_keys                 4       standard 4.0.0       4.0.0        
+    array_map                  2       standard 4.0.6       4.0.6        
+    array_merge                9       standard 4.0.0       4.0.0        
+    array_slice                1       standard 4.0.0       4.0.0        
+    array_splice               2       standard 4.0.0       4.0.0        
+    array_unshift              2       standard 4.0.0       4.0.0        
+    array_values               2       standard 4.0.0       4.0.0        
+    array_walk                 1       standard 4.0.0       4.0.0        
+    base64_encode              1       standard 4.0.0       4.0.0        
+    basename                   3       standard 4.0.0       4.0.0        
+    call_user_func_array       1       standard 4.0.4       4.0.4        
+    chdir                      1       standard 4.0.0       4.0.0        
+    class_exists               5       Core     4.0.0       4.0.0        
+    class_implements           1       spl      5.1.0       5.1.0        
+    closure-102-104                    user                 5.3.0        
+    closure-105-127                    user                 5.3.0        
+    closure-118-118                    user                 5.3.0        
+    closure-119-121                    user                 5.3.0        
+    closure-122-122                    user                 5.3.0        
+    closure-123-123                    user                 5.3.0        
+    closure-124-124                    user                 5.3.0        
+    closure-125-125                    user                 5.3.0        
+    closure-126-126                    user                 5.3.0        
+    closure-127-127                    user                 5.3.0        
+    closure-128-128                    user                 5.3.0        
+    closure-130-130                    user                 5.3.0        
+    closure-131-131                    user                 5.3.0        
+    closure-131-133                    user                 5.3.0        
+    closure-132-132                    user                 5.3.0        
+    closure-133-133                    user                 5.3.0        
+    closure-134-134                    user                 5.3.0        
+    closure-135-135                    user                 5.3.0        
+    closure-136-136                    user                 5.3.0        
+    closure-137-137                    user                 5.3.0        
+    closure-137-139                    user                 5.3.0        
+    closure-138-138                    user                 5.3.0        
+    closure-139-139                    user                 5.3.0        
+    closure-140-140                    user                 5.3.0        
+    closure-141-141                    user                 5.3.0        
+    closure-142-142                    user                 5.3.0        
+    closure-143-143                    user                 5.3.0        
+    closure-143-148                    user                 5.3.0        
+    closure-145-145                    user                 5.3.0        
+    closure-147-147                    user                 5.3.0        
+    closure-151-153                    user                 5.3.0        
+    closure-157-165                    user                 5.3.0        
+    closure-169-171                    user                 5.3.0        
+    closure-175-177                    user                 5.3.0        
+    closure-177-193                    user                 5.3.0        
+    closure-181-187                    user                 5.3.0        
+    closure-187-189                    user                 5.3.0        
+    closure-191-193                    user                 5.3.0        
+    closure-197-219                    user                 5.3.0        
+    closure-204-215                    user                 5.3.0        
+    closure-222-224                    user                 5.3.0        
+    closure-228-233                    user                 5.3.0        
+    closure-237-242                    user                 5.3.0        
+    closure-256-261                    user                 5.3.0        
+    closure-26-40                      user                 5.3.0        
+    closure-266-271                    user                 5.3.0        
+    closure-284-304                    user                 5.3.0        
+    closure-285-287                    user                 5.3.0        
+    closure-292-305                    user                 5.3.0        
+    closure-327-336                    user                 5.3.0        
+    closure-339-341                    user                 5.3.0        
+    closure-350-352                    user                 5.3.0        
+    closure-355-357                    user                 5.3.0        
+    closure-359-361                    user                 5.3.0        
+    closure-360-363                    user                 5.3.0        
+    closure-367-369                    user                 5.3.0        
+    closure-373-377                    user                 5.3.0        
+    closure-379-381                    user                 5.3.0        
+    closure-404-406                    user                 5.3.0        
+    closure-44-49                      user                 5.3.0        
+    closure-45-51                      user                 5.3.0        
+    closure-45-74                      user                 5.3.0        
+    closure-47-49                      user                 5.3.0        
+    closure-51-53                      user                 5.3.0        
+    closure-52-54                      user                 5.3.0        
+    closure-54-56                      user                 5.3.0        
+    closure-55-57                      user                 5.3.0        
+    closure-57-59                      user                 5.3.0        
+    closure-57-63                      user                 5.3.0        
+    closure-59-70                      user                 5.3.0        
+    closure-66-70                      user                 5.3.0        
+    closure-66-73                      user                 5.3.0        
+    closure-76-76                      user                 5.3.0        
+    closure-77-77                      user                 5.3.0        
+    closure-78-78                      user                 5.3.0        
+    closure-79-79                      user                 5.3.0        
+    closure-79-81                      user                 5.3.0        
+    closure-79-83                      user                 5.3.0        
+    closure-80-80                      user                 5.3.0        
+    closure-81-81                      user                 5.3.0        
+    closure-82-82                      user                 5.3.0        
+    closure-83-83                      user                 5.3.0        
+    closure-84-84                      user                 5.3.0        
+    closure-85-85                      user                 5.3.0        
+    closure-86-86                      user                 5.3.0        
+    closure-86-88                      user                 5.3.0        
+    closure-90-92                      user                 5.3.0        
+    closure-93-93                      user                 5.3.0        
+    closure-97-97                      user                 5.3.0        
+    closure-99-101                     user                 5.3.0        
+    copy                       1       user                 4.0.0        
+    count                      36      standard 4.0.0       4.0.0        
+    current                    14      standard 4.0.0       4.0.0        
+    date                       1       date     4.0.0       4.0.0        
+    date_default_timezone_set  1       date     5.1.0       5.1.0        
+    dirname                    17      standard 4.0.0       4.0.0        
+    end                        3       standard 4.0.0       4.0.0        
+    error_reporting            2       Core     4.0.0       4.0.0        
+    exec                       1       standard 4.0.0       4.0.0        
+    explode                    21      standard 4.0.0       4.0.0        
+    extension_loaded           10      Core     4.0.0       4.0.0        
+    file                       1       standard 4.0.0       4.0.0        
+    file_exists                22      standard 4.0.0       4.0.0        
+    file_get_contents          6       standard 4.3.0       4.3.0        
+    file_put_contents          6       standard 5.0.0       5.0.0        
+    get_class                  13      Core     4.0.0       4.0.0        
+    getcwd                     5       standard 4.0.0       4.0.0        
+    getenv                     3       standard 4.0.0       4.0.0        
+    glob                       2       standard 4.3.0       4.3.0        
+    gzcompress                 1       zlib     4.0.1       4.0.1        
+    htmlentities               1       standard 4.0.0       4.0.0        
+    htmlspecialchars           1       standard 4.0.0       4.0.0        
+    iconv                      2       iconv    4.0.5       4.0.5        
+    implode                    15      standard 4.0.0       4.0.0        
+    in_array                   7       standard 4.0.0       4.0.0        
+    ini_get                    6       standard 4.0.0       4.0.0        
+    ini_set                    3       standard 4.0.0       4.0.0        
+    is_array                   18      standard 4.0.0       4.0.0        
+    is_dir                     5       standard 4.0.0       4.0.0        
+    is_file                    2       standard 4.0.0       4.0.0        
+    is_int                     3       standard 4.0.0       4.0.0        
+    is_null                    2       standard 4.0.4       4.0.4        
+    is_object                  6       standard 4.0.0       4.0.0        
+    is_readable                14      standard 4.0.0       4.0.0        
+    is_string                  15      standard 4.0.0       4.0.0        
+    is_writable                2       standard 4.0.0       4.0.0        
+    iterator_to_array          1       spl      5.1.0       5.1.0        
+    json_decode                1       json     5.2.0       5.2.0        
+    key                        2       standard 4.0.0       4.0.0        
+    libxml_get_last_error      1       libxml   5.1.0       5.1.0        
+    libxml_use_internal_errors 1       libxml   5.1.0       5.1.0        
+    ltrim                      24      standard 4.0.0       4.0.0        
+    md5                        2       standard 4.0.0       4.0.0        
+    method_exists              13      Core     4.0.0       4.0.0        
+    microtime                  3       standard 5.0.0       5.0.0        
+    mkdir                      7       standard 5.0.0       5.0.0        
+    next                       1       standard 4.0.0       4.0.0        
+    number_format              2       standard 4.0.0       4.0.0        
+    phpversion                 1       standard 4.0.0       4.0.0        
+    preg_grep                  1       pcre     4.0.0       4.0.0        
+    preg_match                 10      pcre     4.0.0       4.0.0        
+    preg_match_all             1       pcre     4.0.0       4.0.0        
+    preg_replace               3       pcre     4.0.0       4.0.0        
+    preg_replace_callback      2       pcre     4.0.5       4.0.5        
+    preg_split                 1       pcre     4.0.0       4.0.0        
+    realpath                   9       standard 4.0.0       4.0.0        
+    reset                      5       standard 4.0.0       4.0.0        
+    round                      2       standard 4.0.0       4.0.0        
+    rtrim                      11      standard 4.0.0       4.0.0        
+    serialize                  1       standard 4.0.0       4.0.0        
+    sort                       1       standard 4.0.0       4.0.0        
+    spl_object_hash            1       spl      5.2.0       5.2.0        
+    sprintf                    10      standard 4.0.0       4.0.0        
+    str_ireplace               1       standard 5.0.0       5.0.0        
+    str_repeat                 3       standard 4.0.0       4.0.0        
+    str_replace                36      standard 4.0.0       4.0.0        
+    strip_tags                 1       standard 4.0.0       4.0.0        
+    strlen                     11      Core     4.0.0       4.0.0        
+    strpos                     18      standard 4.0.0       4.0.0        
+    strrpos                    9       standard 4.0.0       4.0.0        
+    strtolower                 13      standard 4.0.0       4.0.0        
+    strtoupper                 1       standard 4.0.0       4.0.0        
+    substr                     40      standard 4.0.0       4.0.0        
+    substr_count               2       standard 4.0.0       4.0.0        
+    sys_get_temp_dir           5       standard 5.2.1       5.2.1        
+    time                       1       date     4.0.0       4.0.0        
+    trigger_error              2       Core     4.0.1       4.0.1        
+    trim                       17      standard 4.0.0       4.0.0        
+    ucfirst                    8       standard 4.0.0       4.0.0        
+    urlencode                  1       standard 4.0.0       4.0.0        
+    var_export                 5       standard 4.2.0       4.2.0        
+    version_compare            1       standard 4.0.7       4.0.7        
+    vsprintf                   7       standard 4.0.7       4.0.7        
+    Total [190]                                             5.3.0        
+
+Constants Analysis
+
+    Constant            Matches REF      EXT min/Max PHP min/Max  
+    DATE_ATOM           1       date     5.1.1       5.1.1        
+    DIRECTORY_SEPARATOR 42      standard 4.0.6       4.0.6        
+    E_ERROR             1       Core     4.0.0       4.0.0        
+    E_PARSE             1       Core     4.0.0       4.0.0        
+    E_STRICT            1       Core     5.0.0       5.0.0        
+    E_USER_DEPRECATED   2       Core     5.3.0       5.3.0        
+    GLOB_ONLYDIR        1       standard 4.0.0       4.0.0        
+    PHP_EOL             3       Core     4.3.10      4.3.10       
+    PHP_OS              1       Core     4.0.0       4.0.0        
+    __DIR__             24      Core     5.3.0       5.3.0        
+    __FILE__            1       Core     4.0.0       4.0.0        
+    false               71      Core     4.0.0       4.0.0        
+    null                200     Core     4.0.0       4.0.0        
+    true                64      Core     4.0.0       4.0.0        
+    Total [14]                                       5.3.0        
+
+Conditions Analysis
+
+    Condition                                    Matches REF  EXT min/Max PHP min/Max  
+    class_exists(XSLTProcessor)                  1       xsl  5.0.0       5.0.0        
+    class_exists(phpDocumentor\Event\Dispatcher) 1       user             5.3.0        
+    extension_loaded(Zend OPcache)               1       user             4.0.0        
+    extension_loaded(Zend Optimizer+)            1       user             4.0.0        
+    extension_loaded(iconv)                      2       user             4.0.0        
+    extension_loaded(igbinary)                   3       user             4.0.0        
+    extension_loaded(xhprof)                     1       user             4.0.0        
+    extension_loaded(xslcache)                   2       user             4.0.0        
+    Total [8]                                                             5.3.0        
+
+Requires PHP 5.3.0 (min), PHP 5.3.0 (all)
+~/projects/rpms/phpdoc
