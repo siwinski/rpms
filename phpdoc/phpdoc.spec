@@ -260,6 +260,14 @@ Requires:      php-composer(fedora/autoloader)
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
+# Standard "php-{COMPOSER_VENDOR}-{COMPOSER_PROJECT}" naming
+Provides:      php-%{composer_vendor}-%{composer_project} = %{version}-%{release}
+Provides:      php-%{composer_project} = %{version}-%{release}
+# Rename
+Obsoletes:     php-pear-PhpDocumentor < %{version}-%{release}
+Provides:      php-pear-PhpDocumentor = %{version}-%{release}
+## This pkg was the only one in this channel so the channel is no longer needed
+Obsoletes:     php-channel-phpdoc
 
 %description
 phpDocumentor is an application that is capable of analyzing your PHP source
