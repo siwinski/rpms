@@ -110,13 +110,6 @@ cp -rp src %{buildroot}%{phpdir}/Grasmash/YamlExpander
 
 %check
 %if %{with_tests}
-: Create tests bootstrap
-cat <<'BOOTSTRAP' | tee bootstrap.php
-<?php
-require '%{buildroot}%{phpdir}/Grasmash/YamlExpander/autoload.php';
-//\Fedora\Autoloader\Autoload::addPsr4('xxxxx\\Test\\', __DIR__.'/tests');
-BOOTSTRAP
-
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
