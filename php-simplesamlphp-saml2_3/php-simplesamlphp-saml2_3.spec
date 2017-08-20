@@ -11,8 +11,8 @@
 
 %global github_owner     simplesamlphp
 %global github_name      saml2
-%global github_version   3.0.0
-%global github_commit    cea679a3113d1f8198ab7d0a734de740412d0d0d
+%global github_version   3.0.2
+%global github_commit    bacad25473258cfefb7a7fd418cc5f8a22cda0a1
 
 %global composer_vendor  simplesamlphp
 %global composer_project saml2
@@ -26,9 +26,16 @@
 #     NOTE: Min version not 1.0 because autoloader required
 %global psr_log_min_ver 1.0.1
 %global psr_log_max_ver 2.0
-# "robrichards/xmlseclibs": "^2.0|^3.0"
-%global robrichards_xmlseclibs_min_ver 2.0
-%global robrichards_xmlseclibs_max_ver 4.0
+# "simplesamlphp/xmlseclibs": "^2.0|^3.0"
+#
+# https://github.com/simplesamlphp/xmlseclibs
+# Micro-fork of xmlseclibs, sole difference is restore of PHP 5.4 compatibility
+#
+# Using robrichards/xmlseclibs instead of simplesamlphp/xmlseclibs because
+# they use the same namespace, the only difference is PHP version compatibility,
+# and tests pass.
+%global xmlseclibs_min_ver 2.0
+%global xmlseclibs_max_ver 4.0
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -43,7 +50,11 @@ Summary:       SAML2 PHP library from SimpleSAMLphp (version 3)
 Group:         Development/Libraries
 License:       LGPLv2
 URL:           https://github.com/%{github_owner}/%{github_name}
-Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+
+# GitHub export does not include tests.
+# Run php-simplesamlphp-saml2_3-get-source.sh to create full source.
+Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
@@ -53,8 +64,8 @@ BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(psr/log) <  %{psr_log_max_ver}
 BuildRequires: php-composer(psr/log) >= %{psr_log_min_ver}
-BuildRequires: php-composer(robrichards/xmlseclibs) <  %{robrichards_xmlseclibs_max_ver}
-BuildRequires: php-composer(robrichards/xmlseclibs) >= %{robrichards_xmlseclibs_min_ver}
+BuildRequires: php-composer(robrichards/xmlseclibs) <  %{xmlseclibs_max_ver}
+BuildRequires: php-composer(robrichards/xmlseclibs) >= %{xmlseclibs_min_ver}
 BuildRequires: php-dom
 BuildRequires: php-openssl
 BuildRequires: php-zlib
@@ -62,10 +73,9 @@ BuildRequires: php-zlib
 BuildRequires: php-composer(mockery/mockery) <  %{mockery_max_ver}
 BuildRequires: php-composer(mockery/mockery) >= %{mockery_min_ver}
 %endif
-## phpcompatinfo (computed from version 3.0.0)
+## phpcompatinfo (computed from version 3.0.2)
 BuildRequires: php-date
 BuildRequires: php-libxml
-BuildRequires: php-mcrypt
 BuildRequires: php-pcre
 BuildRequires: php-soap
 BuildRequires: php-spl
@@ -77,12 +87,12 @@ BuildRequires: php-fedora-autoloader-devel
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(psr/log) <  %{psr_log_max_ver}
 Requires:      php-composer(psr/log) >= %{psr_log_min_ver}
-Requires:      php-composer(robrichards/xmlseclibs) <  %{robrichards_xmlseclibs_max_ver}
-Requires:      php-composer(robrichards/xmlseclibs) >= %{robrichards_xmlseclibs_min_ver}
+Requires:      php-composer(robrichards/xmlseclibs) <  %{xmlseclibs_max_ver}
+Requires:      php-composer(robrichards/xmlseclibs) >= %{xmlseclibs_min_ver}
 Requires:      php-dom
 Requires:      php-openssl
 Requires:      php-zlib
-# phpcompatinfo (computed from version 3.0.0)
+# phpcompatinfo (computed from version 3.0.2)
 Requires:      php-date
 Requires:      php-libxml
 Requires:      php-pcre
@@ -158,8 +168,8 @@ sed 's/function testToString/function SKIP_testToString/' \
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" %{?rhel:php54 php55} php56 php70 php71 php72; do
-    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
+    if [ "php" = "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --configuration=tools/phpunit --verbose || RETURN_CODE=1
     fi
 done
@@ -178,5 +188,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 3.0.2-1
+- Update to 3.0.2
+
 * Wed Jul 12 2017 Shawn Iwinski <shawn@iwin.ski> - 3.0.0-1
 - Initial package
