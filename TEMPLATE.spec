@@ -122,9 +122,10 @@ BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
+PHPUNIT=$(which phpunit)
 for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
     if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap bootstrap.php || RETURN_CODE=1
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
 done
 exit $RETURN_CODE
