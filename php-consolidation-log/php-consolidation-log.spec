@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-consolidation-log
 #
-# Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016-2017 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -21,7 +21,7 @@
 %global php_min_ver 5.5.0
 # "psr/log": "~1.0"
 #     NOTE: Min version not 1.0 because autoloader required
-%global psr_log_min_ver 1.0.0-8
+%global psr_log_min_ver 1.0.1
 %global psr_log_max_ver 2.0
 # "symfony/console": "~2.5|~3.0"
 #     NOTE: Min version not 2.5 because autoloader required
@@ -35,7 +35,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Improved Psr-3 / Psr\\Log logger based on Symfony Console components
 
 Group:         Development/Libraries
@@ -47,28 +47,28 @@ BuildArch:     noarch
 # Tests
 %if %{with_tests}
 ## composer.json
-BuildRequires: php(language)                 >= %{php_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
-#BuildRequires: php-composer(psr/log)         >= %%{psr_log_min_ver}
-BuildRequires: php-PsrLog                    >= %{psr_log_min_ver}
+BuildRequires: php-composer(psr/log) <  %{psr_log_max_ver}
+BuildRequires: php-composer(psr/log) >= %{psr_log_min_ver}
+BuildRequires: php-composer(symfony/console) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/console) >= %{symfony_min_ver}
 ## phpcompatinfo (computed from version 1.0.3)
 ### <none>
 ## Autoloader
-BuildRequires: php-composer(symfony/class-loader)
+BuildRequires: php-composer(fedora/autoloader)
 %endif
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-#Requires:      php-composer(psr/log)         >= %%{psr_log_min_ver}
-Requires:      php-PsrLog                    >= %{psr_log_min_ver}
-Requires:      php-composer(psr/log)         <  %{psr_log_max_ver}
+Requires:      php-composer(psr/log) >= %{psr_log_min_ver}
+Requires:      php-composer(psr/log) <  %{psr_log_max_ver}
 Requires:      php-composer(symfony/console) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/console) <  %{symfony_max_ver}
 # phpcompatinfo (computed from version 1.0.3)
 ## <none>
 # Autoloader
-Requires:      php-composer(symfony/class-loader)
+Requires:      php-composer(fedora/autoloader)
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -93,49 +93,45 @@ cat <<'AUTOLOAD' | tee src/autoload.php
 /**
  * Autoloader for %{name} and its' dependencies
  * (created by %{name}-%{version}-%{release}).
- *
- * @return \Symfony\Component\ClassLoader\ClassLoader
  */
+require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
-if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
-    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
-        require_once '%{phpdir}/Symfony/Component/ClassLoader/ClassLoader.php';
-    }
+\Fedora\Autoloader\Autoload::addPsr4('Consolidation\\Log\\', __DIR__);
 
-    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
-    $fedoraClassLoader->register();
-}
-
-$fedoraClassLoader->addPrefix('Consolidation\\Log\\', dirname(dirname(__DIR__)));
-
-// Required dependencies
-require_once '%{phpdir}/Psr/Log/autoload.php';
-require_once '%{phpdir}/Symfony/Component/Console/autoload.php';
-
-return $fedoraClassLoader;
+\Fedora\Autoloader\Dependencies::required([
+    '%{phpdir}/Psr/Log/autoload.php',
+    [
+        '%{phpdir}/Symfony3/Component/Console/autoload.php',
+        '%{phpdir}/Symfony/Component/Console/autoload.php',
+    ],
+]);
 AUTOLOAD
 
 
 %install
-mkdir -p %{buildroot}%{phpdir}/Consolidation/Log
-cp -rp src/* %{buildroot}%{phpdir}/Consolidation/Log/
+mkdir -p %{buildroot}%{phpdir}/Consolidation
+cp -rp src %{buildroot}%{phpdir}/Consolidation/Log
 
 
 %check
 %if %{with_tests}
-: Mock PSR-0 tests
-mkdir -p tests-psr0/Consolidation
-ln -s ../../tests/src tests-psr0/Consolidation/TestUtils
-
 : Create tests bootstrap
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
-$fedoraClassLoader =
-    require '%{buildroot}%{phpdir}/Consolidation/Log/autoload.php';
-$fedoraClassLoader->addPrefix('Consolidation\\TestUtils\\', __DIR__.'/tests-psr0');
+require '%{buildroot}%{phpdir}/Consolidation/Log/autoload.php';
+\Fedora\Autoloader\Autoload::addPsr4('Consolidation\\TestUtils\\', __DIR__.'/tests/src');
 BOOTSTRAP
 
-%{_bindir}/phpunit --verbose --bootstrap bootstrap.php
+: Upstream tests
+RETURN_CODE=0
+PHPUNIT=$(which phpunit)
+for PHP_EXEC in php php56 php70 php71 php72; do
+    if [ "php" = "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
+            || RETURN_CODE=1
+    fi
+done
+exit $RETURN_CODE
 %else
 : Tests skipped
 %endif
@@ -151,5 +147,10 @@ BOOTSTRAP
 
 
 %changelog
+* Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.3-2
+- Add max versions to BuildRequires
+- Switch autoloader to fedora/autoloader
+- Test with SCLs if available
+
 * Tue Aug 09 2016 Shawn Iwinski <shawn@iwin.ski> - 1.0.3-1
 - Initial package
