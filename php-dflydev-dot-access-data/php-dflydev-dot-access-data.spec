@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Given a deep data structure, access data by dot notation
 
 Group:         Development/Libraries
@@ -90,9 +90,10 @@ cp -rp src/Dflydev/DotAccessData %{buildroot}%{phpdir}/Dflydev/
 %if %{with_tests}
 : Upstream tests
 RETURN_CODE=0
+PHPUNIT=$(which phpunit)
 for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
-    if which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit --verbose \
+    if [ "php" = "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose \
             --bootstrap %{buildroot}%{phpdir}/Dflydev/DotAccessData/autoload.php \
             || RETURN_CODE=1
     fi
@@ -113,5 +114,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-2
+- Finalize for Fedora review
+
 * Tue Apr 25 2017 Shawn Iwinski <shawn@iwin.ski> - 1.1.0-1
 - Initial package
