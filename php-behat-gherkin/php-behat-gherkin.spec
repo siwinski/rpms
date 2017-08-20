@@ -59,8 +59,6 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-Requires:      php-composer(symfony/yaml) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/yaml) <  %{symfony_max_ver}
 # phpcompatinfo (computed from version 4.4.5)
 Requires:      php-date
 Requires:      php-mbstring
@@ -68,6 +66,12 @@ Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
+
+# composer.json: suggest
+%if 0%{?fedora} >= 21
+Suggests:      php-composer(symfony/yaml)
+%endif
+
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
