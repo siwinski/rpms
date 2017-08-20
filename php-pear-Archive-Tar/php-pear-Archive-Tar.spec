@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-pear-Archive-Tar
 #
-# Copyright (c) 2016 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016-2017 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -9,8 +9,8 @@
 # Please preserve changelog entries
 #
 
-%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
-%{!?__pear:       %global __pear       %{_bindir}/pear}
+%{!?pear_metadir:  %global pear_metadir  %{pear_phpdir}}
+%{!?__pear:        %global __pear        %{_bindir}/pear}
 %global pear_name Archive_Tar
 
 # <php>
@@ -23,7 +23,7 @@
 %global pear_min_ver 1.9.0
 
 Name:             php-pear-Archive-Tar
-Version:          1.4.2
+Version:          1.4.3
 Release:          1%{?github_release}%{?dist}
 Summary:          Tar file management class
 
@@ -40,7 +40,7 @@ Requires:         php(language) >= %{php_min_ver}
 Requires:         php-pear >= %{pear_min_ver}
 Requires(post):   %{__pear}
 Requires(postun): %{__pear}
-# phpcompatinfo (computed from version 1.4.2)
+# phpcompatinfo (computed from version 1.4.3)
 Requires:         php-bz2
 Requires:         php-date
 Requires:         php-pcre
@@ -71,6 +71,7 @@ mv ../package.xml %{name}.xml
 
 
 %build
+# Empty build section, nothing required
 
 
 %install
@@ -110,5 +111,8 @@ fi
 
 
 %changelog
+* Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 1.4.3-1
+- Update to 1.4.3
+
 * Tue Aug 09 2016 Shawn Iwinski <shawn@iwin.ski> - 1.4.2-1
 - Initial package
