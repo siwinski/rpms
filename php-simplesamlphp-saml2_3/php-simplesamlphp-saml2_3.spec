@@ -44,7 +44,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}_3
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       SAML2 PHP library from SimpleSAMLphp (version 3)
 
 Group:         Development/Libraries
@@ -79,6 +79,8 @@ BuildRequires: php-libxml
 BuildRequires: php-pcre
 BuildRequires: php-soap
 BuildRequires: php-spl
+### Require mcrypt for robrichards/xmlseclibs version 2
+BuildRequires: php-mcrypt
 %endif
 ## Autoloader
 BuildRequires: php-fedora-autoloader-devel
@@ -188,6 +190,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 22 2017 Shawn Iwinski <shawn@iwin.ski> - 3.0.2-2
+- Build require mcrypt for robrichards/xmlseclibs version 2
+
 * Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 3.0.2-1
 - Update to 3.0.2
 
