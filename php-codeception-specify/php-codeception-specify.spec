@@ -30,7 +30,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       BDD code blocks for PHPUnit and Codeception
 
 Group:         Development/Libraries
@@ -62,11 +62,6 @@ Requires:      php-reflection
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
-
-# Weak dependencies
-%if 0%{?fedora} >= 21
-Suggests:      php-composer()
-%endif
 
 # Composer
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -137,5 +132,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Sep 05 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.6-2
+- Remove empty Suggests
+
 * Sun Aug 20 2017 Shawn Iwinski <shawn@iwin.ski> - 0.4.6-1
 - Initial package
