@@ -103,7 +103,7 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 Group:         Development/Libraries
@@ -264,8 +264,9 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 Provides:      php-%{composer_vendor}-%{composer_project} = %{version}-%{release}
 Provides:      php-%{composer_project} = %{version}-%{release}
 # Rename
-Obsoletes:     php-pear-PhpDocumentor < %{version}-%{release}
+Obsoletes:     php-pear-PhpDocumentor < 2.9.0-1
 Provides:      php-pear-PhpDocumentor = %{version}-%{release}
+Provides:      php-pear(PhpDocumentor) = %{version}
 ## This pkg was the only one in this channel so the channel is no longer needed
 Obsoletes:     php-channel-phpdoc
 
@@ -308,6 +309,12 @@ echo -n "%{version}" > VERSION
 
 %patch0 -p1
 sed -i 's#__PHPDIR__#%{phpdir}#' src/Cilex/Provider/JmsSerializerServiceProvider.php
+
+# phpdoc.noarch: E: zero-length
+find . -type f -size 0 -delete -print
+
+# phpdoc.noarch: E: script-without-shebang
+chmod a-x src/phpDocumentor/Parser/File.php
 
 
 %build
@@ -465,5 +472,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Sep 24 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-2
+- Add missing virtual provide php-pear(PhpDocumentor)
+- Fix rpmlint errors
+
 * Sat Aug 19 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-1
 - Initial package
