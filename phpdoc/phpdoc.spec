@@ -103,7 +103,7 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       3%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 Group:         Development/Libraries
@@ -119,81 +119,83 @@ Patch0:        %{name}-adjust-vendor-dir.patch
 
 BuildArch:     noarch
 # Composer autoloader generation
-Requires:      composer
+BuildRequires: composer
 # Tests
+BuildRequires: php-cli
 %if %{with_tests}
 ## composer.json
-Requires:      php(language) >= %{php_min_ver}
-Requires:      php-composer(cilex/cilex) <  %{cilex_max_ver}
-Requires:      php-composer(cilex/cilex) >= %{cilex_min_ver}
-Requires:      php-composer(erusev/parsedown) <  %{erusev_parsedown_max_ver}
-Requires:      php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver}
-Requires:      php-composer(jms/serializer) <  %{jms_serializer_max_ver}
-Requires:      php-composer(jms/serializer) >= %{jms_serializer_min_ver}
-Requires:      php-composer(mikey179/vfsStream) <  %{mikey179_vfsstream_max_ver}
-Requires:      php-composer(mikey179/vfsStream) >= %{mikey179_vfsstream_min_ver}
-Requires:      php-composer(mockery/mockery) <  %{mockery_max_ver}
-Requires:      php-composer(mockery/mockery) >= %{mockery_min_ver}
-Requires:      php-composer(monolog/monolog) <  %{monolog_max_ver}
-Requires:      php-composer(monolog/monolog) >= %{monolog_min_ver}
-Requires:      php-composer(phpdocumentor/fileset) <  %{phpdocumentor_fileset_max_ver}
-Requires:      php-composer(phpdocumentor/fileset) >= %{phpdocumentor_fileset_min_ver}
-Requires:      php-composer(phpdocumentor/graphviz) <  %{phpdocumentor_graphviz_max_ver}
-Requires:      php-composer(phpdocumentor/graphviz) >= %{phpdocumentor_graphviz_min_ver}
-Requires:      php-composer(phpdocumentor/reflection) <  %{phpdocumentor_reflection_max_ver}
-Requires:      php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver}
-Requires:      php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
-Requires:      php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
-Requires:      php-composer(phpunit/phpunit)
-Requires:      php-composer(symfony/config) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/config) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/console) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/console) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/event-dispatcher) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/expression-language) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/expression-language) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/process) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/process) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/stopwatch) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/stopwatch) >= %{symfony_min_ver}
-Requires:      php-composer(symfony/validator) <  %{symfony_max_ver}
-Requires:      php-composer(symfony/validator) >= %{symfony_min_ver}
-Requires:      php-composer(twig/twig) <  %{twig_max_ver}
-Requires:      php-composer(twig/twig) >= %{twig_min_ver}
-Requires:      php-composer(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
-Requires:      php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
-Requires:      php-composer(zendframework/zend-config) <  %{zendframework_config_max_ver}
-Requires:      php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver}
-Requires:      php-composer(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
-Requires:      php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
-Requires:      php-composer(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
-Requires:      php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
-Requires:      php-composer(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
-Requires:      php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
-Requires:      php-composer(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
-Requires:      php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
-Requires:      php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
-Requires:      php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
-Requires:      php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
-Requires:      php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
+BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(cilex/cilex) <  %{cilex_max_ver}
+BuildRequires: php-composer(cilex/cilex) >= %{cilex_min_ver}
+BuildRequires: php-composer(erusev/parsedown) <  %{erusev_parsedown_max_ver}
+BuildRequires: php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver}
+BuildRequires: php-composer(jms/serializer) <  %{jms_serializer_max_ver}
+BuildRequires: php-composer(jms/serializer) >= %{jms_serializer_min_ver}
+BuildRequires: php-composer(mikey179/vfsStream) <  %{mikey179_vfsstream_max_ver}
+BuildRequires: php-composer(mikey179/vfsStream) >= %{mikey179_vfsstream_min_ver}
+BuildRequires: php-composer(mockery/mockery) <  %{mockery_max_ver}
+BuildRequires: php-composer(mockery/mockery) >= %{mockery_min_ver}
+BuildRequires: php-composer(monolog/monolog) <  %{monolog_max_ver}
+BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+BuildRequires: php-composer(phpdocumentor/fileset) <  %{phpdocumentor_fileset_max_ver}
+BuildRequires: php-composer(phpdocumentor/fileset) >= %{phpdocumentor_fileset_min_ver}
+BuildRequires: php-composer(phpdocumentor/graphviz) <  %{phpdocumentor_graphviz_max_ver}
+BuildRequires: php-composer(phpdocumentor/graphviz) >= %{phpdocumentor_graphviz_min_ver}
+BuildRequires: php-composer(phpdocumentor/reflection) <  %{phpdocumentor_reflection_max_ver}
+BuildRequires: php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver}
+BuildRequires: php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
+BuildRequires: php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: php-composer(symfony/config) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/config) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/console) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/console) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/event-dispatcher) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/expression-language) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/expression-language) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/process) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/process) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/stopwatch) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/stopwatch) >= %{symfony_min_ver}
+BuildRequires: php-composer(symfony/validator) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/validator) >= %{symfony_min_ver}
+BuildRequires: php-composer(twig/twig) <  %{twig_max_ver}
+BuildRequires: php-composer(twig/twig) >= %{twig_min_ver}
+BuildRequires: php-composer(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
+BuildRequires: php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
+BuildRequires: php-composer(zendframework/zend-config) <  %{zendframework_config_max_ver}
+BuildRequires: php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver}
+BuildRequires: php-composer(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
+BuildRequires: php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
+BuildRequires: php-composer(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
+BuildRequires: php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
+BuildRequires: php-composer(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
+BuildRequires: php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
+BuildRequires: php-composer(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
+BuildRequires: php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
+BuildRequires: php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
+BuildRequires: php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
+BuildRequires: php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
+BuildRequires: php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
 ## phpcompatinfo (computed from version 2.9.0)
-Requires:      php-date
-Requires:      php-dom
-Requires:      php-iconv
-Requires:      php-igbinary
-Requires:      php-json
-Requires:      php-libxml
-Requires:      php-pcre
-Requires:      php-reflection
-Requires:      php-simplexml
-Requires:      php-spl
-Requires:      php-xsl
-Requires:      php-zlib
+BuildRequires: php-date
+BuildRequires: php-dom
+BuildRequires: php-iconv
+BuildRequires: php-igbinary
+BuildRequires: php-json
+BuildRequires: php-libxml
+BuildRequires: php-pcre
+BuildRequires: php-reflection
+BuildRequires: php-simplexml
+BuildRequires: php-spl
+BuildRequires: php-xsl
+BuildRequires: php-zlib
 ## Autoloader
-Requires:      php-composer(fedora/autoloader)
+BuildRequires: php-composer(fedora/autoloader)
 %endif
 
+Requires:      php-cli
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(cilex/cilex) <  %{cilex_max_ver}
@@ -310,10 +312,10 @@ echo -n "%{version}" > VERSION
 %patch0 -p1
 sed -i 's#__PHPDIR__#%{phpdir}#' src/Cilex/Provider/JmsSerializerServiceProvider.php
 
-# phpdoc.noarch: E: zero-length
+: E: zero-length
 find . -type f -size 0 -delete -print
 
-# phpdoc.noarch: E: script-without-shebang
+: E: script-without-shebang
 chmod a-x src/phpDocumentor/Parser/File.php
 
 
@@ -341,7 +343,7 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
     '%{phpdir}/phpDocumentor/Fileset/autoload.php',
     '%{phpdir}/phpDocumentor/GraphViz/autoload.php',
     '%{phpdir}/phpDocumentor/Reflection/autoload.php',
-    '%{phpdir}/phpDocumentor/Reflection/DocBlock/autoload.php',
+    '%{phpdir}/phpDocumentor/Reflection/DocBlock2/autoload.php',
     '%{phpdir}/Symfony/Component/Config/autoload.php',
     '%{phpdir}/Symfony/Component/Console/autoload.php',
     '%{phpdir}/Symfony/Component/EventDispatcher/autoload.php',
@@ -472,6 +474,11 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Oct 01 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-3
+- Fix BuildRequires
+- Add php-cli dependencies
+- Fix phpdocumentor/reflection-docblock autoload require
+
 * Sun Sep 24 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-2
 - Add missing virtual provide php-pear(PhpDocumentor)
 - Fix rpmlint errors
