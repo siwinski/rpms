@@ -11,8 +11,8 @@
 
 %global github_owner     consolidation
 %global github_name      config
-%global github_version   1.0.1
-%global github_commit    e3c7311f8926488fe2fbce0ec6af56be417da504
+%global github_version   1.0.2
+%global github_commit    bcff5f4057c6ece20794d58dfc9e56919e2b33b7
 
 %global composer_vendor  consolidation
 %global composer_project config
@@ -48,6 +48,8 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
+BuildRequires: php-composer(symfony/event-dispatcher) <  %{symfony_max_ver}
+BuildRequires: php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(dflydev/dot-access-data) <  %{dflydev_dot_access_data_max_ver}
@@ -57,7 +59,7 @@ BuildRequires: php-composer(grasmash/yaml-expander) >= %{grasmash_yaml_expander_
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(symfony/console) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/console) >= %{symfony_min_ver}
-## phpcompatinfo (computed from version 1.0.1)
+## phpcompatinfo for version 1.0.2
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-spl
@@ -71,7 +73,7 @@ Requires:      php-composer(dflydev/dot-access-data) <  %{dflydev_dot_access_dat
 Requires:      php-composer(dflydev/dot-access-data) >= %{dflydev_dot_access_data_min_ver}
 Requires:      php-composer(grasmash/yaml-expander) <  %{grasmash_yaml_expander_max_ver}
 Requires:      php-composer(grasmash/yaml-expander) >= %{grasmash_yaml_expander_min_ver}
-# phpcompatinfo (computed from version 1.0.1)
+# phpcompatinfo for version 1.0.2
 Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
@@ -139,15 +141,19 @@ require '%{buildroot}%{phpdir}/Consolidation/Config/autoload.php';
     [
         '%{phpdir}/Symfony3/Component/Console/autoload.php',
         '%{phpdir}/Symfony/Component/Console/autoload.php',
-    ]
+    ],
+    [
+        '%{phpdir}/Symfony3/Component/EventDispatcher/autoload.php',
+        '%{phpdir}/Symfony/Component/EventDispatcher/autoload.php',
+    ],
 ]);
 BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in php %{?rhel:php55} php56 php70 php71 php72; do
-    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
+for PHP_EXEC in "" %{?rhel:php55} php56 php70 php71 php72; do
+    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
 done
@@ -167,5 +173,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Oct 01 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.2-1
+- Update to 1.0.2
+
 * Mon Aug 21 2017 Shawn Iwinski <shawn@iwin.ski> - 1.0.1-1
 - Initial package
