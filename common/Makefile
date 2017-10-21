@@ -20,23 +20,21 @@ setup:
 sources:
 	@if [ -z "$(NO_SPECTOOL)" ]; \
 	then \
-		spectool -g -R $(SPEC); \
+		spectool -g $(SPEC); \
 	fi
 
 	@if [ -n "$(GET_SOURCE_GITHUB)" ]; \
 	then \
 		$(COMMON_DIR)/get-source-github.sh $(SPEC); \
-		cp $(COMMON_DIR)/get-source-github.sh $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
+		cp $(COMMON_DIR)/get-source-github.sh $(SPEC_DIR)/$(SPEC_NAME)-get-source.sh; \
 		chmod 0755 $(SOURCES_DIR)/$(SPEC_NAME)-get-source.sh; \
 	fi
-
-	@[ -e *.patch ] && cp *.patch $(SOURCES_DIR)/ || :
 
 
 
 .PHONY: rpms
 rpms:
-	rpmbuild -ba $(SPEC)
+	rpmbuild -ba --define "_specdir $(SPEC_DIR)" --define "_sourcedir $(SPEC_DIR)" $(SPEC)
 
 
 

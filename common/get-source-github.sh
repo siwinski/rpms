@@ -24,6 +24,10 @@ else
     SPEC=`ls *.spec | head -1`
 fi
 
+SPEC_DIR=`pwd`
+
+print "SPEC_DIR = $SPEC_DIR"
+
 NAME=`echo $SPEC | sed 's#\.spec##'`
 VERSION=`egrep '%global\s*github_version' $SPEC | awk '{print $3}'`
 
@@ -58,7 +62,7 @@ pushd $TEMP_DIR
 
     mv $GIT_DIR $TAR_DIR
 
-    TAR_FILE=`$RPM --eval='%{_sourcedir}'`/${NAME}-${VERSION}-${GIT_COMMIT}.tar.gz
+    TAR_FILE=${SPEC_DIR}/${NAME}-${VERSION}-${GIT_COMMIT}.tar.gz
     print "TAR_FILE = $TAR_FILE"
 
     [ -e $TAR_FILE ] && rm -f $TAR_FILE
