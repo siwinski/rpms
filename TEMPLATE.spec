@@ -51,7 +51,7 @@ BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer() >= %{_min_ver}
 BuildRequires: php-composer() <  %{_max_ver}
-## phpcompatinfo (computed from version GITHUB_VERSION)
+## phpcompatinfo for version GITHUB_VERSION
 BuildRequires: php-
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
@@ -61,7 +61,7 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer() >= %{_min_ver}
 Requires:      php-composer() <  %{_max_ver}
-# phpcompatinfo (computed from version GITHUB_VERSION)
+# phpcompatinfo for version GITHUB_VERSION
 Requires:      php-
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
