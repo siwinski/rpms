@@ -73,7 +73,8 @@ Console Component based applications. With zero configuration, this package
 allows completion of available command names and the options they provide.
 User code can define custom completion behaviour for argument and option values.
 
-Autoloader: %{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php
+Autoloader:
+%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php
 
 
 %prep
@@ -93,7 +94,10 @@ cat <<'AUTOLOAD' | tee src/autoload.php
  */
 require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
-\Fedora\Autoloader\Autoload::addPsr4('Stecman\\Component\\Symfony\\Console\\BashCompletion\\', __DIR__);
+\Fedora\Autoloader\Autoload::addPsr4(
+    'Stecman\\Component\\Symfony\\Console\\BashCompletion\\',
+    __DIR__
+);
 
 \Fedora\Autoloader\Dependencies::required(array(
     array(
@@ -111,13 +115,6 @@ cp -rp src %{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletio
 
 %check
 %if %{with_tests}
-: Create tests bootstrap
-cat <<'BOOTSTRAP' | tee bootstrap.php
-<?php
-require '%{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php';
-//\Fedora\Autoloader\Autoload::addPsr4('xxxxx\\Test\\', __DIR__.'/tests');
-BOOTSTRAP
-
 %if 0%{?el6}
 : Skip tests requiring PHPUnit >= 4.4
 sed \
@@ -129,9 +126,11 @@ sed \
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
-    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
-        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
+for PHP_EXEC in "" %{?rhel:php54 php55} php56 php70 php71 php72; do
+    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose \
+            --bootstrap %{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php \
+            || RETURN_CODE=1
     fi
 done
 exit $RETURN_CODE
