@@ -20,7 +20,8 @@
 # "php": ">=5.3.2"
 %global php_min_ver 5.3.2
 # "symfony/console": "~2.3 || ~3.0"
-%global symfony_min_ver 2.3
+#     NOTE: Min version not 2.3 because autoloader required
+%global symfony_min_ver %{?el6:2.3.31}%{!?el6:2.7.1}
 %global symfony_max_ver 4.0
 
 # Build using "--without tests" to disable tests
@@ -31,7 +32,7 @@
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
 Release:       1%{?github_release}%{?dist}
-Summary:       Automatic BASH completion for Symfony Console Component apps
+Summary:       Automatic BASH completion for Symfony Console based applications
 
 Group:         Development/Libraries
 License:       MIT
@@ -46,7 +47,7 @@ BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(symfony/console) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/console) >= %{symfony_min_ver}
-## phpcompatinfo (computed from version 0.7.0)
+## phpcompatinfo for version 0.7.0
 BuildRequires: php-pcre
 BuildRequires: php-spl
 ## Autoloader
@@ -57,7 +58,7 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-composer(symfony/console) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/console) >= %{symfony_min_ver}
-# phpcompatinfo (computed from version 0.7.0)
+# phpcompatinfo for version 0.7.0
 Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
@@ -70,16 +71,15 @@ Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 This package provides automatic (tab) completion in BASH and ZSH for Symfony
 Console Component based applications. With zero configuration, this package
 allows completion of available command names and the options they provide.
-User code can define custom completion behavior for argument and option values.
+User code can define custom completion behaviour for argument and option values.
 
-Autoloader:
-%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php
+Autoloader: %{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php
 
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-: Fix license filename
+: Fix license file name
 mv LICENCE LICENSE
 
 
@@ -93,10 +93,7 @@ cat <<'AUTOLOAD' | tee src/autoload.php
  */
 require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
-\Fedora\Autoloader\Autoload::addPsr4(
-    'Stecman\\Component\\Symfony\\Console\\BashCompletion\\',
-    __DIR__
-);
+\Fedora\Autoloader\Autoload::addPsr4('Stecman\\Component\\Symfony\\Console\\BashCompletion\\', __DIR__);
 
 \Fedora\Autoloader\Dependencies::required(array(
     array(
@@ -114,10 +111,15 @@ cp -rp src %{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletio
 
 %check
 %if %{with_tests}
+: Create tests bootstrap
+cat <<'BOOTSTRAP' | tee bootstrap.php
+<?php
+require '%{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php';
+//\Fedora\Autoloader\Autoload::addPsr4('xxxxx\\Test\\', __DIR__.'/tests');
+BOOTSTRAP
+
 %if 0%{?el6}
-# PHPUnit >= 4.4.0 required for these tests
-: Skip tests requiring assertArraySubset
-: PHPUnit >= 4.4.0 required
+: Skip tests requiring PHPUnit >= 4.4
 sed \
     -e 's/function testCompleteDoubleDash/function SKIP_testCompleteDoubleDash/' \
     -e 's/function testCompleteOptionFull/function SKIP_testCompleteOptionFull/' \
@@ -126,9 +128,10 @@ sed \
 
 : Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71; do
-    if which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit --verbose --bootstrap %{buildroot}%{phpdir}/Stecman/Component/Symfony/Console/BashCompletion/autoload.php || RETURN_CODE=1
+PHPUNIT=$(which phpunit)
+for PHP_EXEC in php %{?rhel:php54 php55} php56 php70 php71 php72; do
+    if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
 done
 exit $RETURN_CODE
@@ -150,5 +153,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Tue Mar 21 2017 Shawn Iwinski <shawn@iwin.ski> - 0.7.0-1
+* Thu Oct 26 2017 Shawn Iwinski <shawn@iwin.ski> - 0.7.0-1
 - Initial package
