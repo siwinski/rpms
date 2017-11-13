@@ -1,3 +1,22 @@
+diff --git a/bin/phpdoc b/bin/phpdoc
+index 48f862ad..909705cf 100755
+--- a/bin/phpdoc
++++ b/bin/phpdoc
+@@ -10,13 +10,7 @@
+  * @link      http://phpdoc.org
+  */
+ 
+-// determine base include folder, if @php_dir@ contains @php_dir then
+-// we did not install via PEAR
+-$bootstrap_folder = (strpos('@php_dir@', '@php_dir') === 0)
+-    ? __DIR__ . '/../src'
+-    : '@php_dir@/phpDocumentor/src';
+-
+-include $bootstrap_folder . '/phpDocumentor/Bootstrap.php';
++include '__PHPDIR__/phpDocumentor/Bootstrap.php';
+ 
+ $app = \phpDocumentor\Bootstrap::createInstance()
+     ->registerProfiler()
 diff --git a/src/Cilex/Provider/JmsSerializerServiceProvider.php b/src/Cilex/Provider/JmsSerializerServiceProvider.php
 index fa3dd0a8..656969ad 100644
 --- a/src/Cilex/Provider/JmsSerializerServiceProvider.php

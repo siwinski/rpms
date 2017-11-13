@@ -103,7 +103,7 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       3%{?github_release}%{?dist}
+Release:       4%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 Group:         Development/Libraries
@@ -116,6 +116,7 @@ Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
 Patch0:        %{name}-adjust-vendor-dir.patch
+Patch1:        %{name}-adjust-templates-dir.patch
 
 BuildArch:     noarch
 # Composer autoloader generation
@@ -305,12 +306,17 @@ Autoloader: %{phpdir}/phpDocumentor/autoload.php
 %prep
 %setup -qn %{github_name}-%{github_commit}
 
-sed -i "s#'@php_dir@#'%{phpdir}#" bin/phpdoc
 sed -i 's#@package_version@#%{version}#' src/phpDocumentor/Application.php
 echo -n "%{version}" > VERSION
 
+: Adjust vendor dir
 %patch0 -p1
-sed -i 's#__PHPDIR__#%{phpdir}#' src/Cilex/Provider/JmsSerializerServiceProvider.php
+sed -i 's#__PHPDIR__#%{phpdir}#' \
+    bin/phpdoc \
+    src/Cilex/Provider/JmsSerializerServiceProvider.php
+
+: Adjust templates dir
+%patch1 -p1
 
 : E: zero-length
 find . -type f -size 0 -delete -print
@@ -399,6 +405,9 @@ mkdir -p %{buildroot}%{phpdir}
 cp -rp src/phpDocumentor %{buildroot}%{phpdir}/
 cp -rp src/Cilex %{buildroot}%{phpdir}/phpDocumentor/
 
+: Data
+cp -rp data %{buildroot}%{phpdir}/phpDocumentor/
+
 : Bin
 mkdir -p %{buildroot}%{_bindir}
 install -m 0755 bin/phpdoc %{buildroot}%{_bindir}/%{name}
@@ -410,7 +419,6 @@ install -m 0755 bin/phpdoc %{buildroot}%{_bindir}/%{name}
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
 require '%{buildroot}%{phpdir}/phpDocumentor/autoload.php';
-
 \Fedora\Autoloader\Autoload::addPsr4('phpDocumentor\\', __DIR__.'/tests/unit/phpDocumentor');
 
 \Fedora\Autoloader\Dependencies::required(array(
@@ -465,6 +473,8 @@ exit $RETURN_CODE
 %{phpdir}/phpDocumentor/Transformer
 %{phpdir}/phpDocumentor/Translator
 %exclude %{phpdir}/phpDocumentor/Plugin/Scrybe/tests
+# Data
+%{phpdir}/phpDocumentor/data
 ## Autoloaders
 %{phpdir}/phpDocumentor/autoload-fedora.php
 %{phpdir}/phpDocumentor/autoload.php
@@ -474,6 +484,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Nov 13 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-4
+- Fix bin issues
+
 * Sun Oct 01 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-3
 - Fix BuildRequires
 - Add php-cli dependencies

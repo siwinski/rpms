@@ -1,0 +1,49 @@
+diff --git a/src/phpDocumentor/Transformer/ServiceProvider.php b/src/phpDocumentor/Transformer/ServiceProvider.php
+index 28db8d1f..1d853dfc 100644
+--- a/src/phpDocumentor/Transformer/ServiceProvider.php
++++ b/src/phpDocumentor/Transformer/ServiceProvider.php
+@@ -206,16 +206,8 @@ class ServiceProvider extends \stdClass implements ServiceProviderInterface
+      */
+     protected function provideTemplatingSystem(Application $app)
+     {
+-        $templateDir = __DIR__ . '/../../../data/templates';
+-
+-        // when installed using composer the templates are in a different folder
+-        $composerTemplatePath = __DIR__ . '/../../../../templates';
+-        if (file_exists($composerTemplatePath)) {
+-            $templateDir = $composerTemplatePath;
+-        }
+-
+         // parameters
+-        $app['transformer.template.location'] = $templateDir;
++        $app['transformer.template.location'] = __DIR__ . '/../data/templates';
+ 
+         // services
+         $app['transformer.template.path_resolver'] = $app->share(
+diff --git a/src/phpDocumentor/Transformer/Transformation.php b/src/phpDocumentor/Transformer/Transformation.php
+index 3bd153c4..ee716b18 100644
+--- a/src/phpDocumentor/Transformer/Transformation.php
++++ b/src/phpDocumentor/Transformer/Transformation.php
+@@ -182,21 +182,11 @@ class Transformation
+             );
+         }
+ 
+-        // check whether the file exists in the phpDocumentor project directory.
+-        if (file_exists(__DIR__.'/../../../'.$this->source)) {
+-            return __DIR__ . '/../../../' .$this->source;
+-        }
+-
+-        // in case of a composer installation
+-        if (file_exists(__DIR__ . '/../../../../templates')) {
+-            return __DIR__ . '/../../../../' . $this->source;
+-        }
+-
+         // TODO: replace this as it breaks the component stuff
+         // we should ditch the idea of a global set of files to fetch and have
+         // a variable / injection for the global templates folder and inject
+         // that here.
+-        $file = __DIR__.'/../../../data/'.$this->source;
++        $file = __DIR__.'/../data/'.$this->source;
+ 
+         if (!file_exists($file)) {
+             throw new Exception('The source path does not exist: ' . $file);
