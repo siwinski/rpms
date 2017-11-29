@@ -103,11 +103,111 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       4%{?github_release}%{?dist}
+Release:       5%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
-Group:         Development/Libraries
-License:       MIT
+# License breakdown:
+# * MIT
+#     * phpdoc
+#     * data/templates/abstract/css/sen.full.min.css
+#     * data/templates/clean/css/font-awesome.min.css
+#     * data/templates/clean/css/prism.css
+#     * data/templates/clean/js/jquery-1.11.0.min.js
+#     * data/templates/clean/js/jquery.mousewheel.js
+#     * data/templates/clean/js/prism.min.js
+#     * data/templates/clean/js/ui/1.10.4/jquery-ui.min.js
+#     * data/templates/responsive/img/iviewer/*
+#     * data/templates/responsive/js/jquery.mousewheel.min.js
+#     * data/templates/responsive/js/jquery.xml2json.js
+# * ASL 2.0
+#     * data/templates/clean/css/bootstrap-combined.no-icons.min.css
+#     * data/templates/clean/js/bootstrap.min.js
+#     * data/templates/responsive/css/bootstrap-responsive.css
+#     * data/templates/responsive/css/bootstrap-responsive.min.css
+#     * data/templates/responsive/css/bootstrap.css
+#     * data/templates/responsive/css/bootstrap.min.css
+#     * data/templates/responsive/js/bootstrap.js
+#     * data/templates/responsive/js/bootstrap.min.js
+#     * data/templates/responsive/js/prettify/*
+#     * data/templates/responsive/js/prettify/lang-clj.js
+#     * docs/.static/css/bootstrap-responsive.css
+#     * docs/.static/css/bootstrap.min.css
+#     * docs/.static/css/prettify.css
+#     * docs/.static/js/bootstrap.js
+#     * docs/.static/js/prettify/prettify.min.js
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap-responsive.css
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap-responsive.min.css
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap.css
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap.min.css
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/prettify.css
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/bootstrap.min.js
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/prettify/*
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/prettify/lang-clj.js
+# * BSD
+#     * data/templates/old-ocean/js/SVGPan.js
+#     * data/templates/responsive/js/SVGPan.js
+#     * docs/.exts/__init__.py
+#     * docs/.exts/plantuml.py
+#     * docs/.exts/plantuml.pyc
+#     * docs/.static/default.css
+# * CC-BY
+#     * data/templates/responsive/img/glyphicons-halflings-white.png
+#     * data/templates/responsive/img/glyphicons-halflings.png
+#     * docs/.static/img/glyphicons-halflings-white.png
+#     * docs/.static/img/glyphicons-halflings.png
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/img/glyphicons-halflings-white.png
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/img/glyphicons-halflings.png
+# * DWPL and MIT
+#     * data/templates/abstract/js/jquery.tools.min.js
+#     * data/templates/old-ocean/js/jquery.tools.min.js
+#     * data/templates/responsive/js/jquery.tools.min.js
+# * MIT and GPLv2
+#     * data/templates/clean/js/html5.js
+# * MIT and GPLv2 and Public Domain and CC-BY
+#     * data/templates/responsive/js/jqplot/*
+# * MIT and GPLv3
+#     * data/templates/abstract/js/jquery-ui-1.8.2.custom.min.js
+#     * data/templates/abstract/js/jquery.cookie.js
+#     * data/templates/abstract/js/jquery.panzoom.js
+#     * data/templates/abstract/js/jquery.treeview.js
+#     * data/templates/clean/js/jquery.dotdotdot-1.5.9.js
+#     * data/templates/clean/js/jquery.dotdotdot-1.5.9.min.js
+#     * data/templates/clean/js/jquery.iviewer.js
+#     * data/templates/clean/js/jquery.iviewer.min.js
+#     * data/templates/old-ocean/css/black-tie/jquery-ui-1.8.2.custom.css
+#     * data/templates/old-ocean/js/jquery-ui-1.8.2.custom.min.js
+#     * data/templates/old-ocean/js/jquery.cookie.js
+#     * data/templates/old-ocean/js/jquery.panzoom.js
+#     * data/templates/old-ocean/js/jquery.splitter.js
+#     * data/templates/old-ocean/js/jquery.treeview.js
+#     * data/templates/responsive/js/jquery-ui-1.8.2.custom.min.js
+#     * data/templates/responsive/js/jquery.cookie.js
+#     * data/templates/responsive/js/jquery.iviewer.js
+#     * data/templates/responsive/js/jquery.iviewer.min.js
+#     * data/templates/responsive/js/jquery.panzoom.js
+#     * data/templates/responsive/js/jquery.splitter.js
+#     * data/templates/responsive/js/jquery.treeview.js
+#     * data/templates/zend/css/black-tie/jquery-ui-1.8.2.custom.css
+#     * data/templates/zend/js/jquery.splitter.js
+#     * docs/.static/js/jquery-ui-1.8.2.custom.min.js
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/jquery-ui-1.8.2.custom.min.js
+# * MIT or GPLv2
+#     * data/templates/abstract/js/jquery-1.4.2.min.js
+#     * data/templates/new-black/css/jquery-ui.css
+#     * data/templates/new-black/css/phpdoc/jquery-ui-1.8.16.custom.css
+#     * data/templates/old-ocean/js/jquery-1.4.2.min.js
+#     * data/templates/old-ocean/js/jquery-1.7.1.min.js
+#     * data/templates/responsive/js/jquery-1.4.2.min.js
+#     * data/templates/responsive/js/jquery-1.7.1.min.js
+#     * docs/.static/js/jquery-1.7.1.min.js
+#     * src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/jquery-1.7.1.min.js
+# * OFL
+#     * data/templates/clean/font/fontawesome-webfont.eot
+#     * data/templates/clean/font/fontawesome-webfont.svg
+#     * data/templates/clean/font/fontawesome-webfont.ttf
+#     * data/templates/clean/font/fontawesome-webfont.woff
+#     * data/templates/clean/font/FontAwesome.otf
+License:       MIT and ASL 2.0 and BSD and CC-BY and (DWPL and MIT) and (MIT and GPLv2) and (MIT and GPLv2 and Public Domain and CC-BY) and (MIT and GPLv3) and (MIT or GPLv2) and OFL
 URL:           http://www.phpdoc.org
 
 # GitHub export does not include tests.
@@ -484,6 +584,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Wed Nov 29 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-5
+- Update license and add license breakdown
+
 * Mon Nov 13 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-4
 - Fix bin issues
 
