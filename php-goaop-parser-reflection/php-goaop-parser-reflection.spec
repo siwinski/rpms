@@ -20,7 +20,8 @@
 # "php": ">=5.6.0"
 %global php_min_ver 5.6.0
 # "nikic/php-parser": "^1.2|^2.0|^3.0"
-%global nikic_php_parser_min_ver 1.2
+#     NOTE: Min version not 1.2 to force version 3
+%global nikic_php_parser_min_ver 3.0
 %global nikic_php_parser_max_ver 4.0
 
 # Build using "--without tests" to disable tests
@@ -30,7 +31,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Provides reflection information, based on raw source
 
 Group:         Development/Libraries
@@ -98,11 +99,7 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('Go\\ParserReflection\\', __DIR__);
 
 \Fedora\Autoloader\Dependencies::required([
-    [
-        '%{phpdir}/PhpParser3/autoload.php',
-        '%{phpdir}/PhpParser2/autoload.php',
-        '%{phpdir}/PhpParser/autoload.php',
-    ],
+    '%{phpdir}/PhpParser3/autoload.php',
     __DIR__.'/bootstrap.php',
 ]);
 AUTOLOAD
@@ -156,5 +153,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Wed Nov 29 2017 Shawn Iwinski <shawn@iwin.ski> - 1.4.0-2
+- Increase nikic/php-parser dependency min version from 1.2 to 3.0
+
 * Sat Oct 21 2017 Shawn Iwinski <shawn@iwin.ski> - 1.4.0-1
 - Initial package
