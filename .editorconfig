@@ -1,6 +1,7 @@
 # @see http://editorconfig.org/
 
 # This is the top-most .editorconfig file
+root = true
 
 # All files
 [*]
