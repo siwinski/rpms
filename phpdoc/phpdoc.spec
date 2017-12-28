@@ -103,7 +103,7 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       5%{?github_release}%{?dist}
+Release:       6%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 # License breakdown:
@@ -373,6 +373,120 @@ Provides:      php-pear(PhpDocumentor) = %{version}
 ## This pkg was the only one in this channel so the channel is no longer needed
 Obsoletes:     php-channel-phpdoc
 
+# Bundled
+## data/templates/abstract/js/jquery-1.4.2.min.js
+## data/templates/old-ocean/js/jquery-1.4.2.min.js
+## data/templates/responsive/js/jquery-1.4.2.min.js
+Provides:      bundled(js-jquery) = 1.4.2
+## data/templates/old-ocean/js/jquery-1.7.1.min.js
+## data/templates/responsive/js/jquery-1.7.1.min.js
+## docs/.static/js/jquery-1.7.1.min.js
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/jquery-1.7.1.min.js
+Provides:      bundled(js-jquery) = 1.7.1
+## data/templates/clean/js/jquery-1.11.0.min.js
+Provides:      bundled(js-jquery) = 1.11.0
+## data/templates/abstract/js/jquery-ui-1.8.2.custom.min.js
+## data/templates/old-ocean/js/jquery-ui-1.8.2.custom.min.js
+## data/templates/old-ocean/css/black-tie/jquery-ui-1.8.2.custom.css
+## docs/.static/js/jquery-ui-1.8.2.custom.min.js
+## data/templates/zend/css/black-tie/jquery-ui-1.8.2.custom.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/jquery-ui-1.8.2.custom.min.js
+## data/templates/responsive/js/jquery-ui-1.8.2.custom.min.js
+Provides:      bundled(js-jquery-ui) = 1.8.2
+## data/templates/new-black/css/phpdoc/jquery-ui-1.8.16.custom.css
+## data/templates/new-black/css/jquery-ui.css
+Provides:      bundled(js-jquery-ui) = 1.8.16
+## data/templates/clean/js/ui/1.10.4/jquery-ui.min.js
+Provides:      bundled(js-jquery-ui) = 1.10.4
+## data/templates/abstract/js/jquery.cookie.js
+## data/templates/old-ocean/js/jquery.cookie.js
+## data/templates/responsive/js/jquery.cookie.js
+Provides:      bundled(js-jquery-cookie)
+## data/templates/abstract/js/jquery.panzoom.js
+## data/templates/old-ocean/js/jquery.panzoom.js
+## data/templates/responsive/js/jquery.panzoom.js
+Provides:      bundled(js-jquery-panzoom) = 0.9.0
+## data/templates/abstract/js/jquery.tools.min.js
+## data/templates/old-ocean/js/jquery.tools.min.js
+## data/templates/responsive/js/jquery.tools.min.js
+Provides:      bundled(js-jquery-tools) = 1.2.5
+Provides:      bundled(js-jquery-event-wheel) = 1
+## data/templates/abstract/js/jquery.treeview.js
+## data/templates/old-ocean/js/jquery.treeview.js
+## data/templates/responsive/js/jquery.treeview.js
+Provides:      bundled(js-jquery-treeview) = 1.5
+## data/templates/responsive/js/jquery.iviewer.js
+## data/templates/responsive/js/jquery.iviewer.min.js
+## data/templates/responsive/img/iviewer/*
+Provides:      bundled(js-jquery-iviewer) = 0.7
+## data/templates/clean/js/jquery.iviewer.js
+## data/templates/clean/js/jquery.iviewer.min.js
+Provides:      bundled(js-jquery-iviewer) = 0.7.7
+## data/templates/clean/js/jquery.dotdotdot-1.5.9.js
+## data/templates/clean/js/jquery.dotdotdot-1.5.9.min.js
+Provides:      bundled(js-jquery-dotdotdot) = 1.5.9
+## data/templates/responsive/js/jquery.mousewheel.min.js
+Provides:      bundled(js-jquery-mousewheel) = 3.0.6
+## data/templates/clean/js/jquery.mousewheel.js
+Provides:      bundled(js-jquery-mousewheel) = 3.1.9
+## data/templates/old-ocean/js/jquery.splitter.js
+## data/templates/responsive/js/jquery.splitter.js
+## data/templates/zend/js/jquery.splitter.js
+Provides:      bundled(js-jquery-splitter) = 1.51
+## data/templates/responsive/js/jquery.xml2json.js
+Provides:      bundled(js-jquery-xml2json) = 1.3
+## data/templates/responsive/js/jqplot/*
+Provides:      bundled(js-jqplot) = 1.0.8
+## data/templates/abstract/css/sen.full.min.css
+Provides:      bundled(css-sencss)
+## data/templates/clean/js/prism.min.js
+## data/templates/clean/css/prism.css
+Provides:      bundled(js-prism)
+## data/templates/clean/css/font-awesome.min.css
+## data/templates/clean/font/fontawesome-webfont.eot
+## data/templates/clean/font/fontawesome-webfont.svg
+## data/templates/clean/font/fontawesome-webfont.ttf
+## data/templates/clean/font/fontawesome-webfont.woff
+## data/templates/clean/font/FontAwesome.otf
+Provides:      bundled(fontawesome) = 3.2.1
+## data/templates/responsive/css/bootstrap.css
+## data/templates/responsive/css/bootstrap.min.css
+## data/templates/responsive/js/bootstrap.js
+## data/templates/responsive/js/bootstrap.min.js
+## docs/.static/css/bootstrap.min.css
+## docs/.static/js/bootstrap.js
+Provides:      bundled(js-bootstrap) = 2.0.0
+## data/templates/clean/css/bootstrap-combined.no-icons.min.css
+## data/templates/clean/js/bootstrap.min.js
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap-responsive.min.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap.min.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/bootstrap.min.js
+Provides:      bundled(js-bootstrap) = 2.3.2
+## data/templates/responsive/css/bootstrap-responsive.css
+## data/templates/responsive/css/bootstrap-responsive.min.css
+## docs/.static/css/bootstrap-responsive.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/bootstrap-responsive.css
+Provides:      bundled(js-bootstrap-responsive) = 2.0.0
+## data/templates/responsive/js/prettify/*
+## docs/.static/css/prettify.css
+## docs/.static/js/prettify/prettify.min.js
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/css/prettify.css
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/js/prettify/*
+Provides:      bundled(js-prettify)
+## data/templates/clean/js/html5.js
+Provides:      bundled(js-html5) = 3.7.0
+## data/templates/responsive/img/glyphicons-halflings-white.png
+## data/templates/responsive/img/glyphicons-halflings.png
+## docs/.static/img/glyphicons-halflings-white.png
+## docs/.static/img/glyphicons-halflings.png
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/img/glyphicons-halflings-white.png
+## src/phpDocumentor/Plugin/Scrybe/data/templates/default/img/glyphicons-halflings.png
+Provides:      bundled(glyphicons-halflings)
+## data/templates/old-ocean/js/SVGPan.js
+## data/templates/responsive/js/SVGPan.js
+Provides:      bundled(js-svgpan) = 1.2
+
 %description
 phpDocumentor is an application that is capable of analyzing your PHP source
 code and DocBlock comments to generate a complete set of API Documentation.
@@ -584,6 +698,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Wed Dec 27 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-6
+- Add bundled provides
+
 * Wed Nov 29 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-5
 - Update license and add license breakdown
 
