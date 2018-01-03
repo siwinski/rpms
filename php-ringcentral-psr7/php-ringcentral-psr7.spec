@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-ringcentral-psr7
 #
-# Copyright (c) 2017 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2018 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -139,5 +139,5 @@ exit $RETURN_CODE
 
 
 %changelog
-* Tue Dec 19 2017 Shawn Iwinski <shawn@iwin.ski> - 1.2.1-1
+* Wed Jan 03 2018 Shawn Iwinski <shawn@iwin.ski> - 1.2.1-1
 - Initial package
