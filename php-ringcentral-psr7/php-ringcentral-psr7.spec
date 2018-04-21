@@ -11,8 +11,8 @@
 
 %global github_owner     ringcentral
 %global github_name      psr7
-%global github_version   1.2.1
-%global github_commit    2594fb47cdc659f3fcf0aa1559b7355460555303
+%global github_version   1.2.2
+%global github_commit    dcd84bbb49b96c616d1dcc8bfb9bef3f2cd53d1c
 
 %global composer_vendor  ringcentral
 %global composer_project psr7
@@ -44,9 +44,13 @@ BuildArch:     noarch
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-composer(psr/http-message) >= %{psr_http_message_min_ver} with php-composer(psr/http-message) < %{psr_http_message_max_ver})
+%else
 BuildRequires: php-composer(psr/http-message) <  %{psr_http_message_max_ver}
 BuildRequires: php-composer(psr/http-message) >= %{psr_http_message_min_ver}
-## phpcompatinfo for version 1.2.1
+%endif
+## phpcompatinfo for version 1.2.2
 BuildRequires: php-hash
 BuildRequires: php-pcre
 BuildRequires: php-spl
@@ -57,9 +61,13 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-composer(psr/http-message) >= %{psr_http_message_min_ver} with php-composer(psr/http-message) < %{psr_http_message_max_ver})
+%else
 Requires:      php-composer(psr/http-message) <  %{psr_http_message_max_ver}
 Requires:      php-composer(psr/http-message) >= %{psr_http_message_min_ver}
-# phpcompatinfo for version 1.2.1
+%endif
+# phpcompatinfo for version 1.2.2
 Requires:      php-hash
 Requires:      php-pcre
 Requires:      php-spl
@@ -139,5 +147,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sat Apr 21 2018 Shawn Iwinski <shawn@iwin.ski> - 1.2.2-1
+- Update to 1.2.2
+- Add range version dependencies for Fedora >= 27 || RHEL >= 8
+
 * Wed Jan 03 2018 Shawn Iwinski <shawn@iwin.ski> - 1.2.1-1
 - Initial package
