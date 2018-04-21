@@ -49,8 +49,12 @@ BuildArch:     noarch
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-composer() >= %{_min_ver} with php-composer() < %{_max_ver})
+%else
 BuildRequires: php-composer() >= %{_min_ver}
 BuildRequires: php-composer() <  %{_max_ver}
+%endif
 ## phpcompatinfo for version GITHUB_VERSION
 BuildRequires: php-
 ## Autoloader
@@ -59,8 +63,12 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-composer() >= %{_min_ver} with php-composer() < %{_max_ver})
+%else
 Requires:      php-composer() >= %{_min_ver}
 Requires:      php-composer() <  %{_max_ver}
+%endif
 # phpcompatinfo for version GITHUB_VERSION
 Requires:      php-
 # Autoloader
