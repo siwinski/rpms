@@ -46,7 +46,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       The missing link between Promise-land and Stream-land for ReactPHP
 
 Group:         Development/Libraries
@@ -59,6 +59,13 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-composer(clue/block-react) >= %{clue_block_react_min_ver} with php-composer(clue/block-react) < %{clue_block_react_max_ver})
+BuildRequires: (php-composer(react/event-loop) >= %{react_event_loop_min_ver} with php-composer(react/event-loop) < %{react_event_loop_max_ver})
+BuildRequires: (php-composer(react/promise-timer) >= %{react_promise_timer_min_ver} with php-composer(react/promise-timer) < %{react_promise_timer_max_ver})
+BuildRequires: (php-composer(react/promise) >= %{react_promise_min_ver} with php-composer(react/promise) < %{react_promise_max_ver})
+BuildRequires: (php-composer(react/stream) >= %{react_stream_min_ver} with php-composer(react/stream) < %{react_stream_max_ver})
+%else
 BuildRequires: php-composer(clue/block-react) <  %{clue_block_react_max_ver}
 BuildRequires: php-composer(clue/block-react) >= %{clue_block_react_min_ver}
 BuildRequires: php-composer(react/event-loop) <  %{react_event_loop_max_ver}
@@ -69,6 +76,7 @@ BuildRequires: php-composer(react/promise) <  %{react_promise_max_ver}
 BuildRequires: php-composer(react/promise) >= %{react_promise_min_ver}
 BuildRequires: php-composer(react/stream) <  %{react_stream_max_ver}
 BuildRequires: php-composer(react/stream) >= %{react_stream_min_ver}
+%endif
 ### Dual PHPUnit stacks
 BuildRequires: php-composer(phpunit/phpunit)
 %if 0%{?with_phpunit6}
@@ -82,10 +90,15 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-composer(react/promise) >= %{react_promise_min_ver} with php-composer(react/promise) < %{react_promise_max_ver})
+Requires:      (php-composer(react/stream) >= %{react_stream_min_ver} with php-composer(react/stream) < %{react_stream_max_ver})
+%else
 Requires:      php-composer(react/promise) <  %{react_promise_max_ver}
 Requires:      php-composer(react/promise) >= %{react_promise_min_ver}
 Requires:      php-composer(react/stream) <  %{react_stream_max_ver}
 Requires:      php-composer(react/stream) >= %{react_stream_min_ver}
+%endif
 # phpcompatinfo for version 1.1.1
 Requires:      php-spl
 # Autoloader
@@ -172,5 +185,8 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sat Apr 21 2018 Shawn Iwinski <shawn@iwin.ski> - 1.1.1-2
+- Add range version dependencies for Fedora >= 27 || RHEL >= 8
+
 * Wed Jan 03 2018 Shawn Iwinski <shawn@iwin.ski> - 1.1.1-1
 - Initial package
