@@ -33,7 +33,6 @@ Version:       %{github_version}
 Release:       1%{?github_release}%{?dist}
 Summary:       xxxxx
 
-Group:         Development/Libraries
 License:       MIT
 URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
