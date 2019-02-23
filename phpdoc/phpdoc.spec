@@ -1,7 +1,7 @@
 #
 # Fedora spec file for phpdoc
 #
-# Copyright (c) 2017 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2019 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -103,7 +103,7 @@
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       6%{?github_release}%{?dist}
+Release:       7%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 # License breakdown:
@@ -226,6 +226,35 @@ BuildRequires: php-cli
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-composer(cilex/cilex) < %{cilex_max_ver} with php-composer(cilex/cilex) >= %{cilex_min_ver})
+BuildRequires: (php-composer(erusev/parsedown) < %{erusev_parsedown_max_ver} with php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver})
+BuildRequires: (php-composer(jms/serializer) < %{jms_serializer_max_ver} with php-composer(jms/serializer) >= %{jms_serializer_min_ver})
+BuildRequires: (php-composer(mikey179/vfsStream) < %{mikey179_vfsstream_max_ver} with php-composer(mikey179/vfsStream) >= %{mikey179_vfsstream_min_ver})
+BuildRequires: (php-composer(mockery/mockery) < %{mockery_max_ver} with php-composer(mockery/mockery) >= %{mockery_min_ver})
+BuildRequires: (php-composer(monolog/monolog) < %{monolog_max_ver} with php-composer(monolog/monolog) >= %{monolog_min_ver})
+BuildRequires: (php-composer(phpdocumentor/fileset) < %{phpdocumentor_fileset_max_ver} with php-composer(phpdocumentor/fileset) >= %{phpdocumentor_fileset_min_ver})
+BuildRequires: (php-composer(phpdocumentor/graphviz) < %{phpdocumentor_graphviz_max_ver} with php-composer(phpdocumentor/graphviz) >= %{phpdocumentor_graphviz_min_ver})
+BuildRequires: (php-composer(phpdocumentor/reflection-docblock) < %{phpdocumentor_reflection_docblock_max_ver} with php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver})
+BuildRequires: (php-composer(phpdocumentor/reflection) < %{phpdocumentor_reflection_max_ver} with php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver})
+BuildRequires: (php-composer(symfony/config) < %{symfony_max_ver} with php-composer(symfony/config) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/console) < %{symfony_max_ver} with php-composer(symfony/console) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/event-dispatcher) < %{symfony_max_ver} with php-composer(symfony/event-dispatcher) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/expression-language) < %{symfony_max_ver} with php-composer(symfony/expression-language) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/process) < %{symfony_max_ver} with php-composer(symfony/process) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/stopwatch) < %{symfony_max_ver} with php-composer(symfony/stopwatch) >= %{symfony_min_ver})
+BuildRequires: (php-composer(symfony/validator) < %{symfony_max_ver} with php-composer(symfony/validator) >= %{symfony_min_ver})
+BuildRequires: (php-composer(twig/twig) < %{twig_max_ver} with php-composer(twig/twig) >= %{twig_min_ver})
+BuildRequires: (php-composer(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
+BuildRequires: (php-composer(zendframework/zend-config) < %{zendframework_config_max_ver} with php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver})
+BuildRequires: (php-composer(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
+BuildRequires: (php-composer(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
+BuildRequires: (php-composer(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
+BuildRequires: (php-composer(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
+BuildRequires: (php-composer(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
+BuildRequires: (php-composer(zetacomponents/document) < %{zetacomponents_document_max_ver} with php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver})
+%else
 BuildRequires: php-composer(cilex/cilex) <  %{cilex_max_ver}
 BuildRequires: php-composer(cilex/cilex) >= %{cilex_min_ver}
 BuildRequires: php-composer(erusev/parsedown) <  %{erusev_parsedown_max_ver}
@@ -242,11 +271,10 @@ BuildRequires: php-composer(phpdocumentor/fileset) <  %{phpdocumentor_fileset_ma
 BuildRequires: php-composer(phpdocumentor/fileset) >= %{phpdocumentor_fileset_min_ver}
 BuildRequires: php-composer(phpdocumentor/graphviz) <  %{phpdocumentor_graphviz_max_ver}
 BuildRequires: php-composer(phpdocumentor/graphviz) >= %{phpdocumentor_graphviz_min_ver}
-BuildRequires: php-composer(phpdocumentor/reflection) <  %{phpdocumentor_reflection_max_ver}
-BuildRequires: php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver}
 BuildRequires: php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
 BuildRequires: php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
-BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: php-composer(phpdocumentor/reflection) <  %{phpdocumentor_reflection_max_ver}
+BuildRequires: php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver}
 BuildRequires: php-composer(symfony/config) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/config) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/console) <  %{symfony_max_ver}
@@ -279,6 +307,7 @@ BuildRequires: php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib
 BuildRequires: php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
 BuildRequires: php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
 BuildRequires: php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
+%endif
 ## phpcompatinfo (computed from version 2.9.0)
 BuildRequires: php-date
 BuildRequires: php-dom
@@ -299,6 +328,31 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php-cli
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-composer(cilex/cilex) < %{cilex_max_ver} with php-composer(cilex/cilex) >= %{cilex_min_ver})
+Requires:      (php-composer(erusev/parsedown) < %{erusev_parsedown_max_ver} with php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver})
+Requires:      (php-composer(jms/serializer) < %{jms_serializer_max_ver} with php-composer(jms/serializer) >= %{jms_serializer_min_ver})
+Requires:      (php-composer(monolog/monolog) < %{monolog_max_ver} with php-composer(monolog/monolog) >= %{monolog_min_ver})
+Requires:      (php-composer(phpdocumentor/fileset) < %{phpdocumentor_fileset_max_ver} with php-composer(phpdocumentor/fileset) >= %{phpdocumentor_fileset_min_ver})
+Requires:      (php-composer(phpdocumentor/graphviz) < %{phpdocumentor_graphviz_max_ver} with php-composer(phpdocumentor/graphviz) >= %{phpdocumentor_graphviz_min_ver})
+Requires:      (php-composer(phpdocumentor/reflection) < %{phpdocumentor_reflection_max_ver} with php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver})
+Requires:      (php-composer(phpdocumentor/reflection-docblock) < %{phpdocumentor_reflection_docblock_max_ver} with php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver})
+Requires:      (php-composer(symfony/config) < %{symfony_max_ver} with php-composer(symfony/config) >= %{symfony_min_ver})
+Requires:      (php-composer(symfony/console) < %{symfony_max_ver} with php-composer(symfony/console) >= %{symfony_min_ver})
+Requires:      (php-composer(symfony/event-dispatcher) < %{symfony_max_ver} with php-composer(symfony/event-dispatcher) >= %{symfony_min_ver})
+Requires:      (php-composer(symfony/process) < %{symfony_max_ver} with php-composer(symfony/process) >= %{symfony_min_ver})
+Requires:      (php-composer(symfony/stopwatch) < %{symfony_max_ver} with php-composer(symfony/stopwatch) >= %{symfony_min_ver})
+Requires:      (php-composer(symfony/validator) < %{symfony_max_ver} with php-composer(symfony/validator) >= %{symfony_min_ver})
+Requires:      (php-composer(twig/twig) < %{twig_max_ver} with php-composer(twig/twig) >= %{twig_min_ver})
+Requires:      (php-composer(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
+Requires:      (php-composer(zendframework/zend-config) < %{zendframework_config_max_ver} with php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver})
+Requires:      (php-composer(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
+Requires:      (php-composer(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
+Requires:      (php-composer(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
+Requires:      (php-composer(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
+Requires:      (php-composer(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
+Requires:      (php-composer(zetacomponents/document) < %{zetacomponents_document_max_ver} with php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver})
+%else
 Requires:      php-composer(cilex/cilex) <  %{cilex_max_ver}
 Requires:      php-composer(cilex/cilex) >= %{cilex_min_ver}
 Requires:      php-composer(erusev/parsedown) <  %{erusev_parsedown_max_ver}
@@ -315,7 +369,6 @@ Requires:      php-composer(phpdocumentor/reflection) <  %{phpdocumentor_reflect
 Requires:      php-composer(phpdocumentor/reflection) >= %{phpdocumentor_reflection_min_ver}
 Requires:      php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
 Requires:      php-composer(phpdocumentor/reflection-docblock) >= %{phpdocumentor_reflection_docblock_min_ver}
-Requires:      php-composer(phpunit/phpunit)
 Requires:      php-composer(symfony/config) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/config) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/console) <  %{symfony_max_ver}
@@ -346,6 +399,7 @@ Requires:      php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib
 Requires:      php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
 Requires:      php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
 Requires:      php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
+%endif
 # phpcompatinfo (computed from version 2.9.0)
 Requires:      php-date
 Requires:      php-dom
@@ -698,6 +752,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sat Feb 23 2019 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-7
+- Use range dependencies
+
 * Wed Dec 27 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-6
 - Add bundled provides
 
