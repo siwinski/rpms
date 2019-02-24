@@ -763,8 +763,11 @@ exit $RETURN_CODE
 
 
 %changelog
-* Sat Feb 23 2019 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-7
+* Sun Feb 24 2019 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-7
 - Use range dependencies
+- Fix "PHP Warning: count(): Parameter must be an array or an object that
+  implements Countable"
+- Fix autoloader
 
 * Wed Dec 27 2017 Shawn Iwinski <shawn@iwin.ski> - 2.9.0-6
 - Add bundled provides
