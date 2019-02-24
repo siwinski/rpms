@@ -625,7 +625,13 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
     '%{phpdir}/Symfony/Component/Stopwatch/autoload.php',
     '%{phpdir}/Symfony/Component/Validator/autoload.php',
     '%{phpdir}/Twig/autoload.php',
-    '%{phpdir}/Zend/autoload.php',
+    '%{phpdir}/Zend/Cache/autoload.php',
+    '%{phpdir}/Zend/Config/autoload.php',
+    '%{phpdir}/Zend/Filter/autoload.php',
+    '%{phpdir}/Zend/I18n/autoload.php',
+    '%{phpdir}/Zend/Serializer/autoload.php',
+    '%{phpdir}/Zend/ServiceManager/autoload.php',
+    '%{phpdir}/Zend/Stdlib/autoload.php',
 ));
 AUTOLOAD
 
