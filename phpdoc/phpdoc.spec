@@ -572,8 +572,6 @@ Features: phpDocumentor supports the following:
   structure before creating the output. If you'd like you can use that to power
   your own tools or formatters!
 
-Autoloader: %{phpdir}/phpDocumentor/autoload.php
-
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
