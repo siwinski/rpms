@@ -215,8 +215,12 @@ URL:           http://www.phpdoc.org
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
+# Adjust vendor dir
 Patch0:        %{name}-adjust-vendor-dir.patch
+# Adjust templates dir
 Patch1:        %{name}-adjust-templates-dir.patch
+# Fix "PHP Warning: count(): Parameter must be an array or an object that implements Countable"
+Patch2:        %{name}-php-warning-count-fix.patch
 
 BuildArch:     noarch
 # Composer autoloader generation
@@ -585,6 +589,9 @@ sed -i 's#__PHPDIR__#%{phpdir}#' \
 
 : Adjust templates dir
 %patch1 -p1
+
+: Fix "PHP Warning: count(): Parameter must be an array or an object that implements Countable"
+%patch2 -p1
 
 : E: zero-length
 find . -type f -size 0 -delete -print
