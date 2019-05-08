@@ -128,8 +128,8 @@ exit $RETURN_CODE
 %license LICENSE
 %doc *.md
 %doc composer.json
-%dir %{phpdir}/
-     %{phpdir}/
+%dir %{phpdir}/Brumann
+     %{phpdir}/Brumann/Polyfill
 
 
 %changelog
