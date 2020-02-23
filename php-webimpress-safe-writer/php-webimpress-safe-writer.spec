@@ -62,7 +62,8 @@ Requires:      php-composer(fedora/autoloader)
 Provides:      php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
-%{summary}.
+Write files safely to avoid race conditions when the same file is written
+multiple times in a short time period.
 
 Autoloader: %{phpdir}/Webimpress/SafeWriter/autoload.php
 
