@@ -1,17 +1,8 @@
-# Temp files
 *~
 
-# Eclipse
-# http://www.eclipse.org/
-.project
+*.gz
+*.log
+*.rpm
+*.srpm
 
-# Eclipse Specfile Editor
-# http://www.eclipse.org/linuxtools/projectPages/specfile/
-BUILD
-RPMS
-SOURCES
-SPECS
-SRPMS
-
-# Other
-koji-scratch-*.log
+*-get-source.sh
