@@ -6,3 +6,6 @@
 *.srpm
 
 *-get-source.sh
+
+# Sub-directories
+*/*/
