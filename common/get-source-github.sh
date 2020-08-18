@@ -17,7 +17,7 @@ function print {
     echo -e "\e[0;33m>>>>> ${1}\e[0m"
 }
 
-if [ -x "$1" ]
+if [ -n "$1" ]
 then
     SPEC=$1
 else
